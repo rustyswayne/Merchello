@@ -228,17 +228,19 @@
 
         /// <summary>
         /// Updates an existing product
-        ///
+        /// 
         /// PUT /umbraco/Merchello/ProductVariantApi/PutProductVariant
         /// </summary>
-        /// <param name="productVariant">ProductVariantDisplay object serialized from WebApi</param>
-        [AcceptVerbs("POST", "PUT")]
-        public HttpResponseMessage PutProductVariant(ProductVariantDisplay productVariant)
+        /// <param name="productVariant">
+        /// ProductVariantDisplay object serialized from WebApi
+        /// </param>
+        /// <returns>
+        /// The <see cref="ProductVariantDisplay"/>.
+        /// </returns>
+        [HttpPost, HttpPut]
+        public ProductVariantDisplay PutProductVariant(ProductVariantDisplay productVariant)
         {
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-
-            try
-            {
+            
                 IProductVariant merchProductVariant = _productVariantService.GetByKey(productVariant.Key);
 
                 if (productVariant.TrackInventory && !merchProductVariant.CatalogInventories.Any())
@@ -249,13 +251,9 @@
                 merchProductVariant = productVariant.ToProductVariant(merchProductVariant);
 
                 _productVariantService.Save(merchProductVariant);
-            }
-            catch (Exception ex) // I think this is not required as the server will create the error response message anyway
-            {
-                response = Request.CreateResponse(HttpStatusCode.NotFound, String.Format("{0}", ex.Message));
-            }
+            
 
-            return response;
+            return merchProductVariant.ToProductVariantDisplay();
         }
 
         /// <summary>
