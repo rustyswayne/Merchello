@@ -188,7 +188,7 @@ namespace Merchello.Tests.Base.TestHelpers
 
         private static void IndexProductVariant(IProductVariant productVariant, ProductOptionCollection productOptions)
         {
-            ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"].ReIndexNode(productVariant.SerializeToXml(productOptions).Root, IndexTypes.ProductVariant);
+            ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"].ReIndexNode(productVariant.SerializeToXml(productOptions).Root, IndexTypes.ProductVariant);
         }
 
         private static void DeleteProductFromIndex(IProduct product)
@@ -199,7 +199,7 @@ namespace Merchello.Tests.Base.TestHelpers
 
         private static void DeleteProductVariantFromIndex(IProductVariant productVariant)
         {
-            ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"].DeleteFromIndex(((ProductVariant)productVariant).ExamineId.ToString(CultureInfo.InvariantCulture));
+            ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"].DeleteFromIndex(((ProductVariant)productVariant).ExamineId.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

@@ -14,6 +14,7 @@ using Umbraco.Core.Events;
 
 namespace Merchello.Tests.IntegrationTests.Examine
 {
+    using Merchello.Tests.Base.TestHelpers;
     using Merchello.Web.Models.ContentEditing;
     using Merchello.Web.Search;
 
@@ -32,8 +33,8 @@ namespace Merchello.Tests.IntegrationTests.Examine
             var bootManager = new WebBootManager();
             bootManager.Initialize();
 
-            _customerIndexer = (CustomerIndexer)ExamineManager.Instance.IndexProviderCollection["MerchelloCustomerIndexer"];
-            _searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloCustomerSearcher"];
+            _customerIndexer = (CustomerIndexer)ExamineManagerTest.Instance.IndexProviderCollection["MerchelloCustomerIndexer"];
+            _searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloCustomerSearcher"];
 
             _customerService = PreTestDataWorker.CustomerService;
 

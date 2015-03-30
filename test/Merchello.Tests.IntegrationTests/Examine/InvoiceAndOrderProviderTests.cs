@@ -14,6 +14,7 @@ using Umbraco.Core.Events;
 
 namespace Merchello.Tests.IntegrationTests.Examine
 {
+    using Merchello.Tests.Base.TestHelpers;
     using Merchello.Web.Search;
 
     [TestFixture]
@@ -61,7 +62,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
         private void InvoiceServiceSaved(IInvoiceService sender, SaveEventArgs<IInvoice> e)
         {
             
-            var provider = (InvoiceIndexer)ExamineManager.Instance.IndexProviderCollection["MerchelloInvoiceIndexer"];
+            var provider = (InvoiceIndexer)ExamineManagerTest.Instance.IndexProviderCollection["MerchelloInvoiceIndexer"];
             foreach (var invoice in e.SavedEntities)
             {
                 provider.AddInvoiceToIndex(invoice);
@@ -71,7 +72,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
 
         private void OrderServiceSaved(IOrderService sender, SaveEventArgs<IOrder> e)
         {
-            var provider = (OrderIndexer)ExamineManager.Instance.IndexProviderCollection["MerchelloOrderIndexer"];
+            var provider = (OrderIndexer)ExamineManagerTest.Instance.IndexProviderCollection["MerchelloOrderIndexer"];
             foreach (var order in e.SavedEntities)
             {
                 provider.AddOrderToIndex(order);
@@ -95,12 +96,12 @@ namespace Merchello.Tests.IntegrationTests.Examine
             //// Act
             var timer = new Stopwatch();
             timer.Start();
-            ExamineManager.Instance.IndexProviderCollection["MerchelloInvoiceIndexer"].RebuildIndex();
+            ExamineManagerTest.Instance.IndexProviderCollection["MerchelloInvoiceIndexer"].RebuildIndex();
             timer.Stop();
             Console.Write("Time to index: " + timer.Elapsed.ToString());
 
             //// Assert
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloInvoiceSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloInvoiceSearcher"];
 
             var criteria = searcher.CreateSearchCriteria(Merchello.Examine.IndexTypes.Invoice);
             criteria.Field("allDocs", "1");
@@ -132,12 +133,12 @@ namespace Merchello.Tests.IntegrationTests.Examine
             //// Act
             var timer = new Stopwatch();
             timer.Start();
-            ExamineManager.Instance.IndexProviderCollection["MerchelloOrderIndexer"].RebuildIndex();
+            ExamineManagerTest.Instance.IndexProviderCollection["MerchelloOrderIndexer"].RebuildIndex();
             timer.Stop();
             Console.Write("Time to index: " + timer.Elapsed.ToString());
 
             //// Assert
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloOrderSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloOrderSearcher"];
 
             var criteria = searcher.CreateSearchCriteria(Merchello.Examine.IndexTypes.Order);
             criteria.Field("allDocs", "1");
@@ -163,7 +164,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
 
             //// Act
             Core.MerchelloContext.Current.Services.InvoiceService.GetByKey(key);         
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloInvoiceSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloInvoiceSearcher"];
 
             var criteria = searcher.CreateSearchCriteria(Merchello.Examine.IndexTypes.Invoice);
             criteria.Field("invoiceKey", key.ToString());
@@ -229,7 +230,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
             invoice3.Items.Add(new InvoiceLineItem(LineItemType.Product, "test2", "test2", 2, 100));
             PreTestDataWorker.InvoiceService.Save(invoice3);
 
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloInvoiceSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloInvoiceSearcher"];
 
             var criteria = searcher.CreateSearchCriteria(Merchello.Examine.IndexTypes.Invoice);
             criteria.Field("invoiceKey", invoice3.Key.ToString());
@@ -257,7 +258,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
             Core.MerchelloContext.Current.Services.OrderService.Save(order);
             var key = order.Key;
 
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloOrderSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloOrderSearcher"];
 
             var criteria = searcher.CreateSearchCriteria(Merchello.Examine.IndexTypes.Order);
             criteria.Field("orderKey", key.ToString());

@@ -14,6 +14,8 @@ using Umbraco.Core.Events;
 
 namespace Merchello.Tests.IntegrationTests.Examine
 {
+    using Merchello.Tests.Base.TestHelpers;
+
     [TestFixture]
     public class StartupExamineEventTests : DatabaseIntegrationTestBase
     {
@@ -23,7 +25,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
         [SetUp]
         public void Init()
         {
-            ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"].RebuildIndex();
+            ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"].RebuildIndex();
             _productSavedEventTriggered = false;
 
             _productService = PreTestDataWorker.ProductService;
@@ -43,7 +45,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
 
             //// Act
             var registeredProviders =
-                ExamineManager.Instance.IndexProviderCollection.OfType<BaseMerchelloIndexer>()
+                ExamineManagerTest.Instance.IndexProviderCollection.OfType<BaseMerchelloIndexer>()
                     .Count(x => x.EnableDefaultEventHandler);
 
             //// Assert
@@ -76,7 +78,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
 
         private static void IndexProductVariant(IProductVariant productVariant)
         {
-            ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"].ReIndexNode(productVariant.SerializeToXml().Root, IndexTypes.ProductVariant);          
+            ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"].ReIndexNode(productVariant.SerializeToXml().Root, IndexTypes.ProductVariant);          
         }
 
         private static void DeleteProductFromIndex(IProduct product)
@@ -87,7 +89,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
 
         private static void DeleteProductVariantFromIndex(IProductVariant productVariant)
         {
-            ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"].DeleteFromIndex(((ProductVariant)productVariant).ExamineId.ToString());            
+            ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"].DeleteFromIndex(((ProductVariant)productVariant).ExamineId.ToString());            
         }
 
         #endregion

@@ -13,6 +13,8 @@ using NUnit.Framework;
 
 namespace Merchello.Tests.IntegrationTests.Examine
 {
+    using Merchello.Tests.Base.TestHelpers;
+
     [TestFixture]
     public class ProductProviderTests : DatabaseIntegrationTestBase
     {
@@ -39,12 +41,12 @@ namespace Merchello.Tests.IntegrationTests.Examine
             //// Act
             var timer = new Stopwatch();
             timer.Start();
-            ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"].RebuildIndex();            
+            ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"].RebuildIndex();            
             timer.Stop();
             Console.Write("Time to index: " + timer.Elapsed.ToString());
             
             //// Assert
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloProductSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloProductSearcher"];
             
             var criteria = searcher.CreateSearchCriteria(Merchello.Examine.IndexTypes.ProductVariant);
             criteria.Field("allDocs", "1");
@@ -63,10 +65,10 @@ namespace Merchello.Tests.IntegrationTests.Examine
             PreTestDataWorker.DeleteAllProducts();
             
             //// Arrange            
-            var provider = (ProductIndexer) ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"];
+            var provider = (ProductIndexer) ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"];
             provider.RebuildIndex();
 
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloProductSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloProductSearcher"];
 
             var productVariantService = PreTestDataWorker.ProductVariantService;
 
@@ -113,9 +115,9 @@ namespace Merchello.Tests.IntegrationTests.Examine
         public void Can_Remove_A_Product_From_The_Index()
         {
             //// Arrange            
-            var provider = (ProductIndexer)ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"];
+            var provider = (ProductIndexer)ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"];
 
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloProductSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloProductSearcher"];
             var criteria = searcher.CreateSearchCriteria(Merchello.Examine.IndexTypes.ProductVariant);
             criteria.Field("allDocs", "1");
             var results = searcher.Search(criteria);

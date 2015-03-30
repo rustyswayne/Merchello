@@ -11,6 +11,7 @@ using NUnit.Framework;
 namespace Merchello.Tests.IntegrationTests.Examine
 {
     using Merchello.Core;
+    using Merchello.Tests.Base.TestHelpers;
 
     [TestFixture]
     public class MerchelloHelperTests : DatabaseIntegrationTestBase
@@ -25,7 +26,7 @@ namespace Merchello.Tests.IntegrationTests.Examine
             var warehouseService = PreTestDataWorker.WarehouseService;
             _warehouse = warehouseService.GetDefaultWarehouse();
 
-            _provider = (ProductIndexer)ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"];
+            _provider = (ProductIndexer)ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"];
             _provider.RebuildIndex();
         }
 

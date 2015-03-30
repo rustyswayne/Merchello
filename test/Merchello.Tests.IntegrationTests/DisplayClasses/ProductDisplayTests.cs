@@ -13,6 +13,7 @@ using NUnit.Framework;
 namespace Merchello.Tests.IntegrationTests.DisplayClasses
 {
     using Merchello.Core.Services;
+    using Merchello.Tests.Base.TestHelpers;
     using Merchello.Web;
 
     using Moq;
@@ -72,7 +73,7 @@ namespace Merchello.Tests.IntegrationTests.DisplayClasses
             _productVariantKey = product.ProductVariants.First().Key;
             _examineId = ((ProductVariant)product.ProductVariants.First()).ExamineId;
 
-            var provider = (ProductIndexer)ExamineManager.Instance.IndexProviderCollection["MerchelloProductIndexer"];
+            var provider = (ProductIndexer)ExamineManagerTest.Instance.IndexProviderCollection["MerchelloProductIndexer"];
             provider.AddProductToIndex(product);
         }
 
@@ -80,7 +81,7 @@ namespace Merchello.Tests.IntegrationTests.DisplayClasses
         public void Can_Build_ProductVariantDisplay_From_Indexed_ProductVariant()
         {
             //// Arrange
-            var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloProductSearcher"];
+            var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloProductSearcher"];
             var criteria = searcher.CreateSearchCriteria("productvariant", BooleanOperation.And);
             criteria.Id(_examineId);
             
@@ -100,7 +101,7 @@ namespace Merchello.Tests.IntegrationTests.DisplayClasses
         //{
         //    //// Arrange
         //    var merchello = new MerchelloHelper(new Mock<ServiceContext>().Object);
-        //    var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloProductSearcher"];
+        //    var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloProductSearcher"];
         //    var criteria = searcher.CreateSearchCriteria("productvariant", BooleanOperation.And);
         //    criteria.Field("productKey", _productKey.ToString()).And().Field("master", "True");
 
@@ -203,7 +204,7 @@ namespace Merchello.Tests.IntegrationTests.DisplayClasses
         //public void Can_Find_All_Products_From_Index()
         //{
         //    //// Arrange
-        //    var searcher = ExamineManager.Instance.SearchProviderCollection["MerchelloProductSearcher"];
+        //    var searcher = ExamineManagerTest.Instance.SearchProviderCollection["MerchelloProductSearcher"];
         //    var criteria = searcher.CreateSearchCriteria();
         //    criteria.Field("master", "True");
 

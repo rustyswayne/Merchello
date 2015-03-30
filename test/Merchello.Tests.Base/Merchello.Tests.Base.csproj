@@ -267,6 +267,7 @@
     <Compile Include="SqlSyntax\DbSyntax.cs" />
     <Compile Include="SqlSyntax\SqlSyntaxProviderTestHelper.cs" />
     <Compile Include="TestHelpers\DbPreTestDataWorker.cs" />
+    <Compile Include="TestHelpers\ExamineManagerTester.cs" />
     <Compile Include="TestHelpers\MerchelloAllInTestBase.cs" />
     <Compile Include="TypeFields\TypeFieldMock.cs" />
     <Compile Include="SqlSyntax\BaseUsingSqlServerSyntax.cs" />
