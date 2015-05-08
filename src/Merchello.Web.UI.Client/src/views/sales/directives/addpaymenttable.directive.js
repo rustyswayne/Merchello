@@ -19,7 +19,7 @@ angular.module('merchello.directives').directive('addPaymentTable', function() {
             showSpinner: '&',
             invoice: '=',
             payments: '=',
-            paymentMethods: '=',
+            paymentMethods: '='
         },
         templateUrl: '/App_Plugins/Merchello/Backoffice/Merchello/directives/addpaymenttable.tpl.html',
         controller: function($scope, $timeout, notificationsService, dialogService, dialogDataFactory, paymentResource) {
@@ -122,7 +122,7 @@ angular.module('merchello.directives').directive('addPaymentTable', function() {
                     $timeout(function() {
                         notificationsService.success('Payment ' + note + 'success');
                         reload()
-                    }, 400);
+                    }, 500);
                 }, function (reason) {
                     notificationsService.error('Payment ' + note + 'Failed', reason.message);
                 });

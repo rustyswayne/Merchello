@@ -4,6 +4,7 @@
 		'~/App_Plugins/Merchello.Braintree/merchello.plugins.braintree.resources.js',
 		'~/App_Plugins/Merchello.Braintree/merchello.plugins.braintree.models.js',
 		'~/App_Plugins/Merchello.Braintree/merchello.plugins.braintree.providersettings.controller.js',
+		'~/App_Plugins/Merchello.Braintree/dialogs/braintree.payment.dialog.services.js',
 		'~/App_Plugins/Merchello.Braintree/dialogs/braintree.payment.dialog.controllers.js'
 	]
 }

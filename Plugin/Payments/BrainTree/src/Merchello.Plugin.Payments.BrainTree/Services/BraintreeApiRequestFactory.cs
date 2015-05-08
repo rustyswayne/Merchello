@@ -506,18 +506,48 @@
         /// </returns>
         public TransactionRequest CreateTransactionRequest(IInvoice invoice, string paymentMethodNonce, ICustomer customer = null, TransactionOption transactionOption = TransactionOption.Authorize)
         {
-            var request = new TransactionRequest()
-                       {
-                           Amount = invoice.Total,
-                           OrderId = invoice.PrefixedInvoiceNumber(),
-                           PaymentMethodNonce = paymentMethodNonce,
-                           BillingAddress = CreateAddressRequest(invoice.GetBillingAddress()),
-                           Channel = Constants.TransactionChannel
-                       };
+            return this.CreateTransactionRequest(
+                invoice,
+                invoice.Total,
+                paymentMethodNonce,
+                customer,
+                transactionOption);
+        }
 
+        /// <summary>
+        /// Creates a <see cref="TransactionRequest"/>.
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
+        /// <param name="amount">
+        /// The amount of the payment
+        /// </param>
+        /// <param name="paymentMethodNonce">
+        /// The payment Method Nonce.
+        /// </param>
+        /// <param name="customer">
+        /// The customer.
+        /// </param>
+        /// <param name="option">
+        /// The transaction Option.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TransactionRequest"/>.
+        /// </returns>
+        public TransactionRequest CreateTransactionRequest(IInvoice invoice, decimal amount, string paymentMethodNonce, ICustomer customer = null, TransactionOption option = TransactionOption.SubmitForSettlement)
+        {
+            var request = new TransactionRequest()
+                              {
+                                  Amount = amount,
+                                  OrderId = invoice.PrefixedInvoiceNumber(),
+                                  PaymentMethodNonce = paymentMethodNonce,
+                                  BillingAddress = CreateAddressRequest(invoice.GetBillingAddress()),
+                                  Channel = Constants.TransactionChannel
+                              };
             if (customer != null) request.Customer = CreateCustomerRequest(customer);
-            
-            if (transactionOption == TransactionOption.SubmitForSettlement)
+
+            if (option == TransactionOption.SubmitForSettlement)
             {
                 request.Options = new TransactionOptionsRequest() { SubmitForSettlement = true };
             }

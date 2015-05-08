@@ -42,6 +42,41 @@
         /// <param name="invoice">
         /// The invoice.
         /// </param>
+        /// <param name="amount">
+        /// The amount to be paid
+        /// </param>
+        /// <param name="paymentMethodNonce">
+        /// The payment method nonce.
+        /// </param>
+        /// <param name="customer">
+        /// The customer.
+        /// </param>
+        /// <param name="option">
+        /// The option.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Result{Transaction}"/>.
+        /// </returns>
+        public Result<Transaction> Sale(
+            IInvoice invoice,
+            decimal amount,
+            string paymentMethodNonce,
+            ICustomer customer = null,
+            TransactionOption option = TransactionOption.SubmitForSettlement)
+        {
+            var request = RequestFactory.CreateTransactionRequest(invoice, amount, paymentMethodNonce, customer, option);
+
+            var attempt = TryGetApiResult(() => BraintreeGateway.Transaction.Sale(request));
+
+            return attempt.Success ? attempt.Result : null;
+        }
+
+        /// <summary>
+        /// Performs a Braintree sales transaction.
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
         /// <param name="paymentMethodNonce">
         /// The payment method nonce.
         /// </param>

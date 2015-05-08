@@ -665,7 +665,7 @@
         self.invoiceBalance = 0;
         self.amount = 0;
         self.currencySymbol = '';
-        self.showSpinner = function() { return true; }
+        self.showSpinner = function() { return true; };
         self.processorArgs = new ProcessorArgumentCollectionDisplay();
     };
 
@@ -772,6 +772,7 @@
      */
     var CapturePaymentDialogData = function() {
         var self = this;
+        self.invoice = {};
         self.currencySymbol = '';
         self.invoiceKey = '';
         self.paymentKey = '';
@@ -779,8 +780,9 @@
         self.paymentMethodKey = '';
         self.invoiceBalance = 0.0;
         self.amount = 0.0;
-        self.processorArgs = [];
+        self.processorArgs = new ProcessorArgumentCollectionDisplay();
         self.captureEditorView = '';
+        self.showSpinner = function() { return true; };
     };
 
     CapturePaymentDialogData.prototype = (function() {
@@ -796,6 +798,7 @@
         //// helper method to set required associated invoice info
         function setInvoiceData(payments, invoice, currencySymbol) {
             if (invoice !== undefined) {
+                this.invoice = invoice;
                 this.invoiceKey = invoice.key;
                 this.invoiceBalance = invoice.remainingBalance(payments);
             }

@@ -5810,21 +5810,23 @@ angular.module('merchello').controller('Merchello.Backoffice.OrderShipmentsContr
              * @description - Load the Merchello payments for the invoice.
              */
             function loadPayments(key) {
-                if (!$scope.invoice.isPaid()) {
-                    var paymentsPromise = paymentResource.getPaymentsByInvoice(key);
-                    paymentsPromise.then(function(payments) {
-                        $scope.allPayments = paymentDisplayBuilder.transform(payments);
-                        $scope.payments = _.filter($scope.allPayments, function(p) { return !p.voided && !p.collected; })
-                        loadPaymentMethods()
+                var paymentsPromise = paymentResource.getPaymentsByInvoice(key);
+                paymentsPromise.then(function(payments) {
+                    $scope.allPayments = paymentDisplayBuilder.transform(payments);
+                    if (!$scope.invoice.isPaid()) {
+                        $scope.payments = _.filter($scope.allPayments, function(p) { return !p.voided && !p.collected; });
+                        loadPaymentMethods();
                         $scope.remainingBalance = invoiceHelper.round($scope.invoice.remainingBalance($scope.allPayments), 2);
                         $scope.authorizedCapturedLabel  = $scope.remainingBalance == '0' ? 'merchelloOrderView_captured' : 'merchelloOrderView_authorized';
                         $scope.preValuesLoaded = true;
-                    }, function(reason) {
-                        notificationsService.error('Failed to load payments for invoice', reason.message);
-                    });
-                } else {
-                    $scope.preValuesLoaded = true;
-                }
+                    } else {
+                        $scope.authorizedCapturedLabel = 'merchelloOrderView_captured';
+                        $scope.payments = _.filter($scope.allPayments, function(p) { return !p.voided && p.collected && p.amount > 0; });
+                        $scope.preValuesLoaded = true;
+                    }
+                }, function(reason) {
+                    notificationsService.error('Failed to load payments for invoice', reason.message);
+                });
             }
 
             /**
@@ -5881,6 +5883,7 @@ angular.module('merchello').controller('Merchello.Backoffice.OrderShipmentsContr
              * @description - Sets preValuesLoaded to false.  For use in directives.
              */
             function setNotPreValuesLoaded() {
+                $scope.newPaymentOpen = false;
                 $scope.preValuesLoaded = false;
             }
 
@@ -5895,6 +5898,7 @@ angular.module('merchello').controller('Merchello.Backoffice.OrderShipmentsContr
                 var dialogData = dialogDataFactory.createCapturePaymentDialogData();
                 dialogData.setPaymentData($scope.payments[0]);
                 dialogData.setInvoiceData($scope.payments, $scope.invoice, $scope.currencySymbol);
+                dialogData.showSpinner = setNotPreValuesLoaded;
                 if (!dialogData.isValid()) {
                     return false;
                 }
@@ -5924,6 +5928,7 @@ angular.module('merchello').controller('Merchello.Backoffice.OrderShipmentsContr
              */
             function capturePaymentDialogConfirm(paymentRequest) {
                 $scope.preValuesLoaded = false;
+                paymentRequest.processorArgs = paymentRequest.processorArgs.toArray();
                 var promiseSave = paymentResource.capturePayment(paymentRequest);
                 promiseSave.then(function (payment) {
                     // added a timeout here to give the examine index

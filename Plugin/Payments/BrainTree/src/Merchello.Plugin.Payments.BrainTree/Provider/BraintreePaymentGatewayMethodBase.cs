@@ -79,6 +79,12 @@
 
             if (transaction == null)
             {
+                // To attempt capture payment after a failed attempt
+                if (!string.IsNullOrEmpty(args.GetPaymentMethodNonce()))
+                {
+                    return this.CaptureFailedPayment(invoice, payment, args);
+                }
+
                 var error = new NullReferenceException("Braintree transaction could not be found and/or deserialized from payment extended data collection");
                 return new PaymentResult(Attempt<IPayment>.Fail(payment, error), invoice, false);
             }
@@ -183,7 +189,7 @@
             {
                 applied.TransactionType = AppliedPaymentType.Void;
                 applied.Amount = 0;
-                applied.Description += " - Voided";
+                applied.Description += " - **void**";
                 GatewayProviderService.Save(applied);
             }
 
@@ -215,6 +221,42 @@
         /// This converts the <see cref="Result{Transaction}"/> into Merchello's <see cref="IPaymentResult"/>
         /// </remarks>
         protected abstract IPaymentResult ProcessPayment(IInvoice invoice, TransactionOption option, decimal amount, string token, string email = "");
-        
+
+        /// <summary>
+        /// Used to attempt to resubmit a failed payment
+        /// </summary>
+        /// <param name="invoice">
+        /// The <see cref="IInvoice"/>
+        /// </param>
+        /// <param name="payment">
+        /// The <see cref="IPayment"/> that is associated with the original failed attempt
+        /// </param>
+        /// <param name="args">
+        /// The <see cref="ProcessorArgumentCollection"/> which contains the new client nonce
+        /// </param>
+        /// <returns>
+        /// The <see cref="IPaymentResult"/>.
+        /// </returns>
+        private IPaymentResult CaptureFailedPayment(IInvoice invoice, IPayment payment, ProcessorArgumentCollection args)
+        {
+            var token = args.GetPaymentMethodNonce();
+
+            var result = BraintreeApiService.Transaction.Sale(invoice, payment.Amount, token);
+
+            if (result.IsSuccess())
+            {
+                payment.ExtendedData.SetBraintreeTransaction(result.Target);
+                payment.Authorized = true;
+                payment.Collected = true;
+
+                GatewayProviderService.ApplyPaymentToInvoice(payment.Key, invoice.Key, AppliedPaymentType.Debit, "Captured Braintree Payment", payment.Amount);
+                
+                return new PaymentResult(Attempt<IPayment>.Succeed(payment), invoice, true);
+            }
+
+            var error = new BraintreeApiException(result.Errors, result.Message);
+
+            return new PaymentResult(Attempt<IPayment>.Fail(payment, error), invoice, false);
+        }
     }
 }

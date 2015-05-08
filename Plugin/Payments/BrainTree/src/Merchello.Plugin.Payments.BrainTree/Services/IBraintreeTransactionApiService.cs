@@ -16,6 +16,29 @@
         /// <param name="invoice">
         /// The invoice.
         /// </param>
+        /// <param name="amount">
+        /// The amount to be collected
+        /// </param>
+        /// <param name="paymentMethodNonce">
+        /// The payment method nonce.
+        /// </param>
+        /// <param name="customer">
+        /// The customer.
+        /// </param>
+        /// <param name="option">
+        /// The transaction option.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IPaymentResult"/>.
+        /// </returns>
+        Result<Transaction> Sale(IInvoice invoice, decimal amount, string paymentMethodNonce, ICustomer customer = null, TransactionOption option = TransactionOption.SubmitForSettlement);
+            
+        /// <summary>
+        /// Performs a Braintree sales transaction.
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
         /// <param name="paymentMethodNonce">
         /// The payment method nonce.
         /// </param>
