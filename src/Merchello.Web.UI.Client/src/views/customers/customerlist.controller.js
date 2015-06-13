@@ -66,7 +66,7 @@
              */
             function loadCustomers(filterText) {
                 $scope.preValuesLoaded = false;
-                var query = queryDisplayBuilder.createDefault();
+                              var query = queryDisplayBuilder.createDefault();
                 query.currentPage = $scope.currentPage;
                 query.itemsPerPage = $scope.limitAmount;
                 query.sortBy = sortInfo().sortBy;

@@ -1,6 +1,8 @@
 ﻿namespace Merchello.Web.Workflow
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using Merchello.Core;
     using Merchello.Core.Exceptions;
@@ -108,22 +110,35 @@
             {
                 // Now we have to revalidate any existing coupon offers to make sure the newly approved ones will still be valid.
                 var clone = this.CloneItemCache();
+                
+
                 _couponManager.Value.SafeAddCouponAttemptContainer<ItemCacheLineItem>(clone, result);
                 ICouponRedemptionResult redemption = new CouponRedemptionResult(result.Award, result.Messages);
 
-                foreach (var oc in OfferCodes)
+                var tempOfferCodes = OfferCodes.ToArray();
+
+                this.ClearOfferCodes();
+
+                foreach (var oc in tempOfferCodes)
                 {
-                    redemption = TryApplyOffer<ILineItemContainer, ILineItem>(clone, oc).AsCouponRedemptionResult(coupon);
+                    redemption = TryApplyOffer<ILineItemContainer, ILineItem>(clone, oc)
+                        .AsCouponRedemptionResult(coupon);
                     if (!redemption.Success)
                     {
-                        if (redemption.Messages.Any()) result.AddMessage(redemption.Messages);
+                        if (redemption.Messages.Any())
+                        {
+                            result.AddMessage(redemption.Messages);
+                        }
 
                         result.Exception = redemption.Exception;
                         result.Success = false;
                         break;
                     }
 
-                    _couponManager.Value.SafeAddCouponAttemptContainer<ItemCacheLineItem>(clone, result); }
+                    this.SaveOfferCode(oc);
+
+                    _couponManager.Value.SafeAddCouponAttemptContainer<ItemCacheLineItem>(clone, result);
+                }
 
                 if (!redemption.Success) return redemption;
 

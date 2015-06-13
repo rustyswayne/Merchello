@@ -1,0 +1,29 @@
+<div class="umb-panel merchello-side-panel" ng-controller="Merchello.Marketing.Dialogs.OfferConstraintSpecificCustomerController" data-ng-show="loaded">
+    <div class="umb-modalcolumn-header">
+        <h4>Set a maximum qualifying quantity</h4>
+    </div>
+    <form name="priceConstraintForm" id="priceConstraintForm">
+        <div class="umb-panel-body with-header with-footer">
+            <!-- Flyout when Change quantity is clicked -->
+
+            <div class="form-group row-fluid">
+                <label for="customer">Select customer</label>
+                <select name="customer" data-ng-model="selectedCustomer" data-ng-options="c.email for c in customers track by p.key"></select>
+            </div>
+        </div>
+
+        <div class="umb-panel-footer" >
+            <div class="umb-el-wrap umb-panel-buttons">
+                <div class="btn-toolbar umb-btn-toolbar pull-right">
+                    <!-- ACTION: Cancel -->
+                    <a href data-ng-click="close()" class="btn btn-link"><localize key="general_cancel">Cancel</localize></a>
+
+                    <button class="btn btn-primary"
+                            data-ng-click="save()">
+                        <localize key="buttons_save">Save</localize>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
