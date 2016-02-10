@@ -11,7 +11,7 @@
     [TableName("merchShipmentStatus")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    public class ShipmentStatusDto
+    public class ShipmentStatusDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

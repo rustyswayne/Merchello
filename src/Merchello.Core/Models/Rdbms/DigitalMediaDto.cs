@@ -11,7 +11,7 @@
     [TableName("merchDigitalMedia")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class DigitalMediaDto
+    internal class DigitalMediaDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

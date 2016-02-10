@@ -11,7 +11,7 @@
     [TableName("merchAuditLog")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class AuditLogDto : IPageableDto
+    internal class AuditLogDto : IPageableDto, IDto
     {
         /// <summary>
         /// Gets or sets the key.

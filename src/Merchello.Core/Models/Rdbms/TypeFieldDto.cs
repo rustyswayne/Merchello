@@ -11,7 +11,7 @@
     [TableName("merchTypeField")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class TypeFieldDto
+    internal class TypeFieldDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

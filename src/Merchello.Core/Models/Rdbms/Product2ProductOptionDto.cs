@@ -11,7 +11,7 @@
     [TableName("merchProduct2ProductOption")]
     [PrimaryKey("productKey", autoIncrement = false)]
     [ExplicitColumns]
-    internal class Product2ProductOptionDto
+    internal class Product2ProductOptionDto : IDto
     {
         /// <summary>
         /// Gets or sets the product key.

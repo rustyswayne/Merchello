@@ -8,7 +8,7 @@ namespace Merchello.Core.Models.Rdbms
     /// </summary>
     [TableName("umbracoUser2app")]
     [ExplicitColumns]
-    internal class User2AppDto
+    internal class User2AppDto : IDto
     {
         [Column("user")]
         public int UserId { get; set; }

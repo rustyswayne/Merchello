@@ -7,7 +7,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("merchOrderItem")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class OrderItemDto : ILineItemDto
+    internal class OrderItemDto : ILineItemDto, IDto
     {
         [Column("pk")]
         [PrimaryKeyColumn(AutoIncrement = false)]

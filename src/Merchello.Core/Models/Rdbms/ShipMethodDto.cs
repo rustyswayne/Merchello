@@ -7,7 +7,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("merchShipMethod")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class ShipMethodDto
+    internal class ShipMethodDto : IDto
     {
         [Column("pk")]
         [PrimaryKeyColumn(AutoIncrement = false)]

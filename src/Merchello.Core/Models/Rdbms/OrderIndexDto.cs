@@ -7,7 +7,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("merchOrderIndex")]
     [PrimaryKey("id")]
     [ExplicitColumns]
-    public class OrderIndexDto
+    public class OrderIndexDto : IDto
     {
         [Column("id")]
         [PrimaryKeyColumn]

@@ -11,7 +11,7 @@
     [TableName("merchOfferRedeemed")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class OfferRedeemedDto : IPageableDto
+    internal class OfferRedeemedDto : IPageableDto, IDto
     {
         /// <summary>
         /// Gets or sets the key.

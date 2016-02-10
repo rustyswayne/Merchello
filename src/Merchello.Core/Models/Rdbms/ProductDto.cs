@@ -10,7 +10,7 @@
     [TableName("merchProduct")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    public class ProductDto : IPageableDto
+    public class ProductDto : IPageableDto, IDto
     {
         /// <summary>
         /// Gets or sets the key.

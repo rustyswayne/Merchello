@@ -11,7 +11,7 @@
     [TableName("merchInvoiceStatus")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class InvoiceStatusDto
+    internal class InvoiceStatusDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

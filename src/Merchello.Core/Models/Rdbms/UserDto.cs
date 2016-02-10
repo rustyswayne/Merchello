@@ -10,7 +10,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("umbracoUser")]
     [PrimaryKey("id", autoIncrement = true)]
     [ExplicitColumns]
-    internal class UserDto
+    internal class UserDto : IDto
     {
         [Column("id")]
         [PrimaryKeyColumn(Name = "PK_user")]

@@ -11,7 +11,7 @@
     [TableName("merchTaxMethod")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class TaxMethodDto
+    internal class TaxMethodDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

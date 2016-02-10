@@ -11,7 +11,7 @@
     [TableName("merchWarehouseCatalog")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class WarehouseCatalogDto
+    internal class WarehouseCatalogDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

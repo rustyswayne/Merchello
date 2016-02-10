@@ -11,7 +11,7 @@
     [TableName("merchItemCache")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class ItemCacheDto
+    internal class ItemCacheDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

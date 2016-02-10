@@ -11,7 +11,7 @@
     [TableName("merchCustomerAddress")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class CustomerAddressDto 
+    internal class CustomerAddressDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

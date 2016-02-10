@@ -7,7 +7,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("merchProductVariant2ProductAttribute")]
     [PrimaryKey("productVariantKey", autoIncrement = false)]
     [ExplicitColumns]
-    internal class ProductVariant2ProductAttributeDto
+    internal class ProductVariant2ProductAttributeDto : IDto
     {
         [Column("productVariantKey")]
         [PrimaryKeyColumn(AutoIncrement = false, Name = "PK_merchProductVariant2ProductAttribute", OnColumns = "productVariantKey, optionKey")]

@@ -11,7 +11,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("merchProductAttribute")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class ProductAttributeDto
+    internal class ProductAttributeDto : IDto
     {
         [Column("pk")]
         [PrimaryKeyColumn(AutoIncrement = false)]

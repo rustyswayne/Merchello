@@ -11,7 +11,7 @@
     [TableName("merchNote")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class NoteDto : IPageableDto
+    internal class NoteDto : IPageableDto, IDto
     {
         /// <summary>
         /// Gets or sets the key.

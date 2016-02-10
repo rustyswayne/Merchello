@@ -11,7 +11,7 @@
     [TableName("merchProductVariantIndex")]
     [PrimaryKey("id")]
     [ExplicitColumns]
-    public class ProductVariantIndexDto
+    public class ProductVariantIndexDto : IDto
     {
         /// <summary>
         /// Gets or sets the id.

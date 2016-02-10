@@ -8,7 +8,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("merchShipRateTier")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class ShipRateTierDto
+    internal class ShipRateTierDto : IDto
     {
         [Column("pk")]
         [PrimaryKeyColumn(AutoIncrement = false)]

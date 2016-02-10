@@ -5,7 +5,7 @@
     /// <summary>
     /// A dto used for querying distinct currency codes.
     /// </summary>
-    internal sealed class DistinctCurrencyCodeDto
+    internal sealed class DistinctCurrencyCodeDto : IDto
     {
         /// <summary>
         /// Gets or sets the currency code.

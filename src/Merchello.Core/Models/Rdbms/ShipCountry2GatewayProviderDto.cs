@@ -7,7 +7,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("merchShipCountry2GatewayProvider")]
     [PrimaryKey("shipCountryKey", autoIncrement = false)]
     [ExplicitColumns]
-    internal class ShipCountry2GatewayProviderDto
+    internal class ShipCountry2GatewayProviderDto : IDto
     {
         [Column("shipCountryKey")]
         [PrimaryKeyColumn(AutoIncrement = false, Name = "PK_merchShipCountry2GatewayProvider", OnColumns = "shipCountryKey, gatewayProviderKey")]

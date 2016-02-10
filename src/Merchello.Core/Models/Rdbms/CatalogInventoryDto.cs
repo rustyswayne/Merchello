@@ -10,7 +10,7 @@
     [TableName("merchCatalogInventory")]
     [PrimaryKey("catalogKey", autoIncrement = false)]
     [ExplicitColumns]
-    internal class CatalogInventoryDto
+    internal class CatalogInventoryDto : IDto
     {
         /// <summary>
         /// Gets or sets the catalog key.

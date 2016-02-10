@@ -10,7 +10,7 @@
     [TableName("merchInvoice")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class InvoiceDto : IPageableDto
+    internal class InvoiceDto : IPageableDto, IDto
     {
         /// <summary>
         /// Gets or sets the key.

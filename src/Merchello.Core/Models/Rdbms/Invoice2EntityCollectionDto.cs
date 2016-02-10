@@ -11,7 +11,7 @@
     [TableName("merchInvoice2EntityCollection")]
     [PrimaryKey("invoiceKey", autoIncrement = false)]
     [ExplicitColumns]
-    internal class Invoice2EntityCollectionDto
+    internal class Invoice2EntityCollectionDto : IDto
     {
         /// <summary>
         /// Gets or sets the invoice key.

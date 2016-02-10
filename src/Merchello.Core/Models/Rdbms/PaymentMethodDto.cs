@@ -1,13 +1,14 @@
-﻿using System;
-using Umbraco.Core.Persistence;
-using Umbraco.Core.Persistence.DatabaseAnnotations;
-
-namespace Merchello.Core.Models.Rdbms
+﻿namespace Merchello.Core.Models.Rdbms
 {
+    using System;
+
+    using Umbraco.Core.Persistence;
+    using Umbraco.Core.Persistence.DatabaseAnnotations;
+
     [TableName("merchPaymentMethod")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class PaymentMethodDto
+    internal class PaymentMethodDto : IDto
     {
         [Column("pk")]
         [PrimaryKeyColumn(AutoIncrement = false)]

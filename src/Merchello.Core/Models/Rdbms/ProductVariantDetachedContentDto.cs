@@ -13,7 +13,7 @@
     [TableName("merchProductVariantDetachedContent")]
     [PrimaryKey("productVariantKey", autoIncrement = false)]
     [ExplicitColumns]
-    public class ProductVariantDetachedContentDto
+    public class ProductVariantDetachedContentDto : IDto
     {
         /// <summary>
         /// Gets or sets the unique key.

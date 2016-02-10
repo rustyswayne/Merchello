@@ -7,7 +7,7 @@ namespace Merchello.Core.Models.Rdbms
     [TableName("merchNotificationMessage")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class NotificationMessageDto
+    internal class NotificationMessageDto : IDto
     {
         [Column("pk")]
         [PrimaryKeyColumn(AutoIncrement = false)]

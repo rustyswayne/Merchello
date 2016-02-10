@@ -7,7 +7,7 @@
     [TableName("merchInvoiceItem")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class InvoiceItemDto : ILineItemDto
+    internal class InvoiceItemDto : ILineItemDto, IDto
     {
         [Column("pk")]
         [PrimaryKeyColumn(AutoIncrement = false)]

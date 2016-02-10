@@ -11,7 +11,7 @@
     [TableName("merchDetachedContentType")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    public class DetachedContentTypeDto
+    public class DetachedContentTypeDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.
