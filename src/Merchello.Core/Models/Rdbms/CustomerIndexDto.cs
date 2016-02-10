@@ -10,7 +10,7 @@
     [TableName("merchCustomerIndex")]
     [PrimaryKey("id")]
     [ExplicitColumns]
-    public class CustomerIndexDto
+    public class CustomerIndexDto : IDto
     {
         /// <summary>
         /// Gets or sets the id.

@@ -10,7 +10,7 @@
     [TableName("merchAnonymousCustomer")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class AnonymousCustomerDto
+    internal class AnonymousCustomerDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.

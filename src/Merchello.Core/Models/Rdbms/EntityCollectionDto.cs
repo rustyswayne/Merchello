@@ -11,7 +11,7 @@
     [TableName("merchEntityCollection")]
     [PrimaryKey("pk", autoIncrement = false)]
     [ExplicitColumns]
-    internal class EntityCollectionDto
+    internal class EntityCollectionDto : IDto
     {
         /// <summary>
         /// Gets or sets the key.
