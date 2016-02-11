@@ -528,6 +528,7 @@
                     else
                     {
                         inv.CreateDate = DateTime.Now;
+                        inv.UpdateDate = DateTime.Now;
                         inserts.Add(new CatalogInventoryDto()
                         {
                             CatalogKey = inv.CatalogKey,
@@ -536,8 +537,7 @@
                             LowCount = inv.LowCount,
                             Location = inv.Location,
                             CreateDate = inv.CreateDate,
-                            UpdateDate = inv.UpdateDate,
-                            WarehouseCatalogDto = new WarehouseCatalogDto()
+                            UpdateDate = inv.UpdateDate
                         });
                     }
                 }
@@ -550,7 +550,9 @@
 
             if (inserts.Any())
             {
-                Database.BulkInsertRecords<CatalogInventoryDto>(inserts);
+                // Database.BulkInsertRecords won't work here because of the many to many and no pk.
+                foreach (var ins in inserts) Database.Insert(ins);
+                //Database.BulkInsertRecords<CatalogInventoryDto>(inserts);
             }
         }
 

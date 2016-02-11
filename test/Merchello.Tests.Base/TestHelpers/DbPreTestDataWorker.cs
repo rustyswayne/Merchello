@@ -360,7 +360,7 @@ namespace Merchello.Tests.Base.TestHelpers
         public IProduct MakeExistingProduct(bool shippable = true, decimal weight = 0, decimal price = 0, bool taxable = true)
         {
             var product = MockProductDataMaker.MockProductForInserting(shippable, weight, price, taxable);            
-            ProductService.Save(product);
+            //ProductService.Save(product);
             product.AddToCatalogInventory(WarehouseCatalog);
             ProductService.Save(product);
             return product;

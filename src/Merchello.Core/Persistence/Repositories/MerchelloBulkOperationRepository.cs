@@ -69,6 +69,13 @@
             var entitiesArray = entities as TEntity[] ?? entities.ToArray();
             if (!entitiesArray.Any()) return;
 
+
+            if (SqlSyntax is SqlCeSyntaxProvider)
+            {
+                foreach (var e in entitiesArray) PersistUpdatedItem(e);
+            }
+
+
             var factory = _factory.Invoke();
 
             var dtos = new List<TDto>();
