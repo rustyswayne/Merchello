@@ -859,6 +859,24 @@
         }
 
         /// <summary>
+        /// Method to call on entity saved when first added
+        /// </summary>
+        internal override void AddingEntity()
+        {
+            base.AddingEntity();
+            VersionKey = Guid.NewGuid();
+        }
+
+        /// <summary>
+        /// Method to call on entity saved/updated
+        /// </summary>
+        internal override void UpdatingEntity()
+        {
+            base.UpdatingEntity();
+            VersionKey = Guid.NewGuid();
+        }
+
+        /// <summary>
         /// The catalog inventory collection changed.
         /// </summary>
         /// <param name="sender">

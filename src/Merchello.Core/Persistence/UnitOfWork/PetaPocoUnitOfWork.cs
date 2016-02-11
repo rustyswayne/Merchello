@@ -7,6 +7,8 @@ using Umbraco.Core.Persistence;
 
 namespace Merchello.Core.Persistence.UnitOfWork
 {
+    using Merchello.Core.Persistence.Repositories;
+
     using Umbraco.Core.Persistence.UnitOfWork;
 
     /// <summary>
@@ -88,13 +90,24 @@ namespace Merchello.Core.Persistence.UnitOfWork
 		/// Commits all batched changes within the scope of a PetaPoco transaction <see cref="Transaction"/>
 		/// </summary>
 		/// <remarks>
-		/// Unlike a typical unit of work, this UOW will let you commit more than once since a new transaction is creaed per
+		/// Unlike a typical unit of work, this UOW will let you commit more than once since a new transaction is created per
 		/// Commit() call instead of having one Transaction per UOW. 
 		/// </remarks>
 		public void Commit()
-		{
+        {
 		    Commit(null);
 		}
+
+        /// <summary>
+        /// The Bulk Commit.
+        /// </summary>
+        /// <typeparam name="TEntity">
+        /// The type of the entity
+        /// </typeparam>
+        public void CommitBulk<TEntity>() where TEntity : IEntity
+        {
+            CommitBulk<TEntity>(null);
+        }
 
         /// <summary>
         /// Commits all batched changes within the scope of a PetaPoco transaction <see cref="Transaction"/>
@@ -128,6 +141,55 @@ namespace Merchello.Core.Persistence.UnitOfWork
                 if (transactionCompleting != null)
                 {
                     transactionCompleting(Database);    
+                }
+
+                transaction.Complete();
+            }
+
+            // Clear everything
+            _operations.Clear();
+            _key = Guid.NewGuid();
+        }
+
+
+        /// <summary>
+        /// The commit bulk.
+        /// </summary>
+        /// <param name="transactionCompleting">
+        /// The transaction completing.
+        /// </param>
+        /// <typeparam name="TEntity">
+        /// The type of the entity
+        /// </typeparam>
+        internal void CommitBulk<TEntity>(Action<UmbracoDatabase> transactionCompleting) where TEntity : IEntity
+        {
+            if (_operations.Any(o => !(o.Repository is IBulkOperationRepository<TEntity>))) Commit(transactionCompleting);
+
+            using (var transaction = Database.GetTransaction())
+            {
+                var operations = _operations.ToList();
+                foreach (var operationGroup in operations.GroupBy(o => new { o.Repository, o.Type }))
+                {
+                    switch (operationGroup.Key.Type)
+                    {
+                        case TransactionType.Insert:
+                            ((IBulkOperationRepository<TEntity>)operationGroup.Key.Repository).PersistNewItems(operationGroup.Select(o => (TEntity)o.Entity));
+                            break;
+                        case TransactionType.Update:
+                            ((IBulkOperationRepository<TEntity>)operationGroup.Key.Repository).PersistUpdatedItems(operationGroup.Select(o => (TEntity)o.Entity));
+                            break;
+                        default:
+                            throw new InvalidOperationException("Only Inserts and Updates are supported");
+                            break;
+                    }
+                }
+
+                _operations.Clear();
+
+                //Execute the callback if there is one
+                if (transactionCompleting != null)
+                {
+                    transactionCompleting(Database);
                 }
 
                 transaction.Complete();

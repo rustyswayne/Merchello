@@ -290,6 +290,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DtoAttributeTests.cs" />
     <Compile Include="Configuration\RegionalProvinceConfigurationCollectionTest.cs" />
     <Compile Include="DataModifiers\DataModifierLookupTests.cs" />
     <Compile Include="ExtendedData\ExtendedDataExtensionTests.cs" />

@@ -1565,8 +1565,8 @@
                 product.ProductVariants.Remove(remover.Sku);
                 _productVariantService.Delete(remover);
             }
-            
 
+            var variants = new List<IProductVariant>();
             foreach (var list in attributeLists)
             {
                 // Check to see if the variant exists
@@ -1574,13 +1574,17 @@
                    
                 if (product.GetProductVariantForPurchase(productAttributes) != null) continue;
                    
-                var variant = this._productVariantService.CreateProductVariantWithKey(product, productAttributes.ToProductAttributeCollection(), false);
+                var variant = ((ProductVariantService)_productVariantService).CreateProductVariant(product, productAttributes.ToProductAttributeCollection());
+                product.ProductVariants.Add(variant);
+
                 foreach (var inv in product.CatalogInventories)
                 {
                     variant.AddToCatalogInventory(inv.CatalogKey);
-                    _productVariantService.Save(variant, false);
+                    variants.Add(variant);
                 }
             }
+
+            _productVariantService.Save(variants, false);
         }
 
 

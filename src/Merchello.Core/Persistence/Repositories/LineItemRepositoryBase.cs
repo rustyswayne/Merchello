@@ -84,6 +84,7 @@
         /// Saves a <see cref="ILineItem"/>
         /// </summary>
         /// <param name="item">The <see cref="ILineItem"/> to be saved</param>
+        //// TODO make this a bulk operation
         public virtual void SaveLineItem(T item)
         {
             if (!item.HasIdentity)

@@ -27,6 +27,18 @@
         private readonly Func<Guid, DetachedContentCollection<IProductVariantDetachedContent>> _detachedContentCollection;
 
         /// <summary>
+        /// The invalid operation exception.
+        /// </summary>
+        private readonly InvalidOperationException _invalidOperation =
+            new InvalidOperationException(
+                "Build entity cannot be called when using this empty constructor which is intended ONLY for Bulk imports");
+
+        /// <summary>
+        /// The flag set when factory is instantiated for bulk imports.
+        /// </summary>
+        private bool _isBulkImport;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProductVariantFactory"/> class.
         /// </summary>
         /// <param name="productAttributes">
@@ -49,6 +61,17 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProductVariantFactory"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Only used in bulk imports
+        /// </remarks>
+        internal ProductVariantFactory()
+        {
+            _isBulkImport = true;
+        }
+
+        /// <summary>
         /// The build entity.
         /// </summary>
         /// <param name="dto">
@@ -59,6 +82,8 @@
         /// </returns>
         public IProductVariant BuildEntity(ProductVariantDto dto)
         {
+            if (_isBulkImport) throw _invalidOperation;
+
             var entity = new ProductVariant(dto.Name, dto.Sku, dto.Price)
             {
                 Key = dto.Key,
@@ -94,6 +119,15 @@
             return entity;
         }
 
+        /// <summary>
+        /// The build dto.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ProductVariantDto"/>.
+        /// </returns>
         public ProductVariantDto BuildDto(IProductVariant entity)
         {
             return new ProductVariantDto()

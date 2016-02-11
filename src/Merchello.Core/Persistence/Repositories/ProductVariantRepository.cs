@@ -23,7 +23,7 @@
     /// <summary>
     /// The product variant repository.
     /// </summary>
-    internal class ProductVariantRepository : MerchelloPetaPocoRepositoryBase<IProductVariant>, IProductVariantRepository
+    internal class ProductVariantRepository : MerchelloBulkOperationRepository<IProductVariant, ProductVariantDto>, IProductVariantRepository
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductVariantRepository"/> class.
@@ -41,7 +41,7 @@
         /// The SQL Syntax.
         /// </param>
         public ProductVariantRepository(IDatabaseUnitOfWork work, IRuntimeCacheProvider cache, ILogger logger, ISqlSyntaxProvider sqlSyntax)
-            : base(work, cache, logger, sqlSyntax)
+            : base(work, cache, logger, sqlSyntax, () => new ProductVariantFactory())
         {            
         }
 
@@ -159,6 +159,88 @@
         //}
 
         /// <summary>
+        /// The persist new items.
+        /// </summary>
+        /// <param name="entities">
+        /// The entities.
+        /// </param>
+        public void PersistNewItems(IEnumerable<IProductVariant> entities)
+        {
+            var productVariants = entities as IProductVariant[] ?? entities.ToArray();
+
+            if (!MandateProductVariantRules(productVariants)) return;
+
+            //// Mandate.ParameterCondition(!SkuExists(entity.Sku), "The sku must be unique");
+            var dtos = new List<ProductVariantDto>();
+            foreach (var entity in productVariants)
+            {
+                ((ProductBase)entity).AddingEntity();
+                var factory = new ProductVariantFactory();
+                dtos.Add(factory.BuildDto(entity));
+            }
+
+            // insert the variants
+            Database.BulkInsertRecords<ProductVariantDto>(dtos);
+            Database.BulkInsertRecords<ProductVariantIndexDto>(dtos.Select(v => v.ProductVariantIndexDto));
+
+            foreach (var entity in productVariants)
+            {
+                var dto = dtos.FirstOrDefault(d => d.VersionKey == entity.VersionKey);
+                // ReSharper disable once PossibleNullReferenceException
+                entity.Key = dto.Key; // to set HasIdentity
+
+                ((ProductVariant)entity).ExamineId = dto.ProductVariantIndexDto.Id;
+            }
+
+            // insert associations for every attribute
+            Database.BulkInsertRecords<ProductVariant2ProductAttributeDto>(productVariants.SelectMany(e => e.Attributes.Select(att => new ProductVariant2ProductAttributeDto()
+            {
+                ProductVariantKey = e.Key,
+                OptionKey = att.OptionKey,
+                ProductAttributeKey = att.Key,
+                UpdateDate = DateTime.Now,
+                CreateDate = DateTime.Now
+            })));
+
+            SaveCatalogInventory(productVariants);
+
+            SaveDetachedContents(productVariants);
+
+            foreach (var entity in productVariants)
+            {
+                entity.ResetDirtyProperties();
+                RuntimeCache.ClearCacheItem(Cache.CacheKeys.GetEntityCacheKey<IProduct>(entity.ProductKey));
+            }
+        }
+
+        /// <summary>
+        /// The persist updated items.
+        /// </summary>
+        /// <param name="entities">
+        /// The entities.
+        /// </param>
+        public void PersistUpdatedItems(IEnumerable<IProductVariant> entities)
+        {
+            var productVariants = entities as IProductVariant[] ?? entities.ToArray();
+            if (!MandateProductVariantRules(productVariants)) return;
+
+            Mandate.ParameterCondition(!SkuExists(productVariants), "Entity cannot be updated.  The sku already exists.");
+
+            ExecuteBatchUpdate(productVariants);
+
+
+            SaveCatalogInventory(productVariants);
+
+            SaveDetachedContents(productVariants);
+
+            foreach (var entity in productVariants)
+            {
+                entity.ResetDirtyProperties();
+                RuntimeCache.ClearCacheItem(Cache.CacheKeys.GetEntityCacheKey<IProduct>(entity.ProductKey));
+            }
+        }
+
+        /// <summary>
         /// The get product attribute collection.
         /// </summary>
         /// <param name="productVariantKey">
@@ -184,6 +266,7 @@
             {
                 collection.Add(factory.BuildEntity(dto.ProductAttributeDto));
             }
+
             return collection;
         }
 
@@ -277,7 +360,7 @@
                 var dto = factory.BuildDto(detachedContent);
 
                 const string Update =
-                    "UPDATE [merchProductVariantDetachedContent] SET [merchProductVariantDetachedContent].[detachedContentTypeKey] = @Dctk, [merchProductVariantDetachedContent].[templateId] = @Tid, [merchProductVariantDetachedContent].[slug] = @Slug, [merchProductVariantDetachedContent].[values] = @Vals, [merchProductVariantDetachedContent].[canBeRendered] = @Cbr, [merchProductVariantDetachedContent].[updateDate] = @Ud WHERE [merchProductVariantDetachedContent].[cultureName] = @Cn AND [merchProductVariantDetachedContent].[productVariantKey] = @Pvk";
+                    " UPDATE [merchProductVariantDetachedContent] SET [merchProductVariantDetachedContent].[detachedContentTypeKey] = @Dctk, [merchProductVariantDetachedContent].[templateId] = @Tid, [merchProductVariantDetachedContent].[slug] = @Slug, [merchProductVariantDetachedContent].[values] = @Vals, [merchProductVariantDetachedContent].[canBeRendered] = @Cbr, [merchProductVariantDetachedContent].[updateDate] = @Ud WHERE [merchProductVariantDetachedContent].[cultureName] = @Cn AND [merchProductVariantDetachedContent].[productVariantKey] = @Pvk";
 
 
                 Database.Execute(
@@ -297,6 +380,83 @@
         }
 
         /// <summary>
+        /// Bulk save detached contents.
+        /// </summary>
+        /// <param name="productVariants">
+        /// The product variants.
+        /// </param>
+        internal void SaveDetachedContents(IEnumerable<IProductVariant> productVariants)
+        {
+            var variants = productVariants as IProductVariant[] ?? productVariants.ToArray();
+            var factory = new ProductVariantDetachedContentFactory();
+            var existing = this.GetProductVariantDetachedContents(variants.Select(x => x.Key)).ToArray();
+
+            var sqlStatement = string.Empty;
+
+            var parms = new List<object>();
+            var paramIndex = 0;
+            var inserts = new List<ProductVariantDetachedContentDto>();
+
+            foreach (var variant in variants)
+            {
+                if (variant.DetachedContents.Any() || existing.Any(x => x.ProductVariantKey == variant.Key))
+                {
+                    if (existing.Any(x => x.ProductVariantKey == variant.Key) && !variant.DetachedContents.Any())
+                    {
+                        sqlStatement += string.Format(" DELETE [merchProductVariantDetachedContent] WHERE [productVariantKey] = @{0}", paramIndex++);
+                    }
+
+                    var slug = PathHelper.ConvertToSlug(variant.Name);
+                    foreach (var dc in variant.DetachedContents)
+                    {
+                        if (!dc.HasIdentity)
+                        {
+                            ((Entity)dc).AddingEntity();
+                            dc.Slug = this.EnsureSlug(dc, slug);
+                            var dto = factory.BuildDto(dc);
+                            inserts.Add(dto);
+                        }
+                        else
+                        {
+                            ((Entity)dc).UpdatingEntity();
+                            var dto = factory.BuildDto(dc);
+                            sqlStatement +=
+                                string.Format(
+                                    " UPDATE [merchProductVariantDetachedContent] SET [merchProductVariantDetachedContent].[detachedContentTypeKey] = @{0}, [merchProductVariantDetachedContent].[templateId] = @{1}, [merchProductVariantDetachedContent].[slug] = @{2}, [merchProductVariantDetachedContent].[values] = @{3}, [merchProductVariantDetachedContent].[canBeRendered] = @{4}, [merchProductVariantDetachedContent].[updateDate] = @{5} WHERE [merchProductVariantDetachedContent].[cultureName] = @{6} AND [merchProductVariantDetachedContent].[productVariantKey] = @{7}", 
+                                    paramIndex++, 
+                                    paramIndex++, 
+                                    paramIndex++, 
+                                    paramIndex++, 
+                                    paramIndex++, 
+                                    paramIndex++, 
+                                    paramIndex++, 
+                                    paramIndex++);
+
+                            parms.Add(dto.DetachedContentTypeKey);
+                            parms.Add(dto.TemplateId);
+                            parms.Add(dto.Slug);
+                            parms.Add(dto.Values);
+                            parms.Add(dto.CanBeRendered);
+                            parms.Add(dto.UpdateDate);
+                            parms.Add(dto.CultureName);
+                            parms.Add(dto.ProductVariantKey);
+                        }  
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                Database.Execute(sqlStatement, parms.ToArray());
+            }
+
+            if (inserts.Any())
+            {
+                Database.BulkInsertRecords<ProductVariantDetachedContentDto>(inserts);
+            }
+        }
+
+        /// <summary>
         /// Saves the catalog inventory.
         /// </summary>
         /// <param name="productVariant">
@@ -307,21 +467,90 @@
         /// </remarks>
         internal void SaveCatalogInventory(IProductVariant productVariant)
         {
-            var existing = GetCategoryInventoryCollection(productVariant.Key);
+            SaveCatalogInventory(new[] { productVariant });
+        }
 
-            foreach (var inv in existing.Where(inv => !((ProductVariant)productVariant).CatalogInventoryCollection.Contains(inv.CatalogKey)))
+
+        /// <summary>
+        /// The save catalog inventory.
+        /// </summary>
+        /// <param name="productVariants">
+        /// The product variants.
+        /// </param>
+        /// <remarks>
+        /// This merely asserts that an association between the warehouse and the variant has been made
+        /// </remarks>
+        internal void SaveCatalogInventory(IProductVariant[] productVariants)
+        {
+            var keys = productVariants.Select(v => v.Key).ToArray();
+            var sql = new Sql();
+            sql.Select("*")
+                .From<CatalogInventoryDto>(SqlSyntax)
+                .InnerJoin<WarehouseCatalogDto>(SqlSyntax)
+                .On<CatalogInventoryDto, WarehouseCatalogDto>(SqlSyntax, left => left.CatalogKey, right => right.Key);
+
+            if (keys.Any())
             {
-                DeleteCatalogInventory(productVariant.Key, inv.CatalogKey);
+                sql = sql.WhereIn<CatalogInventoryDto>(x => x.ProductVariantKey, keys);
             }
 
-            foreach (var inv in productVariant.CatalogInventories.Where(inv => !existing.Contains(inv.CatalogKey)))
+            var inventoryDtos = Database.Fetch<CatalogInventoryDto, WarehouseCatalogDto>(sql);
+
+            string sqlStatement = string.Empty;
+            int paramIndex = 0;
+            var parms = new List<object>();
+            var inserts = new List<CatalogInventoryDto>();
+            foreach (var productVariant in productVariants)
             {
-                AddCatalogInventory(productVariant, inv);
+                foreach (var dto in inventoryDtos.Where(i => i.ProductVariantKey == productVariant.Key))
+                {
+                    if (!((ProductVariant)productVariant).CatalogInventoryCollection.Contains(dto.CatalogKey))
+                    {
+                        sqlStatement += string.Format(" DELETE FROM merchCatalogInventory WHERE productVariantKey = @{0} AND catalogKey = @{1}", paramIndex++, paramIndex++);
+                        parms.Add(dto.ProductVariantKey);
+                        parms.Add(dto.CatalogKey);
+                    }
+                }
+
+                foreach (var inv in productVariant.CatalogInventories)
+                {
+                    inv.UpdateDate = DateTime.Now;
+                    if (inventoryDtos.Any(i => i.ProductVariantKey == productVariant.Key && i.CatalogKey == inv.CatalogKey))
+                    {
+                        sqlStatement += string.Format(" UPDATE merchCatalogInventory SET Count = @{0}, LowCount = @{1}, Location = @{2}, UpdateDate = @{3} WHERE catalogKey = @{4} AND productVariantKey = @{5}", paramIndex++, paramIndex++, paramIndex++, paramIndex++, paramIndex++, paramIndex++);
+                        parms.Add(inv.Count);
+                        parms.Add(inv.LowCount);
+                        parms.Add(inv.Location);
+                        parms.Add(inv.UpdateDate);
+                        parms.Add(inv.CatalogKey);
+                        parms.Add(inv.ProductVariantKey);
+                    }
+                    else
+                    {
+                        inv.CreateDate = DateTime.Now;
+                        inserts.Add(new CatalogInventoryDto()
+                        {
+                            CatalogKey = inv.CatalogKey,
+                            ProductVariantKey = productVariant.Key,
+                            Count = inv.Count,
+                            LowCount = inv.LowCount,
+                            Location = inv.Location,
+                            CreateDate = inv.CreateDate,
+                            UpdateDate = inv.UpdateDate,
+                            WarehouseCatalogDto = new WarehouseCatalogDto()
+                        });
+                    }
+                }
             }
 
-            foreach (var inv in productVariant.CatalogInventories.Where(x => existing.Contains(x.CatalogKey)))
+            if (!string.IsNullOrEmpty(sqlStatement))
             {
-                UpdateCatalogInventory(inv);
+                Database.Execute(sqlStatement, parms.ToArray());
+            }
+
+            if (inserts.Any())
+            {
+                Database.BulkInsertRecords<CatalogInventoryDto>(inserts);
             }
         }
 
@@ -385,6 +614,7 @@
 
             return dtos.Select(factory.BuildEntity);
         }
+
 
         /// <summary>
         /// Gets the product variant.
@@ -514,6 +744,8 @@
             return list;
         }
 
+   
+
         /// <summary>
         /// The persist new item.
         /// </summary>
@@ -526,7 +758,7 @@
 
             Mandate.ParameterCondition(!SkuExists(entity.Sku), "The sku must be unique");
 
-            ((Entity)entity).AddingEntity();
+            ((ProductBase)entity).AddingEntity();
 
             ((ProductVariant)entity).VersionKey = Guid.NewGuid();
 
@@ -578,8 +810,7 @@
 
             Mandate.ParameterCondition(!SkuExists(entity.Sku, entity.Key), "Entity cannot be updated.  The sku already exists.");
 
-            ((Entity)entity).UpdatingEntity();
-            ((ProductVariant)entity).VersionKey = Guid.NewGuid();
+            ((ProductBase)entity).UpdatingEntity();
 
             var factory = new ProductVariantFactory(
                 pa => ((ProductVariant)entity).ProductAttributes,
@@ -618,6 +849,56 @@
         }
 
         /// <summary>
+        /// The apply adding or updating.  Used in Bulk actions
+        /// </summary>
+        /// <param name="transactionType">
+        /// The transaction type.
+        /// </param>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        protected override void ApplyAddingOrUpdating(TransactionType transactionType, IProductVariant entity)
+        {
+            if (transactionType == TransactionType.Insert)
+            {
+                ((ProductBase)entity).AddingEntity();
+            }
+            else
+            {
+                ((ProductBase)entity).UpdatingEntity();
+            }
+        }
+
+
+        /// <summary>
+        /// Gets detached content associated with the product variant.
+        /// </summary>
+        /// <param name="productVariantKeys">
+        /// The product variant keys.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IProductVariantDetachedContent}"/>.
+        /// </returns>
+        private IEnumerable<IProductVariantDetachedContent> GetProductVariantDetachedContents(IEnumerable<Guid> productVariantKeys)
+        {
+            var sql = new Sql();
+            sql.Select("*")
+                .From<ProductVariantDetachedContentDto>(SqlSyntax)
+                .InnerJoin<DetachedContentTypeDto>(SqlSyntax)
+                .On<ProductVariantDetachedContentDto, DetachedContentTypeDto>(
+                    SqlSyntax,
+                    left => left.DetachedContentTypeKey,
+                    right => right.Key)
+                .WhereIn<ProductVariantDetachedContentDto>(x => x.ProductVariantKey, productVariantKeys);
+
+            var dtos = Database.Fetch<ProductVariantDetachedContentDto, DetachedContentTypeDto>(sql);
+
+            var factory = new ProductVariantDetachedContentFactory();
+
+            return dtos.Select(factory.BuildEntity);
+        }
+
+        /// <summary>
         /// The mandate product variant rules.
         /// </summary>
         /// <param name="entity">
@@ -628,82 +909,98 @@
         /// </returns>
         private static bool MandateProductVariantRules(IProductVariant entity)
         {
-            // TODO these checks can probably be moved somewhere else but are here at the moment to enforce the rules as the API develops
-            Mandate.ParameterCondition(entity.ProductKey != Guid.Empty, "productKey must be set");
+            return MandateProductVariantRules(new[] { entity });
+        }
 
-            if (!((ProductVariant)entity).Master)
-                Mandate.ParameterCondition(entity.Attributes.Any(), "Product variant must have attributes");            
+        /// <summary>
+        /// The mandate product variant rules.
+        /// </summary>
+        /// <param name="entities">
+        /// The entities.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool MandateProductVariantRules(IEnumerable<IProductVariant> entities)
+        {
+            foreach (var entity in entities)
+            {
+                // TODO these checks can probably be moved somewhere else but are here at the moment to enforce the rules as the API develops
+                Mandate.ParameterCondition(entity.ProductKey != Guid.Empty, "productKey must be set");
 
+                if (!((ProductVariant)entity).Master)
+                    Mandate.ParameterCondition(entity.Attributes.Any(), "Product variant must have attributes");
+            }
             return true;
         }
 
-        /// <summary>
-        /// Associates a <see cref="IProductVariant"/> with a catalog inventory.
-        /// </summary>
-        /// <param name="productVariant">
-        /// The product variant.
-        /// </param>
-        /// <param name="inv">
-        /// The <see cref="ICatalogInventory"/>.
-        /// </param>
-        private void AddCatalogInventory(IProductVariant productVariant, ICatalogInventory inv)
-        {
-            inv.CreateDate = DateTime.Now;
-            inv.UpdateDate = DateTime.Now;
+        ///// <summary>
+        ///// Associates a<see cref= "IProductVariant" /> with a catalog inventory.
+        ///// </summary>
+        ///// <param name = "productVariant" >
+        ///// The product variant.
+        ///// </param>
+        ///// <param name = "inv" >
+        ///// The < see cref= "ICatalogInventory" />.
+        ///// </ param >
+        ////private void AddCatalogInventory(IProductVariant productVariant, ICatalogInventory inv)
+        ////{
+        ////    inv.CreateDate = DateTime.Now;
+        ////    inv.UpdateDate = DateTime.Now;
 
-            var dto = new CatalogInventoryDto()
-            {
-                CatalogKey = inv.CatalogKey,
-                ProductVariantKey = productVariant.Key,
-                Count = inv.Count,
-                LowCount = inv.LowCount,
-                Location = inv.Location,
-                CreateDate = inv.CreateDate,
-                UpdateDate = inv.UpdateDate
-            };
+        ////    var dto = new CatalogInventoryDto()
+        ////    {
+        ////        CatalogKey = inv.CatalogKey,
+        ////        ProductVariantKey = productVariant.Key,
+        ////        Count = inv.Count,
+        ////        LowCount = inv.LowCount,
+        ////        Location = inv.Location,
+        ////        CreateDate = inv.CreateDate,
+        ////        UpdateDate = inv.UpdateDate
+        ////    };
 
-            Database.Insert(dto);
-        }
+        ////    Database.Insert(dto);
+        ////}
 
-        /// <summary>
-        /// Updates catalog inventory.
-        /// </summary>
-        /// <param name="inv">
-        /// The <see cref="ICatalogInventory"/>.
-        /// </param>
-        private void UpdateCatalogInventory(ICatalogInventory inv)
-        {
-            inv.UpdateDate = DateTime.Now;
+        ///// <summary>
+        ///// Updates catalog inventory.
+        ///// </summary>
+        ///// <param name = "inv" >
+        ///// The < see cref="ICatalogInventory"/>.
+        ///// </param>
+        ////private void UpdateCatalogInventory(ICatalogInventory inv)
+        ////{
+        ////    inv.UpdateDate = DateTime.Now;
 
 
-            Database.Execute(
-                "UPDATE merchCatalogInventory SET Count = @invCount, LowCount = @invLowCount, Location = @invLocation, UpdateDate = @invUpdateDate WHERE catalogKey = @catalogKey AND productVariantKey = @productVariantKey",
-                new
-                {
-                    invCount = inv.Count,
-                    invLowCount = inv.LowCount,
-                    invLocation = inv.Location,
-                    invUpdateDate = inv.UpdateDate,
-                    catalogKey = inv.CatalogKey,
-                    productVariantKey = inv.ProductVariantKey                    
-                });
-        }
+        ////    Database.Execute(
+        ////        "UPDATE merchCatalogInventory SET Count = @invCount, LowCount = @invLowCount, Location = @invLocation, UpdateDate = @invUpdateDate WHERE catalogKey = @catalogKey AND productVariantKey = @productVariantKey",
+        ////        new
+        ////        {
+        ////            invCount = inv.Count,
+        ////            invLowCount = inv.LowCount,
+        ////            invLocation = inv.Location,
+        ////            invUpdateDate = inv.UpdateDate,
+        ////            catalogKey = inv.CatalogKey,
+        ////            productVariantKey = inv.ProductVariantKey
+        ////        });
+        ////}
 
-        /// <summary>
-        /// Deletes catalog inventory.
-        /// </summary>
-        /// <param name="productVariantKey">
-        /// The product variant key.
-        /// </param>
-        /// <param name="catalogKey">
-        /// The catalog key.
-        /// </param>
-        private void DeleteCatalogInventory(Guid productVariantKey, Guid catalogKey)
-        {
-            const string Sql = "DELETE FROM merchCatalogInventory WHERE productVariantKey = @pvKey AND catalogKey = @cKey";
+        ///// <summary>
+        ///// Deletes catalog inventory.
+        ///// </summary>
+        ///// <param name = "productVariantKey" >
+        ///// The product variant key.
+        ///// </param>
+        ///// <param name = "catalogKey" >
+        ///// The catalog key.
+        ///// </param>
+        ////private void DeleteCatalogInventory(Guid productVariantKey, Guid catalogKey)
+        ////{
+        ////    const string Sql = "DELETE FROM merchCatalogInventory WHERE productVariantKey = @pvKey AND catalogKey = @cKey";
 
-            Database.Execute(Sql, new { @pvKey = productVariantKey, @cKey = catalogKey });
-        }
+        ////    Database.Execute(Sql, new { @pvKey = productVariantKey, @cKey = catalogKey });
+        ////}
 
         /// <summary>
         /// True/false indicating whether or not a SKU exists on a record other than the record with the id passed
@@ -717,6 +1014,24 @@
             sql.Select("*")
                 .From<ProductVariantDto>(SqlSyntax)
                 .Where<ProductVariantDto>(x => x.Sku == sku && x.Key != productVariantKey);
+
+            return Database.Fetch<ProductAttributeDto>(sql).Any();
+        }
+
+        /// <summary>
+        /// True/false indicating whether or not a SKU exists on a record other than the record with the id passed
+        /// </summary>
+        /// <param name="entities">The collection of the <see cref="IProductVariant"/> to be excluded</param>
+        /// <returns>A value indicating whether or not a SKU exists on a record other than the record with the id passed</returns>
+        private bool SkuExists(IEnumerable<IProductVariant> entities)
+        {
+            var sql = new Sql();
+            sql.Select("*")
+                .From<ProductVariantDto>(SqlSyntax);
+
+            var whereClauses = entities.Select(entity => string.Format("(Sku = '{0}' and pk != '{1}')", entity.Sku, entity.Key)).ToList();
+
+            sql = sql.Where(string.Join(" or ", whereClauses), null);
 
             return Database.Fetch<ProductAttributeDto>(sql).Any();
         }
@@ -739,6 +1054,5 @@
             if (count > 0) slug = string.Format("{0}-{1}", slug, count + 1);
             return slug;
         }
-
     }
 }
