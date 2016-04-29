@@ -6,6 +6,11 @@
     using AutoMapper;
 
     using Merchello.Core.Models.DetachedContent;
+    using Merchello.Web.Models.VirtualContent;
+
+    using Newtonsoft.Json.Linq;
+
+    using Umbraco.Core;
 
     /// <summary>
     /// Maps the detached data values to an enumerable of KeyValuePair.
@@ -23,6 +28,13 @@
         /// </returns>
         protected override IEnumerable<KeyValuePair<string, string>> ResolveCore(IDetachedContent source)
         {
+            //if (source.DetachedDataValues != null)
+            //{
+            //    return source.DetachedDataValues.Select(val => new KeyValuePair<string, object>(val.Key, JToken.FromObject(val.Value))).ToList();
+            //}
+
+            //return Enumerable.Empty<KeyValuePair<string, object>>();
+
             return source.DetachedDataValues != null
                        ? source.DetachedDataValues.AsEnumerable()
                        : Enumerable.Empty<KeyValuePair<string, string>>();

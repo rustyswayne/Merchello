@@ -1348,6 +1348,7 @@
     <Compile Include="Validation\EmailValidationHelper.cs" />
     <Compile Include="Validation\IBankingValidationHelper.cs" />
     <Compile Include="Validation\IEmailValidationHelper.cs" />
+    <Compile Include="ValueConverters\DetachedPublishedPropertyConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

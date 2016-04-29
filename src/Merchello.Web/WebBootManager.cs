@@ -5,6 +5,8 @@
     using Merchello.Core;
     using Merchello.Core.Logging;
     using Merchello.Core.Marketing.Offer;
+    using Merchello.Core.ValueConverters;
+    using Merchello.Web.Models.VirtualContent;
     using Merchello.Web.Pluggable;
     using Merchello.Web.Reporting;
     using Merchello.Web.Ui;
