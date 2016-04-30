@@ -78,7 +78,7 @@
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string GetValue(string key)
+        public object GetValue(string key)
         {
             return ContainsKey(key) ? this[key] : string.Empty;
         }

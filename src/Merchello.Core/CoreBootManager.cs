@@ -296,10 +296,9 @@
         protected virtual void InitializeValueConverters()
         {
             // initialize the DetachedPublishedPropertyConverter singleton
-            var dataTypeService = ApplicationContext.Current == null ? null : ApplicationContext.Current.Services.DataTypeService;
-            if (!DetachedPublishedPropertyConverter.HasCurrent)
+            if (!DetachedPublishedPropertyValueConverter.HasCurrent)
             {
-                DetachedPublishedPropertyConverter.Current = new DetachedPublishedPropertyConverter(dataTypeService);
+                DetachedPublishedPropertyValueConverter.Current = new DetachedPublishedPropertyValueConverter(ApplicationContext.Current);
             }
         }
 

@@ -34,9 +34,13 @@
         {
             var detachedContentType = _detachedContentTypeFactory.Value.BuildEntity(dto.DetachedContentType);
 
+            //var valuesFactory = new DetachedDataValuesFactory(detachedContentType);
+
+            //var values = valuesFactory.Build(dto.Values);
+
             var values = dto.Values.IsNullOrWhiteSpace()
                              ? Enumerable.Empty<KeyValuePair<string, string>>()
-                             : JsonConvert.DeserializeObject<IEnumerable<KeyValuePair<string, string>>>(dto.Values);            
+                             : JsonConvert.DeserializeObject<IEnumerable<KeyValuePair<string, string>>>(dto.Values);
 
             var valuesCollection = new DetachedDataValuesCollection(values);
 
@@ -70,6 +74,9 @@
         /// </returns>
         public ProductVariantDetachedContentDto BuildDto(IProductVariantDetachedContent entity)
         {
+
+           // var valuesFactory = new DetachedDataValuesFactory(entity.DetachedContentType);
+
             return new ProductVariantDetachedContentDto()
                        {
                            Key = entity.Key,
