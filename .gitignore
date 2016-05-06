@@ -197,3 +197,4 @@ src/Merchello.Providers.UI.Client/.idea/
 src/Merchello.Providers.UI.Client/.sass-cache/*
 src/.vs/*
 test/Merchello.Tests.PaymentProviders/PayPal/extendedData.json
+src/Merchello.Web.Components/App_Data/Logs/
