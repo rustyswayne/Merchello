@@ -325,6 +325,13 @@
     <Compile Include="Editors\Reports\ReportSqlHelper.cs" />
     <Compile Include="Editors\Reports\SalesOverTimeReportApiController.cs" />
     <Compile Include="Editors\Reports\SalesByItemReportApiController.cs" />
+    <Compile Include="Models\Ui\Components\AddItemModel.cs" />
+    <Compile Include="Models\Ui\Components\BasketItemModel.cs" />
+    <Compile Include="Models\Ui\Components\BasketModel.cs" />
+    <Compile Include="Models\Ui\Components\IAddItemModel.cs" />
+    <Compile Include="Models\Ui\Components\IBasketItemModel.cs" />
+    <Compile Include="Models\Ui\Components\IBasketModel.cs" />
+    <Compile Include="Models\Ui\Components\IStoreComponent.cs" />
     <Compile Include="Mvc\MerchelloHelperViewPage.cs" />
     <Compile Include="Mvc\SurfaceControllerActivationHelper.cs" />
     <Compile Include="Pluggable\PluginViewEditorProvider.cs" />
