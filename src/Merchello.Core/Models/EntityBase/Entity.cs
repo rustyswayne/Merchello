@@ -127,6 +127,7 @@
             set
             {
                 SetPropertyValueAndDetectChanges(value, ref _key, _ps.Value.KeySelector);
+                _hasIdentity = true;
             }
         }
 
