@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// The EntityCollection interface.
+    /// Represents an entity collection.
     /// </summary>
     public interface IEntityCollection : IHasParent, IHasEntityTypeField, IHasExtendedData, IEntity
     {

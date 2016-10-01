@@ -7,11 +7,10 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a product attribute
+    /// Represents a product attribute
     /// </summary>
     public interface IProductAttribute : IEntity
     {
-
         /// <summary>
         /// Gets or sets the key of the option which defines the attribute group this attribute belongs to
         /// </summary>

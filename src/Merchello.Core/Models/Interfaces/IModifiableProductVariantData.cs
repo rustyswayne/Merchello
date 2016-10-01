@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Core.Models
 {
     /// <summary>
-    /// Defines modifiable product data.
+    /// Represents modifiable product data.
     /// </summary>
     /// <remarks>
     /// 1.9.1 used in Data Modifier layer in the MerchelloHelper

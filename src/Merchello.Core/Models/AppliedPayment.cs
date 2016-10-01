@@ -8,9 +8,7 @@
     using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Models.TypeFields;
 
-    /// <summary>
-    /// The applied payment.
-    /// </summary>
+    /// <inheritdoc/>
     [Serializable]
     [DataContract(IsReference = true)]
     internal class AppliedPayment : Entity, IAppliedPayment

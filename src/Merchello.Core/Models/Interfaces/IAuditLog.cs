@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines an Audit record.
+    /// Represents an audit log record.
     /// </summary>
     public interface IAuditLog : IHasExtendedData, IEntity
     {

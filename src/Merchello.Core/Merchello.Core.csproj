@@ -456,7 +456,6 @@
     <Compile Include="Models\Interfaces\IOfferRedeemed.cs" />
     <Compile Include="Models\Interfaces\IOfferSettings.cs" />
     <Compile Include="Models\Interfaces\IOrder.cs" />
-    <Compile Include="Models\Interfaces\IOrderByField.cs" />
     <Compile Include="Models\Interfaces\IOrderLineItem.cs" />
     <Compile Include="Models\Interfaces\IOrderStatus.cs" />
     <Compile Include="Models\Interfaces\IPayment.cs" />
@@ -476,7 +475,7 @@
     <Compile Include="Models\Interfaces\IStoreSetting.cs" />
     <Compile Include="Models\Interfaces\ITaxMethod.cs" />
     <Compile Include="Models\Interfaces\ITaxProvince.cs" />
-    <Compile Include="Models\Interfaces\IVisitor{T}.cs" />
+    <Compile Include="Vistors\IVisitor{T}.cs" />
     <Compile Include="Models\Interfaces\IWarehouse.cs" />
     <Compile Include="Models\Interfaces\IWarehouseCatalog.cs" />
     <Compile Include="Models\LineItemCollection.cs" />

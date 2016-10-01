@@ -8,7 +8,7 @@
     ///// TODO SR - This is just a scaffold for example.  Do whatever you need to do =)
 
     /// <summary>
-    /// Defines DigitalMedia.
+    /// Represents digital media.
     /// </summary>
     public interface IDigitalMedia : IEntity, IHasExtendedData
     {

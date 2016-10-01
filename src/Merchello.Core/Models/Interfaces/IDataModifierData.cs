@@ -5,7 +5,7 @@
     using Merchello.Core.Models.Interfaces;
 
     /// <summary>
-    /// Defines ModifiableData.
+    /// Represents modifiable data.
     /// </summary>
     public interface IDataModifierData
     {

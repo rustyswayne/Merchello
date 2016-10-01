@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a Country
+    /// Represents a country
     /// </summary>
     public interface ICountry : IEntity
     {

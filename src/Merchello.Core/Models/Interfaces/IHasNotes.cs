@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a model with notes.
+    /// Marker interface for classes that include a notes field.
     /// </summary>
     public interface IHasNotes
     {

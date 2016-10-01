@@ -7,6 +7,7 @@
 
     using Merchello.Core.Acquired.Threading;
     using Merchello.Core.Models.Interfaces;
+    using Merchello.Core.Vistors;
 
     /// <summary>
     /// Represents a collection of detached content.
