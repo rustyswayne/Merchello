@@ -193,15 +193,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the examine id.
-        /// </summary>
-        [IgnoreDataMember]
-        internal int ExamineId
-        {
-            get { return _examineId; }
-            set { _examineId = value; }
-        }
 
         /// <summary>
         /// Property selectors.

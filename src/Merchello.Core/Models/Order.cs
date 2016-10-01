@@ -216,14 +216,6 @@
         }
 
         /// <inheritdoc/>
-        [IgnoreDataMember]
-        internal int ExamineId
-        {
-            get { return _examineId; }
-            set { _examineId = value; }
-        }
-
-        /// <inheritdoc/>
         public void Accept(ILineItemVisitor visitor)
         {
             Items.Accept(visitor);

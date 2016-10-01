@@ -43,5 +43,11 @@
         [Column("sku")]
         [Index(IndexTypes.NonClustered, Name = "IX_merchOrderItemSku")]
         public override string Sku { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the order is on back order.
+        /// </summary>
+        [Column("backOrder")]
+        public bool BackOrder { get; set; }
     }
 }

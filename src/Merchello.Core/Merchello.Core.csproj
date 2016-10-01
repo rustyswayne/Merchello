@@ -123,6 +123,7 @@
     <Compile Include="Events\CacheRefresherEventArgs.cs" />
     <Compile Include="Events\TypedEventHandler.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Extensions.DateTime.cs" />
     <Compile Include="Extensions.DetachedDataValuesCollection.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
@@ -180,6 +181,7 @@
     <Compile Include="Extensions.IWarehouse.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.OfferComponentDefinition.cs" />
     <Compile Include="IAttempt.cs" />
     <Compile Include="Cache\IIsolatedRuntimeCache.cs" />
     <Compile Include="Acquired\ObjectExtensions.cs" />
@@ -285,8 +287,40 @@
     <Compile Include="Persistence\Factories\AnonymousCustomerFactory.cs" />
     <Compile Include="Persistence\Factories\AppliedPaymentFactory.cs" />
     <Compile Include="Persistence\Factories\AuditLogFactory.cs" />
+    <Compile Include="Persistence\Factories\CatalogInventoryFactory.cs" />
+    <Compile Include="Persistence\Factories\CustomerAddressFactory.cs" />
+    <Compile Include="Persistence\Factories\CustomerFactory.cs" />
+    <Compile Include="Persistence\Factories\DetachedContentTypeFactory.cs" />
+    <Compile Include="Persistence\Factories\EntityCollectionFactory.cs" />
+    <Compile Include="Persistence\Factories\EntityUseCountFactory.cs" />
+    <Compile Include="Persistence\Factories\GatewayProviderSettingsFactory.cs" />
     <Compile Include="Persistence\Factories\IEntityFactory.cs" />
+    <Compile Include="Persistence\Factories\LineItemFactory.cs" />
     <Compile Include="Persistence\Factories\MigrationStatusFactory.cs" />
+    <Compile Include="Persistence\Factories\NoteFactory.cs" />
+    <Compile Include="Persistence\Factories\NotificationMessageFactory.cs" />
+    <Compile Include="Persistence\Factories\NotificationMethodFactory.cs" />
+    <Compile Include="Persistence\Factories\OfferRedeemedFactory.cs" />
+    <Compile Include="Persistence\Factories\OfferSettingsFactory.cs" />
+    <Compile Include="Persistence\Factories\OrderFactory.cs" />
+    <Compile Include="Persistence\Factories\OrderLineItemFactory.cs" />
+    <Compile Include="Persistence\Factories\OrderStatusFactory.cs" />
+    <Compile Include="Persistence\Factories\PaymentFactory.cs" />
+    <Compile Include="Persistence\Factories\PaymentMethodFactory.cs" />
+    <Compile Include="Persistence\Factories\ProductAttributeFactory.cs" />
+    <Compile Include="Persistence\Factories\ProductFactory.cs" />
+    <Compile Include="Persistence\Factories\ProductOptionFactory.cs" />
+    <Compile Include="Persistence\Factories\ProductVariantDetachedContentFactory.cs" />
+    <Compile Include="Persistence\Factories\ProductVariantFactory.cs" />
+    <Compile Include="Persistence\Factories\ShipCountryFactory.cs" />
+    <Compile Include="Persistence\Factories\ShipmentFactory.cs" />
+    <Compile Include="Persistence\Factories\ShipmentStatusFactory.cs" />
+    <Compile Include="Persistence\Factories\ShipMethodFactory.cs" />
+    <Compile Include="Persistence\Factories\ShipRateTierFactory.cs" />
+    <Compile Include="Persistence\Factories\StoreSettingFactory.cs" />
+    <Compile Include="Persistence\Factories\TaxMethodFactory.cs" />
+    <Compile Include="Persistence\Factories\WarehouseCatalogFactory.cs" />
+    <Compile Include="Persistence\Factories\WarehouseFactory.cs" />
     <Compile Include="Persistence\IDatabaseSchemaManager.cs" />
     <Compile Include="Persistence\IExposeSqlSyntax.cs" />
     <Compile Include="Persistence\IMerchelloDatabase.cs" />
