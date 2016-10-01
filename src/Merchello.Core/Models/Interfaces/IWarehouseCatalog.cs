@@ -16,7 +16,7 @@
     /// this out from a T-Shirt.  In this case there could be a Warehouse Catalog with common items and
     /// a separate Warehouse Catalog for Frozen/Live Items.
     /// <para>
-    /// The name for this interface should represent inventory and shipping rule association but it's so engrained into
+    /// The naming here is not very good, as it should really represent inventory and shipping rule association but it's so engrained into
     /// the core logic, it has to remain for legacy reasons.
     /// </para>
     /// 

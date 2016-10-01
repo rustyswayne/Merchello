@@ -13,12 +13,12 @@
     public class EntityFilterCollection : KeyedCollection<Guid, IEntityCollection>
     {
         /// <summary>
-        /// The _add locker.
+        /// A Lock.
         /// </summary>
         private readonly ReaderWriterLockSlim _addLocker = new ReaderWriterLockSlim();
 
         /// <summary>
-        /// The index of key.
+        /// Gets index of key.
         /// </summary>
         /// <param name="key">
         /// The key.

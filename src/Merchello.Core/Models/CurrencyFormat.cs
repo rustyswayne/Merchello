@@ -1,10 +1,13 @@
 ﻿namespace Merchello.Core.Models
 {
+    using System;
+
     using Merchello.Core.Models.Interfaces;
 
     /// <summary>
     /// Represents a currency format.
     /// </summary>
+    [Obsolete("Using NodaMoney")]
     public class CurrencyFormat : ICurrencyFormat
     {
         /// <summary>

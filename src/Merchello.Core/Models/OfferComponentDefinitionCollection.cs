@@ -7,13 +7,15 @@
     using Merchello.Core.Acquired.Threading;
     using Merchello.Core.Marketing.Offer;
 
+    using Umbraco.Core;
+
     /// <summary>
     /// A collection of <see cref="OfferComponentConfiguration"/>s.
     /// </summary>
     public class OfferComponentDefinitionCollection : NotifiyCollectionBase<Guid, OfferComponentDefinition>
     {
         /// <summary>
-        /// The add locker.
+        /// A Lock.
         /// </summary>
         private readonly ReaderWriterLockSlim _addLocker = new ReaderWriterLockSlim();
 
@@ -40,7 +42,7 @@
         }
 
         /// <summary>
-        /// The add.
+        /// Adds an item to the collection.
         /// </summary>
         /// <param name="item">
         /// The item.
