@@ -78,5 +78,13 @@
         /// Uninstalls the Merchello database schema.
         /// </summary>
         void UninstallDatabaseSchema();
+
+        /// <summary>
+        /// Validates the database schema.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="DatabaseSchemaResult"/>.
+        /// </returns>
+        DatabaseSchemaResult ValidateSchema();
     }
 }

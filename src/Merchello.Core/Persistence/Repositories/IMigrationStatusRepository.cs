@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a migration status repository.
     /// </summary>
-    public interface IMigrationStatusRepository : IRepository
+    public interface IMigrationStatusRepository : INPocoEntityRepository<IMigrationStatus>
     {
         /// <summary>
         /// Finds a <see cref="IMigrationStatus"/>.

@@ -14,7 +14,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class ScratchTests : UmbracoApplicationContextBase
+    public class ScratchTests : UmbracoApplicationContextTestBase
     {
         [Test]
         public void LogTest()
@@ -46,7 +46,7 @@
 
             var manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
             manager.UninstallDatabaseSchema();
-            manager.InstallDatabaseSchema();
+            //manager.InstallDatabaseSchema();
             Assert.NotNull(manager);
         }
     }

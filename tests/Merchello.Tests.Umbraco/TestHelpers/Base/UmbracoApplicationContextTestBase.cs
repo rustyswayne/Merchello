@@ -8,7 +8,7 @@
     using Merchello.Core.DependencyInjection;
     using Merchello.Tests.Umbraco.TestHelpers.Boot;
 
-    public abstract class UmbracoApplicationContextBase : UmbracoPluginManagerTestBase
+    public abstract class UmbracoApplicationContextTestBase : UmbracoPluginManagerTestBase
     {
 
         protected ApplicationContext ApplicationContext { get; private set; }

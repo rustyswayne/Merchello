@@ -164,6 +164,8 @@
     <Compile Include="Logging\IProfilingLogger.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\AnonymousCustomer.cs" />
+    <Compile Include="Models\AppliedPayment.cs" />
+    <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\Cache\CacheModelBase.cs" />
     <Compile Include="Models\Cache\ICacheModel.cs" />
     <Compile Include="Models\CustomerBase.cs" />
@@ -174,6 +176,9 @@
     <Compile Include="Models\Rdbms\LockDto.cs" />
     <Compile Include="Models\Rdbms\MigrationStatusDto.cs" />
     <Compile Include="Persistence\DatabaseSchemaManagerBase.cs" />
+    <Compile Include="Persistence\Factories\AnonymousCustomerFactory.cs" />
+    <Compile Include="Persistence\Factories\AppliedPaymentFactory.cs" />
+    <Compile Include="Persistence\Factories\AuditLogFactory.cs" />
     <Compile Include="Persistence\Factories\IEntityFactory.cs" />
     <Compile Include="Persistence\Factories\MigrationStatusFactory.cs" />
     <Compile Include="Persistence\IDatabaseSchemaManager.cs" />
@@ -185,6 +190,7 @@
     <Compile Include="Persistence\Migrations\Initial\DatabaseSchemaCreation.cs" />
     <Compile Include="Persistence\Migrations\Initial\DatabaseSchemaResult.cs" />
     <Compile Include="Persistence\Migrations\Initial\IDatabaseSchemaCreation.cs" />
+    <Compile Include="Persistence\Repositories\INPocoEntityRepository.cs" />
     <Compile Include="Persistence\Repositories\IMigrationStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\IStaticEntityCollectionRepository{T}.cs" />
     <Compile Include="Persistence\Repositories\IRepositoryReadable{T}.cs" />

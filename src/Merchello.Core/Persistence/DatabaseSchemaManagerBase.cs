@@ -172,6 +172,18 @@ namespace Merchello.Core.Persistence
         }
 
         /// <summary>
+        /// Validates the database schema.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="DatabaseSchemaResult"/>.
+        /// </returns>
+        public DatabaseSchemaResult ValidateSchema()
+        {
+            var creation = new DatabaseSchemaCreation(_db, _logger, this);
+            return creation.ValidateSchema();
+        }
+
+        /// <summary>
         /// Initializes the manager.
         /// </summary>
         private void Initialize()

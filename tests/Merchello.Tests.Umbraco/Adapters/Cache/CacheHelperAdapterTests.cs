@@ -6,7 +6,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class CacheHelperAdapterTests : UmbracoApplicationContextBase
+    public class CacheHelperAdapterTests : UmbracoApplicationContextTestBase
     {
         protected override bool EnableCache { get { return false; } }
 
