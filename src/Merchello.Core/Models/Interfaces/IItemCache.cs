@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a customer item cache
+    /// Represents an item cache.
     /// </summary>
     public interface IItemCache : ILineItemContainer
     {

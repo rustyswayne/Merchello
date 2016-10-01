@@ -1,12 +1,12 @@
 ﻿namespace Merchello.Core.Models.Interfaces
 {
     /// <summary>
-    /// Defines the entity filter grounp.  Used for filtering entities.
+    /// Represents an entity filter group.  Used for filtering entities.
     /// </summary>
     public interface IEntityFilterGroup : IEntityCollection
     {
         /// <summary>
-        /// Gets the attribute collections.
+        /// Gets the filters collections.
         /// </summary>
         EntityFilterCollection Filters { get; } 
     }

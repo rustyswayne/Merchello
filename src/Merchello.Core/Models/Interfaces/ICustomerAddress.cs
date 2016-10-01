@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a Merchello customer
+    /// Represents a customer address.
     /// </summary>
     public interface ICustomerAddress : IEntity
     {

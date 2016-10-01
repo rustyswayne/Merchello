@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a payment method
+    /// Represents a payment method
     /// </summary>
     public interface IPaymentMethod : IGatewayProviderMethod
     {

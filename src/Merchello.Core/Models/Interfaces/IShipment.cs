@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a Merchello Shipment object interface
+    /// Represents a shipment.
     /// </summary>
     public interface IShipment : ILineItemContainer
     {

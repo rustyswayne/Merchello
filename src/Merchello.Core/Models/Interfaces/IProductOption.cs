@@ -3,11 +3,10 @@
     using System;
     using System.Runtime.Serialization;
 
-    using Merchello.Core.Models.DetachedContent;
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a product option.
+    /// Represents a product option.
     /// </summary>
     public interface IProductOption : IEntity
     {

@@ -3,7 +3,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a state, region or province reference.
+    /// Represents a state, region or province reference.
     /// </summary>
     public interface IProvince
     {

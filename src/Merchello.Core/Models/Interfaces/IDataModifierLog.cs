@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Core.Models.Interfaces
 {
     /// <summary>
-    /// Defines the ModifiedData.
+    /// Represents a log item for data that has been modified.
     /// </summary>
     public interface IDataModifierLog
     {

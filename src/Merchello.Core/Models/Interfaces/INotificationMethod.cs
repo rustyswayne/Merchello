@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a NotificationMethod.
+    /// Represents a notification method.
     /// </summary>
     public interface INotificationMethod : IEntity
     {

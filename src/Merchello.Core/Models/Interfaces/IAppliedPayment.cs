@@ -6,11 +6,10 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a Merchello Transaction object interface
+    /// Represents an payment applied to an invoice.
     /// </summary>
     public interface IAppliedPayment : IEntity
     {
-            
         /// <summary>
         /// Gets the paymentId for the Transaction
         /// </summary>

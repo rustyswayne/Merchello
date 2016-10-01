@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a notification message
+    /// Represents a notification message
     /// </summary>
     public interface INotificationMessage : IEntity
     {

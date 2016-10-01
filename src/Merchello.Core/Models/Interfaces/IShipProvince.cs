@@ -3,7 +3,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a shipping province.
+    /// Represents a shipping province.
     /// </summary>
     public interface IShipProvince : IProvince
     {

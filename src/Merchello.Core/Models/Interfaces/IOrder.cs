@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines an Order
+    /// Represents an Order
     /// </summary>
     public interface IOrder : ILineItemContainer
     {

@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Core.Models
 {
     /// <summary>
-    /// Marker interface for the invoice status
+    /// Represents an invoice status
     /// </summary>
     public interface IInvoiceStatus : INotifyStatus
     {

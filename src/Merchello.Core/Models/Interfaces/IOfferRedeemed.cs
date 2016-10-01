@@ -5,7 +5,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines an offer redeemed record.
+    /// Represents an offer redeemed record.
     /// </summary>
     public interface IOfferRedeemed : IEntity
     {

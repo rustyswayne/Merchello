@@ -5,7 +5,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a Merchello Store Setting
+    /// Represents a store setting.
     /// </summary>
     public interface IStoreSetting : IEntity
     {

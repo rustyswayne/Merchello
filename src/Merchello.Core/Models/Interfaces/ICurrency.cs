@@ -1,10 +1,12 @@
 ﻿namespace Merchello.Core.Models
 {
+    using System;
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines currency.
+    /// Represents currency.
     /// </summary>
+    [Obsolete("Moving to NodaMoney")]
     public interface ICurrency
     {
         /// <summary>

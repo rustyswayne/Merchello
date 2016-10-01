@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Core.Models
 {
     /// <summary>
-    /// Marker interface for anonymous customers
+    /// Represents an anonymous customer
     /// </summary>
     public interface IAnonymousCustomer : ICustomerBase
     {         

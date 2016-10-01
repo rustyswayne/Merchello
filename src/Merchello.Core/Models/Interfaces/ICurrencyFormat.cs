@@ -1,8 +1,11 @@
 ﻿namespace Merchello.Core.Models.Interfaces
 {
+    using System;
+
     /// <summary>
-    /// Defines a standard currency format
+    /// Represents a currency format
     /// </summary>
+    [Obsolete("Using NodaMoney")]
     public interface ICurrencyFormat
     {
         /// <summary>

@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a Tax Method
+    /// Represents a taxation method.
     /// </summary>
     public interface ITaxMethod : IGatewayProviderMethod
     {

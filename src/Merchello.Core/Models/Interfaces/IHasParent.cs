@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines an entity that has a parent key.
+    /// Marker interface for entities that have a parent key.
     /// </summary>
     public interface IHasParent : IHasKeyId
     {

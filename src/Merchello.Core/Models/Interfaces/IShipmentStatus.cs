@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Core.Models
 {
     /// <summary>
-    /// Marker interface for the shipment status.
+    /// Represents a shipment status.
     /// </summary>
     public interface IShipmentStatus : INotifyStatus
     {

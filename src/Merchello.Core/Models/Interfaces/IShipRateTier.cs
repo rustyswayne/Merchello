@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a shipment rate tier
+    /// Represents a shipment rate tier.
     /// </summary>
     public interface IShipRateTier : IEntity
     {
@@ -33,6 +33,5 @@
         /// </summary>
         [DataMember]
         decimal Rate { get; set; }
-
     }
 }

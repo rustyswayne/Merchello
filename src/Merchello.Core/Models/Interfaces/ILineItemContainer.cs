@@ -5,7 +5,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// The LineItemContainer interface.
+    /// Represents a line item container.
     /// </summary>
     public interface ILineItemContainer : IVersionTaggedEntity
     {
@@ -14,6 +14,5 @@
         /// </summary>
         [DataMember]
         LineItemCollection Items { get; } 
-
     }
 }

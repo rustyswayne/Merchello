@@ -3,7 +3,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a class which includes an <see cref="ExtendedDataCollection"/>
+    /// Marker interface for classes that have extended data collections.
     /// </summary>
     public interface IHasExtendedData
     {

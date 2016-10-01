@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a class that exposes an entity type field key.
+    /// Marker interface for classes that have an entity type field.
     /// </summary>
     public interface IHasEntityTypeField
     {

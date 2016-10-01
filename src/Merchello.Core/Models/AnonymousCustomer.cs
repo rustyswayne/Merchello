@@ -3,9 +3,7 @@
     using System;
     using System.Runtime.Serialization;
 
-    /// <summary>
-    /// The anonymous customer.
-    /// </summary>
+    /// <inheritdoc/>
     [Serializable]
     [DataContract(IsReference = true)]
     internal class AnonymousCustomer : CustomerBase, IAnonymousCustomer

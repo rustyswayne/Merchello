@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a note.
+    /// Represents a note.
     /// </summary>
     public interface INote : IEntity
     {

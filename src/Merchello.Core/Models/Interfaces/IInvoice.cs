@@ -5,7 +5,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines an invoice.
+    /// Represents an invoice.
     /// </summary>
     public interface IInvoice : ILineItemContainer, IHasNotes
     {

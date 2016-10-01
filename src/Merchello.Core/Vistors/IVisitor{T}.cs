@@ -1,10 +1,7 @@
-﻿namespace Merchello.Core.Models.Interfaces
+﻿namespace Merchello.Core.Vistors
 {
-    //// REFACTOR move this out of the models namespace
-    //// BREAKING 
-    
     /// <summary>
-    /// The Visitor interface.
+    /// Defines a visitor.
     /// </summary>
     /// <typeparam name="TItem">
     /// The type item that will be visited

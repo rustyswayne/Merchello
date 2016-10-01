@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines the customer base class 
+    /// Represents a base customer implementation. 
     /// </summary>
     public interface ICustomerBase : IHasExtendedData, IEntity
     {

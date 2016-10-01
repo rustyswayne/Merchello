@@ -7,7 +7,7 @@
     using Merchello.Core.Models.DetachedContent;
 
     /// <summary>
-    /// Defines a product
+    /// Represents base product information.
     /// </summary>
     public interface IProductBase
     {
@@ -148,5 +148,4 @@
         /// </summary>
         DetachedContentCollection<IProductVariantDetachedContent> DetachedContents { get; }
     }
-
 }

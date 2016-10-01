@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a Merchello customer
+    /// Represents a customer
     /// </summary>
     public interface ICustomer : ICustomerBase, IHasNotes
     {

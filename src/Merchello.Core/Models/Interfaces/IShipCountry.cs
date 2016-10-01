@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a shipping country.
+    /// Represents a shipping country.
     /// </summary>
     public interface IShipCountry : ICountryBase
     {

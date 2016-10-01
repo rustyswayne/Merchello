@@ -6,7 +6,7 @@
     using Merchello.Core.Models.Interfaces;
 
     /// <summary>
-    /// Defines a Merchello ShipMethod object interface
+    /// Represents a ship method.
     /// </summary>
     public interface IShipMethod : IGatewayProviderMethod
     {            

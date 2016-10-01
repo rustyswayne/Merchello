@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a Line Item
+    /// Represents a line Item
     /// </summary>
     public interface ILineItem : IHasExtendedData, IEntity
     {

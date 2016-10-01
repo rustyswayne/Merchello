@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a Merchello Payment 
+    /// Represents a payment.
     /// </summary>
     public interface IPayment : IHasExtendedData, IEntity
     {                                               
@@ -69,7 +69,6 @@
         /// </summary>
         [DataMember]
         bool Exported { get; set; }
-
     }
 }
 

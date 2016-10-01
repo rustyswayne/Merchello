@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// The DiscountOfferSettings interface.
+    /// Represents offer settings.
     /// </summary>
     public interface IOfferSettings : IEntity
     {

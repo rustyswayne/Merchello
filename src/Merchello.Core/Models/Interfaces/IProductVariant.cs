@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a product variant
+    /// Represents a product variant
     /// </summary>
     public interface IProductVariant : IProductBase, IEntity
     {

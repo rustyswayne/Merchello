@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a Gateway Provider
+    /// Represents gateway provider settings.
     /// </summary>
     public interface IGatewayProviderSettings : IHasExtendedData, IEntity
     {

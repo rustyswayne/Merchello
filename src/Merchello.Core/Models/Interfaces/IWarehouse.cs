@@ -6,7 +6,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// Defines a Merchello Warehouse object interface
+    /// Represents a warehouse.
     /// </summary>
     public interface IWarehouse : IEntity
     {            

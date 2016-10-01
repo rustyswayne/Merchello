@@ -3,7 +3,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines a Tax Province
+    /// Represents a province used in taxation.
     /// </summary>
     public interface ITaxProvince : IProvince
     {

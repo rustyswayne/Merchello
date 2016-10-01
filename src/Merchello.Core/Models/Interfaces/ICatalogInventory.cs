@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Defines product inventory for a warehouse
+    /// Represents product inventory for a warehouse catalog.
     /// </summary>
     public interface ICatalogInventory
     {

@@ -5,7 +5,7 @@
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
-    /// The Product interface.
+    /// Represents a product.
     /// </summary>
     public interface IProduct : IProductBase, IEntity
     {
