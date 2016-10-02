@@ -12,7 +12,7 @@
     [TableName("merchOrder")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class OrderDto : EntityDto, IPageableDto
+    internal class OrderDto : IEntityDto, IPageableDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice key.
@@ -70,7 +70,17 @@
         /// </summary>
         [Column("exported")]
         public bool Exported { get; set; }
-        
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
+
         /// <summary>
         /// Gets or sets the order status dto.
         /// </summary>

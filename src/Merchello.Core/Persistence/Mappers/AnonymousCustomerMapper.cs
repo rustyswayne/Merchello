@@ -32,6 +32,5 @@
             CacheMap<AnonymousCustomer, AnonymousCustomerDto>(src => src.CreateDate, dto => dto.CreateDate);
             CacheMap<AnonymousCustomer, AnonymousCustomerDto>(src => src.UpdateDate, dto => dto.UpdateDate);
         }
-
     }
 }

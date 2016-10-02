@@ -12,7 +12,7 @@
     [TableName("merchMigrationStatus")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal sealed class MigrationStatusDto : EntityDto
+    internal sealed class MigrationStatusDto : IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -36,5 +36,15 @@
         [Column("version")]
         [Length(50)]
         public string Version { get; set; }
+        
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
     }
 }

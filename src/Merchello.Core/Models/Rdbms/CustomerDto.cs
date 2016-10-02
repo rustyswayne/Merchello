@@ -12,7 +12,7 @@
     [TableName("merchCustomer")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class CustomerDto : EntityDto, IPageableDto
+    internal class CustomerDto : IEntityDto, IPageableDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the login name.
@@ -75,5 +75,15 @@
         [NullSetting(NullSetting = NullSettings.Null)]
         [SpecialDbType(SpecialDbTypes.NTEXT)]
         public string Notes { get; set; }
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
     }
 }

@@ -12,7 +12,7 @@
     [TableName("merchShipmentStatus")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class ShipmentStatusDto : EntityDto
+    internal class ShipmentStatusDto : IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -51,5 +51,15 @@
         /// </summary>
         [Column("sortOrder")]
         public int SortOrder { get; set; }
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
     }
 }

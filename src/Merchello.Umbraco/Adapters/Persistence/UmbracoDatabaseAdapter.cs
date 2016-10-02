@@ -8,7 +8,7 @@
     using NPoco;
 
     /// <inheritdoc/>
-    internal class UmbracoDatabaseAdapter : IMerchelloDatabase
+    internal class UmbracoDatabaseAdapter : IDatabaseAdapter
     {
         /// <summary>
         /// Umbraco's database.

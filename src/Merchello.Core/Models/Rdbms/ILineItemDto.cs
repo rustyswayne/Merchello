@@ -8,13 +8,8 @@
     /// <remarks>
     /// ItemCache, Invoice, Orders, Shipments
     /// </remarks>
-    internal interface ILineItemDto : IExtendedDataDto, IEntityDto
+    internal interface ILineItemDto : IExtendedDataDto
     {
-        /// <summary>
-        /// Gets or sets the container key.
-        /// </summary>
-        Guid ContainerKey { get; set; }
-
         /// <summary>
         /// Gets or sets the line item type field key.
         /// </summary>

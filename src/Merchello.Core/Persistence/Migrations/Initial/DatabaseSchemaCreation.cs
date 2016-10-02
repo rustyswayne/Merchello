@@ -83,7 +83,7 @@ namespace Merchello.Core.Persistence.Migrations.Initial
         /// <summary>
         /// The <see cref="Database"/>.
         /// </summary>
-        private readonly IMerchelloDatabase _db;
+        private readonly IDatabaseAdapter _db;
 
         /// <summary>
         /// The <see cref="ILogger"/>.
@@ -93,8 +93,8 @@ namespace Merchello.Core.Persistence.Migrations.Initial
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseSchemaCreation"/> class.
         /// </summary>
-        /// <param name="database">
-        /// The <see cref="IMerchelloDatabase"/>.
+        /// <param name="dbAdapter">
+        /// The <see cref="IDatabaseAdapter"/>.
         /// </param>
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
@@ -102,10 +102,10 @@ namespace Merchello.Core.Persistence.Migrations.Initial
         /// <param name="schemaManager">
         /// The <see cref="IDatabaseSchemaManager"/>.
         /// </param>
-        public DatabaseSchemaCreation(IMerchelloDatabase database, ILogger logger, IDatabaseSchemaManager schemaManager)
+        public DatabaseSchemaCreation(IDatabaseAdapter dbAdapter, ILogger logger, IDatabaseSchemaManager schemaManager)
         {
-            Ensure.ParameterNotNull(database, nameof(database));
-            this._db = database;
+            Ensure.ParameterNotNull(dbAdapter, nameof(dbAdapter));
+            this._db = dbAdapter;
             this._logger = logger;
             this._schemaManager = schemaManager;
         }

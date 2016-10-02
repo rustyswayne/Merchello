@@ -13,7 +13,7 @@
     [TableName("merchProductVariantDetachedContent")]
     [PrimaryKey("productVariantKey", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class ProductVariantDetachedContentDto : EntityDto
+    internal class ProductVariantDetachedContentDto : IEntityDto
     {
         /// <summary>
         /// Gets or sets the unique key.
@@ -24,7 +24,7 @@
         /// </remarks>
         [Column("pk")]
         [Index(IndexTypes.UniqueNonClustered, Name = "IX_merchProductVariantDetachedContentKey")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the product variant key.
@@ -80,6 +80,16 @@
         [Column("canBeRendered")]
         [Constraint(Default = "1")]
         public bool CanBeRendered { get; set; }
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the detached published content type.

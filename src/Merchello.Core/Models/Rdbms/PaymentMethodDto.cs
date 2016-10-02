@@ -12,7 +12,7 @@
     [TableName("merchPaymentMethod")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class PaymentMethodDto : EntityDto
+    internal class PaymentMethodDto : IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the provider key.
@@ -47,5 +47,15 @@
         /// </summary>
         [Column("paymentCode")]
         public string PaymentCode { get; set; }
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
     }
 }

@@ -22,14 +22,14 @@
         /// <param name="schemaHelper">
         /// Umbraco's DatabaseSchemaHelper.
         /// </param>
-        /// <param name="database">
+        /// <param name="dbAdapter">
         /// Merchello;s database.
         /// </param>
         /// <param name="logger">
         /// The logger.
         /// </param>
-        public DatabaseSchemaHelperAdapter(DatabaseSchemaHelper schemaHelper, IMerchelloDatabase database, ILogger logger)
-            : base(database, logger)
+        public DatabaseSchemaHelperAdapter(DatabaseSchemaHelper schemaHelper, IDatabaseAdapter dbAdapter, ILogger logger)
+            : base(dbAdapter, logger)
         {
             Ensure.ParameterNotNull(schemaHelper, nameof(schemaHelper));
             this._helper = schemaHelper;

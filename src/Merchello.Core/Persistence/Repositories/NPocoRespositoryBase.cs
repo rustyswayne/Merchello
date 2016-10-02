@@ -60,7 +60,7 @@
         /// <summary>
         /// Gets the repository's database sql syntax.
         /// </summary>
-        public ISqlSyntaxProviderAdapter SqlSyntax => UnitOfWork.Database.SqlSyntax;
+        public ISqlSyntaxProviderAdapter SqlSyntax => UnitOfWork.DatabaseAdapter.SqlSyntax;
 
         /// <summary>
         /// Gets the repository's unit of work.
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets the repository's database.
         /// </summary>
-        protected Database Database => UnitOfWork.Database.Database;
+        protected Database Database => UnitOfWork.DatabaseAdapter.Database;
 
         /// <summary>
         /// Creates a new Sql statement.
@@ -78,7 +78,7 @@
         /// <returns>A new Sql statement.</returns>
         protected Sql<SqlContext> Sql()
         {
-            return UnitOfWork.Database.Sql();
+            return UnitOfWork.DatabaseAdapter.Sql();
         }
 
         /// <inheritdoc/>

@@ -12,7 +12,7 @@
     [TableName("merchAnonymousCustomer")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class AnonymousCustomerDto : EntityDto
+    internal class AnonymousCustomerDto : IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the last activity date of the anonymous customer.
@@ -37,5 +37,15 @@
         [SpecialDbType(SpecialDbTypes.NTEXT)]
         public string ExtendedData { get; set; }
 
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
     }
 }

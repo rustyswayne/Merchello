@@ -12,7 +12,7 @@
     [TableName("merchOrderItem")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class OrderItemDto : LineItemDto
+    internal class OrderItemDto : LineItemDto, IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,14 +20,14 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the order key which represents the container for the line item.
         /// </summary>
         [Column("orderKey")]
         [ForeignKey(typeof(OrderDto), Name = "FK_merchOrderItem_merchOrder", Column = "pk")]
-        public override Guid ContainerKey { get; set; }
+        public Guid ContainerKey { get; set; }
 
         /// <summary>
         /// Gets or sets the shipment key.

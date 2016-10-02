@@ -21,6 +21,14 @@
     public abstract class BaseMapper
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="BaseMapper"/> class.
+        /// </summary>
+        protected BaseMapper()
+        {
+            Build();
+        }
+
+        /// <summary>
         /// Gets the thread safe dictionary of property info used.
         /// </summary>
         internal abstract ConcurrentDictionary<string, DtoMapModel> PropertyInfoCache { get; }

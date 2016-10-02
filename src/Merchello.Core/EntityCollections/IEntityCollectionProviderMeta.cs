@@ -2,7 +2,7 @@ namespace Merchello.Core.EntityCollections
 {
     using System;
 
-    using Merchello.Core.Models.Interfaces;
+    using Merchello.Core.Models;
 
     /// <summary>
     /// Represents meta information about an <see cref="IEntityCollectionProvider"/>.

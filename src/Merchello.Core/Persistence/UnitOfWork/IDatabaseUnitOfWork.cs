@@ -5,12 +5,12 @@ namespace Merchello.Core.Persistence.UnitOfWork
     /// <summary>
 	/// Represents a persistence unit of work for working with a database.
 	/// </summary>
-	internal interface IDatabaseUnitOfWork : IUnitOfWork
+	public interface IDatabaseUnitOfWork : IUnitOfWork
 	{
         /// <summary>
         /// Gets the database.
         /// </summary>
-        IMerchelloDatabase Database { get; }
+        IDatabaseAdapter DatabaseAdapter { get; }
 
         /// <summary>
         /// Read lock to prevent dirty read.

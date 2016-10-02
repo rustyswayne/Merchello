@@ -12,7 +12,7 @@
     [TableName("merchDetachedContentType")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class DetachedContentTypeDto : EntityDto
+    internal class DetachedContentTypeDto : IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the entity type field key.
@@ -48,5 +48,15 @@
         [Column("contentTypeKey")]
         [NullSetting(NullSetting = NullSettings.Null)]
         public Guid? ContentTypeKey { get; set; }
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
     }
 }

@@ -15,6 +15,7 @@
         /// Gets or sets the key.
         /// </summary>
         [PrimaryKeyColumn(AutoIncrement = false)]
+        [Column("pk")]
         [Constraint(Default = "newid()")]
         public Guid Key { get; set; }
 

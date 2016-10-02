@@ -12,7 +12,7 @@
     [TableName("merchProduct")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class ProductDto : EntityDto, IPageableDto
+    internal class ProductDto : IEntityDto, IPageableDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,12 +20,22 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the product variant dto.
         /// </summary>
         [ResultColumn]
         public ProductVariantDto ProductVariantDto { get; set; }
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
     }
 }

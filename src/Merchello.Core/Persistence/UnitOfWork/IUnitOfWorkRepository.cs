@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines the Unit Of Work-part of a repository
     /// </summary>
-    internal interface IUnitOfWorkRepository
+    public interface IUnitOfWorkRepository
     {
         /// <summary>
         /// Registers work for inserting a new entity to the database.

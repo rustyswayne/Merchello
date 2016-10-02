@@ -64,6 +64,23 @@
     <Compile Include="Configurations\MerchelloSettings\MigrationsElementTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\ProductsElementTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\SalesElement.cs" />
+    <Compile Include="Persistence\Mappers\AnonymousCustomerMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\AppliedPaymentMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\AuditLogMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\CatalogInventoryMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\CustomerAddressMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\CustomerMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\DetachedContentTypeMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\EntityCollectionMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\EntityKeyMapperTestBase.cs" />
+    <Compile Include="Persistence\Mappers\GatewayProviderSettingsMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\InvoiceLineItemMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\InvoiceMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\InvoiceStatusMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\ItemCacheLineItemMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\MigrationStatusMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\EntityMapperTestBase.cs" />
+    <Compile Include="Persistence\Mappers\NoteMapperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScratchTests.cs" />
     <Compile Include="TestHelpers\TestHelper.cs" />
@@ -79,6 +96,10 @@
     <ProjectReference Include="..\..\src\Merchello.Providers\Merchello.Providers.csproj">
       <Project>{94e933dd-a2d6-4267-9ab4-e4b32e1b68b1}</Project>
       <Name>Merchello.Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Merchello.Umbraco\Merchello.Umbraco.csproj">
+      <Project>{332eecfd-f193-4dcf-9b0b-11484584c600}</Project>
+      <Name>Merchello.Umbraco</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Merchello.Web\Merchello.Web.csproj">
       <Project>{9dceac26-70c0-4b2f-88f5-fd2a2e2a30df}</Project>

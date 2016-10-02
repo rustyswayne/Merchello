@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a persistence unit of work.
     /// </summary>
-    internal interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
 	{
         /// <summary>
         /// Registers an entity to be created as part of this unit of work.

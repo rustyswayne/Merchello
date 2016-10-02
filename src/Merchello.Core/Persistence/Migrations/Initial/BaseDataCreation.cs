@@ -39,7 +39,7 @@
         /// <param name="logger">
         /// The logger.
         /// </param>
-        public BaseDataCreation(IMerchelloDatabase mdb, ILogger logger)
+        public BaseDataCreation(IDatabaseAdapter mdb, ILogger logger)
         {
             _database = mdb.Database;
             _sqlSyntax = mdb.SqlSyntax;

@@ -7,7 +7,7 @@
     using NPoco;
 
     /// <inheritdoc/>
-    internal abstract class LineItemDto : EntityDto, ILineItemDto
+    internal abstract class LineItemDto : ILineItemDto
     {
         /// <inheritdoc/>
         [Column("extendedData")]
@@ -15,8 +15,6 @@
         [SpecialDbType(SpecialDbTypes.NTEXT)]
         public string ExtendedData { get; set; }
 
-        /// <inheritdoc/>
-        public abstract Guid ContainerKey { get; set; }
 
         /// <inheritdoc/>
         [Column("lineItemTfKey")]
@@ -41,5 +39,15 @@
         /// <inheritdoc/>
         [Column("exported")]
         public bool Exported { get; set; }
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
     }
 }

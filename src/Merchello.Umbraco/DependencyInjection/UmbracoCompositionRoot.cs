@@ -33,7 +33,7 @@
             container.Register<global::Umbraco.Core.Persistence.DatabaseSchemaHelper>();
 
             // Adapters
-            container.Register<IMerchelloDatabase, UmbracoDatabaseAdapter>();
+            container.Register<IDatabaseAdapter, UmbracoDatabaseAdapter>();
             container.Register<IDatabaseSchemaManager, DatabaseSchemaHelperAdapter>();
             container.RegisterSingleton<IPluginManager, PluginManagerAdapter>();
             container.RegisterSingleton<ISqlSyntaxProviderAdapter, SqlSyntaxProviderAdapter>();

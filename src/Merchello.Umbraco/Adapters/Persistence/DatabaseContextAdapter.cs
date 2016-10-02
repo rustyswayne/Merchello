@@ -25,7 +25,7 @@
         /// <summary>
         /// The Merchello database.
         /// </summary>
-        private readonly IMerchelloDatabase _db;
+        private readonly IDatabaseAdapter _db;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseContextAdapter"/> class.
@@ -74,7 +74,7 @@
         /// <returns>
         /// The <see cref="Database"/>.
         /// </returns>
-        public override IMerchelloDatabase GetDatabase()
+        public override IDatabaseAdapter GetDatabase()
         {
             return _db;
         }

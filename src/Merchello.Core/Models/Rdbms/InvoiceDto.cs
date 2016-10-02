@@ -12,7 +12,7 @@
     [TableName("merchInvoice")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class InvoiceDto : EntityDto, IPageableDto
+    internal class InvoiceDto : IEntityDto, IPageableDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the customer key.
@@ -166,6 +166,16 @@
         /// </summary>
         [Column("total")]
         public decimal Total { get; set; }
+
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice status dto.

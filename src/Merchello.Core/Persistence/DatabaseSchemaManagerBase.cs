@@ -21,7 +21,7 @@ namespace Merchello.Core.Persistence
         /// <summary>
         /// The database.
         /// </summary>
-        private readonly IMerchelloDatabase _db;
+        private readonly IDatabaseAdapter _db;
 
         /// <summary>
         /// The logger.
@@ -42,19 +42,19 @@ namespace Merchello.Core.Persistence
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseSchemaManagerBase"/> class.
         /// </summary>
-        /// <param name="merchelloDatabase">
+        /// <param name="dbAdapter">
         /// The database.
         /// </param>
         /// <param name="logger">
         /// The logger.
         /// </param>
-        protected DatabaseSchemaManagerBase(IMerchelloDatabase merchelloDatabase, ILogger logger)
+        protected DatabaseSchemaManagerBase(IDatabaseAdapter dbAdapter, ILogger logger)
         {
-            Ensure.ParameterNotNull(merchelloDatabase, nameof(merchelloDatabase));
+            Ensure.ParameterNotNull(dbAdapter, nameof(dbAdapter));
             Ensure.ParameterNotNull(logger, nameof(logger));
 
-            this._db = merchelloDatabase;
-            _sqlSyntax = merchelloDatabase.SqlSyntax;
+            this._db = dbAdapter;
+            _sqlSyntax = dbAdapter.SqlSyntax;
             _logger = logger;
 
             this.Initialize();

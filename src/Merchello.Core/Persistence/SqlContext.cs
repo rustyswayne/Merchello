@@ -38,9 +38,9 @@
         /// Initializes a new instance of the <see cref="SqlContext"/> class.
         /// </summary>
         /// <param name="db">
-        /// The <see cref="IMerchelloDatabase"/>.
+        /// The <see cref="IDatabaseAdapter"/>.
         /// </param>
-        public SqlContext(IMerchelloDatabase db)
+        public SqlContext(IDatabaseAdapter db)
         {
             if (db == null) throw new ArgumentNullException(nameof(db));
             SqlSyntax = db.SqlSyntax;

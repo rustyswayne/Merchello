@@ -12,7 +12,7 @@
     [TableName("merchShipment")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class ShipmentDto : EntityDto
+    internal class ShipmentDto : IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,7 +20,7 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the shipment number prefix.
@@ -216,11 +216,20 @@
         [NullSetting(NullSetting = NullSettings.Null)]
         public string TrackingCode { get; set; }
 
+        /// <inheritdoc/>
+        [Column("updateDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime UpdateDate { get; set; }
+
+        /// <inheritdoc/>
+        [Column("createDate")]
+        [Constraint(Default = "getdate()")]
+        public DateTime CreateDate { get; set; }
+
         /// <summary>
         /// Gets or sets the shipment status dto.
         /// </summary>
         [ResultColumn]
         public ShipmentStatusDto ShipmentStatusDto { get; set; }
-
     }
 }

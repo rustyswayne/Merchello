@@ -12,7 +12,7 @@
     internal interface IMigrationStatusService : IService
     {
         /// <summary>
-        /// Creates a migration entry, will throw an exception if it already exists
+        /// Creates a migration status, will throw an exception if it already exists
         /// </summary>
         /// <param name="migrationName">
         /// The name of the migration.
@@ -23,7 +23,7 @@
         /// <returns>
         /// The <see cref="IMigrationStatus"/>.
         /// </returns>
-        IMigrationStatus CreateEntry(string migrationName, SemVersion version);
+        IMigrationStatus CreateStatus(string migrationName, SemVersion version);
 
         /// <summary>
         /// Finds a migration by name and version, returns null if not found

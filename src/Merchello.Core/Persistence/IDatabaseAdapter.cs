@@ -3,9 +3,9 @@
     using NPoco;
 
     /// <summary>
-    /// Represents the Merchello Database.
+    /// Represents the a database adapter.
     /// </summary>
-    internal interface IMerchelloDatabase : IExposeSqlSyntax
+    public interface IDatabaseAdapter : IExposeSqlSyntax
     {
         /// <summary>
         /// Gets the NPoco database.

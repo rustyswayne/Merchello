@@ -12,7 +12,7 @@
     [TableName("merchItemCacheItem")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class ItemCacheItemDto : LineItemDto
+    internal class ItemCacheItemDto : LineItemDto, IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -20,13 +20,13 @@
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
         [Constraint(Default = "newid()")]
-        public override Guid Key { get; set; }
+        public Guid Key { get; set; }
 
         /// <summary>
         /// Gets or sets the item cache key which represents the container for the line item.
         /// </summary>
         [Column("itemCacheKey")]
         [ForeignKey(typeof(ItemCacheDto), Name = "FK_merchItemCacheItem_merchItemCache", Column = "pk")]
-        public override Guid ContainerKey { get; set; }
+        public Guid ContainerKey { get; set; }
     }
 }

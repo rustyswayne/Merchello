@@ -3,7 +3,7 @@
     using NPoco;
 
     /// <summary>
-    /// Extension methods for <see cref="IMerchelloDatabase"/>.
+    /// Extension methods for <see cref="IDatabaseAdapter"/>.
     /// </summary>
     internal static class MerchelloDatabaseExtensions
     {
@@ -16,7 +16,7 @@
         /// <returns>
         /// The <see cref="NPoco.Sql"/>.
         /// </returns>
-        public static Sql<SqlContext> Sql(this IMerchelloDatabase db)
+        public static Sql<SqlContext> Sql(this IDatabaseAdapter db)
         {
             return NPoco.Sql.BuilderFor(new SqlContext(db));
         }
@@ -36,7 +36,7 @@
         /// <returns>
         /// The <see cref="NPoco.Sql"/>.
         /// </returns>
-        public static Sql<SqlContext> Sql(this IMerchelloDatabase db, string sql, params object[] args)
+        public static Sql<SqlContext> Sql(this IDatabaseAdapter db, string sql, params object[] args)
         {
             return NPoco.Sql.BuilderFor(new SqlContext(db)).Append(sql, args);
         }
