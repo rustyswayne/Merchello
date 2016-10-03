@@ -1,26 +1,35 @@
-﻿using Merchello.Core.Models;
-using Merchello.Core.Models.Rdbms;
-
-namespace Merchello.Core.Persistence.Mappers
+﻿namespace Merchello.Core.Persistence.Mappers
 {
+    using System.Collections.Concurrent;
+
+    using Merchello.Core.Models;
+    using Merchello.Core.Models.Rdbms;
+
     /// <summary>
-    /// Represents a <see cref="Shipment"/> to DTO mapper used to translate the properties of the public api 
+    /// Represents a <see cref="Shipment"/> to DTO mapper used to translate the property
     /// implementation to that of the database's DTO as sql: [tableName].[columnName].
     /// </summary>
-    internal sealed class ShipmentMapper : MerchelloBaseMapper
+    [MapperFor(typeof(Shipment))]
+    [MapperFor(typeof(IShipment))]
+    internal sealed class ShipmentMapper : BaseMapper
     {
-        public ShipmentMapper()
-        {
-            BuildMap();
-        }
+        /// <summary>
+        /// The mapper specific instance of the the property info cache.
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, DtoMapModel> PropertyInfoCacheInstance = new ConcurrentDictionary<string, DtoMapModel>();
 
-        #region Overrides of MerchelloBaseMapper
+        /// <inheritdoc/>
+        internal override ConcurrentDictionary<string, DtoMapModel> PropertyInfoCache => PropertyInfoCacheInstance;
 
-        internal override void BuildMap()
+        /// <inheritdoc/>
+        protected override void BuildMap()
         {
             if (!PropertyInfoCache.IsEmpty) return;
 
             CacheMap<Shipment, ShipmentDto>(src => src.Key, dto => dto.Key);
+            CacheMap<Shipment, ShipmentDto>(src => src.ShipmentNumberPrefix, dto => dto.ShipmentNumberPrefix);
+            CacheMap<Shipment, ShipmentDto>(src => src.ShipmentNumber, dto => dto.ShipmentNumber);
+            CacheMap<Shipment, ShipmentDto>(src => src.ShipmentStatusKey, dto => dto.ShipmentStatusKey);
             CacheMap<Shipment, ShipmentDto>(src => src.ShippedDate, dto => dto.ShippedDate);
             CacheMap<Shipment, ShipmentDto>(src => src.FromOrganization, dto => dto.FromOrganization);
             CacheMap<Shipment, ShipmentDto>(src => src.FromName, dto => dto.FromName);
@@ -46,10 +55,10 @@ namespace Merchello.Core.Persistence.Mappers
             CacheMap<Shipment, ShipmentDto>(src => src.Email, dto => dto.Email);
             CacheMap<Shipment, ShipmentDto>(src => src.Carrier, dto => dto.Carrier);
             CacheMap<Shipment, ShipmentDto>(src => src.TrackingCode, dto => dto.TrackingCode);
+            CacheMap<Shipment, ShipmentDto>(src => src.VersionKey, dto => dto.VersionKey);
             CacheMap<Shipment, ShipmentDto>(src => src.UpdateDate, dto => dto.UpdateDate);
             CacheMap<Shipment, ShipmentDto>(src => src.CreateDate, dto => dto.CreateDate);
         }
 
-        #endregion
     }
 }

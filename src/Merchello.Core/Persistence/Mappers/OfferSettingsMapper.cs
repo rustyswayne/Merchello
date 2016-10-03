@@ -1,25 +1,28 @@
 ﻿namespace Merchello.Core.Persistence.Mappers
 {
+    using System.Collections.Concurrent;
+
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
     /// <summary>
-    /// Responsible for mapping <see cref="OfferSettings"/> to <see cref="OfferSettingsDto"/>.
+    /// Represents a <see cref="OfferSettings"/> to DTO mapper used to translate the property
+    /// implementation to that of the database's DTO as sql: [tableName].[columnName].
     /// </summary>
-    internal sealed class OfferSettingsMapper : MerchelloBaseMapper
+    [MapperFor(typeof(OfferSettings))]
+    [MapperFor(typeof(IOfferSettings))]
+    internal sealed class OfferSettingsMapper : BaseMapper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OfferSettingsMapper"/> class.
+        /// The mapper specific instance of the the property info cache.
         /// </summary>
-        public OfferSettingsMapper()
-        {
-            this.BuildMap();
-        }
+        private static readonly ConcurrentDictionary<string, DtoMapModel> PropertyInfoCacheInstance = new ConcurrentDictionary<string, DtoMapModel>();
 
-        /// <summary>
-        /// Builds the mappings between <see cref="OfferSettings"/> to <see cref="OfferSettingsDto"/>.
-        /// </summary>
-        internal override void BuildMap()
+        /// <inheritdoc/>
+        internal override ConcurrentDictionary<string, DtoMapModel> PropertyInfoCache => PropertyInfoCacheInstance;
+
+        /// <inheritdoc/>
+        protected override void BuildMap()
         {
             if (!PropertyInfoCache.IsEmpty) return;
 

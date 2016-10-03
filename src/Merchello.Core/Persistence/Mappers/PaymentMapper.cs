@@ -1,20 +1,28 @@
-﻿using Merchello.Core.Models;
-using Merchello.Core.Models.Rdbms;
-
-namespace Merchello.Core.Persistence.Mappers
+﻿namespace Merchello.Core.Persistence.Mappers
 {
+    using System.Collections.Concurrent;
+
+    using Merchello.Core.Models;
+    using Merchello.Core.Models.Rdbms;
+
     /// <summary>
-    /// Represents a <see cref="Payment"/> to DTO mapper used to translate the properties of the public api 
+    /// Represents a <see cref="Payment"/> to DTO mapper used to translate the property
     /// implementation to that of the database's DTO as sql: [tableName].[columnName].
     /// </summary>
-    internal sealed class PaymentMapper : MerchelloBaseMapper
+    [MapperFor(typeof(Payment))]
+    [MapperFor(typeof(IPayment))]
+    internal sealed class PaymentMapper : BaseMapper
     {
-        public PaymentMapper()
-        {
-            BuildMap();
-        }
+        /// <summary>
+        /// The mapper specific instance of the the property info cache.
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, DtoMapModel> PropertyInfoCacheInstance = new ConcurrentDictionary<string, DtoMapModel>();
 
-        internal override void BuildMap()
+        /// <inheritdoc/>
+        internal override ConcurrentDictionary<string, DtoMapModel> PropertyInfoCache => PropertyInfoCacheInstance;
+
+        /// <inheritdoc/>
+        protected override void BuildMap()
         {
             if (!PropertyInfoCache.IsEmpty) return;
 

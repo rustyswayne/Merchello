@@ -1,25 +1,28 @@
 ﻿namespace Merchello.Core.Persistence.Mappers
 {
+    using System.Collections.Concurrent;
+
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
     /// <summary>
-    /// The offer redeemed mapper.
+    /// Represents a <see cref="OfferRedeemed"/> to DTO mapper used to translate the property
+    /// implementation to that of the database's DTO as sql: [tableName].[columnName].
     /// </summary>
-    internal sealed class OfferRedeemedMapper : MerchelloBaseMapper
+    [MapperFor(typeof(OfferRedeemed))]
+    [MapperFor(typeof(IOfferRedeemed))]
+    internal sealed class OfferRedeemedMapper : BaseMapper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OfferRedeemedMapper"/> class.
+        /// The mapper specific instance of the the property info cache.
         /// </summary>
-        public OfferRedeemedMapper()
-        {
-            this.BuildMap();
-        }
+        private static readonly ConcurrentDictionary<string, DtoMapModel> PropertyInfoCacheInstance = new ConcurrentDictionary<string, DtoMapModel>();
 
-        /// <summary>
-        /// Maps <see cref="OfferRedeemed"/> to <see cref="OfferRedeemedDto"/>
-        /// </summary>
-        internal override void BuildMap()
+        /// <inheritdoc/>
+        internal override ConcurrentDictionary<string, DtoMapModel> PropertyInfoCache => PropertyInfoCacheInstance;
+
+        /// <inheritdoc/>
+        protected override void BuildMap()
         {
             CacheMap<OfferRedeemed, OfferRedeemedDto>(src => src.Key, dto => dto.Key);
             CacheMap<OfferRedeemed, OfferRedeemedDto>(src => src.OfferSettingsKey, dto => dto.OfferSettingsKey);
