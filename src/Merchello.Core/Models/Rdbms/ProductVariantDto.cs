@@ -3,6 +3,7 @@
     using System;
 
     using Merchello.Core.Acquired.Persistence.DatabaseAnnotations;
+    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
 
     using NPoco;
 
@@ -19,7 +20,7 @@
         /// </summary>
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
-        [Constraint(Default = "newid()")]
+        [Constraint(Default = SystemMethods.NewGuid)]
         public Guid Key { get; set; }
 
         /// <summary>
@@ -29,7 +30,6 @@
         [ForeignKey(typeof(ProductDto), Name = "FK_merchProductVariant_merchProduct", Column = "pk")]
         public Guid ProductKey { get; set; }
 
-        /// TODO add index to SKU http://issues.merchello.com/youtrack/issue/M-646
         /// <summary>
         /// Gets or sets the SKU.
         /// </summary>
@@ -177,17 +177,17 @@
         /// Gets or sets the version key.
         /// </summary>
         [Column("versionKey")]
-        [Constraint(Default = "newid()")]
+        [Constraint(Default = SystemMethods.NewGuid)]
         public Guid VersionKey { get; set; }
 
         /// <inheritdoc/>
         [Column("updateDate")]
-        [Constraint(Default = "getdate()")]
+        [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime UpdateDate { get; set; }
 
         /// <inheritdoc/>
         [Column("createDate")]
-        [Constraint(Default = "getdate()")]
+        [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime CreateDate { get; set; }
 
         /// <summary>

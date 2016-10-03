@@ -8,12 +8,12 @@
     using NPoco;
 
     /// <summary>
-    /// The table definition and "POCO" for database operations associated with the "merchShipRateTier" table.
+    /// The table definition and "POCO" for database operations associated with the "merchStore" table.
     /// </summary>
-    [TableName("merchShipRateTier")]
+    [TableName("merchStore")]
     [PrimaryKey("pk", AutoIncrement = false)]
     [ExplicitColumns]
-    internal class ShipRateTierDto : IEntityDto
+    internal sealed class StoreDto : IEntityDto
     {
         /// <summary>
         /// Gets or sets the key.
@@ -24,29 +24,16 @@
         public Guid Key { get; set; }
 
         /// <summary>
-        /// Gets or sets the ship method key.
+        /// Gets or sets the name.
         /// </summary>
-        [Column("shipMethodKey")]
-        [ForeignKey(typeof(ShipMethodDto), Name = "FK_merchShipmentRateTier_merchShipMethod", Column = "pk")]
-        public Guid ShipMethodKey { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the range low.
+        /// Gets or sets the name.
         /// </summary>
-        [Column("rangeLow")]
-        public decimal RangeLow { get; set; }
-
-        /// <summary>
-        /// Gets or sets the range high.
-        /// </summary>
-        [Column("rangeHigh")]
-        public decimal RangeHigh { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rate.
-        /// </summary>
-        [Column("rate")]
-        public decimal Rate { get; set; }
+        [Column("alias")]
+        public string Alias { get; set; }
 
         /// <inheritdoc/>
         [Column("updateDate")]

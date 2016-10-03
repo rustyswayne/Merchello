@@ -3,6 +3,7 @@
     using System;
 
     using Merchello.Core.Acquired.Persistence.DatabaseAnnotations;
+    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
 
     using NPoco;
 
@@ -16,7 +17,7 @@
         /// </summary>
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
-        [Constraint(Default = "newid()")]
+        [Constraint(Default = SystemMethods.NewGuid)]
         public Guid Key { get; set; }
     }
 }

@@ -3,6 +3,7 @@
     using System;
 
     using Merchello.Core.Acquired.Persistence.DatabaseAnnotations;
+    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
 
     using NPoco;
 
@@ -19,7 +20,7 @@
         /// </summary>
         [PrimaryKeyColumn(AutoIncrement = false)]
         [Column("pk")]
-        [Constraint(Default = "newid()")]
+        [Constraint(Default = SystemMethods.NewGuid)]
         public Guid Key { get; set; }
 
         /// <summary>
@@ -62,7 +63,7 @@
         /// Gets or sets the version key.
         /// </summary>
         [Column("versionKey")]
-        [Constraint(Default = "newid()")]
+        [Constraint(Default = SystemMethods.NewGuid)]
         public Guid VersionKey { get; set; }
 
         /// <summary>
@@ -73,12 +74,12 @@
 
         /// <inheritdoc/>
         [Column("updateDate")]
-        [Constraint(Default = "getdate()")]
+        [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime UpdateDate { get; set; }
 
         /// <inheritdoc/>
         [Column("createDate")]
-        [Constraint(Default = "getdate()")]
+        [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime CreateDate { get; set; }
 
         /// <summary>

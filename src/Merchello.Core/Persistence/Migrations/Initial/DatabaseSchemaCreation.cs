@@ -25,6 +25,7 @@ namespace Merchello.Core.Persistence.Migrations.Initial
         {
             { 1, typeof(LockDto) },
             { 2, typeof(MigrationStatusDto) },
+            { 3, typeof(StoreDto) },
             { 10, typeof(TypeFieldDto) },
             { 20, typeof(DetachedContentTypeDto) },
             { 30, typeof(AnonymousCustomerDto) },

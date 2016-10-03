@@ -3,6 +3,7 @@
     using System;
 
     using Merchello.Core.Acquired.Persistence.DatabaseAnnotations;
+    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
 
     using NPoco;
 
@@ -46,14 +47,14 @@
         /// Gets or sets the update date.
         /// </summary>
         [Column("updateDate")]
-        [Constraint(Default = "getdate()")]
+        [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime UpdateDate { get; set; }
 
         /// <summary>
         /// Gets or sets the create date.
         /// </summary>
         [Column("createDate")]
-        [Constraint(Default = "getdate()")]
+        [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime CreateDate { get; set; }
     }
 }

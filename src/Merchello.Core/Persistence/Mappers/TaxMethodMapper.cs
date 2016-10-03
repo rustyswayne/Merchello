@@ -1,25 +1,28 @@
 ﻿namespace Merchello.Core.Persistence.Mappers
 {
+    using System.Collections.Concurrent;
+
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
     /// <summary>
-    /// The tax method mapper.
+    /// Represents a <see cref="TaxMethod"/> to DTO mapper used to translate the property
+    /// implementation to that of the database's DTO as sql: [tableName].[columnName].
     /// </summary>
-    internal sealed class TaxMethodMapper : MerchelloBaseMapper
+    [MapperFor(typeof(TaxMethod))]
+    [MapperFor(typeof(ITaxMethod))]
+    internal sealed class TaxMethodMapper : BaseMapper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaxMethodMapper"/> class.
+        /// The mapper specific instance of the the property info cache.
         /// </summary>
-        public TaxMethodMapper()
-         {
-             BuildMap();
-         }
+        private static readonly ConcurrentDictionary<string, DtoMapModel> PropertyInfoCacheInstance = new ConcurrentDictionary<string, DtoMapModel>();
 
-        /// <summary>
-        /// The build map.
-        /// </summary>
-        internal override void BuildMap()
+        /// <inheritdoc/>
+        internal override ConcurrentDictionary<string, DtoMapModel> PropertyInfoCache => PropertyInfoCacheInstance;
+
+        /// <inheritdoc/>
+        protected override void BuildMap()
          {
              if (!PropertyInfoCache.IsEmpty) return;
 

@@ -3,6 +3,7 @@
     using System;
 
     using Merchello.Core.Acquired.Persistence.DatabaseAnnotations;
+    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models.EntityBase;
 
     using NPoco;
@@ -83,12 +84,12 @@
 
         /// <inheritdoc/>
         [Column("updateDate")]
-        [Constraint(Default = "getdate()")]
+        [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime UpdateDate { get; set; }
 
         /// <inheritdoc/>
         [Column("createDate")]
-        [Constraint(Default = "getdate()")]
+        [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime CreateDate { get; set; }
 
         /// <summary>

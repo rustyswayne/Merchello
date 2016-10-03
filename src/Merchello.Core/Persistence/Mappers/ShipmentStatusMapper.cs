@@ -1,26 +1,28 @@
 ﻿namespace Merchello.Core.Persistence.Mappers
 {
+    using System.Collections.Concurrent;
+
     using Models;
     using Models.Rdbms;
 
     /// <summary>
-    /// Represents a <see cref="InvoiceStatus"/> to DTO mapper used to translate the properties of the public api 
+    /// Represents a <see cref="ShipmentStatus"/> to DTO mapper used to translate the property
     /// implementation to that of the database's DTO as sql: [tableName].[columnName].
     /// </summary>
-    internal sealed class ShipmentStatusMapper : MerchelloBaseMapper
+    [MapperFor(typeof(ShipmentStatus))]
+    [MapperFor(typeof(IShipmentStatus))]
+    internal sealed class ShipmentStatusMapper : BaseMapper
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ShipmentStatusMapper"/> class.
+        /// The mapper specific instance of the the property info cache.
         /// </summary>
-        public ShipmentStatusMapper()
-        {
-            BuildMap();
-        }
+        private static readonly ConcurrentDictionary<string, DtoMapModel> PropertyInfoCacheInstance = new ConcurrentDictionary<string, DtoMapModel>();
 
-        /// <summary>
-        /// Builds the cache map
-        /// </summary>
-        internal override void BuildMap()
+        /// <inheritdoc/>
+        internal override ConcurrentDictionary<string, DtoMapModel> PropertyInfoCache => PropertyInfoCacheInstance;
+
+        /// <inheritdoc/>
+        protected override void BuildMap()
         {
             if (!PropertyInfoCache.IsEmpty) return;
 

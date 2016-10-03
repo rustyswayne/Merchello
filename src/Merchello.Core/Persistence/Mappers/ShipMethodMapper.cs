@@ -1,22 +1,28 @@
-﻿using Merchello.Core.Models;
-using Merchello.Core.Models.Rdbms;
-
-namespace Merchello.Core.Persistence.Mappers
+﻿namespace Merchello.Core.Persistence.Mappers
 {
+    using System.Collections.Concurrent;
+
+    using Merchello.Core.Models;
+    using Merchello.Core.Models.Rdbms;
+
     /// <summary>
-    /// Represents a <see cref="ShipMethod"/> to DTO mapper used to translate the properties of the public api 
+    /// Represents a <see cref="ShipMethod"/> to DTO mapper used to translate the property
     /// implementation to that of the database's DTO as sql: [tableName].[columnName].
     /// </summary>
-    internal sealed class ShipMethodMapper : MerchelloBaseMapper
+    [MapperFor(typeof(ShipMethod))]
+    [MapperFor(typeof(IShipMethod))]
+    internal sealed class ShipMethodMapper : BaseMapper
     {
-        public ShipMethodMapper()
-        {
-            BuildMap();
-        }
+        /// <summary>
+        /// The mapper specific instance of the the property info cache.
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, DtoMapModel> PropertyInfoCacheInstance = new ConcurrentDictionary<string, DtoMapModel>();
 
-        #region Overrides of MerchelloBaseMapper
+        /// <inheritdoc/>
+        internal override ConcurrentDictionary<string, DtoMapModel> PropertyInfoCache => PropertyInfoCacheInstance;
 
-        internal override void BuildMap()
+        /// <inheritdoc/>
+        protected override void BuildMap()
         {
             if (!PropertyInfoCache.IsEmpty) return;
 
@@ -30,7 +36,5 @@ namespace Merchello.Core.Persistence.Mappers
             CacheMap<ShipMethod, ShipMethodDto>(src => src.UpdateDate, dto => dto.UpdateDate);
             CacheMap<ShipMethod, ShipMethodDto>(src => src.CreateDate, dto => dto.CreateDate);
         }
-
-        #endregion
     }
 }
