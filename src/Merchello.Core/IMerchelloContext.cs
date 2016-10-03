@@ -8,14 +8,14 @@
 
 
     /// <summary>
-    /// Defines the MerchelloContext
+    /// Represents the MerchelloContext
     /// </summary>
     public interface IMerchelloContext : IDisposable
     {
-        ///// <summary>
-        ///// Gets the Umbraco <see cref="CacheHelper"/>
-        ///// </summary>
-        //CacheHelper Cache { get; }
+        /// <summary>
+        /// Gets the <see cref="ICacheHelper"/>
+        /// </summary>
+        ICacheHelper Cache { get; }
 
         /// <summary>
         /// Gets the Merchello <see cref="IServiceContext"/>

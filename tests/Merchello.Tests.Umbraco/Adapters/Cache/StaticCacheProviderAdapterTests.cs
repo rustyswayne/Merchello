@@ -8,9 +8,9 @@
     [TestFixture]
     public class StaticCacheProviderAdapterTests : CacheProviderAdapterTests
     {
-        private ICacheProvider _staticCacheProvider;
+        private ICacheProviderAdapter _staticCacheProvider;
 
-        internal override ICacheProvider Provider
+        internal override ICacheProviderAdapter Provider
         {
             get
             {

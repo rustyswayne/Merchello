@@ -9,9 +9,9 @@ namespace Merchello.Umbraco.Adapters
     /// <summary>
     /// An adapter for using Umbraco's <see>
     ///         <cref>global::Umbraco.Core.Cache.ICacheProvider</cref>
-    ///     </see> as <see cref="ICacheProvider"/>.
+    ///     </see> as <see cref="ICacheProviderAdapter"/>.
     /// </summary>
-    internal class CacheProviderAdapter : ICacheProvider, IUmbracoAdapter
+    internal class CacheProviderAdapter : ICacheProviderAdapter, IUmbracoAdapter
     {
         /// <summary>
         /// The Umbraco's cache provider.

@@ -119,6 +119,7 @@
     <Compile Include="Constants.Warehouse.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
+    <Compile Include="DependencyInjection\ServicesCompositionRoot.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Events\CacheRefresherEventArgs.cs" />
     <Compile Include="Events\TypedEventHandler.cs" />
@@ -183,7 +184,7 @@
     </Compile>
     <Compile Include="Extensions.OfferComponentDefinition.cs" />
     <Compile Include="IAttempt.cs" />
-    <Compile Include="Cache\IIsolatedRuntimeCache.cs" />
+    <Compile Include="Cache\IIsolatedRuntimeCacheAdapter.cs" />
     <Compile Include="Acquired\ObjectExtensions.cs" />
     <Compile Include="Acquired\ObjectResolution\ContainerLazyManyObjectsResolver.cs" />
     <Compile Include="Acquired\ObjectResolution\ContainerManyObjectsResolver.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Acquired\Persistence\DatabaseModelDefinitions\TableDefinition.cs" />
     <Compile Include="Acquired\Persistence\DbConnectionExtensions.cs" />
     <Compile Include="Logging\IProfilingLogger.cs" />
+    <Compile Include="MerchelloContext.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\AnonymousCustomer.cs" />
     <Compile Include="Models\AppliedPayment.cs" />
@@ -441,8 +443,8 @@
     <Compile Include="Boot\ICoreBootSettings.cs" />
     <Compile Include="Cache\ICacheHelper.cs" />
     <Compile Include="Acquired\Cache\CacheProviderExtensions.cs" />
-    <Compile Include="Cache\ICacheProvider.cs" />
-    <Compile Include="Cache\IRuntimeCacheProvider.cs" />
+    <Compile Include="Cache\ICacheProviderAdapter.cs" />
+    <Compile Include="Cache\IRuntimeCacheProviderAdapter.cs" />
     <Compile Include="Acquired\Configuration\CaseInsensitiveEnumConfigConverter.cs" />
     <Compile Include="Acquired\Configuration\CommaDelimitedConfigurationElement.cs" />
     <Compile Include="Configuration\BackOffice\DashboardTreeNode.cs" />
@@ -660,6 +662,7 @@
     <Compile Include="Services\Interfaces\IService.cs" />
     <Compile Include="Services\MigrationStatusService.cs" />
     <Compile Include="Services\RepositoryServiceBase.cs" />
+    <Compile Include="Services\ServiceContext.cs" />
     <Compile Include="Vistors\IVisitor{T}.cs" />
     <Compile Include="Models\Interfaces\IWarehouse.cs" />
     <Compile Include="Models\Interfaces\IWarehouseCatalog.cs" />

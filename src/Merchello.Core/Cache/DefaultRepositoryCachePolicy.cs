@@ -42,7 +42,7 @@ namespace Merchello.Core.Cache
         /// <param name="options">
         /// The options.
         /// </param>
-        public DefaultRepositoryCachePolicy(IRuntimeCacheProvider cache, RepositoryCachePolicyOptions options)
+        public DefaultRepositoryCachePolicy(IRuntimeCacheProviderAdapter cache, RepositoryCachePolicyOptions options)
             : base(cache)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));

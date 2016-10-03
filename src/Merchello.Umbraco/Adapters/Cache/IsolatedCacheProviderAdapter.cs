@@ -7,7 +7,7 @@
     using Merchello.Core.Cache;
 
     /// <inheritdoc/>
-    internal class IsolatedRuntimeCacheAdapter : IIsolatedRuntimeCache, IUmbracoAdapter
+    internal class IsolatedRuntimeCacheAdapter : IIsolatedRuntimeCacheAdapter, IUmbracoAdapter
     {
         /// <summary>
         /// The Umbraco's IsolatedRuntimeCache.
@@ -40,25 +40,25 @@
         }
 
         /// <inheritdoc/>
-        public IAttempt<IRuntimeCacheProvider> GetCache<T>()
+        public IAttempt<IRuntimeCacheProviderAdapter> GetCache<T>()
         {
             var attempt = _isolated.GetCache<T>();
 
             var result = attempt.Result != null ? new RuntimeCacheProviderAdapter(attempt.Result) : null;
 
             return attempt.Success
-                       ? Attempt<IRuntimeCacheProvider>.Succeed(result)
-                       : Attempt<IRuntimeCacheProvider>.Fail(result, attempt.Exception);
+                       ? Attempt<IRuntimeCacheProviderAdapter>.Succeed(result)
+                       : Attempt<IRuntimeCacheProviderAdapter>.Fail(result, attempt.Exception);
         }
 
         /// <inheritdoc/>
-        public IRuntimeCacheProvider GetOrCreateCache(Type type)
+        public IRuntimeCacheProviderAdapter GetOrCreateCache(Type type)
         {
             return new RuntimeCacheProviderAdapter(_isolated.GetOrCreateCache(type));
         }
 
         /// <inheritdoc/>
-        public IRuntimeCacheProvider GetOrCreateCache<T>()
+        public IRuntimeCacheProviderAdapter GetOrCreateCache<T>()
         {
             return new RuntimeCacheProviderAdapter(_isolated.GetOrCreateCache<T>());
         }

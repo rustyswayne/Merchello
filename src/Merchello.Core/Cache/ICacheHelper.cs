@@ -1,32 +1,32 @@
 ﻿namespace Merchello.Core.Cache
 {
     /// <summary>
-    /// Defines a CacheHelper.
+    /// Represents an adapted cache helper adapter.
     /// </summary>
-    internal interface ICacheHelper
+    public interface ICacheHelper
     {
         /// <summary>
-        /// Gets the <see cref="ICacheProvider"/> used for request caching.
+        /// Gets the <see cref="ICacheProviderAdapter"/> used for request caching.
         /// </summary>
-        ICacheProvider RequestCache { get; }
+        ICacheProviderAdapter RequestCache { get; }
 
         /// <summary>
-        /// Gets the <see cref="IRuntimeCacheProvider"/> used for runtime caching.
+        /// Gets the <see cref="IRuntimeCacheProviderAdapter"/> used for runtime caching.
         /// </summary>
-        IRuntimeCacheProvider RuntimeCache { get; }
+        IRuntimeCacheProviderAdapter RuntimeCache { get; }
 
         /// <summary>
-        /// Gets the <see cref="ICacheProvider"/> used for static (in memory) caches.
+        /// Gets the <see cref="ICacheProviderAdapter"/> used for static (in memory) caches.
         /// </summary>
-        ICacheProvider StaticCache { get; }
+        ICacheProviderAdapter StaticCache { get; }
 
         /// <summary>
-        /// Gets the  <see cref="IIsolatedRuntimeCache"/> cache.
+        /// Gets the  <see cref="IIsolatedRuntimeCacheAdapter"/> cache.
         /// </summary>
         /// <remarks>
         /// Useful for repository level caches to ensure that cache lookups by key are fast so 
         /// that the repository doesn't need to search through all keys on a global scale.
         /// </remarks>
-        IIsolatedRuntimeCache IsolatedRuntimeCache { get; }
+        IIsolatedRuntimeCacheAdapter IsolatedRuntimeCache { get; }
     }
 }

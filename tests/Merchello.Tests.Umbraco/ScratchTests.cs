@@ -4,6 +4,7 @@
 
     using global::Umbraco.Core.Logging;
 
+    using Merchello.Core;
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Mappers;
@@ -40,13 +41,14 @@
                 var repo = uow.CreateRepository<IMigrationStatusRepository>();
                 Assert.NotNull(repo);
             }
-            
+
+            Assert.That(MerchelloContext.HasCurrent, Is.True);
 
             //var unitOfWork = IoC.Container.GetInstance<IUnitOfWork>();
 
             var manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
             manager.UninstallDatabaseSchema();
-            manager.InstallDatabaseSchema();
+           // manager.InstallDatabaseSchema();
             Assert.NotNull(manager);
         }
     }

@@ -17,7 +17,7 @@
     public sealed class RepositoryCompositionRoot : ICompositionRoot
     {
         /// <summary>
-        /// Composes configuration services by adding services to the <paramref name="container"/>.
+        /// Composes configuration services by adding repositories to the <paramref name="container"/>.
         /// </summary>
         /// <param name="container">
         /// The container.

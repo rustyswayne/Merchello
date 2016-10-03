@@ -9,9 +9,9 @@
     /// <summary>
     /// An adapter for using Umbraco's <see>
     ///         <cref>global::Umbraco.Core.Cache.IRuntimeCacheProvider</cref>
-    ///     </see> as <see cref="IRuntimeCacheProvider"/>
+    ///     </see> as <see cref="IRuntimeCacheProviderAdapter"/>
     /// </summary>
-    internal class RuntimeCacheProviderAdapter : CacheProviderAdapter, IRuntimeCacheProvider
+    internal class RuntimeCacheProviderAdapter : CacheProviderAdapter, IRuntimeCacheProviderAdapter
     {
         /// <summary>
         /// Umbraco's runtime cache provider.

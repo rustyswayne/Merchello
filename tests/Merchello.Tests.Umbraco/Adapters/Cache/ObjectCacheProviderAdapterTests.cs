@@ -8,11 +8,11 @@
     [TestFixture]
     public class ObjectCacheProviderAdapterTests : RuntimeCacheProviderAdapterTests
     {
-        private IRuntimeCacheProvider _provider;
+        private IRuntimeCacheProviderAdapter _provider;
 
         #region Properties
 
-        internal override ICacheProvider Provider
+        internal override ICacheProviderAdapter Provider
         {
             get
             {
@@ -20,7 +20,7 @@
             }
         }
 
-        internal override IRuntimeCacheProvider RuntimeProvider
+        internal override IRuntimeCacheProviderAdapter RuntimeProvider
         {
             get
             {

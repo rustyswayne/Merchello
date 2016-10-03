@@ -46,6 +46,10 @@
         /// </summary>
         private IDisposableTimer _timer;
 
+        /// <summary>
+        /// The <see cref="IMerchelloContext"/>.
+        /// </summary>
+        private IMerchelloContext _merchelloContext;
 
         /// <summary>
         /// The is complete.
@@ -125,6 +129,8 @@
             _muliLogResolver = new MultiLogResolver(GetMultiLogger(_logger));
 
             ConfigureCoreServices(IoC.Container);
+
+            MerchelloContext.Current = _merchelloContext = IoC.Container.GetInstance<IMerchelloContext>();
 
             InitializeAutoMapperMappers();
 
@@ -218,12 +224,15 @@
             container.RegisterFrom<ConfigurationCompositionRoot>();
 
             // Cache
-            // FYI-ICacheHelper registered in ConfigureSmsServices
-            container.RegisterSingleton<IRuntimeCacheProvider>(factory => factory.GetInstance<ICacheHelper>().RuntimeCache);
+            container.RegisterSingleton<IRuntimeCacheProviderAdapter>(factory => factory.GetInstance<ICacheHelper>().RuntimeCache);
 
-
-            // Database related
+            // Repositories
             container.RegisterFrom<RepositoryCompositionRoot>();
+
+            // Data Services/ServiceContext/etc...
+            container.RegisterFrom<ServicesCompositionRoot>();
+
+            container.RegisterSingleton<IMerchelloContext, MerchelloContext>();
         }
 
         /// <summary>

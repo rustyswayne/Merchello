@@ -53,6 +53,6 @@
         /// <summary>
         /// Gets the runtime cache used for this repo - by standard this is the runtime cache exposed by the CacheHelper but can be overridden
         /// </summary>
-        protected virtual IRuntimeCacheProvider RuntimeCache => RepositoryCache.RuntimeCache;
+        protected virtual IRuntimeCacheProviderAdapter RuntimeCache => RepositoryCache.RuntimeCache;
     }
 }

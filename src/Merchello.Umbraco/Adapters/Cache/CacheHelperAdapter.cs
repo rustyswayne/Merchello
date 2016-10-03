@@ -31,7 +31,7 @@
         }
 
         /// <inheritdoc/>
-        public ICacheProvider RequestCache
+        public ICacheProviderAdapter RequestCache
         {
             get
             {
@@ -40,7 +40,7 @@
         }
 
         /// <inheritdoc/>
-        public IRuntimeCacheProvider RuntimeCache
+        public IRuntimeCacheProviderAdapter RuntimeCache
         {
             get
             {
@@ -49,7 +49,7 @@
         }
 
         /// <inheritdoc/>
-        public ICacheProvider StaticCache
+        public ICacheProviderAdapter StaticCache
         {
             get
             {
@@ -58,7 +58,7 @@
         }
 
         /// <inheritdoc/>
-        public IIsolatedRuntimeCache IsolatedRuntimeCache
+        public IIsolatedRuntimeCacheAdapter IsolatedRuntimeCache
         {
             get
             {

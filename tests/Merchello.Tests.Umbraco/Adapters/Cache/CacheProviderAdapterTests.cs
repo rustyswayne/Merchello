@@ -16,7 +16,7 @@
     [TestFixture]
     public abstract class CacheProviderAdapterTests
     {
-        internal abstract global::Merchello.Core.Cache.ICacheProvider Provider { get; }
+        internal abstract global::Merchello.Core.Cache.ICacheProviderAdapter Provider { get; }
 
         internal CacheHelper CacheHelper { get; private set; }
 

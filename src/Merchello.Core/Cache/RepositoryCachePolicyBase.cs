@@ -18,7 +18,7 @@ namespace Merchello.Core.Cache
         /// <param name="cache">
         /// The cache.
         /// </param>
-        protected RepositoryCachePolicyBase(IRuntimeCacheProvider cache)
+        protected RepositoryCachePolicyBase(IRuntimeCacheProviderAdapter cache)
         {
             if (cache == null) throw new ArgumentNullException(nameof(cache));
             this.Cache = cache;
@@ -27,7 +27,7 @@ namespace Merchello.Core.Cache
         /// <summary>
         /// Gets the runtime cache.
         /// </summary>
-        protected IRuntimeCacheProvider Cache { get; }
+        protected IRuntimeCacheProviderAdapter Cache { get; }
 
         /// <inheritdoc/>
         public abstract TEntity Get(Guid key, Func<Guid, TEntity> performGet, Func<Guid[], IEnumerable<TEntity>> performGetAll);

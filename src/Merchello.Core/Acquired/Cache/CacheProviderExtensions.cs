@@ -14,7 +14,7 @@ namespace Merchello.Core.Acquired.Cache
     /// UMBRACO Direct port of Umbraco internal interface to get rid of hard dependency
     internal static class CacheProviderExtensions
     {
-        public static T GetCacheItem<T>(this IRuntimeCacheProvider provider,
+        public static T GetCacheItem<T>(this IRuntimeCacheProviderAdapter provider,
             string cacheKey,
             Func<T> getCacheItem,
             TimeSpan? timeout,
@@ -27,7 +27,7 @@ namespace Merchello.Core.Acquired.Cache
             return result == null ? default(T) : result.TryConvertTo<T>().Result;
         }
 
-        public static void InsertCacheItem<T>(this IRuntimeCacheProvider provider,
+        public static void InsertCacheItem<T>(this IRuntimeCacheProviderAdapter provider,
             string cacheKey,
             Func<T> getCacheItem,
             TimeSpan? timeout = null,
@@ -39,19 +39,19 @@ namespace Merchello.Core.Acquired.Cache
             provider.InsertCacheItem(cacheKey, () => getCacheItem(), timeout, isSliding, priority, removedCallback, dependentFiles);
         }
 
-        public static IEnumerable<T> GetCacheItemsByKeySearch<T>(this ICacheProvider provider, string keyStartsWith)
+        public static IEnumerable<T> GetCacheItemsByKeySearch<T>(this ICacheProviderAdapter provider, string keyStartsWith)
         {
             var result = provider.GetCacheItemsByKeySearch(keyStartsWith);
             return result.Select(x => x.TryConvertTo<T>().Result);
         }
 
-        public static IEnumerable<T> GetCacheItemsByKeyExpression<T>(this ICacheProvider provider, string regexString)
+        public static IEnumerable<T> GetCacheItemsByKeyExpression<T>(this ICacheProviderAdapter provider, string regexString)
         {
             var result = provider.GetCacheItemsByKeyExpression(regexString);
             return result.Select(x => x.TryConvertTo<T>().Result);
         }
 
-        public static T GetCacheItem<T>(this ICacheProvider provider, string cacheKey)
+        public static T GetCacheItem<T>(this ICacheProviderAdapter provider, string cacheKey)
         {
             var result = provider.GetCacheItem(cacheKey);
             if (result == null)
@@ -61,7 +61,7 @@ namespace Merchello.Core.Acquired.Cache
             return result.TryConvertTo<T>().Result;
         }
 
-        public static T GetCacheItem<T>(this ICacheProvider provider, string cacheKey, Func<T> getCacheItem)
+        public static T GetCacheItem<T>(this ICacheProviderAdapter provider, string cacheKey, Func<T> getCacheItem)
         {
             var result = provider.GetCacheItem(cacheKey, () => getCacheItem());
             if (result == null)

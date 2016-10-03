@@ -8,7 +8,7 @@
     /// <summary>
     /// An abstract class for implementing a runtime cache provider
     /// </summary>
-    internal interface IRuntimeCacheProvider : ICacheProvider
+    public interface IRuntimeCacheProviderAdapter : ICacheProviderAdapter
     {
         /// <summary>
         /// Gets a cached item.

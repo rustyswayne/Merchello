@@ -5,7 +5,7 @@
     /// <summary>
     /// The IsolatedRuntimeCache interface.
     /// </summary>
-    internal interface IIsolatedRuntimeCache
+    public interface IIsolatedRuntimeCacheAdapter
     {
         /// <summary>
         /// Clear all of the caches.
@@ -29,7 +29,7 @@
         /// <returns>
         /// The <see cref="IAttempt{T}"/>.
         /// </returns>
-        IAttempt<IRuntimeCacheProvider> GetCache<T>();
+        IAttempt<IRuntimeCacheProviderAdapter> GetCache<T>();
 
         /// <summary>
         /// Gets or creates the isolated runtime cache.
@@ -38,9 +38,9 @@
         /// The type for the isolated cache.
         /// </param>
         /// <returns>
-        /// The <see cref="IRuntimeCacheProvider"/>.
+        /// The <see cref="IRuntimeCacheProviderAdapter"/>.
         /// </returns>
-        IRuntimeCacheProvider GetOrCreateCache(Type type);
+        IRuntimeCacheProviderAdapter GetOrCreateCache(Type type);
 
         /// <summary>
         /// Gets or creates the isolated runtime cache.
@@ -49,8 +49,8 @@
         /// The type for the isolated cache.
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IRuntimeCacheProvider"/>.
+        /// The <see cref="IRuntimeCacheProviderAdapter"/>.
         /// </returns>
-        IRuntimeCacheProvider GetOrCreateCache<T>();
+        IRuntimeCacheProviderAdapter GetOrCreateCache<T>();
     }
 }

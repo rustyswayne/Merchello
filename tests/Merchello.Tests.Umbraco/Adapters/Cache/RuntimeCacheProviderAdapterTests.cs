@@ -10,7 +10,7 @@
 
     public abstract class RuntimeCacheProviderAdapterTests : CacheProviderAdapterTests
     {
-        internal abstract IRuntimeCacheProvider RuntimeProvider { get; }
+        internal abstract IRuntimeCacheProviderAdapter RuntimeProvider { get; }
 
         [Test]
         public void Can_Add_And_Expire_Struct_Strongly_Typed_With_Null()

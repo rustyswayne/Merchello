@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a service that provides information about database migrations.
     /// </summary>
-    internal interface IMigrationStatusService : IService
+    public interface IMigrationStatusService : IService
     {
         /// <summary>
         /// Creates a migration status, will throw an exception if it already exists
