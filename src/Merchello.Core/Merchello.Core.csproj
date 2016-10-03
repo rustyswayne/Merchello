@@ -266,6 +266,8 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderLineItem.cs" />
     <Compile Include="Models\OrderStatus.cs" />
+    <Compile Include="Models\PagedCollection.cs" />
+    <Compile Include="Models\PagedCollection{T}.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\PaymentMethod.cs" />
     <Compile Include="Models\Product.cs" />
@@ -376,8 +378,23 @@
     <Compile Include="Persistence\Migrations\Initial\DatabaseSchemaCreation.cs" />
     <Compile Include="Persistence\Migrations\Initial\DatabaseSchemaResult.cs" />
     <Compile Include="Persistence\Migrations\Initial\IDatabaseSchemaCreation.cs" />
+    <Compile Include="Persistence\NPocoSqlExtensions.cs" />
+    <Compile Include="Persistence\Repositories\AnonymousCustomerRepository.cs" />
+    <Compile Include="Persistence\Repositories\AppliedPaymentRepository.cs" />
+    <Compile Include="Persistence\Repositories\CustomerAddressRepository.cs" />
+    <Compile Include="Persistence\Repositories\DetachedContentTypeRepository.cs" />
+    <Compile Include="Persistence\Repositories\EntityCollectionRepository.baseimp.cs">
+      <DependentUpon>EntityCollectionRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\EntityCollectionRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IDetachedContentTypeRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\ICustomerAddressRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IAnonymousCustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\INPocoEntityRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IAppliedPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IMigrationStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IProductOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IStaticEntityCollectionRepository{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryReadable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepository.cs" />

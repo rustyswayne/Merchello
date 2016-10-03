@@ -119,7 +119,7 @@ namespace Merchello.Core.Acquired.Plugins
                     catch (FileNotFoundException ex)
                     {
                         //this will occur if it cannot load the assembly
-                        // REFACTOR-to //LogHelper.Error(typeof(TypeFinder), "Could not load assembly App_Code", ex);
+                        MultiLogHelper.Error(typeof(TypeFinder), "Could not load assembly App_Code", ex);
                     }
                 }
             }
@@ -543,7 +543,7 @@ namespace Merchello.Core.Acquired.Plugins
                 }
                 catch (TypeLoadException ex)
                 {
-                    // REFACTOR-to LogHelper.Error(typeof(TypeFinder), string.Format("Could not query types on {0} assembly, this is most likely due to this assembly not being compatible with the current Umbraco version", a), ex);
+                    MultiLogHelper.Error(typeof(TypeFinder), string.Format("Could not query types on {0} assembly, this is most likely due to this assembly not being compatible with the current Umbraco version", a), ex);
                     continue;
                 }
 
