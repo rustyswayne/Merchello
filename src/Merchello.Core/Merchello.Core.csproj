@@ -359,6 +359,7 @@
     <Compile Include="Persistence\Mappers\ProductAttributeMapper.cs" />
     <Compile Include="Persistence\Mappers\ProductMapper.cs" />
     <Compile Include="Persistence\Mappers\ProductOptionMapper.cs" />
+    <Compile Include="Persistence\Mappers\ProductVariantDetachedContentMapper.cs" />
     <Compile Include="Persistence\Mappers\ProductVariantMapper.cs" />
     <Compile Include="Persistence\Mappers\ShipCountryMapper.cs" />
     <Compile Include="Persistence\Mappers\ShipmentMapper.cs" />

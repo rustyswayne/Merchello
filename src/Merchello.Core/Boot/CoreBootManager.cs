@@ -251,11 +251,6 @@
                 });
         }
 
-        protected virtual void CreateMerchelloContext()
-        {
-
-        }
-
         protected virtual void InitialCurrencyContext()
         {
 

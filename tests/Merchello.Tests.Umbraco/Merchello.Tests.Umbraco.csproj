@@ -48,6 +48,7 @@
     <Compile Include="Adapters\Cache\StaticCacheProviderAdapterTests.cs" />
     <Compile Include="Persistence\BaseDataCreationTests.cs" />
     <Compile Include="Persistence\DatabaseCreationTests.cs" />
+    <Compile Include="Persistence\Mappers\MappingResolverTests.cs" />
     <Compile Include="Persistence\Repositories\MigrationStatusRepositoryTests.cs" />
     <Compile Include="ServiceContainer\AdapterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

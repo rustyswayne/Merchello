@@ -94,6 +94,7 @@
     <Compile Include="Persistence\Mappers\ProductAttributeMapperTests.cs" />
     <Compile Include="Persistence\Mappers\ProductMapperTests.cs" />
     <Compile Include="Persistence\Mappers\ProductOptionMapperTests.cs" />
+    <Compile Include="Persistence\Mappers\ProductVariantDetachedContentMapperTests.cs" />
     <Compile Include="Persistence\Mappers\ProductVariantMapperTests.cs" />
     <Compile Include="Persistence\Mappers\ShipCountryMapperTests.cs" />
     <Compile Include="Persistence\Mappers\ShipmentMapperTests.cs" />
