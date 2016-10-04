@@ -1,6 +1,7 @@
 ﻿namespace Merchello.Core.Persistence
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
@@ -16,6 +17,29 @@
     /// </summary>
     internal static class NPocoSqlExtensions
     {
+        /// <summary>
+        /// SELECT DISTINCT field.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> SelectDistinct<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Select($"DISTINCT({fieldExpression})");
+            return sql;
+        }
+
         /// <summary>
         /// Appends WHERE IN (SQL) to the expression.
         /// </summary>
@@ -42,6 +66,60 @@
 
             return sql;
         }
+
+        /// <summary>
+        /// Appends WHERE NOT IN (SQL) to the expression.
+        /// </summary>
+        /// <param name="sql">
+        /// The SQL.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <param name="innerSql">
+        /// The inner sql.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the entity
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> SingleWhereNotIn<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector, Sql<SqlContext> innerSql)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Append("WHERE " + fieldExpression + " NOT IN (").Append(innerSql).Append(")");
+
+            return sql;
+        }
+
+        /// <summary>
+        /// WHERE NOT IN.
+        /// </summary>
+        /// <param name="sql">
+        /// The SQL.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <param name="values">
+        /// The values.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> WhereNotIn<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector, IEnumerable values)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Where(fieldExpression + " NOT IN (@values)", new { /*@values =*/ values });
+            return sql;
+        }
+
 
         /// <summary>
         /// Appends an AND IN (SQL) to the expression.
@@ -93,6 +171,28 @@
             var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
             var fieldExpression = expresionist.Visit(fieldSelector);
             sql.Append("AND " + fieldExpression + " NOT IN (").Append(innerSql).Append(")");
+
+            return sql;
+        }
+
+        /// <summary>
+        /// Appends HAVING COUNT(*).
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of items to count
+        /// </typeparam>
+        /// <param name="sql">
+        /// The SQL.
+        /// </param>
+        /// <param name="items">
+        /// The items.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> HavingCount<T>(this Sql<SqlContext> sql, T[] items)
+        {
+            sql.Append("HAVING COUNT(*) = @count", new { @count = items.Length });
 
             return sql;
         }

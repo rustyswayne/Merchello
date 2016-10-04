@@ -45,7 +45,7 @@
         public IEnumerable<IEntityCollection> GetEntityCollectionsByProductKey(Guid productKey, bool isFilter = false)
         {
             // Inner SQL expression
-            var innerSql = Sql().Select("DISTINCT([entityCollectionKey])")
+            var innerSql = Sql().SelectDistinct<Product2EntityCollectionDto>(x => x.EntityCollectionKey)
                             .From<Product2EntityCollectionDto>()
                             .Where<Product2EntityCollectionDto>(x => x.ProductKey == productKey);
 
@@ -63,7 +63,7 @@
         public IEnumerable<IEntityCollection> GetEntityCollectionsByInvoiceKey(Guid invoiceKey)
         {
             // Inner SQL expression
-            var innerSql = Sql().Select("DISTINCT([entityCollectionKey])")
+            var innerSql = Sql().SelectDistinct<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey)
                                 .From<Invoice2EntityCollectionDto>()
                                 .Where<Invoice2EntityCollectionDto>(x => x.InvoiceKey == invoiceKey);
             var sql =
@@ -78,7 +78,7 @@
         public IEnumerable<IEntityCollection> GetEntityCollectionsByCustomerKey(Guid customerKey)
         {
             // Inner SQL expression
-            var innerSql = Sql().Select("DISTINCT([entityCollectionKey])")
+            var innerSql = Sql().SelectDistinct<Customer2EntityCollectionDto>(x => x.EntityCollectionKey)
                                 .From<Customer2EntityCollectionDto>()
                                 .Where<Customer2EntityCollectionDto>(x => x.CustomerKey == customerKey);
 
@@ -122,7 +122,7 @@
         public IEnumerable<IEntityFilterGroup> GetEntityFilterGroupsContainingProduct(Guid[] keys, Guid productKey)
         {
             // distinct collection keys by product key
-            var innerSql = Sql().Select("DISTINCT([entityCollectionKey])")
+            var innerSql = Sql().SelectDistinct<Product2EntityCollectionDto>(x => x.EntityCollectionKey)
                                 .From<Product2EntityCollectionDto>()
                                 .Where<Product2EntityCollectionDto>(x => x.ProductKey == productKey);
 
@@ -142,7 +142,7 @@
         public IEnumerable<IEntityFilterGroup> GetEntityFilterGroupsNotContainingProduct(Guid[] keys, Guid productKey)
         {
             // distinct collections by product
-            var innerSql = Sql().Select("DISTINCT([entityCollectionKey])")
+            var innerSql = Sql().SelectDistinct<Product2EntityCollectionDto>(x => x.EntityCollectionKey)
                                 .From<Product2EntityCollectionDto>()
                                 .Where<Product2EntityCollectionDto>(x => x.ProductKey == productKey);
 
@@ -159,6 +159,15 @@
                 matches.Select(x => this.GetEntityFilterGroup(x.Key)).Where(x => x != null);
         }
 
+        /// <summary>
+        /// Performs the work of getting an <see cref="IEntityFilterGroup"/>.
+        /// </summary>
+        /// <param name="key">
+        /// The collection.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEntityFilterGroup"/>.
+        /// </returns>
         protected IEntityFilterGroup PerformGetEntityFilterGroup(Guid key)
         {
             var collection = Get(key);
@@ -185,7 +194,7 @@
         /// <returns>
         /// The <see cref="IEnumerable{IEntityCollection}"/>.
         /// </returns>
-        private IEnumerable<IEntityCollection> MapDtoCollection(IEnumerable<EntityCollectionDto> dtos)
+        protected IEnumerable<IEntityCollection> MapDtoCollection(IEnumerable<EntityCollectionDto> dtos)
         {
             var factory = new EntityCollectionFactory();
             return dtos.Select(factory.BuildEntity);

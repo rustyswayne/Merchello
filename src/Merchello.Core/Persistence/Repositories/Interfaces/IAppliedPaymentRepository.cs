@@ -3,7 +3,7 @@
     using Merchello.Core.Models;
 
     /// <summary>
-    /// Represents an applied payment repository.
+    /// Represents a repository responsible for <see cref="IAppliedPayment"/> entities.
     /// </summary>
     public interface IAppliedPaymentRepository : INPocoEntityRepository<IAppliedPayment>
     {

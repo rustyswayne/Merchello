@@ -3,7 +3,7 @@
     using Merchello.Core.Models;
 
     /// <summary>
-    /// Represents an anonymous customer repository.
+    /// Represents a repository responsible for <see cref="IAnonymousCustomer"/> entities.
     /// </summary>
     public interface IAnonymousCustomerRepository : INPocoEntityRepository<IAnonymousCustomer>
     {

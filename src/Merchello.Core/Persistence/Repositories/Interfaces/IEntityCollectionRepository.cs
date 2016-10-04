@@ -9,7 +9,7 @@
     using Merchello.Core.Persistence.Querying;
 
     /// <summary>
-    /// Represents an entity collection repository.
+    /// Represents a repository responsible for <see cref="IEntityCollection"/> entities.
     /// </summary>
     public interface IEntityCollectionRepository : INPocoEntityRepository<IEntityCollection>
     {

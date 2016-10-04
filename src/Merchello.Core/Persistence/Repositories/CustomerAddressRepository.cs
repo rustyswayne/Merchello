@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
 
+    using LightInject;
+
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
@@ -31,7 +33,7 @@
         /// <param name="mappingResolver">
         /// The <see cref="IMappingResolver"/>.
         /// </param>
-        public CustomerAddressRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
+        public CustomerAddressRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger, mappingResolver)
         {
         }

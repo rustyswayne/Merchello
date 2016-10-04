@@ -31,7 +31,7 @@
         {
             return new[]
             {
-                "DELETE FROM merchMigrationStatus pk = @Key"
+                "DELETE FROM merchMigrationStatus WHERE pk = @Key"
             };
         }
     }

@@ -3,7 +3,7 @@
     using Merchello.Core.Models.DetachedContent;
 
     /// <summary>
-    /// Represents a detached content type repository.
+    /// Represents a repository responsible for <see cref="IDetachedContentType"/> entities.
     /// </summary>
     public interface IDetachedContentTypeRepository : INPocoEntityRepository<IDetachedContentType>
     { 

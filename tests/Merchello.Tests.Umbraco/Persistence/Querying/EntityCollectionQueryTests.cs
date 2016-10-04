@@ -37,7 +37,7 @@
         {
             var productKey = Guid.NewGuid();
 
-            var innerSql = Sql().Select("DISTINCT([entityCollectionKey])")
+            var innerSql = Sql().SelectDistinct<Product2EntityCollectionDto>(x => x.EntityCollectionKey)
                             .From<Product2EntityCollectionDto>()
                             .Where<Product2EntityCollectionDto>(x => x.ProductKey == productKey);
 

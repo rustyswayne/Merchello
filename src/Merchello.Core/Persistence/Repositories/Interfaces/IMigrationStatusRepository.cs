@@ -5,7 +5,7 @@
     using Semver;
 
     /// <summary>
-    /// Represents a migration status repository.
+    /// Represents a repository responsible for <see cref="IMigrationStatus"/> entities.
     /// </summary>
     public interface IMigrationStatusRepository : INPocoEntityRepository<IMigrationStatus>
     {

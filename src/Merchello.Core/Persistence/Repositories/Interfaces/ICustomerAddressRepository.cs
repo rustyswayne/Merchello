@@ -3,7 +3,7 @@
     using Merchello.Core.Models;
 
     /// <summary>
-    /// Represents a customer address repository.
+    /// Represents a repository responsible for <see cref="ICustomerAddress"/> entities.
     /// </summary>
     public interface ICustomerAddressRepository : INPocoEntityRepository<ICustomerAddress>
     {

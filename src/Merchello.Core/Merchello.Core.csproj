@@ -384,11 +384,22 @@
     <Compile Include="Persistence\Repositories\AnonymousCustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\AppliedPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerAddressRepository.cs" />
+    <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
+    <Compile Include="Persistence\Repositories\CustomerRepository.entitycollection.cs">
+      <DependentUpon>CustomerRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\CustomerRepository.npoco.cs">
+      <DependentUpon>CustomerRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\CustomerRepository.searchterm.cs">
+      <DependentUpon>CustomerRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\DetachedContentTypeRepository.cs" />
     <Compile Include="Persistence\Repositories\EntityCollectionRepository.cs" />
     <Compile Include="Persistence\Repositories\EntityCollectionRepository.npoco.cs">
       <DependentUpon>EntityCollectionRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\Interfaces\ICustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IDetachedContentTypeRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerAddressRepository.cs" />
@@ -397,12 +408,13 @@
     <Compile Include="Persistence\Repositories\Interfaces\IAppliedPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IMigrationStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IProductOptionRepository.cs" />
-    <Compile Include="Persistence\Repositories\Interfaces\IStaticEntityCollectionRepository{T}.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionEntityRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryReadable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Cache\IRepositoryCachePolicy.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryQueryable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryWritable{T}.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\ISearchTermRepository.cs" />
     <Compile Include="Persistence\Repositories\MigrationStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\MigrationStatusRepository.npoco.cs">
       <DependentUpon>MigrationStatusRepository.cs</DependentUpon>
