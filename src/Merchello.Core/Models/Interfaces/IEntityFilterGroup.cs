@@ -1,4 +1,4 @@
-﻿namespace Merchello.Core.Models.Interfaces
+﻿namespace Merchello.Core.Models
 {
     /// <summary>
     /// Represents an entity filter group.  Used for filtering entities.

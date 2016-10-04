@@ -7,11 +7,13 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
+    using Merchello.Core.Acquired.Persistence.Querying;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Interfaces;
     using Merchello.Core.Models.Rdbms;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.Querying;
     using Merchello.Core.Persistence.UnitOfWork;
@@ -60,6 +62,7 @@
         /// <inheritdoc/>
         public IEnumerable<IEntityCollection> GetEntityCollectionsByInvoiceKey(Guid invoiceKey)
         {
+            // Inner SQL expression
             var innerSql = Sql().Select("DISTINCT([entityCollectionKey])")
                                 .From<Invoice2EntityCollectionDto>()
                                 .Where<Invoice2EntityCollectionDto>(x => x.InvoiceKey == invoiceKey);
@@ -74,6 +77,7 @@
         /// <inheritdoc/>
         public IEnumerable<IEntityCollection> GetEntityCollectionsByCustomerKey(Guid customerKey)
         {
+            // Inner SQL expression
             var innerSql = Sql().Select("DISTINCT([entityCollectionKey])")
                                 .From<Customer2EntityCollectionDto>()
                                 .Where<Customer2EntityCollectionDto>(x => x.CustomerKey == customerKey);
@@ -88,26 +92,16 @@
         /// <inheritdoc/>
         public PagedCollection<IEntityCollection> GetPage(IQuery<IEntityCollection> query, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
-            throw new NotImplementedException();
+            var translator = new SqlTranslator<IEntityCollection>(GetBaseQuery(false), query);
+            var sql = translator.Translate().AppendOrderExpression(orderExpression, direction);
+
+            return Database.Page<EntityCollectionDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
         /// <inheritdoc/>
         public IEntityFilterGroup GetEntityFilterGroup(Guid key)
         {
-            //// TODO Caching
-            var collection = Get(key);
-            if (collection == null) return null;
-
-            var query = Query.Where(x => x.ParentKey == key);
-            var children = GetByQuery(query);
-
-            var filterGroup = new EntityFilterGroup(collection);
-            foreach (var child in children)
-            {
-                filterGroup.Filters.Add(child);
-            }
-
-            return filterGroup;
+            return ((EntityCollectionRepositoryCachePolicy)CachePolicy).Get(key, PerformGetEntityFilterGroup);
         }
 
         /// <inheritdoc/>
@@ -163,6 +157,38 @@
             return !matches.Any() ?
                 Enumerable.Empty<IEntityFilterGroup>() :
                 matches.Select(x => this.GetEntityFilterGroup(x.Key)).Where(x => x != null);
+        }
+
+        protected IEntityFilterGroup PerformGetEntityFilterGroup(Guid key)
+        {
+            var collection = Get(key);
+            if (collection == null) return null;
+
+            var query = Query.Where(x => x.ParentKey == key);
+            var children = GetByQuery(query);
+
+            var filterGroup = new EntityFilterGroup(collection);
+            foreach (var child in children)
+            {
+                filterGroup.Filters.Add(child);
+            }
+
+            return filterGroup;
+        }
+
+        /// <summary>
+        /// Maps a collection of <see cref="EntityCollectionDto"/> to <see cref="IEntityCollection"/>.
+        /// </summary>
+        /// <param name="dtos">
+        /// The collection of DTOs.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityCollection}"/>.
+        /// </returns>
+        private IEnumerable<IEntityCollection> MapDtoCollection(IEnumerable<EntityCollectionDto> dtos)
+        {
+            var factory = new EntityCollectionFactory();
+            return dtos.Select(factory.BuildEntity);
         }
     }
 }

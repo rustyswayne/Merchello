@@ -275,7 +275,7 @@ namespace Merchello.Core.Cache
         {
             if (keys.Length == 0 && entities.Length == 0 && this._options.GetAllCacheAllowZeroCount)
             {
-                // getting all of them, and finding nothing.
+                // Getting all of them, and finding nothing.
                 // if we can cache a zero count, cache an empty array,
                 // for as long as the cache is not cleared (no expiration)
                 this.Cache.InsertCacheItem(this.GetEntityTypeCacheKey(), () => EmptyEntities);

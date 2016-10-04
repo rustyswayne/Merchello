@@ -59,6 +59,7 @@
     <Compile Include="ActivatorServiceProvider.cs" />
     <Compile Include="Cache\CacheRefresherBase.cs" />
     <Compile Include="Cache\DefaultRepositoryCachePolicy.cs" />
+    <Compile Include="Cache\EntityCollectionRepositoryCachePolicy.cs" />
     <Compile Include="Cache\ICacheRefresher.cs" />
     <Compile Include="Cache\IJsonCacheRefresher.cs" />
     <Compile Include="Cache\IPayloadCacheRefresher.cs" />
@@ -183,6 +184,7 @@
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
     <Compile Include="Extensions.OfferComponentDefinition.cs" />
+    <Compile Include="Extensions.PagedCollection.cs" />
     <Compile Include="IAttempt.cs" />
     <Compile Include="Cache\IIsolatedRuntimeCacheAdapter.cs" />
     <Compile Include="Acquired\ObjectExtensions.cs" />
@@ -383,10 +385,10 @@
     <Compile Include="Persistence\Repositories\AppliedPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerAddressRepository.cs" />
     <Compile Include="Persistence\Repositories\DetachedContentTypeRepository.cs" />
-    <Compile Include="Persistence\Repositories\EntityCollectionRepository.baseimp.cs">
+    <Compile Include="Persistence\Repositories\EntityCollectionRepository.cs" />
+    <Compile Include="Persistence\Repositories\EntityCollectionRepository.npoco.cs">
       <DependentUpon>EntityCollectionRepository.cs</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\Repositories\EntityCollectionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IDetachedContentTypeRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerAddressRepository.cs" />
@@ -401,10 +403,10 @@
     <Compile Include="Cache\IRepositoryCachePolicy.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryQueryable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryWritable{T}.cs" />
-    <Compile Include="Persistence\Repositories\MigrationStatusRepository.baseimp.cs">
+    <Compile Include="Persistence\Repositories\MigrationStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\MigrationStatusRepository.npoco.cs">
       <DependentUpon>MigrationStatusRepository.cs</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\Repositories\MigrationStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\NPocoEntityRepositoryBase.cs" />
     <Compile Include="Persistence\Repositories\NPocoRespositoryBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryQueryableBase.cs" />
