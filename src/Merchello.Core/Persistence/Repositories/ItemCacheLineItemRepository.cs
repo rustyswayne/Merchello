@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using LightInject;
-
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
@@ -16,10 +14,10 @@
     using NPoco;
 
     /// <inheritdoc/>
-    internal class CustomerAddressRepository : NPocoEntityRepositoryBase<ICustomerAddress, CustomerAddressDto, CustomerAddressFactory>, ICustomerAddressRepository
+    internal class ItemCacheLineItemRepository : NPocoLineItemRespositoryBase<IItemCacheLineItem, ItemCacheItemDto, ItemCacheLineItemFactory>, IItemCacheLineItemRepository
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerAddressRepository"/> class.
+        /// Initializes a new instance of the <see cref="ItemCacheLineItemRepository"/> class.
         /// </summary>
         /// <param name="work">
         /// The <see cref="IDatabaseUnitOfWork"/>.
@@ -33,7 +31,7 @@
         /// <param name="mappingResolver">
         /// The <see cref="IMappingResolver"/>.
         /// </param>
-        public CustomerAddressRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
+        public ItemCacheLineItemRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger, mappingResolver)
         {
         }
@@ -42,22 +40,22 @@
         protected override Sql<SqlContext> GetBaseQuery(bool isCount)
         {
             return Sql().Select(isCount ? "COUNT(*)" : "*")
-                .From<CustomerAddressDto>();
+                .From<ItemCacheItemDto>();
         }
 
         /// <inheritdoc/>
         protected override string GetBaseWhereClause()
         {
-            return "merchCustomerAddress.pk = @Key";
+            return "merchItemCacheItem.pk = @Key";
         }
 
         /// <inheritdoc/>
         protected override IEnumerable<string> GetDeleteClauses()
         {
             var list = new List<string>
-                {
-                    "DELETE FROM merchCustomerAddress WHERE pk = @Key",
-                };
+            {
+                "DELETE FROM merchItemCacheItem WHERE pk = @Key"
+            };
 
             return list;
         }

@@ -36,16 +36,16 @@
         /// Initializes a new instance of the <see cref="NPocoEntityRepositoryBase{TEntity,TDto,TFactory}"/> class.
         /// </summary>
         /// <param name="work">
-        /// The work.
+        /// The <see cref="IDatabaseUnitOfWork"/>.
         /// </param>
         /// <param name="cache">
-        /// The cache.
+        /// The <see cref="ICacheHelper"/>.
         /// </param>
         /// <param name="logger">
-        /// The logger.
+        /// The <see cref="ILogger"/>.
         /// </param>
         /// <param name="mappingResolver">
-        /// The mapping resolver.
+        /// The <see cref="IMappingResolver"/>.
         /// </param>
         protected NPocoEntityRepositoryBase(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger, mappingResolver)

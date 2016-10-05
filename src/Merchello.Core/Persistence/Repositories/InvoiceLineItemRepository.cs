@@ -16,10 +16,10 @@
     using NPoco;
 
     /// <inheritdoc/>
-    internal class CustomerAddressRepository : NPocoEntityRepositoryBase<ICustomerAddress, CustomerAddressDto, CustomerAddressFactory>, ICustomerAddressRepository
+    internal class InvoiceLineItemRepository : NPocoLineItemRespositoryBase<IInvoiceLineItem, InvoiceItemDto, InvoiceLineItemFactory>, IInvoiceLineItemRepository
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerAddressRepository"/> class.
+        /// Initializes a new instance of the <see cref="InvoiceLineItemRepository"/> class.
         /// </summary>
         /// <param name="work">
         /// The <see cref="IDatabaseUnitOfWork"/>.
@@ -33,7 +33,7 @@
         /// <param name="mappingResolver">
         /// The <see cref="IMappingResolver"/>.
         /// </param>
-        public CustomerAddressRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
+        public InvoiceLineItemRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger, mappingResolver)
         {
         }
@@ -42,22 +42,24 @@
         protected override Sql<SqlContext> GetBaseQuery(bool isCount)
         {
             return Sql().Select(isCount ? "COUNT(*)" : "*")
-                .From<CustomerAddressDto>();
+                .From<InvoiceItemDto>();
         }
+
 
         /// <inheritdoc/>
         protected override string GetBaseWhereClause()
         {
-            return "merchCustomerAddress.pk = @Key";
+            return "merchInvoiceItem.pk = @Key";
         }
+
 
         /// <inheritdoc/>
         protected override IEnumerable<string> GetDeleteClauses()
         {
             var list = new List<string>
-                {
-                    "DELETE FROM merchCustomerAddress WHERE pk = @Key",
-                };
+            {
+                "DELETE FROM merchInvoiceItem WHERE pk = @Key"
+            };
 
             return list;
         }

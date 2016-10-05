@@ -1,6 +1,7 @@
 ﻿namespace Merchello.Core.Models.Rdbms
 {
     using System;
+    using System.Collections.Generic;
 
     using Merchello.Core.Acquired.Persistence.DatabaseAnnotations;
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
@@ -80,11 +81,5 @@
         [Column("createDate")]
         [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime CreateDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="GatewayProviderSettingsDto"/>.
-        /// </summary>
-        [ResultColumn]
-        public GatewayProviderSettingsDto GatewayProviderSettingsDto { get; set; }
     }
 }

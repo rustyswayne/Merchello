@@ -304,7 +304,10 @@
     <Compile Include="Persistence\Factories\EntityUseCountFactory.cs" />
     <Compile Include="Persistence\Factories\GatewayProviderSettingsFactory.cs" />
     <Compile Include="Persistence\Factories\IEntityFactory.cs" />
-    <Compile Include="Persistence\Factories\LineItemFactory.cs" />
+    <Compile Include="Persistence\Factories\InvoiceLineItemFactory.cs" />
+    <Compile Include="Persistence\Factories\InvoiceStatusFactory.cs" />
+    <Compile Include="Persistence\Factories\ItemCacheFactory.cs" />
+    <Compile Include="Persistence\Factories\ItemCacheLineItemFactory.cs" />
     <Compile Include="Persistence\Factories\MigrationStatusFactory.cs" />
     <Compile Include="Persistence\Factories\NoteFactory.cs" />
     <Compile Include="Persistence\Factories\NotificationMessageFactory.cs" />
@@ -399,13 +402,23 @@
     <Compile Include="Persistence\Repositories\EntityCollectionRepository.npoco.cs">
       <DependentUpon>EntityCollectionRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\GatewayProviderSettingsRepository.cs" />
+    <Compile Include="Persistence\Repositories\GatewayProviderSettingsRepository.npoco.cs">
+      <DependentUpon>GatewayProviderSettingsRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IDetachedContentTypeRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerAddressRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IAnonymousCustomerRepository.cs" />
-    <Compile Include="Persistence\Repositories\INPocoEntityRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\INPocoEntityRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IAppliedPaymentRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IGatewayProviderSettingsRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IInvoiceLineItemRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IInvoiceStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IItemCacheLineItemRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IItemCacheRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\ILineItemRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IMigrationStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IProductOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionEntityRepository.cs" />
@@ -415,11 +428,19 @@
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryQueryable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryWritable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ISearchTermRepository.cs" />
+    <Compile Include="Persistence\Repositories\InvoiceLineItemRepository.cs" />
+    <Compile Include="Persistence\Repositories\InvoiceStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\ItemCacheLineItemRepository.cs" />
+    <Compile Include="Persistence\Repositories\ItemCacheRepository.cs" />
+    <Compile Include="Persistence\Repositories\ItemCacheRepository.npoco.cs">
+      <DependentUpon>ItemCacheRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\MigrationStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\MigrationStatusRepository.npoco.cs">
       <DependentUpon>MigrationStatusRepository.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\Repositories\NPocoEntityRepositoryBase.cs" />
+    <Compile Include="Persistence\Repositories\NPocoLineItemRespositoryBase.cs" />
     <Compile Include="Persistence\Repositories\NPocoRespositoryBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryQueryableBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryReadableBase.cs" />

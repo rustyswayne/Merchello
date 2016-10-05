@@ -56,6 +56,17 @@
             // register repositories
             // repos depend on various things, and a IDatabaseUnitOfWork (registered above)
             // some repositories have an annotated ctor parameter to pick the right cache helper
+            container.Register<IAnonymousCustomerRepository, AnonymousCustomerRepository>();
+            container.Register<IAppliedPaymentRepository, AppliedPaymentRepository>();
+            container.Register<ICustomerAddressRepository, CustomerAddressRepository>();
+            container.Register<ICustomerRepository, CustomerRepository>();
+            container.Register<IDetachedContentTypeRepository, DetachedContentTypeRepository>();
+            container.Register<IEntityCollectionRepository, EntityCollectionRepository>();
+            container.Register<IGatewayProviderSettingsRepository, GatewayProviderSettingsRepository>();
+            container.Register<IInvoiceLineItemRepository, InvoiceLineItemRepository>();
+            container.Register<IInvoiceStatusRepository, InvoiceStatusRepository>();
+            container.Register<IItemCacheLineItemRepository, ItemCacheLineItemRepository>();
+            container.Register<IItemCacheRepository, ItemCacheRepository>();
             container.Register<IMigrationStatusRepository, MigrationStatusRepository>();
         }
     }
