@@ -1,4 +1,4 @@
-namespace Merchello.Core.Cache
+namespace Merchello.Core.Cache.Policies
 {
     using System;
     using System.Collections.Generic;
@@ -52,5 +52,38 @@ namespace Merchello.Core.Cache
 
         /// <inheritdoc/>
         public abstract void ClearAll();
+
+
+        /// <summary>
+        /// Gets the cache key.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of entity
+        /// </typeparam>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The cache key.
+        /// </returns>
+        protected string GetEntityCacheKey<T>(Guid key)
+        {
+            if (key == null || key.Equals(Guid.Empty)) throw new ArgumentNullException(nameof(key));
+            return this.GetEntityTypeCacheKey<T>() + key;
+        }
+
+        /// <summary>
+        /// Gets the entity type cache key.
+        /// </summary>
+        /// <typeparam name="T">
+        /// Type of the entity.
+        /// </typeparam>
+        /// <returns>
+        /// The The cache key.
+        /// </returns>
+        protected virtual string GetEntityTypeCacheKey<T>()
+        {
+            return $"mRepo_{typeof(T).Name}_";
+        }
     }
 }

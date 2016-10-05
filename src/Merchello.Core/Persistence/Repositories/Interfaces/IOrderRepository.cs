@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a repository responsible for <see cref="IOrder"/> entities.
     /// </summary>
-    public interface IOrderRepository : INPocoEntityRepository<IOrder>, ISearchTermRepository<IOrder>, IEnsureDocumentNumberRepository
+    public interface IOrderRepository : INPocoEntityRepository<IOrder>, IEnsureDocumentNumberRepository
     {
     }
 }

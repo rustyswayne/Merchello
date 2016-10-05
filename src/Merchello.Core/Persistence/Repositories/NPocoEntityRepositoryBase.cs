@@ -136,5 +136,20 @@
 
             entity.ResetDirtyProperties();
         }
+
+        /// <summary>
+        /// Maps a collection of <see cref="TDto"/> to <see cref="TEntity"/>.
+        /// </summary>
+        /// <param name="dtos">
+        /// The collection of DTOs.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{TEntity}"/>.
+        /// </returns>
+        protected virtual IEnumerable<TEntity> MapDtoCollection(IEnumerable<TDto> dtos)
+        {
+            var factory = new TFactory();
+            return dtos.Select(dto => factory.BuildEntity(dto));
+        }
     }
 }

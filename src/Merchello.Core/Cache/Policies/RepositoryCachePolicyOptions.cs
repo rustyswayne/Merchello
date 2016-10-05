@@ -1,4 +1,4 @@
-namespace Merchello.Core.Cache
+namespace Merchello.Core.Cache.Policies
 {
     using System;
 

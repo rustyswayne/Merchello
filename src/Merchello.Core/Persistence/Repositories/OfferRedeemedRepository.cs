@@ -44,20 +44,5 @@
                 "UPDATE merchOfferRedeemed SET offerSettingsKey = NULL WHERE offerSettingsKey = @Key",
                 new { @Key = offerSettingsKey });
         }
-
-        /// <summary>
-        /// Maps a collection of <see cref="OfferRedeemedDto"/> to <see cref="IOfferRedeemed"/>.
-        /// </summary>
-        /// <param name="dtos">
-        /// The collection of DTOs.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IEnumerable{IOfferRedeemed}"/>.
-        /// </returns>
-        protected IEnumerable<IOfferRedeemed> MapDtoCollection(IEnumerable<OfferRedeemedDto> dtos)
-        {
-            var factory = new OfferRedeemedFactory();
-            return dtos.Select(factory.BuildEntity);
-        }
     }
 }

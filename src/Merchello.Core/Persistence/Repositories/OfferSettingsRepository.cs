@@ -43,20 +43,5 @@
             Ensure.ParameterNotNull(offerRedeemedRepository, nameof(offerRedeemedRepository));
             _offerRedeemedRepository = offerRedeemedRepository;
         }
-
-        /// <summary>
-        /// Maps a collection of <see cref="OfferSettingsDto"/> to <see cref="IOfferSettings"/>.
-        /// </summary>
-        /// <param name="dtos">
-        /// The collection of DTOs.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IEnumerable{IOfferSettings}"/>.
-        /// </returns>
-        protected IEnumerable<IOfferSettings> MapDtoCollection(IEnumerable<OfferSettingsDto> dtos)
-        {
-            var factory = new OfferSettingsFactory();
-            return dtos.Select(factory.BuildEntity);
-        }
     }
 }

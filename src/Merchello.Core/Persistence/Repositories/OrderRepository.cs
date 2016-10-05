@@ -7,7 +7,6 @@
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
-    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -17,7 +16,7 @@
         /// <summary>
         /// The <see cref="IOrderLineItemRepository"/>.
         /// </summary>
-        private IOrderLineItemRepository _orderLineItemRepository;
+        private readonly IOrderLineItemRepository _orderLineItemRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderRepository"/> class.

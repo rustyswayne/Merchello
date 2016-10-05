@@ -58,14 +58,15 @@
     <Compile Include="Acquired\Persistence\Querying\SqlTranslator.cs" />
     <Compile Include="ActivatorServiceProvider.cs" />
     <Compile Include="Cache\CacheRefresherBase.cs" />
-    <Compile Include="Cache\DefaultRepositoryCachePolicy.cs" />
-    <Compile Include="Cache\EntityCollectionRepositoryCachePolicy.cs" />
+    <Compile Include="Cache\Policies\DefaultRepositoryCachePolicy.cs" />
+    <Compile Include="Cache\Policies\EntityCollectionRepositoryCachePolicy.cs" />
     <Compile Include="Cache\ICacheRefresher.cs" />
     <Compile Include="Cache\IJsonCacheRefresher.cs" />
     <Compile Include="Cache\IPayloadCacheRefresher.cs" />
     <Compile Include="Cache\JsonCacheRefresherBase.cs" />
-    <Compile Include="Cache\RepositoryCachePolicyBase.cs" />
-    <Compile Include="Cache\RepositoryCachePolicyOptions.cs" />
+    <Compile Include="Cache\Policies\OrderRepositoryCachePolicy.cs" />
+    <Compile Include="Cache\Policies\RepositoryCachePolicyBase.cs" />
+    <Compile Include="Cache\Policies\RepositoryCachePolicyOptions.cs" />
     <Compile Include="Constants.CountryCodes.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
@@ -428,6 +429,9 @@
     <Compile Include="Persistence\Repositories\Interfaces\IOfferSettingsRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IOrderLineItemRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IOrderRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IOrderStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IPaymentMethodRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IProductOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionEntityRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryReadable{T}.cs" />
@@ -481,8 +485,33 @@
     <Compile Include="Persistence\Repositories\OrderRepository.npoco.cs">
       <DependentUpon>OrderRepository.cs</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\Repositories\OrderRepository.searchterm.cs">
-      <DependentUpon>OrderRepository.cs</DependentUpon>
+    <Compile Include="Persistence\Repositories\OrderStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\PaymentMethodRepository.npoco.cs">
+      <DependentUpon>PaymentMethodRespository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\PaymentMethodRespository.cs" />
+    <Compile Include="Persistence\Repositories\PaymentRepository.cs" />
+    <Compile Include="Persistence\Repositories\PaymentRepository.npoco.cs">
+      <DependentUpon>PaymentRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductOptionRepository.choices.cs">
+      <DependentUpon>ProductOptionRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductOptionRepository.cs" />
+    <Compile Include="Persistence\Repositories\ProductOptionRepository.npoco.cs">
+      <DependentUpon>ProductOptionRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductOptionRepository.product.cs">
+      <DependentUpon>ProductOptionRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductOptionRepository.searchterm.cs">
+      <DependentUpon>ProductOptionRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductOptionRepository.sharedoptions.cs">
+      <DependentUpon>ProductOptionRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductOptionRepository.sqlbuilder.cs">
+      <DependentUpon>ProductOptionRepository.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\Repositories\RepositoryQueryableBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryReadableBase.cs" />

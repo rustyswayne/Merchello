@@ -1,12 +1,13 @@
-﻿namespace Merchello.Core.Cache
+﻿namespace Merchello.Core.Cache.Policies
 {
     using System;
 
     using Merchello.Core.Acquired.Cache;
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
 
     /// <summary>
-    /// Represents an EntityCollectionRepositoryCachePolicy.
+    /// Represents a cache policy for the <see cref="EntityCollectionRepository"/>.
     /// </summary>
     internal class EntityCollectionRepositoryCachePolicy : DefaultRepositoryCachePolicy<IEntityCollection>
     {
@@ -14,10 +15,10 @@
         /// Initializes a new instance of the <see cref="EntityCollectionRepositoryCachePolicy"/> class.
         /// </summary>
         /// <param name="cache">
-        /// The cache.
+        /// The <see cref="IRuntimeCacheProviderAdapter"/>.
         /// </param>
         /// <param name="options">
-        /// The options.
+        /// The <see cref="RepositoryCachePolicyOptions"/>.
         /// </param>
         /// <remarks>
         /// We need to handle the special filter collection caching here as well.
@@ -44,8 +45,8 @@
         /// </remarks>
         public IEntityFilterGroup Get(Guid key, Func<Guid, IEntityFilterGroup> performGet)
         {
-            var cacheKey = GetFilterGroupCacheKey(key);
-            var fromCache = Cache.GetCacheItem<IEntityFilterGroup>(cacheKey);
+            var cacheKey = this.GetEntityCacheKey<IEntityFilterGroup>(key);
+            var fromCache = this.Cache.GetCacheItem<IEntityFilterGroup>(cacheKey);
 
             // if found in cache then return else fetch and cache
             if (fromCache != null)
@@ -53,7 +54,7 @@
             var entity = performGet(key);
 
             if (entity != null && entity.HasIdentity)
-                InsertEntity(cacheKey, entity);
+                this.InsertEntity(cacheKey, entity);
 
             return entity;
         }
@@ -62,7 +63,7 @@
         public override void ClearAll()
         {
             base.ClearAll();
-            this.Cache.ClearCacheByKeySearch(this.GetFilterGroupCacheKey());
+            this.Cache.ClearCacheByKeySearch(this.GetEntityTypeCacheKey<IEntityFilterGroup>());
         }
 
         /// <inheritdoc/>
@@ -71,8 +72,8 @@
             if (entity.IsFilter)
             this.Cache.ClearCacheItem(
                 entity.ParentKey != null
-                    ? this.GetFilterGroupCacheKey(entity.ParentKey.Value)
-                    : this.GetFilterGroupCacheKey(entity.Key));
+                    ? this.GetEntityCacheKey<IEntityFilterGroup>(entity.ParentKey.Value)
+                    : this.GetEntityCacheKey<IEntityFilterGroup>(entity.Key));
 
             base.Update(entity, persistUpdated);
         }
@@ -83,37 +84,10 @@
             if (entity.IsFilter)
             this.Cache.ClearCacheItem(
                 entity.ParentKey != null
-                    ? this.GetFilterGroupCacheKey(entity.ParentKey.Value)
-                    : this.GetFilterGroupCacheKey(entity.Key));
+                    ? this.GetEntityCacheKey<IEntityFilterGroup>(entity.ParentKey.Value)
+                    : this.GetEntityCacheKey<IEntityFilterGroup>(entity.Key));
 
             base.Delete(entity, persistDeleted);
-        }
-
-        /// <summary>
-        /// Gets the cache key.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The cache key.
-        /// </returns>
-        protected string GetFilterGroupCacheKey(Guid key)
-        {
-            if (key == null || key.Equals(Guid.Empty)) throw new ArgumentNullException(nameof(key));
-            return this.GetEntityTypeCacheKey() + key;
-        }
-
-
-        /// <summary>
-        /// Gets the entity type cache key.
-        /// </summary>
-        /// <returns>
-        /// The cache key.
-        /// </returns>
-        protected string GetFilterGroupCacheKey()
-        {
-            return $"mRepo_{typeof(IEntityFilterGroup).Name}_";
         }
     }
 }

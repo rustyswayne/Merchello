@@ -9,6 +9,7 @@
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Acquired.Persistence.Querying;
     using Merchello.Core.Cache;
+    using Merchello.Core.Cache.Policies;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Interfaces;
@@ -183,21 +184,6 @@
             }
 
             return filterGroup;
-        }
-
-        /// <summary>
-        /// Maps a collection of <see cref="EntityCollectionDto"/> to <see cref="IEntityCollection"/>.
-        /// </summary>
-        /// <param name="dtos">
-        /// The collection of DTOs.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IEnumerable{IEntityCollection}"/>.
-        /// </returns>
-        protected IEnumerable<IEntityCollection> MapDtoCollection(IEnumerable<EntityCollectionDto> dtos)
-        {
-            var factory = new EntityCollectionFactory();
-            return dtos.Select(factory.BuildEntity);
         }
     }
 }

@@ -5,6 +5,8 @@
 
     using Merchello.Core.Acquired.Persistence;
     using Cache;
+
+    using Merchello.Core.Cache.Policies;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence.Factories;

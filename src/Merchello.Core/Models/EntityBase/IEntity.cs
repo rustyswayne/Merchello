@@ -19,6 +19,11 @@
         /// Gets a value indicating whether the current entity has an identity, e.g. Id.
         /// </summary>
         [IgnoreDataMember]
-        bool HasIdentity { get; }            
+        bool HasIdentity { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether key identity has been preset.
+        /// </summary>
+        bool HasPresetKey { get; }
     }
 }

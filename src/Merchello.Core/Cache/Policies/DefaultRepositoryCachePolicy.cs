@@ -1,4 +1,4 @@
-namespace Merchello.Core.Cache
+namespace Merchello.Core.Cache.Policies
 {
     using System;
     using System.Collections.Generic;
@@ -52,8 +52,8 @@ namespace Merchello.Core.Cache
         /// <inheritdoc/>
         public override TEntity Get(Guid key, Func<Guid, TEntity> performGet, Func<Guid[], IEnumerable<TEntity>> performGetAll)
         {
-            var cacheKey = GetEntityCacheKey(key);
-            var fromCache = Cache.GetCacheItem<TEntity>(cacheKey);
+            var cacheKey = this.GetEntityCacheKey(key);
+            var fromCache = this.Cache.GetCacheItem<TEntity>(cacheKey);
 
             // if found in cache then return else fetch and cache
             if (fromCache != null)
@@ -61,7 +61,7 @@ namespace Merchello.Core.Cache
             var entity = performGet(key);
 
             if (entity != null && entity.HasIdentity)
-                InsertEntity(cacheKey, entity);
+                this.InsertEntity(cacheKey, entity);
 
             return entity;
         }
@@ -69,16 +69,16 @@ namespace Merchello.Core.Cache
         /// <inheritdoc/>
         public override TEntity GetCached(Guid key)
         {
-            var cacheKey = GetEntityCacheKey(key);
-            return Cache.GetCacheItem<TEntity>(cacheKey);
+            var cacheKey = this.GetEntityCacheKey(key);
+            return this.Cache.GetCacheItem<TEntity>(cacheKey);
         }
 
         /// <inheritdoc/>
         public override bool Exists(Guid key, Func<Guid, bool> performExists, Func<Guid[], IEnumerable<TEntity>> performGetAll)
         {
             // if found in cache the return else check
-            var cacheKey = GetEntityCacheKey(key);
-            var fromCache = Cache.GetCacheItem<TEntity>(cacheKey);
+            var cacheKey = this.GetEntityCacheKey(key);
+            var fromCache = this.Cache.GetCacheItem<TEntity>(cacheKey);
             return fromCache != null || performExists(key);
         }
 
@@ -89,23 +89,23 @@ namespace Merchello.Core.Cache
             {
                 // try to get each entity from the cache
                 // if we can find all of them, return
-                var entities = keys.Select(GetCached).WhereNotNull().ToArray();
+                var entities = keys.Select(this.GetCached).WhereNotNull().ToArray();
                 if (keys.Length.Equals(entities.Length))
                     return entities; // no need for null checks, we are not caching nulls
             }
             else
             {
                 // get everything we have
-                var entities = Cache.GetCacheItemsByKeySearch<TEntity>(GetEntityTypeCacheKey())
+                var entities = this.Cache.GetCacheItemsByKeySearch<TEntity>(this.GetEntityTypeCacheKey())
                     .ToArray(); // no need for null checks, we are not caching nulls
 
                 if (entities.Length > 0)
                 {
                     // if some of them were in the cache...
-                    if (_options.GetAllCacheValidateCount)
+                    if (this._options.GetAllCacheValidateCount)
                     {
                         // need to validate the count, get the actual count and return if ok
-                        var totalCount = _options.PerformCount();
+                        var totalCount = this._options.PerformCount();
                         if (entities.Length == totalCount)
                             return entities;
                     }
@@ -115,11 +115,11 @@ namespace Merchello.Core.Cache
                         return entities;
                     }
                 }
-                else if (_options.GetAllCacheAllowZeroCount)
+                else if (this._options.GetAllCacheAllowZeroCount)
                 {
                     // if none of them were in the cache
                     // and we allow zero count - check for the special (empty) entry
-                    var empty = Cache.GetCacheItem<TEntity[]>(GetEntityTypeCacheKey());
+                    var empty = this.Cache.GetCacheItem<TEntity[]>(this.GetEntityTypeCacheKey());
                     if (empty != null) return empty;
                 }
             }
@@ -131,7 +131,7 @@ namespace Merchello.Core.Cache
                 .ToArray();
 
             // note: if empty & allow zero count, will cache a special (empty) entry
-            InsertEntities(keys, repoEntities);
+            this.InsertEntities(keys, repoEntities);
 
             return repoEntities;
         }
@@ -233,8 +233,7 @@ namespace Merchello.Core.Cache
         /// </returns>
         protected string GetEntityCacheKey(Guid key)
         {
-            if (key == null || key.Equals(Guid.Empty)) throw new ArgumentNullException(nameof(key));
-            return this.GetEntityTypeCacheKey() + key;
+            return this.GetEntityCacheKey<TEntity>(key);
         }
 
         /// <summary>
@@ -245,7 +244,7 @@ namespace Merchello.Core.Cache
         /// </returns>
         protected string GetEntityTypeCacheKey()
         {
-            return $"mRepo_{typeof(TEntity).Name}_";
+            return this.GetEntityTypeCacheKey<TEntity>();
         }
 
         /// <summary>

@@ -1,5 +1,10 @@
 ﻿namespace Merchello.Core.Persistence.Factories
 {
+    using System;
+
+    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.Persistence.Repositories;
+
     using Models;
     using Models.Rdbms;
 
@@ -8,7 +13,55 @@
     /// </summary>
     internal class OrderFactory : IEntityFactory<IOrder, OrderDto>
     {
-      
+        /// <summary>
+        /// The <see cref="OrderStatusFactory"/>.
+        /// </summary>
+        private readonly OrderStatusFactory _orderStatusFactory;
+
+        /// <summary>
+        /// A function to query order line items.
+        /// </summary>
+        private readonly Func<Guid, LineItemCollection> _lineItemGetter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderFactory"/> class.
+        /// </summary>
+        /// <param name="orderStatusFactory">
+        /// The <see cref="OrderStatusFactory"/>.
+        /// </param>
+        /// <param name="lineItemGetter">
+        /// A function to query order line items.
+        /// </param>
+        public OrderFactory(OrderStatusFactory orderStatusFactory, Func<Guid, LineItemCollection> lineItemGetter)
+        {
+            Ensure.ParameterNotNull(orderStatusFactory, nameof(orderStatusFactory));
+            Ensure.ParameterNotNull(lineItemGetter, nameof(lineItemGetter));
+
+            _orderStatusFactory = orderStatusFactory;
+            _lineItemGetter = lineItemGetter;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderFactory"/> class.
+        /// </summary>
+        internal OrderFactory()
+            : this(new OrderStatusFactory())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderFactory"/> class.
+        /// </summary>
+        /// <param name="orderStatusFactory">
+        /// The order status factory.
+        /// </param>
+        internal OrderFactory(OrderStatusFactory orderStatusFactory)
+            : this(orderStatusFactory, IoC.Container.GetInstance<IOrderLineItemRepository>().GetLineItemCollection)
+        {
+        }
+
+
+
         /// <summary>
         /// Builds an order entity.
         /// </summary>
@@ -20,8 +73,7 @@
         /// </returns>
         public IOrder BuildEntity(OrderDto dto)
         {
-            var factory = new OrderStatusFactory();
-            var order = new Order(factory.BuildEntity(dto.OrderStatusDto), dto.InvoiceKey)
+            var order = new Order(_orderStatusFactory.BuildEntity(dto.OrderStatusDto), dto.InvoiceKey)
                 {
                     Key = dto.Key,
                     OrderNumberPrefix = dto.OrderNumberPrefix,
@@ -29,6 +81,7 @@
                     OrderDate = dto.OrderDate,
                     VersionKey = dto.VersionKey,
                     Exported = dto.Exported,
+                    Items = _lineItemGetter.Invoke(dto.Key),
                     UpdateDate = dto.UpdateDate,
                     CreateDate = dto.CreateDate
                 };

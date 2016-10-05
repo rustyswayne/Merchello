@@ -1,23 +1,20 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using LightInject;
-
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
-    using Merchello.Core.Models;
-    using Merchello.Core.Models.Rdbms;
-    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <inheritdoc/>
-    internal partial class NoteRepository : INoteRepository
+    internal partial class PaymentMethodRepository : IPaymentMethodRepository
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoteRepository"/> class. 
+        /// The <see cref="IPaymentRepository"/>.
+        /// </summary>
+        private readonly IPaymentRepository _paymentRepository;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PaymentMethodRepository"/> class.
         /// </summary>
         /// <param name="work">
         /// The <see cref="IDatabaseUnitOfWork"/>.
@@ -31,9 +28,14 @@
         /// <param name="mappingResolver">
         /// The <see cref="IMappingResolver"/>.
         /// </param>
-        public NoteRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
+        /// <param name="paymentRepository">
+        /// The <see cref="IPaymentRepository"/>
+        /// </param>
+        public PaymentMethodRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IPaymentRepository paymentRepository)
             : base(work, cache, logger, mappingResolver)
         {
+            Ensure.ParameterNotNull(paymentRepository, nameof(paymentRepository));
+            _paymentRepository = paymentRepository;
         }
     }
 }

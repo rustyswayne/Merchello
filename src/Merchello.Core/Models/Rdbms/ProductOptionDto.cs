@@ -73,6 +73,7 @@
         /// Gets or sets the result for product to product option association.
         /// </summary>
         [ResultColumn]
+        [Reference(ReferenceType.Foreign, ColumnName = "productKey", ReferenceMemberName = "ProductKey")]
         public Product2ProductOptionDto Product2ProductOptionDto { get; set; }
     }
 }

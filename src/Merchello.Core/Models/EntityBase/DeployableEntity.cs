@@ -19,7 +19,9 @@
         /// </remarks>
         internal void SetKeyForDeploymentCreate(Guid key)
         {
+            if (HasIdentity) return;
             Key = key;
+            HasPresetKey = true;
             HasIdentity = false;
         }
     }

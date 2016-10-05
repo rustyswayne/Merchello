@@ -41,6 +41,15 @@
         private bool _hasIdentity;
 
         /// <summary>
+        /// A value that indicates whether or not the key has been preset and the entity should still
+        /// be considered as new. 
+        /// </summary>
+        /// <remarks>
+        /// Useful in deploys.
+        /// </remarks>
+        private bool _hasPresetKey;
+
+        /// <summary>
         /// A value that indicates a CRUD operation was cancelled.
         /// </summary>
         private bool _wasCancelled;
@@ -110,6 +119,23 @@
             protected set
             {
                 SetPropertyValueAndDetectChanges(value, ref _hasIdentity, _ps.Value.HasIdentitySelector);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the entity has a preset key.
+        /// </summary>
+        [IgnoreDataMember]
+        public virtual bool HasPresetKey
+        {
+            get
+            {
+                return _hasPresetKey;
+            }
+
+            protected set
+            {
+                SetPropertyValueAndDetectChanges(value, ref _hasPresetKey, _ps.Value.HasPresetKeySelector);
             }
         }
 
@@ -204,7 +230,7 @@
         /// </summary>
         internal virtual void AddingEntity()
         {
-            if (Key == Guid.Empty)
+            if (!HasPresetKey && Key == Guid.Empty)
                 _key = Guid.NewGuid(); // set the _key so that the HasIdentity flag is not set
 
             CreateDate = DateTime.Now;
@@ -327,6 +353,11 @@
             /// The has identity selector.
             /// </summary>
             public readonly PropertyInfo HasIdentitySelector = ExpressionHelper.GetPropertyInfo<Entity, bool>(x => x.HasIdentity);
+
+            /// <summary>
+            /// The key is preset selector.
+            /// </summary>
+            public readonly PropertyInfo HasPresetKeySelector = ExpressionHelper.GetPropertyInfo<Entity, bool>(x => x.HasPresetKey);
         }
     }
 }

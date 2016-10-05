@@ -63,20 +63,5 @@
 
             return sql;
         }
-
-        /// <summary>
-        /// Maps a collection of <see cref="CustomerDto"/> to <see cref="ICustomer"/>.
-        /// </summary>
-        /// <param name="dtos">
-        /// The collection of DTOs.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IEnumerable{ICustomer}"/>.
-        /// </returns>
-        protected IEnumerable<ICustomer> MapDtoCollection(IEnumerable<CustomerDto> dtos)
-        {
-            var factory = new CustomerFactory();
-            return dtos.Select(factory.BuildEntity);
-        }
     }
 }

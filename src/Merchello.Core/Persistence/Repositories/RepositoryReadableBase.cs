@@ -4,6 +4,7 @@ namespace Merchello.Core.Persistence.Repositories
     using System.Collections.Generic;
 
     using Merchello.Core.Cache;
+    using Merchello.Core.Cache.Policies;
     using Merchello.Core.Logging;
     using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Persistence.Querying;

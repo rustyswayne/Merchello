@@ -5,6 +5,7 @@
 
     using Merchello.Core.Acquired;
     using Merchello.Core.Cache;
+    using Merchello.Core.Cache.Policies;
     using Merchello.Core.Logging;
     using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Persistence.Querying;
