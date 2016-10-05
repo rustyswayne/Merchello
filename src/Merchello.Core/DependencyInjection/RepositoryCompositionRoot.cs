@@ -68,6 +68,11 @@
             container.Register<IItemCacheLineItemRepository, ItemCacheLineItemRepository>();
             container.Register<IItemCacheRepository, ItemCacheRepository>();
             container.Register<IMigrationStatusRepository, MigrationStatusRepository>();
+            container.Register<INoteRepository, NoteRepository>();
+            container.Register<INotificationMessageRepository, NotificationMessageRepository>();
+            container.Register<INotificationMethodRepository, NotificationMethodRepository>();
+            container.Register<IOfferRedeemedRepository, OfferRedeemedRepository>();
+            container.Register<IOfferSettingsRepository, OfferSettingsRepository>();
         }
     }
 }

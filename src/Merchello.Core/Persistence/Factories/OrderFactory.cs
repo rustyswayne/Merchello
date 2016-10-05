@@ -8,22 +8,7 @@
     /// </summary>
     internal class OrderFactory : IEntityFactory<IOrder, OrderDto>
     {
-        /// <summary>
-        /// The line item collection.
-        /// </summary>
-        private readonly LineItemCollection _lineItemCollection;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OrderFactory"/> class.
-        /// </summary>
-        /// <param name="lineItemCollection">
-        /// The line item collection.
-        /// </param>
-        public OrderFactory(LineItemCollection lineItemCollection)
-        {
-            _lineItemCollection = lineItemCollection;
-        }
-
+      
         /// <summary>
         /// Builds an order entity.
         /// </summary>
@@ -36,7 +21,7 @@
         public IOrder BuildEntity(OrderDto dto)
         {
             var factory = new OrderStatusFactory();
-            var order = new Order(factory.BuildEntity(dto.OrderStatusDto), dto.InvoiceKey, _lineItemCollection)
+            var order = new Order(factory.BuildEntity(dto.OrderStatusDto), dto.InvoiceKey)
                 {
                     Key = dto.Key,
                     OrderNumberPrefix = dto.OrderNumberPrefix,

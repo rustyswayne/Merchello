@@ -46,6 +46,20 @@
         }
 
         /// <inheritdoc/>
+        public LineItemCollection GetLineItemCollection(Guid containerKey)
+        {
+            var items = GetByContainerKey(containerKey);
+
+            var collection = new LineItemCollection();
+            foreach (var item in items)
+            {
+                collection.Add(item);
+            }
+
+            return collection;
+        }
+
+        /// <inheritdoc/>
         public virtual void SaveLineItem(LineItemCollection items, Guid containerKey)
         {
             var existing = GetByContainerKey(containerKey);

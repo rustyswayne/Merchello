@@ -27,6 +27,17 @@
         IEnumerable<TLineItem> GetByContainerKey(Guid containerKey);
 
         /// <summary>
+        /// Gets a <see cref="LineItemCollection"/>.
+        /// </summary>
+        /// <param name="containerKey">
+        /// The container key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="LineItemCollection"/>.
+        /// </returns>
+        LineItemCollection GetLineItemCollection(Guid containerKey);
+
+        /// <summary>
         /// Saves a <see cref="LineItemCollection"/>.
         /// </summary>
         /// <param name="items">

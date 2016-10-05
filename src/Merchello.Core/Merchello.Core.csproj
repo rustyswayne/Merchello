@@ -406,11 +406,15 @@
     <Compile Include="Persistence\Repositories\GatewayProviderSettingsRepository.npoco.cs">
       <DependentUpon>GatewayProviderSettingsRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\Interfaces\IEnsureDocumentNumberRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IDetachedContentTypeRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerAddressRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IAnonymousCustomerRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\INoteRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\INotificationMessageRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\INotificationMethodRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\INPocoEntityRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IAppliedPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IGatewayProviderSettingsRepository.cs" />
@@ -420,6 +424,10 @@
     <Compile Include="Persistence\Repositories\Interfaces\IItemCacheRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ILineItemRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IMigrationStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IOfferRedeemedRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IOfferSettingsRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IOrderLineItemRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IOrderRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IProductOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionEntityRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryReadable{T}.cs" />
@@ -439,9 +447,43 @@
     <Compile Include="Persistence\Repositories\MigrationStatusRepository.npoco.cs">
       <DependentUpon>MigrationStatusRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\NoteRepository.cs" />
+    <Compile Include="Persistence\Repositories\NoteRepository.npoco.cs">
+      <DependentUpon>NoteRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\NoteRepository.searchterm.cs">
+      <DependentUpon>NoteRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\NotificationMessageRepository.cs" />
+    <Compile Include="Persistence\Repositories\NotificationMethodRepository.cs" />
     <Compile Include="Persistence\Repositories\NPocoEntityRepositoryBase.cs" />
     <Compile Include="Persistence\Repositories\NPocoLineItemRespositoryBase.cs" />
     <Compile Include="Persistence\Repositories\NPocoRespositoryBase.cs" />
+    <Compile Include="Persistence\Repositories\OfferRedeemedRepository.cs" />
+    <Compile Include="Persistence\Repositories\OfferRedeemedRepository.npoco.cs">
+      <DependentUpon>OfferRedeemedRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\OfferRedeemedRepository.searchterm.cs">
+      <DependentUpon>OfferRedeemedRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\OfferSettingsRepository.cs" />
+    <Compile Include="Persistence\Repositories\OfferSettingsRepository.npoco.cs">
+      <DependentUpon>OfferSettingsRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\OfferSettingsRepository.searchterm.cs">
+      <DependentUpon>OfferSettingsRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\OrderLineItemRepository.cs" />
+    <Compile Include="Persistence\Repositories\OrderRepository.cs" />
+    <Compile Include="Persistence\Repositories\OrderRepository.ensuredocnum.cs">
+      <DependentUpon>OrderRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\OrderRepository.npoco.cs">
+      <DependentUpon>OrderRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\OrderRepository.searchterm.cs">
+      <DependentUpon>OrderRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\RepositoryQueryableBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryReadableBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryBase.cs" />
