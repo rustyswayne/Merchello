@@ -13,8 +13,6 @@
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
-    using NPoco;
-
     /// <inheritdoc/>
     internal partial class ProductOptionRepository : IProductOptionRepository
     {

@@ -89,6 +89,16 @@
         /// </remarks>
         ProductOptionCollection GetProductOptionCollection(Guid productKey);
 
+        /// <summary>
+        /// Gets the product attribute collection.
+        /// </summary>
+        /// <param name="optionKey">
+        /// The option key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ProductAttributeCollection"/>.
+        /// </returns>
+        ProductAttributeCollection GetProductAttributeCollection(Guid optionKey);
 
         /// <summary>
         /// Gets a <see cref="ProductAttributeCollection"/> for a product variant.

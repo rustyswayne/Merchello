@@ -55,6 +55,7 @@
         /// Gets or sets the product attribute DTO.
         /// </summary>
         [ResultColumn]
+        [Reference(ReferenceType.Foreign, ColumnName = "pk", ReferenceMemberName = "Key")]
         public ProductAttributeDto ProductAttributeDto { get; set; }
     }
 }

@@ -5,6 +5,7 @@
     using System.Linq;
 
     using Merchello.Core.Acquired.Persistence;
+    using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence.Factories;
@@ -15,42 +16,131 @@
     internal partial class ProductOptionRepository : IProductOptionRepository
     {
         /// <inheritdoc/>
+        /// REFACTOR - this should call the cache policy and be void
         public IEnumerable<Guid> CreateAttributeAssociationForProductVariant(IProductVariant variant)
         {
-            throw new NotImplementedException();
+            // insert associations for every attribute
+            foreach (var association in variant.Attributes.Select(att => new ProductVariant2ProductAttributeDto()
+            {
+                ProductVariantKey = variant.Key,
+                OptionKey = att.OptionKey,
+                ProductAttributeKey = att.Key,
+                UpdateDate = DateTime.Now,
+                CreateDate = DateTime.Now
+            }))
+            {
+                Database.Insert(association);
+            }
+
+            var sharedOptions = GetProductOptions(variant.Attributes.Select(x => x.OptionKey).ToArray(), true);
+
+            return GetProductKeysForCacheRefresh(sharedOptions.Select(x => x.Key).ToArray());
         }
 
         /// <inheritdoc/>
         public IProductAttribute GetProductAttributeByKey(Guid key)
         {
-            throw new NotImplementedException();
+            return GetProductAttributes(new[] { key }).FirstOrDefault();
         }
 
         /// <inheritdoc/>
         public IEnumerable<IProductAttribute> GetProductAttributes(Guid[] attributeKeys)
         {
-            throw new NotImplementedException();
+            //// FYI return attributeKeys.Select(key => this.GetStashed(key, this.GetAttributeByKey));
+            //// REFACTOR consider Attribute cache as Isolated cache
+            return attributeKeys.Select(GetAttributeByKey);
+        }
+
+        /// <inheritdoc/>
+        public ProductAttributeCollection GetProductAttributeCollection(Guid optionKey)
+        {
+            var sql = Sql().SelectAll()
+                .From<ProductAttributeDto>()
+                .Where<ProductAttributeDto>(x => x.OptionKey == optionKey)
+                .OrderBy<ProductAttributeDto>(x => x.SortOrder);
+
+            return GetProductAttributeCollection(sql);
         }
 
         /// <inheritdoc/>
         public ProductAttributeCollection GetProductAttributeCollectionForVariant(Guid productVariantKey)
         {
-            throw new NotImplementedException();
+            var sql = Sql().SelectAll()
+                .From<ProductVariant2ProductAttributeDto>()
+                .InnerJoin<ProductAttributeDto>()
+                .On<ProductVariant2ProductAttributeDto, ProductAttributeDto>(left => left.ProductAttributeKey, right => right.Key)
+                .Where<ProductVariant2ProductAttributeDto>(x => x.ProductVariantKey == productVariantKey);
+
+            var dtos = Database.Fetch<ProductVariant2ProductAttributeDto>(sql);
+
+            var factory = new ProductAttributeFactory();
+            var collection = new ProductAttributeCollection();
+            foreach (var dto in dtos)
+            {
+                var attribute = factory.BuildEntity(dto.ProductAttributeDto);
+
+                //// REFACTOR clear isolated cache
+                //// RuntimeCache.GetCacheItem(Cache.CacheKeys.GetEntityCacheKey<IProductAttribute>(attribute.Key), () => attribute);
+                collection.Add(attribute);
+            }
+
+            return collection;
         }
 
         /// <inheritdoc/>
         public IEnumerable<Guid> DeleteAllProductVariantAttributes(IProductVariant variant)
         {
-            throw new NotImplementedException();
+            //// This needs to delete all attributes from the merchProductVariant2ProductAttribute table.
+
+            var sharedOptions = GetProductOptions(variant.Attributes.Select(x => x.OptionKey).Distinct().ToArray(), true);
+
+            Database.Execute("DELETE FROM merchProductVariant2ProductAttribute WHERE productVariantKey = @key", new { @key = variant.Key });
+
+            return GetProductKeysForCacheRefresh(sharedOptions.Select(x => x.Key).ToArray());
         }
 
         /// <inheritdoc/>
         public void UpdateAttribute(IProductAttribute attribute)
         {
-            throw new NotImplementedException();
+            //// REVIEW - for deploy
+            if (!attribute.HasIdentity)
+            {
+                var invalid = new InvalidOperationException("Cannot update an attribute that does not have an identity");
+                MultiLogHelper.Error<ProductOptionRepository>("Attempt to update a new attribute", invalid);
+                throw invalid;
+            }
+
+            var factory = new ProductAttributeFactory();
+            var dto = factory.BuildDto(attribute);
+            Database.Update(dto);
+            //// REFACTOR isolated cache - Stash(attribute);
+            //// RuntimeCache.ClearCacheItem(Cache.CacheKeys.GetEntityCacheKey<IProductOption>(attribute.OptionKey));
         }
 
+        /// <summary>
+        /// Gets a <see cref="IProductAttribute"/> by it's key.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IProductAttribute"/>.
+        /// </returns>
+        private IProductAttribute GetAttributeByKey(Guid key)
+        {
+            var sql = Sql().SelectAll()
+                .From<ProductAttributeDto>()
+                .Where<ProductAttributeDto>(x => x.Key == key);
 
+            var dto = Database.Fetch<ProductAttributeDto>(sql).FirstOrDefault();
+            if (dto != null)
+            {
+                var factory = new ProductAttributeFactory();
+                return factory.BuildEntity(dto);
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Gets the <see cref="ProductAttributeCollection"/> for a specific product.
@@ -114,6 +204,29 @@
             }
 
             return attributes;
+        }
+
+
+        /// <summary>
+        /// Gets a collection of .
+        /// </summary>
+        /// <param name="sharedOptionKeys">
+        /// The shared option keys.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{Guid}"/>.
+        /// </returns>
+        private IEnumerable<Guid> GetProductKeysForCacheRefresh(Guid[] sharedOptionKeys)
+        {
+            if (!sharedOptionKeys.Any()) return Enumerable.Empty<Guid>();
+
+            var sql = Sql().SelectAll()
+                .From<Product2ProductOptionDto>()
+                .Where("optionKey IN (@keys)", new { @keys = sharedOptionKeys });
+
+            var dtos = Database.Fetch<Product2ProductOptionDto>(sql);
+
+            return dtos.Select(x => x.ProductKey);
         }
     }
 }
