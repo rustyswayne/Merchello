@@ -127,7 +127,9 @@
     <Compile Include="Events\CacheRefresherEventArgs.cs" />
     <Compile Include="Events\TypedEventHandler.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Extensions.DateTime.cs" />
+    <Compile Include="Extensions.DateTime.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.DetachedDataValuesCollection.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
@@ -185,8 +187,12 @@
     <Compile Include="Extensions.IWarehouse.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions.OfferComponentDefinition.cs" />
-    <Compile Include="Extensions.PagedCollection.cs" />
+    <Compile Include="Extensions.OfferComponentDefinition.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions.PagedCollection.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="IAttempt.cs" />
     <Compile Include="Cache\IIsolatedRuntimeCacheAdapter.cs" />
     <Compile Include="Acquired\ObjectExtensions.cs" />
