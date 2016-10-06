@@ -225,6 +225,30 @@
 
         /// <inheritdoc/>
         [IgnoreDataMember]
+        public bool Master
+        {
+            get
+            {
+                return _master;
+            }
+
+            internal set
+            {
+                SetPropertyValueAndDetectChanges(value, ref _master, _ps.Value.MasterSelector);
+            }
+        }
+
+        /// <inheritdoc/>
+        [IgnoreDataMember]
+        public int ExamineId
+        {
+            get { return _examineId; }
+            internal set { _examineId = value; }
+        }
+
+
+        /// <inheritdoc/>
+        [IgnoreDataMember]
         internal ProductAttributeCollection ProductAttributes
         {
             get
@@ -238,30 +262,6 @@
                 _attibutes.CollectionChanged += ProductAttributesChanged;
             }
         }
-
-        /// <inheritdoc/>
-        [IgnoreDataMember]
-        internal bool Master
-        {
-            get
-            {
-                return _master;
-            }
-
-            set
-            {
-                SetPropertyValueAndDetectChanges(value, ref _master, _ps.Value.MasterSelector);
-            }
-        }
-
-        /// <inheritdoc/>
-        [IgnoreDataMember]
-        internal int ExamineId 
-        {
-            get { return _examineId; }
-            set { _examineId = value;  }
-        }
-
 
         /// <summary>
         /// Handles the product attributes collection changed.

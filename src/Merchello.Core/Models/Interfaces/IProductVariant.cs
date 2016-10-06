@@ -29,5 +29,15 @@
         /// </summary>
         /// <returns></returns>
         int TotalInventoryCount { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the variant is the master which represents the product itself.
+        /// </summary>
+        bool Master { get; }
+
+        /// <summary>
+        /// Gets the Id used in Examine.
+        /// </summary>
+        int ExamineId { get; }
     }
 }

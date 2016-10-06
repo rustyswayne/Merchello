@@ -17,7 +17,7 @@
     using NPoco;
 
     /// <inheritdoc/>
-    internal partial class OrderRepository : NPocoRespositoryBase<IOrder>
+    internal partial class OrderRepository : NPocoRepositoryBase<IOrder>
     {
         /// <summary>
         /// The caching policy.

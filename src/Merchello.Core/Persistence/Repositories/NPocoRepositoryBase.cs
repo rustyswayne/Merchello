@@ -22,11 +22,11 @@
     /// <typeparam name="TEntity">
     /// The type of the entity
     /// </typeparam>
-    internal abstract class NPocoRespositoryBase<TEntity> : RepositoryWritableBase<TEntity>
+    internal abstract class NPocoRepositoryBase<TEntity> : RepositoryWritableBase<TEntity>
         where TEntity : class, IEntity
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NPocoRespositoryBase{TEntity}"/> class.
+        /// Initializes a new instance of the <see cref="NPocoRepositoryBase{TEntity}"/> class.
         /// </summary>
         /// <param name="work">
         /// The work.
@@ -40,7 +40,7 @@
         /// <param name="mappingResolver">
         /// The mapping resolver.
         /// </param>
-        protected NPocoRespositoryBase(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
+        protected NPocoRepositoryBase(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger)
         {
             QueryFactory = new QueryFactory(SqlSyntax, mappingResolver);

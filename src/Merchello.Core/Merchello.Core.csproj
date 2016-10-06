@@ -65,6 +65,7 @@
     <Compile Include="Cache\IPayloadCacheRefresher.cs" />
     <Compile Include="Cache\JsonCacheRefresherBase.cs" />
     <Compile Include="Cache\Policies\OrderRepositoryCachePolicy.cs" />
+    <Compile Include="Cache\Policies\ProductVariantRepositoryCachePolicy.cs" />
     <Compile Include="Cache\Policies\RepositoryCachePolicyBase.cs" />
     <Compile Include="Cache\Policies\RepositoryCachePolicyOptions.cs" />
     <Compile Include="Constants.CountryCodes.cs">
@@ -407,6 +408,7 @@
     <Compile Include="Persistence\Repositories\GatewayProviderSettingsRepository.npoco.cs">
       <DependentUpon>GatewayProviderSettingsRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\Interfaces\IBulkOperationRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEnsureDocumentNumberRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionRepository.cs" />
@@ -434,6 +436,7 @@
     <Compile Include="Persistence\Repositories\Interfaces\IPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IProductOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionEntityRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IProductVariantRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryReadable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Cache\IRepositoryCachePolicy.cs" />
@@ -443,6 +446,12 @@
     <Compile Include="Persistence\Repositories\Interfaces\IShipCountryRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IShipmentRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IShipmentStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IShipRateTierRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IStoreRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IStoreSettingRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\ITaxMethodRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IWarehouseCategoryRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Persistence\Repositories\InvoiceLineItemRepository.cs" />
     <Compile Include="Persistence\Repositories\InvoiceStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\ItemCacheLineItemRepository.cs" />
@@ -465,7 +474,7 @@
     <Compile Include="Persistence\Repositories\NotificationMethodRepository.cs" />
     <Compile Include="Persistence\Repositories\NPocoEntityRepositoryBase.cs" />
     <Compile Include="Persistence\Repositories\NPocoLineItemRespositoryBase.cs" />
-    <Compile Include="Persistence\Repositories\NPocoRespositoryBase.cs" />
+    <Compile Include="Persistence\Repositories\NPocoRepositoryBase.cs" />
     <Compile Include="Persistence\Repositories\OfferRedeemedRepository.cs" />
     <Compile Include="Persistence\Repositories\OfferRedeemedRepository.npoco.cs">
       <DependentUpon>OfferRedeemedRepository.cs</DependentUpon>
@@ -519,6 +528,19 @@
     <Compile Include="Persistence\Repositories\ProductOptionRepository.sqlbuilder.cs">
       <DependentUpon>ProductOptionRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\ProductVariantRepository.bulkops.cs">
+      <DependentUpon>ProductVariantRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductVariantRepository.cs" />
+    <Compile Include="Persistence\Repositories\ProductVariantRepository.detcontent.cs">
+      <DependentUpon>ProductVariantRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductVariantRepository.inventory.cs">
+      <DependentUpon>ProductVariantRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductVariantRepository.npoco.cs">
+      <DependentUpon>ProductVariantRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\RepositoryQueryableBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryReadableBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryBase.cs" />
@@ -535,6 +557,24 @@
       <DependentUpon>ShipmentRepository.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\Repositories\ShipmentStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\ShipRateTierRepository.cs" />
+    <Compile Include="Persistence\Repositories\StoreRepository.cs" />
+    <Compile Include="Persistence\Repositories\StoreRepository.npoco.cs">
+      <DependentUpon>StoreRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\StoreSettingRepository.cs" />
+    <Compile Include="Persistence\Repositories\StoreSettingRepository.npoco.cs">
+      <DependentUpon>StoreSettingRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\TaxMethodRepository.cs" />
+    <Compile Include="Persistence\Repositories\WarehouseCatalogRepository.cs" />
+    <Compile Include="Persistence\Repositories\WarehouseCatalogRepository.npoco.cs">
+      <DependentUpon>WarehouseCatalogRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\WarehouseRepository.cs" />
+    <Compile Include="Persistence\Repositories\WarehouseRepository.npoco.cs">
+      <DependentUpon>WarehouseRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\RepositoryFactory.cs" />
     <Compile Include="Persistence\SqlContext.cs" />
     <Compile Include="Persistence\SqlSyntax\ColumnInfo.cs" />

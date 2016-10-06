@@ -82,6 +82,12 @@
             container.Register<IShipCountryRepository, ShipCountryRepository>();
             container.Register<IShipmentRepository, ShipmentRepository>();
             container.Register<IShipmentStatusRepository, ShipmentStatusRepository>();
+            container.Register<IShipRateTierRepository, ShipRateTierRepository>();
+            container.Register<IStoreRepository, StoreRepository>();
+            container.Register<IStoreSettingRepository, StoreSettingRepository>();
+            container.Register<ITaxMethodRepository, TaxMethodRepository>();
+            container.Register<IWarehouseCategoryRepository, WarehouseCatalogRepository>();
+            container.Register<IWarehouseRepository, WarehouseRepository>();
         }
     }
 }

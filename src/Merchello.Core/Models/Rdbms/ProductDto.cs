@@ -23,12 +23,6 @@
         [Constraint(Default = SystemMethods.NewGuid)]
         public Guid Key { get; set; }
 
-        /// <summary>
-        /// Gets or sets the product variant dto.
-        /// </summary>
-        [ResultColumn]
-        public ProductVariantDto ProductVariantDto { get; set; }
-
         /// <inheritdoc/>
         [Column("updateDate")]
         [Constraint(Default = SystemMethods.CurrentDateTime)]
@@ -38,5 +32,12 @@
         [Column("createDate")]
         [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime CreateDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product variant dto.
+        /// </summary>
+        [ResultColumn]
+        [Reference(ReferenceType.Foreign, ColumnName = "pk", ReferenceMemberName = "Key")]
+        public ProductVariantDto ProductVariantDto { get; set; }
     }
 }

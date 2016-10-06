@@ -27,7 +27,7 @@
     /// <typeparam name="TFactory">
     /// The type of the factory
     /// </typeparam>
-    internal abstract class NPocoEntityRepositoryBase<TEntity, TDto, TFactory> : NPocoRespositoryBase<TEntity>
+    internal abstract class NPocoEntityRepositoryBase<TEntity, TDto, TFactory> : NPocoRepositoryBase<TEntity>
         where TEntity : class, IEntity
         where TDto : class, IKeyDto
         where TFactory : class, IEntityFactory<TEntity, TDto>, new()

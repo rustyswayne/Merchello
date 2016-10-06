@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using LightInject;
-
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
@@ -16,10 +14,10 @@
     using NPoco;
 
     /// <inheritdoc/>
-    internal class ItemCacheLineItemRepository : NPocoLineItemRespositoryBase<IItemCacheLineItem, ItemCacheItemDto, ItemCacheLineItemFactory>, IItemCacheLineItemRepository
+    internal class ShipRateTierRepository : NPocoEntityRepositoryBase<IShipRateTier, ShipRateTierDto, ShipRateTierFactory>, IShipRateTierRepository
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ItemCacheLineItemRepository"/> class.
+        /// Initializes a new instance of the <see cref="ShipRateTierRepository"/> class.
         /// </summary>
         /// <param name="work">
         /// The <see cref="IDatabaseUnitOfWork"/>.
@@ -33,7 +31,7 @@
         /// <param name="mappingResolver">
         /// The <see cref="IMappingResolver"/>.
         /// </param>
-        public ItemCacheLineItemRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
+        public ShipRateTierRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger, mappingResolver)
         {
         }
@@ -42,13 +40,13 @@
         protected override Sql<SqlContext> GetBaseQuery(bool isCount)
         {
             return Sql().Select(isCount ? "COUNT(*)" : "*")
-                .From<ItemCacheItemDto>();
+                .From<ShipRateTierDto>();
         }
 
         /// <inheritdoc/>
         protected override string GetBaseWhereClause()
         {
-            return "merchItemCacheItem.pk = @Key";
+            return "merchShipRateTier.pk = @Key";
         }
 
         /// <inheritdoc/>
@@ -56,7 +54,7 @@
         {
             var list = new List<string>
             {
-                "DELETE FROM merchItemCacheItem WHERE pk = @Key"
+                "DELETE FROM merchShipRateTier WHERE pk = @Key"
             };
 
             return list;

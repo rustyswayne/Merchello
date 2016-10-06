@@ -68,12 +68,14 @@
         /// Gets or sets the warehouse catalog dto.
         /// </summary>
         [ResultColumn]
+        [Reference(ReferenceType.Foreign, ColumnName = "catalogKey", ReferenceMemberName = "Key")]
         public WarehouseCatalogDto WarehouseCatalogDto { get; set; }
 
         /// <summary>
         /// Gets or sets the product variant dto.
         /// </summary>
         [ResultColumn]
+        [Reference(ReferenceType.Foreign, ColumnName = "productVariantKey", ReferenceMemberName = "Key")]
         public ProductVariantDto ProductVariantDto { get; set; } 
     }
 }
