@@ -231,6 +231,7 @@
         /// Gets or sets the shipment status dto.
         /// </summary>
         [ResultColumn]
+        [Reference(ReferenceType.Foreign, ColumnName = "pk", ReferenceMemberName = "Key")]
         public ShipmentStatusDto ShipmentStatusDto { get; set; }
     }
 }

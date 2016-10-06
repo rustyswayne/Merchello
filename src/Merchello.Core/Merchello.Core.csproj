@@ -440,6 +440,9 @@
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryQueryable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryWritable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ISearchTermRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IShipCountryRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IShipmentRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IShipmentStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\InvoiceLineItemRepository.cs" />
     <Compile Include="Persistence\Repositories\InvoiceStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\ItemCacheLineItemRepository.cs" />
@@ -478,6 +481,9 @@
       <DependentUpon>OfferSettingsRepository.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\Repositories\OrderLineItemRepository.cs" />
+    <Compile Include="Persistence\Repositories\OrderLineItemRepository.npoco.cs">
+      <DependentUpon>OrderLineItemRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\OrderRepository.cs" />
     <Compile Include="Persistence\Repositories\OrderRepository.ensuredocnum.cs">
       <DependentUpon>OrderRepository.cs</DependentUpon>
@@ -517,6 +523,18 @@
     <Compile Include="Persistence\Repositories\RepositoryReadableBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryBase.cs" />
     <Compile Include="Persistence\Repositories\RepositoryWritableBase.cs" />
+    <Compile Include="Persistence\Repositories\ShipCountryRepository.cs" />
+    <Compile Include="Persistence\Repositories\ShipCountryRepository.npoco.cs">
+      <DependentUpon>ShipCountryRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ShipmentRepository.cs" />
+    <Compile Include="Persistence\Repositories\ShipmentRepository.ensuredocnum.cs">
+      <DependentUpon>ShipmentRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ShipmentRepository.npoco.cs">
+      <DependentUpon>ShipmentRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ShipmentStatusRepository.cs" />
     <Compile Include="Persistence\RepositoryFactory.cs" />
     <Compile Include="Persistence\SqlContext.cs" />
     <Compile Include="Persistence\SqlSyntax\ColumnInfo.cs" />

@@ -73,6 +73,15 @@
             container.Register<INotificationMethodRepository, NotificationMethodRepository>();
             container.Register<IOfferRedeemedRepository, OfferRedeemedRepository>();
             container.Register<IOfferSettingsRepository, OfferSettingsRepository>();
+            container.Register<IOrderLineItemRepository, OrderLineItemRepository>();
+            container.Register<IOrderRepository, OrderRepository>();
+            container.Register<IOrderStatusRepository, OrderStatusRepository>();
+            container.Register<IPaymentMethodRepository, PaymentMethodRepository>();
+            container.Register<IPaymentRepository, PaymentRepository>();
+            container.Register<IProductOptionRepository, ProductOptionRepository>();
+            container.Register<IShipCountryRepository, ShipCountryRepository>();
+            container.Register<IShipmentRepository, ShipmentRepository>();
+            container.Register<IShipmentStatusRepository, ShipmentStatusRepository>();
         }
     }
 }

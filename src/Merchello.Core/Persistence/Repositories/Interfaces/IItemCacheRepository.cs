@@ -1,7 +1,6 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
     using System;
-    using System.Web.UI.WebControls;
 
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models;

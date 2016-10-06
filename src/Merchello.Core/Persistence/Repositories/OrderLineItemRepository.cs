@@ -1,22 +1,16 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
-    using System.Collections.Generic;
+    using System;
 
     using LightInject;
 
-    using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
-    using Merchello.Core.Models;
-    using Merchello.Core.Models.Rdbms;
-    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
-    using NPoco;
-
     /// <inheritdoc/>
-    internal class OrderLineItemRepository : NPocoLineItemRespositoryBase<IOrderLineItem, OrderItemDto, OrderLineItemFactory>, IOrderLineItemRepository
+    internal partial class OrderLineItemRepository : IOrderLineItemRepository
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderLineItemRepository"/> class.
@@ -38,28 +32,16 @@
         {
         }
 
-        /// <inheritdoc/>
-        protected override Sql<SqlContext> GetBaseQuery(bool isCount)
+        /// <inheritdoc />
+        public void UpdateForShipmentDelete(Guid shipmentKey)
         {
-            return Sql().Select(isCount ? "COUNT(*)" : "*")
-                .From<OrderItemDto>();
-        }
+            Database.Execute(
+                "UPDATE merchOrderItem SET shipmentKey = NULL WHERE shipmentKey = @Key",
+                new { @Key = shipmentKey });
 
-        /// <inheritdoc/>
-        protected override string GetBaseWhereClause()
-        {
-            return "merchOrderItem.pk = @Key";
-        }
-
-        /// <inheritdoc/>
-        protected override IEnumerable<string> GetDeleteClauses()
-        {
-            var list = new List<string>
-            {
-                "DELETE FROM merchOrderItem WHERE pk = @Key"
-            };
-
-            return list;
+            //// Not really needed since this is a NullCacheRepository - but added in case we change it to
+            //// an isolated cache.
+            CachePolicy.ClearAll();
         }
     }
 }

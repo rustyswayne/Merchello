@@ -73,21 +73,21 @@
         /// Gets or sets the <see cref="ShipMethodDto"/>.
         /// </summary>
         [ResultColumn]
-        [Reference(ReferenceType.Many, ReferenceMemberName = "ProviderKey")]
+        [Reference(ReferenceType.Many, ColumnName = "providerKey", ReferenceMemberName = "ProviderKey")]
         public List<ShipMethodDto> ShipMethods { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="ShipMethodDto"/>.
+        /// Gets or sets the <see cref="PaymentMethodDto"/>.
         /// </summary>
         [ResultColumn]
-        [Reference(ReferenceType.Many, ReferenceMemberName = "ProviderKey")]
+        [Reference(ReferenceType.Many, ColumnName = "providerKey", ReferenceMemberName = "ProviderKey")]
         public List<PaymentMethodDto> PaymentMethods { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="TaxMethodDto"/>.
         /// </summary>
         [ResultColumn]
-        [Reference(ReferenceType.Many, ReferenceMemberName = "ProviderKey")]
+        [Reference(ReferenceType.Many, ColumnName = "providerKey", ReferenceMemberName = "ProviderKey")]
         public List<TaxMethodDto> TaxMethods { get; set; }
     }
 }
