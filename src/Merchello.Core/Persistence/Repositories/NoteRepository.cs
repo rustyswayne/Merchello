@@ -1,5 +1,6 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -34,6 +35,20 @@
         public NoteRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger, mappingResolver)
         {
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<INote> GetNotes(Guid entityKey)
+        {
+            var query = Query.Where(x => x.EntityKey == entityKey);
+            return GetByQuery(query);
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<INote> GetNotes(Guid entityKey, Guid entityTfKey)
+        {
+            var query = Query.Where(x => x.EntityKey == entityKey && x.EntityTfKey == entityTfKey);
+            return GetByQuery(query);
         }
     }
 }

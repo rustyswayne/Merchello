@@ -6,7 +6,7 @@
     using Models.Rdbms;
 
     /// <summary>
-    /// The gateway provider settings factory.
+    /// Factory responsible for building the <see cref="IGatewayProviderSettings"/>.
     /// </summary>
     internal class GatewayProviderSettingsFactory : IEntityFactory<IGatewayProviderSettings, GatewayProviderSettingsDto>
     {

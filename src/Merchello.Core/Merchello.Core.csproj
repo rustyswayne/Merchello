@@ -51,6 +51,8 @@
     <Compile Include="Acquired\Logging\ProfilerExtensions.cs" />
     <Compile Include="Acquired\NetworkHelper.cs" />
     <Compile Include="Acquired\Persistence\DatabaseModelDefinitions\DefinitionFactory.cs" />
+    <Compile Include="Models\Rdbms\DistinctCurrencyCodeDto.cs" />
+    <Compile Include="Persistence\Factories\InvoiceFactory.cs" />
     <Compile Include="Persistence\NPocoDatabaseExtensions.cs" />
     <Compile Include="Acquired\Persistence\NPocoDatabaseTypeExtensions.cs" />
     <Compile Include="Acquired\Persistence\NPocoSqlExtensions.cs" />
@@ -472,10 +474,15 @@
     <Compile Include="Persistence\Repositories\InvoiceRepository.entitycollection.cs">
       <DependentUpon>InvoiceRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\InvoiceRepository.notes.cs">
+      <DependentUpon>InvoiceRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\InvoiceRepository.npoco.cs">
       <DependentUpon>InvoiceRepository.cs</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\Repositories\InvoiceRepository.querying.cs" />
+    <Compile Include="Persistence\Repositories\InvoiceRepository.querying.cs">
+      <DependentUpon>InvoiceRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\InvoiceRepository.searchterm.cs">
       <DependentUpon>InvoiceRepository.cs</DependentUpon>
     </Compile>

@@ -95,6 +95,49 @@
         }
 
         /// <summary>
+        /// SELECT SUM field.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> SelectSum<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Select($"SUM({fieldExpression})");
+
+            return sql;
+        }
+
+        /// <summary>
+        /// SELECT SUM field.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="sumExpression">
+        /// The sum expression.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> SelectSum(this Sql<SqlContext> sql, string sumExpression)
+        {
+            sql.Append($"SELECT SUM({sumExpression})");
+
+            return sql;
+        }
+
+        /// <summary>
         /// WHERE NOT IN.
         /// </summary>
         /// <param name="sql">
@@ -122,6 +165,35 @@
 
 
         /// <summary>
+        /// WHERE BETWEEN.
+        /// </summary>
+        /// <param name="sql">
+        /// The SQL.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <param name="first">
+        /// The first.
+        /// </param>
+        /// <param name="second">
+        /// The second.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> WhereBetween<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector, object first, object second)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Where(fieldExpression + " BETWEEN @first AND @second", new { @first = first, @second = second });
+            return sql;
+        }
+
+        /// <summary>
         /// Appends an AND IN (SQL) to the expression.
         /// </summary>
         /// <param name="sql">
@@ -144,6 +216,60 @@
             var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
             var fieldExpression = expresionist.Visit(fieldSelector);
             sql.Append("AND " + fieldExpression + " IN (").Append(innerSql).Append(")");
+
+            return sql;
+        }
+
+        /// <summary>
+        /// Appends an OR IN (SQL) to the expression.
+        /// </summary>
+        /// <param name="sql">
+        /// The SQL.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <param name="innerSql">
+        /// An inner SQL expression.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of entity
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> OrIn<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector, Sql<SqlContext> innerSql)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Append("OR " + fieldExpression + " IN (").Append(innerSql).Append(")");
+
+            return sql;
+        }
+
+        /// <summary>
+        /// Appends an OR NOT IN (SQL) to the expression.
+        /// </summary>
+        /// <param name="sql">
+        /// The SQL.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <param name="innerSql">
+        /// An inner SQL expression.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of entity
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> OrNotIn<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector, Sql<SqlContext> innerSql)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Append("OR " + fieldExpression + " NOT IN (").Append(innerSql).Append(")");
 
             return sql;
         }

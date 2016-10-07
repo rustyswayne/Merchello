@@ -2,13 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Web.UI.WebControls;
 
+    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models;
 
-    using NPoco;
-
-        /// <summary>
+    /// <summary>
     /// Represents a repository responsible for <see cref="IInvoice"/> entities.
     /// </summary>
     public interface IInvoiceRepository : ISearchTermRepository<IInvoice>, IEntityCollectionEntityRepository<IInvoice>, IEnsureDocumentNumberRepository
@@ -59,16 +57,16 @@
         decimal SumLineItemTotalsBySku(DateTime startDate, DateTime endDate, string currencyCode, string sku);
 
 
-        PagedCollection<IInvoice> GetInvoicesMatchingInvoiceStatus(string searchTerm, Guid invoiceStatusKey, long page, long itemsPerPage, string orderExpression, SortDirection sortDirection = SortDirection.Descending);
+        PagedCollection<IInvoice> GetInvoicesMatchingInvoiceStatus(string searchTerm, Guid invoiceStatusKey, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending);
         
-        PagedCollection<IInvoice> GetInvoicesMatchingTermNotInvoiceStatus(string searchTerm, Guid invoiceStatusKey, long page, long itemsPerPage, string orderExpression, SortDirection sortDirection = SortDirection.Descending);
+        PagedCollection<IInvoice> GetInvoicesMatchingTermNotInvoiceStatus(string searchTerm, Guid invoiceStatusKey, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending);
         
-        PagedCollection<IInvoice> GetInvoicesMatchingOrderStatus(Guid orderStatusKey, long page, long itemsPerPage, string orderExpression, SortDirection sortDirection = SortDirection.Descending);
+        PagedCollection<IInvoice> GetInvoicesMatchingOrderStatus(Guid orderStatusKey, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending);
 
-        PagedCollection<IInvoice> GetInvoicesMatchingOrderStatus(string searchTerm, Guid orderStatusKey, long page, long itemsPerPage, string orderExpression, SortDirection sortDirection = SortDirection.Descending);
+        PagedCollection<IInvoice> GetInvoicesMatchingOrderStatus(string searchTerm, Guid orderStatusKey, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending);
 
-        PagedCollection<IInvoice> GetInvoicesMatchingTermNotOrderStatus(Guid orderStatusKey, long page, long itemsPerPage, string orderExpression, SortDirection sortDirection = SortDirection.Descending);
+        PagedCollection<IInvoice> GetInvoicesMatchingTermNotOrderStatus(Guid orderStatusKey, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending);
 
-        PagedCollection<IInvoice> GetInvoicesMatchingTermNotOrderStatus(string searchTerm, Guid orderStatusKey, long page, long itemsPerPage, string orderExpression, SortDirection sortDirection = SortDirection.Descending);
+        PagedCollection<IInvoice> GetInvoicesMatchingTermNotOrderStatus(string searchTerm, Guid orderStatusKey, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending);
     }
 }

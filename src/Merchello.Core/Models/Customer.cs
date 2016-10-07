@@ -50,11 +50,6 @@
         private IEnumerable<INote> _notes;
 
         /// <summary>
-        /// The examine id.
-        /// </summary>
-        private int _examineId = 1;
-
-        /// <summary>
         /// The addresses.
         /// </summary>
         private IEnumerable<ICustomerAddress> _addresses; 

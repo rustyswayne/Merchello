@@ -8,7 +8,7 @@
         /// <inheritdoc/>
         public int GetMaxDocumentNumber()
         {
-            throw new NotImplementedException();
+            return Database.ExecuteScalar<int>("SELECT MAX([merchInvoice].[invoiceNumber]) FROM [merchInvoice]");
         }
     }
 }

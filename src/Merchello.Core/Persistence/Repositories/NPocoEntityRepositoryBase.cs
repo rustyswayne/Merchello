@@ -148,8 +148,7 @@
         /// </returns>
         protected virtual IEnumerable<TEntity> MapDtoCollection(IEnumerable<TDto> dtos)
         {
-            var factory = new TFactory();
-            return dtos.Select(dto => factory.BuildEntity(dto));
+            return GetAll(dtos.Select(dto => dto.Key).ToArray());
         }
     }
 }

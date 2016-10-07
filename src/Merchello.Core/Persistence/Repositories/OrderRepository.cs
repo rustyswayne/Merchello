@@ -1,5 +1,6 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -43,6 +44,21 @@
             _orderLineItemRepository = orderLineItemRepository;
         }
 
+        /// <inheritdoc/>
+        public OrderCollection GetOrderCollection(Guid invoiceKey)
+        {
+            var query = Query.Where(x => x.InvoiceKey == invoiceKey);
+            var orders = GetByQuery(query);
+            var collection = new OrderCollection();
+
+            foreach (var order in orders)
+            {
+                collection.Add(order);
+            }
+
+            return collection;
+        }
+
         /// <summary>
         /// Maps a collection of <see cref="OrderDto"/> to <see cref="IOrder"/>.
         /// </summary>
@@ -54,7 +70,7 @@
         /// </returns>
         protected IEnumerable<IOrder> MapDtoCollection(IEnumerable<OrderDto> dtos)
         {
-            return dtos.Select(dto => Get(dto.Key));
+            return GetAll(dtos.Select(dto => dto.Key).ToArray());
         }
     }
 }

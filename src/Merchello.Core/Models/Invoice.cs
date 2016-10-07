@@ -125,11 +125,6 @@
         private decimal _total;
 
         /// <summary>
-        /// The examine id.
-        /// </summary>
-        private int _examineId = 1;
-
-        /// <summary>
         /// The items.
         /// </summary>
         private LineItemCollection _items;

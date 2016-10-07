@@ -113,6 +113,7 @@
         /// </summary>
         [Column("billToPostalCode")]
         [NullSetting(NullSetting = NullSettings.Null)]
+        [Index(IndexTypes.NonClustered, Name = "IX_merchInvoiceBillToPostalCode")]
         public string BillToPostalCode { get; set; }
 
         /// <summary>
@@ -182,6 +183,7 @@
         /// Gets or sets the invoice status dto.
         /// </summary>
         [ResultColumn]
+        [Reference(ReferenceType.Foreign, ColumnName = "pk", ReferenceMemberName = "Key")]
         public InvoiceStatusDto InvoiceStatusDto { get; set; }
     }
 }
