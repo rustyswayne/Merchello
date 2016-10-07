@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using LightInject;
+
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
@@ -11,6 +13,8 @@
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
+
+    using Ensure = Merchello.Core.Ensure;
 
     /// <inheritdoc/>
     internal partial class ProductVariantRepository : IProductVariantRepository
@@ -24,7 +28,7 @@
         /// Initializes a new instance of the <see cref="ProductVariantRepository"/> class.
         /// </summary>
         /// <param name="work">
-        /// The <see cref="IDatabaseUnitOfWork"/>.
+        /// The <see cref="IDatabaseBulkUnitOfWork"/>.
         /// </param>
         /// <param name="cache">
         /// The <see cref="ICacheHelper"/>.
@@ -38,7 +42,7 @@
         /// <param name="productOptionRepository">
         /// The <see cref="IProductOptionRepository"/>
         /// </param>
-        public ProductVariantRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IProductOptionRepository productOptionRepository)
+        public ProductVariantRepository(IDatabaseBulkUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IProductOptionRepository productOptionRepository)
             : base(work, cache, logger, mappingResolver)
         {
             Ensure.ParameterNotNull(productOptionRepository, nameof(productOptionRepository));

@@ -30,6 +30,7 @@
             container.RegisterSingleton<RepositoryFactory>();
 
             container.RegisterSingleton<IDatabaseUnitOfWorkProvider, NPocoUnitOfWorkProvider>();
+            container.RegisterSingleton<IDatabaseBulkUnitOfWorkProvider, NPocoBulkUnitOfWorkProvider>();
 
             // register mapping resover as IMappingResolver
             container.RegisterSingleton<IMappingResolver>(
@@ -79,6 +80,7 @@
             container.Register<IPaymentMethodRepository, PaymentMethodRepository>();
             container.Register<IPaymentRepository, PaymentRepository>();
             container.Register<IProductOptionRepository, ProductOptionRepository>();
+            container.Register<IProductVariantRepository, ProductVariantRepository>();
             container.Register<IShipCountryRepository, ShipCountryRepository>();
             container.Register<IShipmentRepository, ShipmentRepository>();
             container.Register<IShipmentStatusRepository, ShipmentStatusRepository>();

@@ -30,7 +30,7 @@
         /// <summary>
         /// The types of unit of work operation.
         /// </summary>
-        private enum OperationType
+        protected enum OperationType
         {
             /// <summary>
             /// Insert operation
@@ -54,9 +54,14 @@
         protected RepositoryFactory Factory { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the unit of work is completed.
+        /// Gets or sets a value indicating whether the unit of work is completed.
         /// </summary>
-        protected bool Completed { get; private set; }
+        protected bool Completed { get; set; }
+
+        /// <summary>
+        /// Gets the operations.
+        /// </summary>
+        protected Queue<Operation> Operations => _operations;
 
         /// <summary>
         /// Creates a repository.
@@ -135,9 +140,9 @@
         {
             this.Begin();
 
-            while (this._operations.Count > 0)
+            while (this.Operations.Count > 0)
             {
-                var operation = this._operations.Dequeue();
+                var operation = this.Operations.Dequeue();
                 switch (operation.Type)
                 {
                     case OperationType.Insert:
@@ -175,7 +180,7 @@
         /// <summary>
         /// Provides a snapshot of an entity and the repository reference it belongs to.
         /// </summary>
-        private sealed class Operation
+        protected sealed class Operation
         {
             /// <summary>
             /// Gets or sets the entity.

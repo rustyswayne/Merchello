@@ -10,7 +10,7 @@
     /// <typeparam name="TEntity">
     /// The type of entity for bulk operations
     /// </typeparam>
-    public interface IBulkOperationRepository<TEntity>
+    public interface IBulkOperationRepository<in TEntity>
         where TEntity : IEntity
     {
         /// <summary>

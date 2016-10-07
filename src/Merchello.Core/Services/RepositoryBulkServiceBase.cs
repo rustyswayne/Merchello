@@ -2,19 +2,18 @@
 {
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
-    using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <summary>
-    /// Represents a service that uses repositories.
+    /// Represents a service that uses repositories that can perform bulk operations
     /// </summary>
-    public abstract class RepositoryServiceBase : ServiceBase
+    public abstract class RepositoryBulkServiceBase : ServiceBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RepositoryServiceBase"/> class.
+        /// Initializes a new instance of the <see cref="RepositoryBulkServiceBase"/> class.
         /// </summary>
         /// <param name="provider">
-        /// The <see cref="IDatabaseUnitOfWorkProvider"/>.
+        /// The <see cref="IDatabaseBulkUnitOfWorkProvider"/>.
         /// </param>
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
@@ -22,16 +21,16 @@
         /// <param name="eventMessagesFactory">
         /// The <see cref="IEventMessagesFactory"/>.
         /// </param>
-        protected RepositoryServiceBase(IDatabaseUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory)
+        protected RepositoryBulkServiceBase(IDatabaseBulkUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory)
             : base(logger, eventMessagesFactory)
         {
             Ensure.ParameterNotNull(provider, nameof(provider));
-            this.UowProvider = provider;
+            UowProvider = provider;
         }
 
         /// <summary>
         /// Gets the unit of work provider.
         /// </summary>
-        protected IDatabaseUnitOfWorkProvider UowProvider { get; private set; }
+        protected IDatabaseBulkUnitOfWorkProvider UowProvider { get; private set; }
     }
 }

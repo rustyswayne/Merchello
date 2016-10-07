@@ -51,11 +51,14 @@
     <Compile Include="Acquired\Logging\ProfilerExtensions.cs" />
     <Compile Include="Acquired\NetworkHelper.cs" />
     <Compile Include="Acquired\Persistence\DatabaseModelDefinitions\DefinitionFactory.cs" />
+    <Compile Include="Persistence\NPocoDatabaseExtensions.cs" />
+    <Compile Include="Acquired\Persistence\NPocoDatabaseTypeExtensions.cs" />
     <Compile Include="Acquired\Persistence\NPocoSqlExtensions.cs" />
     <Compile Include="Acquired\Persistence\Querying\BaseExpressionHelper.cs" />
     <Compile Include="Acquired\Persistence\Querying\ModelToSqlExpressionHelper.cs" />
     <Compile Include="Acquired\Persistence\Querying\PocoToSqlExpressionHelper.cs" />
     <Compile Include="Acquired\Persistence\Querying\SqlTranslator.cs" />
+    <Compile Include="Acquired\Persistence\RecordPersistenceType.cs" />
     <Compile Include="ActivatorServiceProvider.cs" />
     <Compile Include="Cache\CacheRefresherBase.cs" />
     <Compile Include="Cache\Policies\DefaultRepositoryCachePolicy.cs" />
@@ -300,6 +303,7 @@
     <Compile Include="Models\TaxProvince.cs" />
     <Compile Include="Models\Warehouse.cs" />
     <Compile Include="Models\WarehouseCatalog.cs" />
+    <Compile Include="PathHelper.cs" />
     <Compile Include="Persistence\DatabaseSchemaManagerBase.cs" />
     <Compile Include="Persistence\Factories\AnonymousCustomerFactory.cs" />
     <Compile Include="Persistence\Factories\AppliedPaymentFactory.cs" />
@@ -478,6 +482,7 @@
     </Compile>
     <Compile Include="Persistence\Repositories\NotificationMessageRepository.cs" />
     <Compile Include="Persistence\Repositories\NotificationMethodRepository.cs" />
+    <Compile Include="Persistence\Repositories\NPocoBulkOperationRepositoryBase.cs" />
     <Compile Include="Persistence\Repositories\NPocoEntityRepositoryBase.cs" />
     <Compile Include="Persistence\Repositories\NPocoLineItemRespositoryBase.cs" />
     <Compile Include="Persistence\Repositories\NPocoRepositoryBase.cs" />
@@ -591,13 +596,18 @@
     <Compile Include="Logging\ExtendedLoggerData.cs" />
     <Compile Include="Logging\MultiLogger.cs" />
     <Compile Include="Mapping\MerchelloMapperConfiguration.cs" />
+    <Compile Include="Persistence\UnitOfWork\IDatabaseBulkUnitOfWork.cs" />
+    <Compile Include="Persistence\UnitOfWork\IDatabaseBulkUnitOfWorkProvider.cs" />
     <Compile Include="Persistence\UnitOfWork\IDatabaseUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\IDatabaseUnitOfWorkProvider.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWorkProvider.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWorkRepository.cs" />
+    <Compile Include="Persistence\UnitOfWork\NPocoBulkUnitOfWork.cs" />
+    <Compile Include="Persistence\UnitOfWork\NPocoBulkUnitOfWorkProvider.cs" />
     <Compile Include="Persistence\UnitOfWork\NPocoUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\NPocoUnitOfWorkProvider.cs" />
+    <Compile Include="Persistence\UnitOfWork\NPocoUnitOfWorkProviderBase.cs" />
     <Compile Include="Persistence\UnitOfWork\UnitOfWorkBase.cs" />
     <Compile Include="Plugins\IPluginManager.cs" />
     <Compile Include="DependencyInjection\IoC.cs" />
@@ -847,8 +857,12 @@
     <Compile Include="Models\Interfaces\ITaxMethod.cs" />
     <Compile Include="Models\Interfaces\ITaxProvince.cs" />
     <Compile Include="SerializationHelper.cs" />
+    <Compile Include="Services\RepositoryBulkServiceBase.cs" />
+    <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\MigrationStatusService.cs" />
+    <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\RepositoryServiceBase.cs" />
     <Compile Include="Services\ServiceContext.cs" />
     <Compile Include="Vistors\IVisitor{T}.cs" />

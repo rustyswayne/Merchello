@@ -103,6 +103,7 @@
     <Compile Include="Persistence\Mappers\TypeFieldMapperTests.cs" />
     <Compile Include="Persistence\Mappers\WarehouseCatalogMapperTests.cs" />
     <Compile Include="Persistence\Mappers\WarehouseMapperTests.cs" />
+    <Compile Include="Persistence\OperationsQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScratchTests.cs" />
     <Compile Include="TestHelpers\TestHelper.cs" />

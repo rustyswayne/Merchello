@@ -96,6 +96,7 @@
         /// Gets or sets the detached published content type.
         /// </summary>
         [ResultColumn]
+        [Reference(ReferenceType.Foreign, ColumnName = "pk", ReferenceMemberName = "Key")]
         public DetachedContentTypeDto DetachedContentType { get; set; }
     }
 }
