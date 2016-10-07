@@ -425,6 +425,7 @@
     <Compile Include="Persistence\Repositories\Interfaces\IDetachedContentTypeRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerAddressRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IAnonymousCustomerRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IInvoiceRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\INoteRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\INotificationMessageRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\INotificationMethodRepository.cs" />
@@ -446,6 +447,7 @@
     <Compile Include="Persistence\Repositories\Interfaces\IPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IProductOptionRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEntityCollectionEntityRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IProductRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IProductVariantRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepositoryReadable{T}.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IRepository.cs" />

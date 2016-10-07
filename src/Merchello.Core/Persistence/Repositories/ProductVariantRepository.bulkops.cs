@@ -93,7 +93,6 @@
 
             ExecuteBatchUpdate(productVariants);
 
-
             SaveCatalogInventory(productVariants);
 
             SaveDetachedContents(productVariants);
