@@ -29,9 +29,9 @@
         /// The slug.
         /// </param>
         /// <returns>
-        /// The <see cref="Guid"/>.
+        /// The <see cref="IProduct"/>.
         /// </returns>
-        Guid GetKeyForSlug(string slug);
+        IProduct GetKeyForSlug(string slug);
 
         /// <summary>
         /// Gets or sets a value Indicating whether or not a SKU is already exists in the database

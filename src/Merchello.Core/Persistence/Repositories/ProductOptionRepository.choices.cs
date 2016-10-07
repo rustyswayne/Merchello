@@ -5,6 +5,7 @@
     using System.Linq;
 
     using Merchello.Core.Acquired.Persistence;
+    using Merchello.Core.Cache.Policies;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
@@ -16,8 +17,7 @@
     internal partial class ProductOptionRepository : IProductOptionRepository
     {
         /// <inheritdoc/>
-        /// REFACTOR - this should call the cache policy and be void
-        public IEnumerable<Guid> CreateAttributeAssociationForProductVariant(IProductVariant variant)
+        public void CreateAttributeAssociationForProductVariant(IProductVariant variant)
         {
             // insert associations for every attribute
             foreach (var association in variant.Attributes.Select(att => new ProductVariant2ProductAttributeDto()
@@ -33,8 +33,8 @@
             }
 
             var sharedOptions = GetProductOptions(variant.Attributes.Select(x => x.OptionKey).ToArray(), true);
-
-            return GetProductKeysForCacheRefresh(sharedOptions.Select(x => x.Key).ToArray());
+            var clearKeys = GetProductKeysForCacheRefresh(sharedOptions.Select(x => x.Key).ToArray());
+            ((ProductOptionRepositoryCachePolicy)CachePolicy).ClearProductWithSharedOption(clearKeys);
         }
 
         /// <inheritdoc/>
@@ -88,7 +88,7 @@
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Guid> DeleteAllProductVariantAttributes(IProductVariant variant)
+        public void DeleteAllProductVariantAttributes(IProductVariant variant)
         {
             //// This needs to delete all attributes from the merchProductVariant2ProductAttribute table.
 
@@ -96,7 +96,7 @@
 
             Database.Execute("DELETE FROM merchProductVariant2ProductAttribute WHERE productVariantKey = @key", new { @key = variant.Key });
 
-            return GetProductKeysForCacheRefresh(sharedOptions.Select(x => x.Key).ToArray());
+            ((ProductOptionRepositoryCachePolicy)CachePolicy).ClearProductWithSharedOption(GetProductKeysForCacheRefresh(sharedOptions.Select(x => x.Key).ToArray()));
         }
 
         /// <inheritdoc/>

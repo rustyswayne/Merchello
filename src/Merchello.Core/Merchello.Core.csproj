@@ -51,6 +51,7 @@
     <Compile Include="Acquired\Logging\ProfilerExtensions.cs" />
     <Compile Include="Acquired\NetworkHelper.cs" />
     <Compile Include="Acquired\Persistence\DatabaseModelDefinitions\DefinitionFactory.cs" />
+    <Compile Include="Cache\Policies\ProductOptionRepositoryCachePolicy.cs" />
     <Compile Include="Models\Rdbms\DistinctCurrencyCodeDto.cs" />
     <Compile Include="Persistence\Factories\InvoiceFactory.cs" />
     <Compile Include="Persistence\NPocoDatabaseExtensions.cs" />
@@ -70,7 +71,6 @@
     <Compile Include="Cache\IPayloadCacheRefresher.cs" />
     <Compile Include="Cache\JsonCacheRefresherBase.cs" />
     <Compile Include="Cache\Policies\OrderRepositoryCachePolicy.cs" />
-    <Compile Include="Cache\Policies\ProductVariantRepositoryCachePolicy.cs" />
     <Compile Include="Cache\Policies\RepositoryCachePolicyBase.cs" />
     <Compile Include="Cache\Policies\RepositoryCachePolicyOptions.cs" />
     <Compile Include="Constants.CountryCodes.cs">

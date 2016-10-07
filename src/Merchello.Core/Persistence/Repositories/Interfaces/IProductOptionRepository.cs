@@ -21,10 +21,7 @@
         /// <param name="product">
         /// The product.
         /// </param>
-        /// <returns>
-        /// A collection of product keys of products that need to be refreshed in the current cache and examine.
-        /// </returns>
-        IEnumerable<Guid> SaveForProduct(IProduct product);
+        void SaveForProduct(IProduct product);
 
         /// <summary>
         /// Creates the attribute association between product attribute and product variant.
@@ -32,10 +29,7 @@
         /// <param name="variant">
         /// The variant.
         /// </param>
-        /// <returns>
-        /// A collection of product keys of products that need to be refreshed in the current cache and examine.
-        /// </returns>
-        IEnumerable<Guid> CreateAttributeAssociationForProductVariant(IProductVariant variant);
+        void CreateAttributeAssociationForProductVariant(IProductVariant variant);
 
         /// <summary>
         /// Queries for product options by a collection of keys.
@@ -160,10 +154,7 @@
         /// <remarks>
         /// Used when deleting a product
         /// </remarks>
-        /// <returns>
-        /// A collection of product keys of products that need to be refreshed in the current cache and examine.
-        /// </returns>
-        IEnumerable<Guid> DeleteAllProductOptions(IProduct product);
+        void DeleteAllProductOptions(IProduct product);
 
         /// <summary>
         /// Deletes all product attributes from a product variant.
@@ -174,11 +165,7 @@
         /// <remarks>
         /// Used when deleting a product variant
         /// </remarks>
-        /// <returns>
-        /// A collection of product keys of products that need to be refreshed in the current cache and examine.
-        /// </returns>
-        [Obsolete("Move to cache policy")]
-        IEnumerable<Guid> DeleteAllProductVariantAttributes(IProductVariant variant);
+        void DeleteAllProductVariantAttributes(IProductVariant variant);
 
         /// <summary>
         /// Updates an attribute.

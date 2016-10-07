@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Merchello.Core.Cache.Policies;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
@@ -11,7 +12,7 @@
     internal partial class ProductOptionRepository : IProductOptionRepository
     {
         /// <inheritdoc/>
-        public IEnumerable<Guid> SaveForProduct(IProduct product)
+        public void SaveForProduct(IProduct product)
         {
             // Ensures the sort order with respect to this product
             if (!product.ProductOptions.Any())
@@ -20,7 +21,9 @@
             // Reset the Product Options Collection so that updated values are ordered and cached correctly
             product.ProductOptions = SaveForProduct(product.ProductOptions.AsEnumerable(), product.Key);
 
-            return product.ProductOptions.Where(x => x.Shared).Select(x => x.Key);
+            var clearKeys = product.ProductOptions.Where(x => x.Shared).Select(x => x.Key);
+
+            ((ProductOptionRepositoryCachePolicy)CachePolicy).ClearProductWithSharedOption(clearKeys);
         }
 
         /// <inheritdoc/>
@@ -40,7 +43,7 @@
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Guid> DeleteAllProductOptions(IProduct product)
+        public void DeleteAllProductOptions(IProduct product)
         {
             var sharedOptionKeys = product.ProductOptions.Where(x => x.Shared).Select(x => x.Key).ToArray();
 
@@ -51,7 +54,7 @@
                 Database.Execute(sql);
             }
 
-            return sharedOptionKeys;
+            ((ProductOptionRepositoryCachePolicy)CachePolicy).ClearProductWithSharedOption(GetProductKeysForCacheRefresh(sharedOptionKeys));
         }
 
 
