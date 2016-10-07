@@ -57,41 +57,49 @@
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public PagedCollection<IProduct> GetEntitiesThatExistInAnyCollection(Guid[] collectionKeys, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public PagedCollection<IProduct> GetEntitiesThatExistInAnyCollection(Guid[] collectionKeys, string searchTerm, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public PagedCollection<IProduct> GetEntitiesNotInCollection(Guid collectionKey, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public PagedCollection<IProduct> GetEntitiesNotInCollection(Guid collectionKey, string searchTerm, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public PagedCollection<IProduct> GetEntitiesNotInAnyCollection(Guid[] collectionKeys, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public PagedCollection<IProduct> GetEntitiesNotInAnyCollection(Guid[] collectionKeys, string searchTerm, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public int CountKeysThatExistInAllCollections(Guid[] collectionKeys)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IEnumerable<Tuple<IEnumerable<Guid>, int>> CountKeysThatExistInAllCollections(IEnumerable<Guid[]> collectionKeysGroups)
         {
             throw new NotImplementedException();
