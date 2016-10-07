@@ -465,6 +465,20 @@
     <Compile Include="Persistence\Repositories\Interfaces\IWarehouseCategoryRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IWarehouseRepository.cs" />
     <Compile Include="Persistence\Repositories\InvoiceLineItemRepository.cs" />
+    <Compile Include="Persistence\Repositories\InvoiceRepository.cs" />
+    <Compile Include="Persistence\Repositories\InvoiceRepository.ensuredocnum.cs">
+      <DependentUpon>InvoiceRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\InvoiceRepository.entitycollection.cs">
+      <DependentUpon>InvoiceRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\InvoiceRepository.npoco.cs">
+      <DependentUpon>InvoiceRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\InvoiceRepository.querying.cs" />
+    <Compile Include="Persistence\Repositories\InvoiceRepository.searchterm.cs">
+      <DependentUpon>InvoiceRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\InvoiceStatusRepository.cs" />
     <Compile Include="Persistence\Repositories\ItemCacheLineItemRepository.cs" />
     <Compile Include="Persistence\Repositories\ItemCacheRepository.cs" />
@@ -540,6 +554,19 @@
     </Compile>
     <Compile Include="Persistence\Repositories\ProductOptionRepository.sqlbuilder.cs">
       <DependentUpon>ProductOptionRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductRepository.cs" />
+    <Compile Include="Persistence\Repositories\ProductRepository.entitycollection.cs">
+      <DependentUpon>ProductRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductRepository.npoco.cs">
+      <DependentUpon>ProductRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductRepository.querying.cs">
+      <DependentUpon>ProductRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Repositories\ProductRepository.searchterm.cs">
+      <DependentUpon>ProductRepository.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\Repositories\ProductVariantRepository.bulkops.cs">
       <DependentUpon>ProductVariantRepository.cs</DependentUpon>

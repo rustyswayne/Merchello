@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a repository responsible for <see cref="IProduct"/> entities.
     /// </summary>
-    public interface IProductRepository : ISearchTermRepository<IProduct>, IEntityCollectionEntityRepository<IProduct>, IEnsureDocumentNumberRepository
+    public interface IProductRepository : ISearchTermRepository<IProduct>, IEntityCollectionEntityRepository<IProduct>
     {
         /// <summary>
         /// Gets a collection of <see cref="IProduct"/> that has detached content of type.
