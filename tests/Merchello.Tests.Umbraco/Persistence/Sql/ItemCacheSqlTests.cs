@@ -62,7 +62,7 @@
 
             Console.WriteLine(sql.SQL);
 
-            Assert.DoesNotThrow(() => dbAdapter.Database.Execute(sql), "GetItemCachePage Query throws error.");
+            Assert.DoesNotThrow(() => dbAdapter.Database.Fetch<ItemCacheDto>(sql), "GetItemCachePage Query throws error.");
         }
 
 

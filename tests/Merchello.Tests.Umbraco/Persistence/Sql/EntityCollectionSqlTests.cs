@@ -13,7 +13,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class EntityCollectionSqlTests : UmbracoApplicationContextTestBase
+    public class EntityCollectionSqlTests : MerchelloDatabaseTestBase
     {
         private IDatabaseAdapter _db;
 
@@ -40,15 +40,14 @@
                             .Where<Product2EntityCollectionDto>(x => x.ProductKey == productKey);
 
             var sql =
-                this.Sql()
-                    .Select("*")
+                this.Sql().SelectAll()
                     .From<EntityCollectionDto>()
                     .Where<EntityCollectionDto>(x => x.IsFilter)
                     .AndIn<EntityCollectionDto>(x => x.Key, innerSql);
 
             Console.WriteLine(sql.SQL);
 
-            Assert.DoesNotThrow(() => this._db.Database.Execute(sql), "GetEntityCollectionsByProductKey throws error.");
+            Assert.DoesNotThrow(() => this._db.Database.Fetch<EntityCollectionDto>(sql), "GetEntityCollectionsByProductKey throws error.");
         }
     }
 }

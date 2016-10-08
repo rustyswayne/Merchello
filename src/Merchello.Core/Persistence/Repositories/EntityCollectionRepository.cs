@@ -50,8 +50,7 @@
                             .From<Product2EntityCollectionDto>()
                             .Where<Product2EntityCollectionDto>(x => x.ProductKey == productKey);
 
-            var sql = Sql().Select("*")
-                            .From<EntityCollectionDto>()
+            var sql = GetBaseQuery(false)
                             .Where<EntityCollectionDto>(x => x.IsFilter == isFilter)
                             .AndIn<EntityCollectionDto>(x => x.Key, innerSql);
 
@@ -67,9 +66,9 @@
             var innerSql = Sql().SelectDistinct<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey)
                                 .From<Invoice2EntityCollectionDto>()
                                 .Where<Invoice2EntityCollectionDto>(x => x.InvoiceKey == invoiceKey);
-            var sql =
-             this.GetBaseQuery(false).SingleWhereIn<EntityCollectionDto>(x => x.Key, innerSql);
 
+            var sql = this.GetBaseQuery(false)
+                        .SingleWhereIn<EntityCollectionDto>(x => x.Key, innerSql);
 
             var dtos = Database.Fetch<EntityCollectionDto>(sql);
             return dtos.DistinctBy(x => x.Key).Select(x => Get(x.Key));
@@ -83,7 +82,8 @@
                                 .From<Customer2EntityCollectionDto>()
                                 .Where<Customer2EntityCollectionDto>(x => x.CustomerKey == customerKey);
 
-            var sql = this.GetBaseQuery(false).SingleWhereIn<EntityCollectionDto>(x => x.Key, innerSql);
+            var sql = this.GetBaseQuery(false)
+                        .SingleWhereIn<EntityCollectionDto>(x => x.Key, innerSql);
 
 
             var dtos = Database.Fetch<EntityCollectionDto>(sql);

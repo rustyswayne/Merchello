@@ -52,9 +52,59 @@
 
             Console.WriteLine(sql.SQL);
 
-            Assert.DoesNotThrow(() => _dbAdapter.Database.Execute(sql));
+            Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
         }
 
+
+        [Test]
+        public void GetProductsWithOption_ByOptionName()
+        {
+            var values = new object[] { "test" };
+
+            var tblName = _dbAdapter.Sql().SqlContext.SqlSyntax.GetQuotedTableName("merchProductOption");
+            var nameCol = _dbAdapter.Sql().SqlContext.SqlSyntax.GetQuotedColumnName("name");
+
+            var innerSql = _dbAdapter.Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                .From<ProductVariantDto>()
+                .InnerJoin<ProductVariant2ProductAttributeDto>()
+                .On<ProductVariantDto, ProductVariant2ProductAttributeDto>(left => left.Key, right => right.ProductVariantKey)
+                .InnerJoin<ProductOptionDto>()
+                .On<ProductVariant2ProductAttributeDto, ProductOptionDto>(left => left.OptionKey, right => right.Key)
+                .Where($"{tblName}.{nameCol} IN (@values)", new { values });
+
+            var sql = GetBaseQuery(false)
+            .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+            .AppendOrderExpression<ProductVariantDto>("name", direction);
+
+            Console.WriteLine(sql.SQL);
+
+            Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
+        }
+
+        [Test]
+        public void GetProductsWithOption_ByOptionNameAndChoiceName()
+        {
+            var name = "test";
+
+            var innerSql = _dbAdapter.Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                    .From<ProductVariantDto>()
+                    .InnerJoin<ProductVariant2ProductAttributeDto>()
+                    .On<ProductVariantDto, ProductVariant2ProductAttributeDto>(left => left.Key, right => right.ProductVariantKey)
+                    .InnerJoin<ProductAttributeDto>()
+                    .On<ProductVariant2ProductAttributeDto, ProductAttributeDto>(left => left.ProductAttributeKey, right => right.Key)
+                    .InnerJoin<ProductOptionDto>()
+                    .On<ProductVariant2ProductAttributeDto, ProductOptionDto>(left => left.OptionKey, right => right.Key)
+                    .Where<ProductOptionDto>(x => x.Name == name)
+                    .Where<ProductAttributeDto>(x => x.Name == name);
+
+            var sql = GetBaseQuery(false)
+                        .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+                        .AppendOrderExpression<ProductVariantDto>(orderExpression, direction);
+
+            Console.WriteLine(sql.SQL);
+
+            Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
+        }
 
         private Sql<SqlContext> GetBaseQuery(bool isCount)
         {

@@ -33,15 +33,41 @@
         /// <inheritdoc/>
         public PagedCollection<IProduct> GetProductsWithOption(string optionName, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
+            var innerSql = Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                .From<ProductVariantDto>()
+                .InnerJoin<ProductVariant2ProductAttributeDto>()
+                .On<ProductVariantDto, ProductVariant2ProductAttributeDto>(left => left.Key, right => right.ProductVariantKey)
+                .InnerJoin<ProductOptionDto>()
+                .On<ProductVariant2ProductAttributeDto, ProductOptionDto>(left => left.OptionKey, right => right.Key)
+                .Where<ProductOptionDto>(x => x.Name == optionName);
 
+            var sql = GetBaseQuery(false)
+            .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+            .AppendOrderExpression<ProductVariantDto>(ValidateSortByField(orderExpression), direction);
 
-            throw new NotImplementedException();
+            return Database.Page<ProductDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
         /// <inheritdoc/>
         public PagedCollection<IProduct> GetProductsWithOption(string optionName, string choiceName, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
-            throw new NotImplementedException();
+            var innerSql = Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                                .From<ProductVariantDto>()
+                                .InnerJoin<ProductVariant2ProductAttributeDto>()
+                                .On<ProductVariantDto, ProductVariant2ProductAttributeDto>(left => left.Key, right => right.ProductVariantKey)
+                                .InnerJoin<ProductAttributeDto>()
+                                .On<ProductVariant2ProductAttributeDto, ProductAttributeDto>(left => left.ProductAttributeKey, right => right.Key)
+                                .InnerJoin<ProductOptionDto>()
+                                .On<ProductVariant2ProductAttributeDto, ProductOptionDto>(left => left.OptionKey, right => right.Key)
+                                .Where<ProductOptionDto>(x => x.Name == optionName)
+                                .Where<ProductAttributeDto>(x => x.Name == choiceName);
+
+            var sql = Sql().SelectAll()
+                        .From<ProductDto>()
+                        .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+                        .AppendOrderExpression<ProductVariantDto>(ValidateSortByField(orderExpression), direction);
+
+            return Database.Page<ProductDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
         /// <inheritdoc/>
@@ -53,23 +79,22 @@
         /// <inheritdoc/>
         public PagedCollection<IProduct> GetProductWithOptions(IEnumerable<string> optionNames, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
-            //sql.Append("SELECT *")
-            //    .Append("FROM [merchProductVariant]")
-            //    .Append("WHERE [merchProductVariant].[productKey] IN (")
-            //    .Append("SELECT DISTINCT([productKey])")
-            //    .Append("FROM (")
-            //    .Append("SELECT	[merchProductVariant].[productKey]")
-            //    .Append("FROM [merchProductVariant]")
-            //    .Append("INNER JOIN [merchProductVariant2ProductAttribute]")
-            //    .Append("ON	[merchProductVariant].[pk] = [merchProductVariant2ProductAttribute].[productVariantKey]")
-            //    .Append("INNER JOIN [merchProductOption]")
-            //    .Append("ON [merchProductVariant2ProductAttribute].[optionKey] = [merchProductOption].[pk]")
-            //    .Append("WHERE [merchProductOption].[name] IN (@names)", new { @names = optionNames })
-            //    .Append(") [merchProductVariant]")
-            //    .Append(")")
-            //    .Append("AND [merchProductVariant].[master] = 1");
+            var tblName = SqlSyntax.GetQuotedTableName("merchProductOption");
+            var nameCol = SqlSyntax.GetQuotedColumnName("name");
 
-            throw new NotImplementedException();
+            var innerSql = Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                .From<ProductVariantDto>()
+                .InnerJoin<ProductVariant2ProductAttributeDto>()
+                .On<ProductVariantDto, ProductVariant2ProductAttributeDto>(left => left.Key, right => right.ProductVariantKey)
+                .InnerJoin<ProductOptionDto>()
+                .On<ProductVariant2ProductAttributeDto, ProductOptionDto>(left => left.OptionKey, right => right.Key)
+                .Where($"{tblName}.{nameCol} IN (@values)", new { @values = optionNames });
+
+            var sql = GetBaseQuery(false)
+            .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+            .AppendOrderExpression<ProductVariantDto>(ValidateSortByField(orderExpression), direction);
+
+            return Database.Page<ProductDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
         /// <inheritdoc/>
