@@ -66,8 +66,7 @@
                 .From<Invoice2EntityCollectionDto>()
                 .Where<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey == collectionKey);
 
-            var sql = Sql().SelectAll()
-                        .From<InvoiceDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereIn<InvoiceDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -83,7 +82,6 @@
                 .Where<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey == collectionKey);
 
             var sql = BuildSearchSql(searchTerm)
-                        .From<InvoiceDto>()
                         .SingleWhereIn<InvoiceDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -99,8 +97,7 @@
                             .GroupBy<Invoice2EntityCollectionDto>(x => x.InvoiceKey)
                             .HavingCount(collectionKeys);
 
-            var sql = Sql().SelectAll()
-                        .From<InvoiceDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereIn<InvoiceDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -117,7 +114,6 @@
                             .HavingCount(collectionKeys);
 
             var sql = BuildSearchSql(searchTerm)
-                        .From<InvoiceDto>()
                         .SingleWhereIn<InvoiceDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -131,8 +127,7 @@
                                 .From<Invoice2EntityCollectionDto>()
                                 .WhereIn<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey, collectionKeys);
 
-            var sql = Sql().SelectAll()
-                        .From<InvoiceDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereIn<InvoiceDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -147,7 +142,6 @@
                                 .WhereIn<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey, collectionKeys);
 
             var sql = BuildSearchSql(searchTerm)
-                        .From<InvoiceDto>()
                         .SingleWhereIn<InvoiceDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -161,8 +155,7 @@
                             .From<Invoice2EntityCollectionDto>()
                             .Where<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey == collectionKey);
 
-            var sql = Sql().SelectAll()
-                        .From<InvoiceDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereNotIn<Invoice2EntityCollectionDto>(x => x.InvoiceKey, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -177,7 +170,6 @@
                             .Where<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey == collectionKey);
 
             var sql = BuildSearchSql(searchTerm)
-                        .From<InvoiceDto>()
                         .SingleWhereNotIn<Invoice2EntityCollectionDto>(x => x.InvoiceKey, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -191,8 +183,7 @@
                             .From<Invoice2EntityCollectionDto>()
                             .WhereIn<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey, collectionKeys);
 
-            var sql = Sql().SelectAll()
-                        .From<InvoiceDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereNotIn<Invoice2EntityCollectionDto>(x => x.InvoiceKey, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
@@ -207,7 +198,6 @@
                             .WhereIn<Invoice2EntityCollectionDto>(x => x.EntityCollectionKey, collectionKeys);
 
             var sql = BuildSearchSql(searchTerm)
-                        .From<InvoiceDto>()
                         .SingleWhereNotIn<Invoice2EntityCollectionDto>(x => x.InvoiceKey, innerSql)
                         .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 

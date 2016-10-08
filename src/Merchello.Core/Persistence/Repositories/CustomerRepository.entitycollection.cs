@@ -63,7 +63,7 @@
                             .From<Customer2EntityCollectionDto>()
                             .Where<Customer2EntityCollectionDto>(x => x.EntityCollectionKey == collectionKey);
 
-            var sql = Sql().SelectAll().From<CustomerDto>()
+            var sql = GetBaseQuery(false)
                 .SingleWhereIn<CustomerDto>(x => x.Key, innerSql)
                 .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
@@ -93,8 +93,7 @@
                             .GroupBy<Customer2EntityCollectionDto>(x => x.CustomerKey)
                             .HavingCount(collectionKeys);
 
-            var sql = Sql().SelectAll()
-                        .From<CustomerDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereIn<CustomerDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
@@ -124,8 +123,7 @@
                             .From<Customer2EntityCollectionDto>()
                             .WhereIn<Customer2EntityCollectionDto>(x => x.EntityCollectionKey, collectionKeys);
 
-            var sql = Sql().SelectAll()
-                        .From<CustomerDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereIn<CustomerDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
@@ -153,8 +151,7 @@
                             .From<Customer2EntityCollectionDto>()
                             .Where<Customer2EntityCollectionDto>(x => x.EntityCollectionKey == collectionKey);
 
-            var sql = Sql().SelectAll()
-                        .From<CustomerDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereNotIn<CustomerDto>( x => x.Key, innerSql)
                         .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
@@ -182,8 +179,7 @@
                             .From<Customer2EntityCollectionDto>()
                             .WhereIn<Customer2EntityCollectionDto>(x => x.EntityCollectionKey, collectionKeys);
 
-            var sql = Sql().SelectAll()
-                        .From<CustomerDto>()
+            var sql = GetBaseQuery(false)
                         .SingleWhereNotIn<CustomerDto>(x => x.Key, innerSql)
                         .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 

@@ -197,5 +197,9 @@
         [Reference(ReferenceType.OneToOne, ColumnName = "productVariantKey", ReferenceMemberName = "ProductVariantKey")]
         public ProductVariantIndexDto ProductVariantIndexDto { get; set; }
 
+        //[ResultColumn]
+        //[Reference(ReferenceType.Foreign, ColumnName = "productVariantKey", ReferenceMemberName = "ProductVariantKey")]
+        //public CatalogInventoryDto CatalogInventoryDto { get; set; }
+
     }
 }

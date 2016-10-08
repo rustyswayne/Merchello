@@ -1,9 +1,7 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
-    using System;
     using System.Linq;
 
-    using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;

@@ -58,7 +58,7 @@
             }
 
 
-            var sql = Sql().SelectAll().From<InvoiceDto>();
+            var sql = GetBaseQuery(false);
 
             if (numbers.Any() && terms.Any())
             {

@@ -162,6 +162,39 @@
             Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
         }
 
+        [Test]
+        public void GetProductsInStock()
+        {
+            var innerSql =
+                _dbAdapter.Sql()
+                    .SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                    .From<ProductVariantDto>()
+                    .InnerJoin<CatalogInventoryDto>()
+                    .On<ProductVariantDto, CatalogInventoryDto>(left => left.Key, right => right.ProductVariantKey)
+                    .Where<ProductVariantDto>(x => x.TrackInventory)
+                    .Where<CatalogInventoryDto>(x => x.Count > 0);
+
+            //.Or<ProductVariantDto>(x => !x.TrackInventory);
+
+            Console.WriteLine(innerSql.SQL);
+
+            //Assert.DoesNotThrow(() => _dbAdapter.Database.Execute(innerSql));
+        }
+
+        [Test]
+        public void GetProductsOnSql()
+        {
+            var innerSql = _dbAdapter.Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                            .From<ProductVariantDto>()
+                            .Where<ProductVariantDto>(x => x.OnSale);
+
+            var sql = GetBaseQuery(false).SingleWhereIn<ProductDto>(x => x.Key, innerSql);
+
+            Console.WriteLine(sql.SQL);
+
+            Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
+        }
+
         private Sql<SqlContext> GetBaseQuery(bool isCount)
         {
             var tbl = _dbAdapter.Sql().SqlContext.SqlSyntax.GetQuotedTableName("merchProductVariant");

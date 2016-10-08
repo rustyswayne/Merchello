@@ -566,6 +566,9 @@
     <Compile Include="Persistence\Repositories\ProductRepository.entitycollection.cs">
       <DependentUpon>ProductRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\ProductRepository.filters.cs">
+      <DependentUpon>ProductRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\ProductRepository.npoco.cs">
       <DependentUpon>ProductRepository.cs</DependentUpon>
     </Compile>
