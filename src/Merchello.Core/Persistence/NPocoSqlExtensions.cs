@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Linq.Expressions;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Acquired.Persistence.Querying;
     using Merchello.Core.Models;
@@ -17,6 +18,49 @@
     /// </summary>
     internal static class NPocoSqlExtensions
     {
+        /// <summary>
+        /// SELECT SUM field.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> SelectSum<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Select($"SUM({fieldExpression})");
+
+            return sql;
+        }
+
+        /// <summary>
+        /// SELECT SUM field.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="sumExpression">
+        /// The sum expression.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> SelectSum(this Sql<SqlContext> sql, string sumExpression)
+        {
+            sql.Append($"SELECT SUM({sumExpression})");
+
+            return sql;
+        }
+
         /// <summary>
         /// SELECT DISTINCT field.
         /// </summary>
@@ -37,6 +81,73 @@
             var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
             var fieldExpression = expresionist.Visit(fieldSelector);
             sql.Select($"DISTINCT({fieldExpression})");
+            return sql;
+        }
+
+        /// <summary>
+        /// SELECT DISTINCT field.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> SelectField<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Select($"{fieldExpression}");
+            return sql;
+        }
+
+
+        /// <summary>
+        /// FROM (query) alias.
+        /// </summary>
+        /// <param name="sql">
+        /// The SQL.
+        /// </param>
+        /// <param name="query">
+        /// The query.
+        /// </param>
+        /// <param name="alias">
+        /// The alias.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> FromQuery(this Sql<SqlContext> sql, Sql<SqlContext> query, string alias)
+        {
+            var quoted = sql.SqlContext.SqlSyntax.GetQuotedName(alias);
+
+            return sql.Append("FROM").Append("(").Append(query).Append($") {quoted}");
+        }
+
+        /// <summary>
+        /// FROM typeof(dto).
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="modelType">
+        /// The model type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> FromModelType(this Sql<SqlContext> sql, Type modelType)
+        {
+            var tableNameAttribute = modelType.FirstAttribute<TableNameAttribute>();
+            var tableName = tableNameAttribute == null ? string.Empty : tableNameAttribute.Value;
+
+            sql.From(sql.SqlContext.SqlSyntax.GetQuotedTableName(tableName));
             return sql;
         }
 
@@ -90,49 +201,6 @@
             var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
             var fieldExpression = expresionist.Visit(fieldSelector);
             sql.Append("WHERE " + fieldExpression + " NOT IN (").Append(innerSql).Append(")");
-
-            return sql;
-        }
-
-        /// <summary>
-        /// SELECT SUM field.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="fieldSelector">
-        /// The field selector.
-        /// </param>
-        /// <typeparam name="T">
-        /// The type of the DTO
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="Sql"/>.
-        /// </returns>
-        public static Sql<SqlContext> SelectSum<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector)
-        {
-            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
-            var fieldExpression = expresionist.Visit(fieldSelector);
-            sql.Select($"SUM({fieldExpression})");
-
-            return sql;
-        }
-
-        /// <summary>
-        /// SELECT SUM field.
-        /// </summary>
-        /// <param name="sql">
-        /// The sql.
-        /// </param>
-        /// <param name="sumExpression">
-        /// The sum expression.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Sql"/>.
-        /// </returns>
-        public static Sql<SqlContext> SelectSum(this Sql<SqlContext> sql, string sumExpression)
-        {
-            sql.Append($"SELECT SUM({sumExpression})");
 
             return sql;
         }
@@ -376,14 +444,14 @@
         public static PagedCollection<TEntity> Map<TEntity, TDto>(this Page<TDto> page, Func<IEnumerable<TDto>, IEnumerable<TEntity>> mapper, string sortField = "")
         {
             return new PagedCollection<TEntity>
-                       {
-                           CurrentPage = page.CurrentPage,
-                           PageSize = page.ItemsPerPage,
-                           TotalItems = page.TotalItems,
-                           SortField = sortField,
-                           TotalPages = page.TotalPages,
-                           Items = mapper.Invoke(page.Items)
-                       };
+                {
+                    CurrentPage = page.CurrentPage,
+                    PageSize = page.ItemsPerPage,
+                    TotalItems = page.TotalItems,
+                    SortField = sortField,
+                    TotalPages = page.TotalPages,
+                    Items = mapper.Invoke(page.Items)
+                };
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Merchello.Tests.Umbraco.Persistence
+﻿namespace Merchello.Tests.Umbraco.Persistence.Querying
 {
     using System;
 
@@ -7,11 +7,11 @@
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence;
     using Merchello.Tests.Umbraco.TestHelpers.Base;
-    
+
     using NUnit.Framework;
 
     [TestFixture]
-    public class NPocoExtensionTests : MerchelloDatabaseTestBase
+    public class InvoiceQueryTests : MerchelloDatabaseTestBase
     {
         [Test]
         public void Can_Create_SelectSumSqlWithWhereBetween()

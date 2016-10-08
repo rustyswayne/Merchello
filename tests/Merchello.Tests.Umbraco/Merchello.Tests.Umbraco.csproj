@@ -49,9 +49,10 @@
     <Compile Include="Persistence\BaseDataCreationTests.cs" />
     <Compile Include="Persistence\DatabaseCreationTests.cs" />
     <Compile Include="Persistence\Mappers\MappingResolverTests.cs" />
-    <Compile Include="Persistence\NPocoExtensionTests.cs" />
     <Compile Include="Persistence\NPocoScratchTests.cs" />
     <Compile Include="Persistence\Querying\EntityCollectionQueryTests.cs" />
+    <Compile Include="Persistence\Querying\InvoiceQueryTests.cs" />
+    <Compile Include="Persistence\Querying\ItemCacheQueryTests.cs" />
     <Compile Include="Persistence\Repositories\MigrationStatusRepositoryTests.cs" />
     <Compile Include="ServiceContainer\AdapterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

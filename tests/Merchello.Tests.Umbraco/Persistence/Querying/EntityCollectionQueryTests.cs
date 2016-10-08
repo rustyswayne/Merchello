@@ -50,7 +50,7 @@
 
             Console.WriteLine(sql.SQL);
 
-            _db.Database.Execute(sql);
+            Assert.DoesNotThrow(() => _db.Database.Execute(sql), "GetEntityCollectionsByProductKey throws error.");
         }
     }
 }

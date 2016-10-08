@@ -19,6 +19,12 @@ namespace Merchello.Core.Acquired.Persistence.Querying
             this._pd = sqlContext.PocoDataFactory.ForType(typeof (T));
         }
 
+        public PocoToSqlExpressionHelper(SqlContext sqlContext, Type modelType)
+            : base(sqlContext.SqlSyntax)
+        {
+            this._pd = sqlContext.PocoDataFactory.ForType(modelType);
+        }
+
         protected override string VisitMemberAccess(MemberExpression m)
         {
             if (m.Expression != null && m.Expression.NodeType == ExpressionType.Parameter && m.Expression.Type == typeof (T))

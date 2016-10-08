@@ -11,6 +11,8 @@
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
+    using NPoco;
+
     /// <inheritdoc/>
     internal partial class ItemCacheRepository : IItemCacheRepository
     {
@@ -37,52 +39,67 @@
         /// <inheritdoc/>
         public PagedCollection<IItemCache> GetItemCachePage(Guid itemCacheTfKey, DateTime startDate, DateTime endDate, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
-            // REFACTOR - query should use HAVING COUNT and be simplified
+            var icTbl = SqlSyntax.GetQuotedTableName("merchItemCacheItem");
+            var ick = SqlSyntax.GetQuotedColumnName("itemCacheKey");
+            var iciQ = SqlSyntax.GetQuotedName("itemCacheItemQ");
 
-            //sql.Append("SELECT T1.pk AS itemCacheKey");
-            //sql.Append("FROM [merchItemCache] T1");
-            //sql.Append("INNER JOIN [merchCustomer] T2 ON T1.entityKey = T2.pk");
-            //sql.Append("INNER JOIN (");
-            //sql.Append("SELECT	itemCacheKey,");
-            //sql.Append("COUNT(*) AS itemCount");
-            //sql.Append("FROM [merchItemCacheItem]");
-            //sql.Append("GROUP BY itemCacheKey");
-            //sql.Append(") Q1 ON T1.pk = Q1.itemCacheKey");
-            //sql.Append("WHERE T1.itemCacheTfKey = @tfkey", new { @tfkey = itemCacheTfKey });
-            //sql.Append("AND	T2.lastActivityDate BETWEEN @start AND @end", new { @start = startDate, @end = endDate });
-            //sql.Append("AND Q1.itemCount > 0");
-            throw new NotImplementedException();
+            var joinOn = string.Format(
+                "{0}.{1} = {2}.{3}",
+                SqlSyntax.GetQuotedName("itemCacheItemQ"),
+                ick,
+                SqlSyntax.GetQuotedTableName("merchItemCache"),
+                SqlSyntax.GetQuotedColumnName("pk"));
+
+            var innerSql = Sql()
+                    .Select($"{icTbl}.{ick}, COUNT(*) AS itemCount")
+                    .From<ItemCacheItemDto>()
+                    .GroupBy<ItemCacheItemDto>(x => x.ContainerKey);
+
+            var sql = Sql().SelectAll()
+                    .FromQuery(innerSql, "itemCacheItemQ")
+                    .InnerJoin<ItemCacheDto>()
+                    .On(joinOn)
+                    .InnerJoin<CustomerDto>()
+                    .On<ItemCacheDto, CustomerDto>(left => left.EntityKey, right => right.Key)
+                    .Where<ItemCacheDto>(x => x.ItemCacheTfKey == itemCacheTfKey)
+                    .WhereBetween<CustomerDto>(x => x.LastActivityDate, startDate, endDate)
+                    .Where($"{iciQ}.itemCount > 0")
+                    .AppendOrderExpression(orderExpression, direction);
+
+            return Database.Page<ItemCacheDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
         /// <inheritdoc/>
         public int Count(Guid itemCacheTfKey, CustomerType customerType, DateTime startDate, DateTime endDate)
         {
-            // REFACTOR 
-            //var table = customerType == CustomerType.Anonymous ? "[merchAnonymousCustomer]" : "[merchCustomer]";
+            var countQuery = Sql().SelectField<ItemCacheItemDto>(x => x.ContainerKey)
+                                .From<ItemCacheItemDto>()
+                                .GroupBy<ItemCacheItemDto>(x => x.ContainerKey)
+                                .Append("HAVING COUNT(*) > 0");
 
-            //var querySql = @"SELECT  COUNT(*) AS cacheCount  
-            //    FROM	merchItemCache T1
-            //    INNER JOIN (
-            //     SELECT	pk
-            //     FROM " + table + @"
-            //     WHERE	lastActivityDate BETWEEN @start AND @end
-            //    ) Q1 ON T1.entityKey = Q1.pk
-            //    INNER JOIN (
-            //     SELECT	COUNT(*) AS itemCount,
-            //       itemCacheKey
-            //     FROM	merchItemCacheItem
-            //     GROUP BY itemCacheKey
-            //    ) Q2 ON T1.pk = Q2.itemCacheKey
-            //    WHERE Q2.itemCount > 0 AND
-            //    T1.itemCacheTfKey = @tfKey";
+            Sql<SqlContext> sql;
+            if (customerType == CustomerType.Anonymous)
+            {
+                sql = Sql().SelectCount()
+                    .From<AnonymousCustomerDto>()
+                    .InnerJoin<ItemCacheDto>()
+                    .On<AnonymousCustomerDto, ItemCacheDto>(left => left.Key, right => right.EntityKey)
+                    .WhereBetween<AnonymousCustomerDto>(x => x.LastActivityDate, startDate, endDate)
+                    .Where<ItemCacheDto>(x => x.ItemCacheTfKey == itemCacheTfKey)
+                    .AndIn<ItemCacheDto>(x => x.Key, countQuery);
+            }
+            else
+            {
+                sql = Sql().SelectCount()
+                    .From<CustomerDto>()
+                    .InnerJoin<ItemCacheDto>()
+                    .On<CustomerDto, ItemCacheDto>(left => left.Key, right => right.EntityKey)
+                    .WhereBetween<CustomerDto>(x => x.LastActivityDate, startDate, endDate)
+                    .Where<ItemCacheDto>(x => x.ItemCacheTfKey == Constants.TypeFieldKeys.ItemCache.BasketKey)
+                    .AndIn<ItemCacheDto>(x => x.Key, countQuery);
+            }
 
-            //var sql = new Sql(
-            //    querySql,
-            //    new { @table = table, @start = startDate, @end = endDate, @tfKey = itemCacheTfKey });
-
-            //return Database.ExecuteScalar<int>(sql);
-
-            throw new NotImplementedException();
+            return Database.ExecuteScalar<int>(sql);
         }
     }
 }

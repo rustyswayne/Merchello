@@ -90,7 +90,7 @@
         /// <inheritdoc/>
         public bool SkuExists(string sku)
         {
-            throw new NotImplementedException();
+            return _productVariantRepository.SkuExists(sku);
         }
 
         /// <summary>
