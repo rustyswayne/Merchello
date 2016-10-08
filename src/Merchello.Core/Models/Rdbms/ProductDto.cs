@@ -37,7 +37,7 @@
         /// Gets or sets the product variant dto.
         /// </summary>
         [ResultColumn]
-        [Reference(ReferenceType.Foreign, ColumnName = "pk", ReferenceMemberName = "Key")]
+        [Reference(ReferenceType.Foreign, ColumnName = "productKey", ReferenceMemberName = "productKey")]
         public ProductVariantDto ProductVariantDto { get; set; }
     }
 }

@@ -18,7 +18,7 @@
 
             var sql = Sql().SelectAll().From<OfferRedeemedDto>();
             sql.Where("offerCode LIKE @term", new { @term = string.Format("%{0}%", string.Join("% ", terms)).Trim() })
-                .AppendOrderExpression(orderExpression, direction);
+                .AppendOrderExpression<OfferRedeemedDto>(orderExpression, direction);
 
             return Database.Page<OfferRedeemedDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }

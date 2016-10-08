@@ -17,7 +17,7 @@
         {
             var sql = BuildSearchSql(searchTerm)
                         .Where<InvoiceDto>(x => x.InvoiceStatusKey == invoiceStatusKey)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<InvoiceDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -27,7 +27,7 @@
         {
             var sql = BuildSearchSql(searchTerm)
                         .Where<InvoiceDto>(x => x.InvoiceStatusKey != invoiceStatusKey)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<InvoiceDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -49,6 +49,8 @@
                 sql.OrNotIn<InvoiceDto>(x => x.Key, noInvoiceSql);
             }
 
+            sql.AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
+
             return Database.Page<InvoiceDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
@@ -68,6 +70,8 @@
                 sql.OrNotIn<InvoiceDto>(x => x.Key, noInvoiceSql);
             }
 
+            sql.AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
+
             return Database.Page<InvoiceDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
@@ -82,6 +86,8 @@
                         .From<InvoiceDto>()
                         .SingleWhereIn<InvoiceDto>(x => x.Key, innerSql);
 
+            sql.AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
+
             return Database.Page<InvoiceDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
@@ -94,6 +100,8 @@
 
             var sql = BuildSearchSql(searchTerm)
                         .SingleWhereIn<InvoiceDto>(x => x.Key, innerSql);
+
+            sql.AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<InvoiceDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }

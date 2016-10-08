@@ -13,11 +13,16 @@
     /// <inheritdoc/>
     internal partial class ProductRepository : ISearchTermRepository<IProduct>
     {
+        /// <summary>
+        /// The valid sort fields.
+        /// </summary>
+        private static readonly string[] ValidSortFields = { "sku", "name", "price" };
+
         /// <inheritdoc/>
         public PagedCollection<IProduct> SearchForTerm(string searchTerm, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             var sql = BuildSearchSql(searchTerm)
-                    .AppendOrderExpression(orderExpression, direction);
+                    .AppendOrderExpression<ProductVariantDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<ProductDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -49,6 +54,20 @@
             }
 
             return sql;
+        }
+
+        /// <summary>
+        /// The validate sort by field.
+        /// </summary>
+        /// <param name="sortBy">
+        /// The sort by.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private string ValidateSortByField(string sortBy)
+        {
+            return ValidSortFields.Contains(sortBy.ToLowerInvariant()) ? sortBy : "name";
         }
     }
 }

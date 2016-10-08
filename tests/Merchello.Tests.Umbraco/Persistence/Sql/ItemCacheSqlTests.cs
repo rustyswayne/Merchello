@@ -1,4 +1,4 @@
-﻿namespace Merchello.Tests.Umbraco.Persistence.Querying
+﻿namespace Merchello.Tests.Umbraco.Persistence.Sql
 {
     using System;
 
@@ -14,7 +14,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class ItemCacheQueryTests : MerchelloDatabaseTestBase
+    public class ItemCacheSqlTests : MerchelloDatabaseTestBase
     {
         [Test]
         public void Can_GetItemCachePage()

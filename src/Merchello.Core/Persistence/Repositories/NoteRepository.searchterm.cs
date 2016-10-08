@@ -10,6 +10,11 @@
     /// <inheritdoc/>
     internal partial class NoteRepository : ISearchTermRepository<INote>
     {
+        /// <summary>
+        /// The valid sort fields.
+        /// </summary>
+        private static readonly string[] ValidSortFields = { "createdate" };
+
         /// <inheritdoc/>
         public PagedCollection<INote> SearchForTerm(string searchTerm, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
@@ -24,9 +29,23 @@
                 sql.Where("message LIKE @msg", new { @msg = preparedTerms });
             }
 
-            sql.AppendOrderExpression(orderExpression, direction);
+            sql.AppendOrderExpression<NoteDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<NoteDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
+        }
+
+        /// <summary>
+        /// Validates the sort by field
+        /// </summary>
+        /// <param name="sortBy">
+        /// The sort by.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        private string ValidateSortByField(string sortBy)
+        {
+            return ValidSortFields.Contains(sortBy.ToLower()) ? sortBy : "createdate";
         }
     }
 }

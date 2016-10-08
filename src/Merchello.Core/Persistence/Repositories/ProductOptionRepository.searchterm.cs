@@ -27,7 +27,7 @@
         public PagedCollection<IProductOption> SearchForTerm(string searchTerm, long page, long itemsPerPage, string orderExpression, bool sharedOnly, Direction direction = Direction.Descending)
         {
             var sql = BuildSearchSql(searchTerm, sharedOnly)
-                .AppendOrderExpression(ValidateSortField(orderExpression), direction);
+                .AppendOrderExpression<ProductOptionDto>(ValidateSortField(orderExpression), direction);
 
             return Database.Page<ProductOptionDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -66,8 +66,7 @@
             var terms = invidualTerms.Where(x => !string.IsNullOrEmpty(x)).ToList();
 
 
-            var sql = Sql();
-            sql.Select("*").From<ProductOptionDto>();
+            var sql = GetBaseQuery(false);
 
             if (terms.Any())
             {

@@ -394,6 +394,9 @@
         /// <summary>
         /// Appending the ordering expression.
         /// </summary>
+        /// <typeparam name="T">
+        /// The type of DTO
+        /// </typeparam>
         /// <param name="sql">
         /// The SQL.
         /// </param>
@@ -406,17 +409,24 @@
         /// <returns>
         /// The <see cref="Sql"/>.
         /// </returns>
-        public static Sql<SqlContext> AppendOrderExpression(this Sql<SqlContext> sql, string orderExpression, Direction direction)
+        public static Sql<SqlContext> AppendOrderExpression<T>(this Sql<SqlContext> sql, string orderExpression, Direction direction)
         {
             if (!string.IsNullOrEmpty(orderExpression))
             {
+                var type = typeof(T);
+                var tableNameAttribute = type.FirstAttribute<TableNameAttribute>();
+                var tableName = tableNameAttribute == null ? string.Empty : sql.SqlContext.SqlSyntax.GetQuotedTableName(tableNameAttribute.Value);
+
+                var oe = $"{tableName}.{sql.SqlContext.SqlSyntax.GetQuotedName(orderExpression)}";
+
                 sql.Append(direction == Direction.Ascending
-                    ? string.Format("ORDER BY {0} ASC", orderExpression)
-                    : string.Format("ORDER BY {0} DESC", orderExpression));
+                    ? string.Format("ORDER BY {0} ASC", oe)
+                    : string.Format("ORDER BY {0} DESC", oe));
             }
 
             return sql;
         }
+
 
         // PagedCollection
 

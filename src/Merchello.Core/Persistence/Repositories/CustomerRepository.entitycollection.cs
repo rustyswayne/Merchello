@@ -65,7 +65,7 @@
 
             var sql = Sql().SelectAll().From<CustomerDto>()
                 .SingleWhereIn<CustomerDto>(x => x.Key, innerSql)
-                .AppendOrderExpression(orderExpression, direction);
+                .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -79,7 +79,7 @@
 
             var sql = BuildSearchSql(searchTerm)
                         .AndIn<CustomerDto>(x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -96,7 +96,7 @@
             var sql = Sql().SelectAll()
                         .From<CustomerDto>()
                         .SingleWhereIn<CustomerDto>(x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -112,7 +112,7 @@
 
             var sql = BuildSearchSql(searchTerm)
                         .AndIn<CustomerDto>(x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -127,7 +127,7 @@
             var sql = Sql().SelectAll()
                         .From<CustomerDto>()
                         .SingleWhereIn<CustomerDto>(x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -141,7 +141,7 @@
 
             var sql = BuildSearchSql(searchTerm)
                         .AndIn<CustomerDto>(x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -156,7 +156,7 @@
             var sql = Sql().SelectAll()
                         .From<CustomerDto>()
                         .SingleWhereNotIn<CustomerDto>( x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -170,7 +170,7 @@
 
             var sql = BuildSearchSql(searchTerm)
                         .AndNotIn<CustomerDto>(x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -185,7 +185,7 @@
             var sql = Sql().SelectAll()
                         .From<CustomerDto>()
                         .SingleWhereNotIn<CustomerDto>(x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
@@ -199,7 +199,7 @@
 
             var sql = BuildSearchSql(searchTerm)
                         .AndNotIn<CustomerDto>(x => x.Key, innerSql)
-                        .AppendOrderExpression(orderExpression, direction);
+                        .AppendOrderExpression<CustomerDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<CustomerDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }

@@ -13,10 +13,16 @@
     /// <inheritdoc/>
     internal partial class InvoiceRepository : ISearchTermRepository<IInvoice>
     {
+
+        /// <summary>
+        /// The valid sort fields.
+        /// </summary>
+        private static readonly string[] ValidSortFields = { "invoicenumber", "invoicedate", "billtoname", "billtoemail" };
+
         /// <inheritdoc/>
         public PagedCollection<IInvoice> SearchForTerm(string searchTerm, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
-            var sql = BuildSearchSql(searchTerm).AppendOrderExpression(orderExpression, direction);
+            var sql = BuildSearchSql(searchTerm).AppendOrderExpression<InvoiceDto>(ValidateSortByField(orderExpression), direction);
             return Database.Page<InvoiceDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
@@ -118,6 +124,20 @@
             }
 
             return sql;
+        }
+
+        /// <summary>
+        /// Validates the sort by string is a valid sort by field
+        /// </summary>
+        /// <param name="sortBy">
+        /// The sort by.
+        /// </param>
+        /// <returns>
+        /// A validated database field name.
+        /// </returns>
+        private string ValidateSortByField(string sortBy)
+        {
+            return ValidSortFields.Contains(sortBy.ToLowerInvariant()) ? sortBy : "invoiceNumber";
         }
     }
 }

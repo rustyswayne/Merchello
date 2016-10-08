@@ -64,7 +64,7 @@
                     .Where<ItemCacheDto>(x => x.ItemCacheTfKey == itemCacheTfKey)
                     .WhereBetween<CustomerDto>(x => x.LastActivityDate, startDate, endDate)
                     .Where($"{iciQ}.itemCount > 0")
-                    .AppendOrderExpression(orderExpression, direction);
+                    .AppendOrderExpression<ItemCacheDto>(orderExpression, direction);
 
             return Database.Page<ItemCacheDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }

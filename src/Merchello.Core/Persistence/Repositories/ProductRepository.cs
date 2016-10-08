@@ -77,10 +77,10 @@
         public IProduct GetKeyForSlug(string slug)
         {
             var sql = Sql().SelectAll()
-                                .From<ProductVariantDto>()
-                                .InnerJoin<ProductVariantDetachedContentDto>()
-                                .On<ProductVariantDto, ProductVariantDetachedContentDto>(left => left.Key, right => right.ProductVariantKey)
-                                .Where<ProductVariantDetachedContentDto>(x => x.Slug == slug);
+                .From<ProductVariantDto>()
+                .InnerJoin<ProductVariantDetachedContentDto>()
+                .On<ProductVariantDto, ProductVariantDetachedContentDto>(left => left.Key, right => right.ProductVariantKey)
+                .Where<ProductVariantDetachedContentDto>(x => x.Slug == slug);
 
             var dto = Database.First<ProductVariantDto>(sql);
 

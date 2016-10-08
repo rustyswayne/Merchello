@@ -1,4 +1,4 @@
-﻿namespace Merchello.Tests.Umbraco.Persistence
+﻿namespace Merchello.Tests.Umbraco.Persistence.Sql
 {
     using System;
 
@@ -14,22 +14,22 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class NPocoScratchTests : UmbracoApplicationContextTestBase
+    public class ScratchSqlTests : UmbracoApplicationContextTestBase
     {
         private IDatabaseSchemaManager _manager;
 
         public override void Initialize()
         {
             base.Initialize();
-            _manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
-            _manager.CreateTable(true, typeof(StatusDto));
-            _manager.CreateTable(true, typeof(ThingDto));
+            this._manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            this._manager.CreateTable(true, typeof(StatusDto));
+            this._manager.CreateTable(true, typeof(ThingDto));
         }
 
         public override void TearDown()
         {
-            _manager.DropTable("testThing");
-            _manager.DropTable("testStatus");
+            this._manager.DropTable("testThing");
+            this._manager.DropTable("testStatus");
             base.TearDown();
         }
 

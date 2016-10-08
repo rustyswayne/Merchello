@@ -1,10 +1,8 @@
-﻿namespace Merchello.Tests.Umbraco.Persistence.Querying
+﻿namespace Merchello.Tests.Umbraco.Persistence.Sql
 {
     using System;
 
-    using Merchello.Core.Acquired;
     using Merchello.Core.Acquired.Persistence;
-    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence;
@@ -15,7 +13,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class EntityCollectionQueryTests : UmbracoApplicationContextTestBase
+    public class EntityCollectionSqlTests : UmbracoApplicationContextTestBase
     {
         private IDatabaseAdapter _db;
 
@@ -24,12 +22,12 @@
         {
             base.Initialize();
 
-            _db = IoC.Container.GetInstance<IDatabaseAdapter>();
+            this._db = IoC.Container.GetInstance<IDatabaseAdapter>();
         }
 
         internal Sql<SqlContext> Sql()
         {
-            return NPoco.Sql.BuilderFor(new SqlContext(_db));
+            return NPoco.Sql.BuilderFor(new SqlContext(this._db));
         }
 
         [Test]
@@ -37,12 +35,12 @@
         {
             var productKey = Guid.NewGuid();
 
-            var innerSql = Sql().SelectDistinct<Product2EntityCollectionDto>(x => x.EntityCollectionKey)
+            var innerSql = this.Sql().SelectDistinct<Product2EntityCollectionDto>(x => x.EntityCollectionKey)
                             .From<Product2EntityCollectionDto>()
                             .Where<Product2EntityCollectionDto>(x => x.ProductKey == productKey);
 
             var sql =
-                Sql()
+                this.Sql()
                     .Select("*")
                     .From<EntityCollectionDto>()
                     .Where<EntityCollectionDto>(x => x.IsFilter)
@@ -50,7 +48,7 @@
 
             Console.WriteLine(sql.SQL);
 
-            Assert.DoesNotThrow(() => _db.Database.Execute(sql), "GetEntityCollectionsByProductKey throws error.");
+            Assert.DoesNotThrow(() => this._db.Database.Execute(sql), "GetEntityCollectionsByProductKey throws error.");
         }
     }
 }

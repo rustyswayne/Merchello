@@ -94,7 +94,7 @@
         public PagedCollection<IEntityCollection> GetPage(IQuery<IEntityCollection> query, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             var translator = new SqlTranslator<IEntityCollection>(GetBaseQuery(false), query);
-            var sql = translator.Translate().AppendOrderExpression(orderExpression, direction);
+            var sql = translator.Translate().AppendOrderExpression<EntityCollectionDto>(orderExpression, direction);
 
             return Database.Page<EntityCollectionDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }

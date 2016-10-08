@@ -27,7 +27,7 @@
                 sql.Where("name LIKE @term OR offerCode LIKE @term", new { @term = string.Format("%{0}%", string.Join("% ", terms)).Trim() });
             }
 
-            sql.AppendOrderExpression(orderExpression, direction);
+            sql.AppendOrderExpression<OfferSettingsDto>(orderExpression, direction);
 
             return Database.Page<OfferSettingsDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
