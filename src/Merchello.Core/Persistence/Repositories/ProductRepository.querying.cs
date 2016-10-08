@@ -73,7 +73,26 @@
         /// <inheritdoc/>
         public PagedCollection<IProduct> GetProductsWithOption(string optionName, IEnumerable<string> choiceNames, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
-            throw new NotImplementedException();
+            var tblName = SqlSyntax.GetQuotedTableName("merchProductAttribute");
+            var nameCol = SqlSyntax.GetQuotedColumnName("name");
+
+            var innerSql = Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                .From<ProductVariantDto>()
+                .InnerJoin<ProductVariant2ProductAttributeDto>()
+                .On<ProductVariantDto, ProductVariant2ProductAttributeDto>(left => left.Key, right => right.ProductVariantKey)
+                .InnerJoin<ProductAttributeDto>()
+                .On<ProductVariant2ProductAttributeDto, ProductAttributeDto>(left => left.ProductAttributeKey, right => right.Key)
+                .InnerJoin<ProductOptionDto>()
+                .On<ProductVariant2ProductAttributeDto, ProductOptionDto>(left => left.OptionKey, right => right.Key)
+                .Where<ProductOptionDto>(x => x.Name == optionName)
+                .Where($"{tblName}.{nameCol} IN (@values)", new { @values = choiceNames});
+
+
+            var sql = GetBaseQuery(false)
+                        .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+                        .AppendOrderExpression<ProductVariantDto>(ValidateSortByField(orderExpression), direction);
+
+            return Database.Page<ProductDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
         /// <inheritdoc/>
@@ -100,7 +119,23 @@
         /// <inheritdoc/>
         public PagedCollection<IProduct> GetProductsInPriceRange(decimal min, decimal max, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
-            throw new NotImplementedException();
+            var pvt = SqlSyntax.GetQuotedTableName("merchProductVariant");
+            var osc = SqlSyntax.GetQuotedColumnName("salePrice");
+
+            var innerSql = Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                .From<ProductVariantDto>()
+                .Where<ProductVariantDto>(x => !x.OnSale)
+                .WhereBetween<ProductVariantDto>(x => x.Price, min, max)
+                .Append("OR (")
+                .Append($"{pvt}.{osc} = 1")
+                .AndBetween<ProductVariantDto>(x => x.SalePrice, min, max)
+                .Append(")");
+
+            var sql = GetBaseQuery(false)
+                        .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+                        .AppendOrderExpression<ProductVariantDto>(ValidateSortByField(orderExpression), direction);
+
+            return Database.Page<ProductDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }
 
         /// <inheritdoc/>

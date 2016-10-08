@@ -106,6 +106,62 @@
             Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
         }
 
+        [Test]
+        public void GetProductWithOption_ByOptionNameAndChoiceNames()
+        {
+            var optionName = "test";
+            var choiceNames = new[] { "choice1", "choice2", "choice3" };
+
+            var tblName = _dbAdapter.SqlSyntax.GetQuotedTableName("merchProductAttribute");
+            var nameCol = _dbAdapter.SqlSyntax.GetQuotedColumnName("name");
+
+            var innerSql = _dbAdapter.Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                .From<ProductVariantDto>()
+                .InnerJoin<ProductVariant2ProductAttributeDto>()
+                .On<ProductVariantDto, ProductVariant2ProductAttributeDto>(left => left.Key, right => right.ProductVariantKey)
+                .InnerJoin<ProductAttributeDto>()
+                .On<ProductVariant2ProductAttributeDto, ProductAttributeDto>(left => left.ProductAttributeKey, right => right.Key)
+                .InnerJoin<ProductOptionDto>()
+                .On<ProductVariant2ProductAttributeDto, ProductOptionDto>(left => left.OptionKey, right => right.Key)
+                .Where<ProductOptionDto>(x => x.Name == optionName)
+                .Where($"{tblName}.{nameCol} IN (@values)", new { @values = choiceNames });
+
+
+            var sql = GetBaseQuery(false)
+                        .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+                        .AppendOrderExpression<ProductVariantDto>(orderExpression, direction);
+
+            Console.WriteLine(sql.SQL);
+
+            Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
+        }
+
+
+        [Test]
+        public void GetProductsInPriceRange()
+        {
+            var pvt = _dbAdapter.SqlSyntax.GetQuotedTableName("merchProductVariant");
+            var osc = _dbAdapter.SqlSyntax.GetQuotedColumnName("salePrice");
+
+            var min = 10M;
+            var max = 20M;
+
+            var innerSql = _dbAdapter.Sql().SelectDistinct<ProductVariantDto>(x => x.ProductKey)
+                .From<ProductVariantDto>()
+                .Where<ProductVariantDto>(x => !x.OnSale)
+                .WhereBetween<ProductVariantDto>(x => x.Price, min, max)
+                .Append("OR (")
+                .Append($"{pvt}.{osc} = 1")
+                .AndBetween<ProductVariantDto>(x => x.SalePrice, min, max)
+                .Append(")");
+
+            var sql = GetBaseQuery(false).SingleWhereIn<ProductDto>(x => x.Key, innerSql);
+
+            Console.WriteLine(sql.SQL);
+
+            Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
+        }
+
         private Sql<SqlContext> GetBaseQuery(bool isCount)
         {
             var tbl = _dbAdapter.Sql().SqlContext.SqlSyntax.GetQuotedTableName("merchProductVariant");

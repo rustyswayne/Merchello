@@ -262,6 +262,81 @@
         }
 
         /// <summary>
+        /// SQL OR.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> Or<T>(this Sql<SqlContext> sql, Expression<Func<T, bool>> predicate)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var whereExpression = expresionist.Visit(predicate);
+            sql.Append("OR").Append(whereExpression, expresionist.GetSqlParameters());
+            return sql;
+        }
+
+        /// <summary>
+        /// AND Between SQL.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="fieldSelector">
+        /// The field selector.
+        /// </param>
+        /// <param name="first">
+        /// The first.
+        /// </param>
+        /// <param name="second">
+        /// The second.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> AndBetween<T>(this Sql<SqlContext> sql, Expression<Func<T, object>> fieldSelector, object first, object second)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var fieldExpression = expresionist.Visit(fieldSelector);
+            sql.Append("AND").Append(fieldExpression + " BETWEEN @first AND @second", new { @first = first, @second = second });
+            return sql;
+        }
+
+        /// <summary>
+        /// SQL AND.
+        /// </summary>
+        /// <param name="sql">
+        /// The sql.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of DTO
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Sql"/>.
+        /// </returns>
+        public static Sql<SqlContext> And<T>(this Sql<SqlContext> sql, Expression<Func<T, bool>> predicate)
+        {
+            var expresionist = new PocoToSqlExpressionHelper<T>(sql.SqlContext);
+            var whereExpression = expresionist.Visit(predicate);
+            sql.Append("AND").Append(whereExpression, expresionist.GetSqlParameters());
+            return sql;
+        }
+
+        /// <summary>
         /// Appends an AND IN (SQL) to the expression.
         /// </summary>
         /// <param name="sql">
