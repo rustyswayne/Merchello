@@ -52,6 +52,9 @@
     <Compile Include="Acquired\NetworkHelper.cs" />
     <Compile Include="Acquired\Persistence\DatabaseModelDefinitions\DefinitionFactory.cs" />
     <Compile Include="Cache\Policies\ProductOptionRepositoryCachePolicy.cs" />
+    <Compile Include="Events\DeleteEventArgs.cs" />
+    <Compile Include="Events\SaveEventArgs.cs" />
+    <Compile Include="Models\Rdbms\FilterCountingDto.cs" />
     <Compile Include="Models\Rdbms\DistinctCurrencyCodeDto.cs" />
     <Compile Include="Persistence\Factories\InvoiceFactory.cs" />
     <Compile Include="Persistence\NPocoDatabaseExtensions.cs" />
@@ -896,6 +899,9 @@
     <Compile Include="Models\Interfaces\ITaxMethod.cs" />
     <Compile Include="Models\Interfaces\ITaxProvince.cs" />
     <Compile Include="SerializationHelper.cs" />
+    <Compile Include="Services\AuditLogService.cs" />
+    <Compile Include="Services\Interfaces\IAuditLogService.cs" />
+    <Compile Include="Services\Interfaces\Obsolete\IAnonymousCustomerService.cs" />
     <Compile Include="Services\RepositoryBulkServiceBase.cs" />
     <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />

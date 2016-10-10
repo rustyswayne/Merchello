@@ -233,7 +233,7 @@
         /// <inheritdoc/>
         public PagedCollection<IProduct> GetProductsInStock(long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending, bool includeAllowOutOfStockPurchase = false)
         {
-
+            // TODO
             /// TESTS DON'T PASS ON THIS
 
             var innerSql =
@@ -247,6 +247,7 @@
                     .Or<ProductVariantDto>(x => !x.TrackInventory);
 
             throw new NotImplementedException();
+
             //var sql = new Sql();
             //sql.Append("SELECT *")
             //   .Append("FROM [merchProductVariant]")

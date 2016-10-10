@@ -1,6 +1,8 @@
 ﻿namespace Merchello.Tests.Umbraco.Persistence.Sql
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using Core.Acquired.Persistence;
     using global::Umbraco.Core.Persistence;
@@ -193,6 +195,62 @@
             Console.WriteLine(sql.SQL);
 
             Assert.DoesNotThrow(() => _dbAdapter.Database.Fetch<ProductDto>(sql));
+        }
+
+        [Test]
+        public void CountKeysThatExistInAllCollections()
+        {
+            var collectionKeysGroups = new List<Guid[]>()
+                {
+                    new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() },
+                    new[] { Guid.NewGuid(), Guid.NewGuid() },
+                    new[] { Guid.NewGuid(), Guid.NewGuid() },
+                    new[] { Guid.NewGuid() }
+                };
+
+            var keysGroups = collectionKeysGroups.ToArray();
+
+            var quotedQ = _dbAdapter.SqlSyntax.GetQuotedName("CountQ");
+            var quotedC = _dbAdapter.SqlSyntax.GetQuotedName("Count");
+            var quoted = $"{quotedQ}.{quotedC}";
+
+            var sql = _dbAdapter.Sql();
+            foreach (var group in keysGroups)
+            {
+                var innerSql = _dbAdapter.Sql().SelectField<Product2EntityCollectionDto>(x => x.ProductKey)
+                                .From<Product2EntityCollectionDto>()
+                                .WhereIn<Product2EntityCollectionDto>(x => x.EntityCollectionKey, group)
+                                .GroupBy<Product2EntityCollectionDto>(x => x.ProductKey)
+                                .HavingCount(keysGroups);
+
+                var countQ = _dbAdapter.Sql().SelectCount().Append($"AS {quotedC}")
+                                .From<ProductVariantDto>()
+                                .Where<ProductVariantDto>(x => x.Master)
+                                .SingleWhereIn<ProductVariantDto>(x => x.ProductKey, innerSql);
+
+                // Append UNION to group multiple queries
+                if (sql.SQL.Length > 0) sql.Append("UNION");
+
+                sql.Select($"{group.GetHashCode()} AS Hash, {quoted}").FromQuery(countQ, "CountQ");
+            }
+
+            Console.WriteLine(sql.SQL);
+
+            Assert.DoesNotThrow(() => Database.Fetch<FilterCountingDto>(sql));
+
+            var dtos = Database.Fetch<FilterCountingDto>(sql);
+
+            var results = new List<Tuple<IEnumerable<Guid>, int>>();
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var group in keysGroups)
+            {
+                var hash = group.GetHashCode();
+                var dto = dtos.FirstOrDefault(x => x.Hash == hash);
+                if (dto != null) results.Add(new Tuple<IEnumerable<Guid>, int>(group, dto.Count));
+            }
+
+            Assert.That(4, Is.EqualTo(results.Count));
         }
 
         private Sql<SqlContext> GetBaseQuery(bool isCount)

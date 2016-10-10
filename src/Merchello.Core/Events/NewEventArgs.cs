@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Core.Events
 {
     /// <summary>
-    /// The new event args.
+    /// Event arguments for entity creation.
     /// </summary>
     /// <typeparam name="T">
     /// The type of object
@@ -17,6 +17,51 @@
         /// </param>
         public NewEventArgs(T eventObject)
             : base(eventObject, true)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewEventArgs{T}"/> class.
+        /// </summary>
+        /// <param name="eventObject">
+        /// The event object.
+        /// </param>
+        /// <param name="eventMessages">
+        /// The event messages.
+        /// </param>
+        public NewEventArgs(T eventObject, EventMessages eventMessages)
+            : base(eventObject, true, eventMessages)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewEventArgs{T}"/> class.
+        /// </summary>
+        /// <param name="eventObject">
+        /// The event object.
+        /// </param>
+        /// <param name="canCancel">
+        /// A value indicating the event operation can be cancelled.
+        /// </param>
+        public NewEventArgs(T eventObject, bool canCancel)
+            : base(eventObject, canCancel)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewEventArgs{T}"/> class.
+        /// </summary>
+        /// <param name="eventObject">
+        /// The event object.
+        /// </param>
+        /// <param name="canCancel">
+        /// A value indicating the event operation can be cancelled.
+        /// </param>
+        /// <param name="eventMessages">
+        /// The event messages.
+        /// </param>
+        public NewEventArgs(T eventObject, bool canCancel, EventMessages eventMessages)
+            : base(eventObject, canCancel, eventMessages)
         {
         }
 
