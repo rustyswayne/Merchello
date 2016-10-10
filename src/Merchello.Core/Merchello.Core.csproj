@@ -901,7 +901,6 @@
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Services\AuditLogService.cs" />
     <Compile Include="Services\Interfaces\IAuditLogService.cs" />
-    <Compile Include="Services\Interfaces\Obsolete\IAnonymousCustomerService.cs" />
     <Compile Include="Services\RepositoryBulkServiceBase.cs" />
     <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
