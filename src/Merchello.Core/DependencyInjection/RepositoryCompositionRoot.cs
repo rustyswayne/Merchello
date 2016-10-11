@@ -59,12 +59,14 @@
             // some repositories have an annotated ctor parameter to pick the right cache helper
             container.Register<IAnonymousCustomerRepository, AnonymousCustomerRepository>();
             container.Register<IAppliedPaymentRepository, AppliedPaymentRepository>();
+            container.Register<IAuditLogRepository, AuditLogRepository>();
             container.Register<ICustomerAddressRepository, CustomerAddressRepository>();
             container.Register<ICustomerRepository, CustomerRepository>();
             container.Register<IDetachedContentTypeRepository, DetachedContentTypeRepository>();
             container.Register<IEntityCollectionRepository, EntityCollectionRepository>();
             container.Register<IGatewayProviderSettingsRepository, GatewayProviderSettingsRepository>();
             container.Register<IInvoiceLineItemRepository, InvoiceLineItemRepository>();
+            container.Register<IInvoiceRepository, InvoiceRepository>();
             container.Register<IInvoiceStatusRepository, InvoiceStatusRepository>();
             container.Register<IItemCacheLineItemRepository, ItemCacheLineItemRepository>();
             container.Register<IItemCacheRepository, ItemCacheRepository>();
@@ -80,6 +82,7 @@
             container.Register<IPaymentMethodRepository, PaymentMethodRepository>();
             container.Register<IPaymentRepository, PaymentRepository>();
             container.Register<IProductOptionRepository, ProductOptionRepository>();
+            container.Register<IProductRepository, ProductRepository>();
             container.Register<IProductVariantRepository, ProductVariantRepository>();
             container.Register<IShipCountryRepository, ShipCountryRepository>();
             container.Register<IShipmentRepository, ShipmentRepository>();

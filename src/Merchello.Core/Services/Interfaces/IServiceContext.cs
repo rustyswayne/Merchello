@@ -6,6 +6,11 @@
     public interface IServiceContext
     {
         /// <summary>
+        /// Gets the <see cref="IAuditLogService"/>.
+        /// </summary>
+        IAuditLogService AuditLogService { get; }
+
+        /// <summary>
         /// Gets the <see cref="IMigrationStatusService"/>.
         /// </summary>
         IMigrationStatusService MigrationStatusService { get; }

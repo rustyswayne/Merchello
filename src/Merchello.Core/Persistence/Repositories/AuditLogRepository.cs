@@ -14,10 +14,10 @@
     using NPoco;
 
     /// <inheritdoc/>
-    internal class AppliedPaymentRepository : NPocoEntityRepositoryBase<IAppliedPayment, AppliedPaymentDto, AppliedPaymentFactory>, IAppliedPaymentRepository
+    internal partial class AuditLogRepository : NPocoEntityRepositoryBase<IAuditLog, AuditLogDto, AuditLogFactory>, IAuditLogRepository
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppliedPaymentRepository"/> class.
+        /// Initializes a new instance of the <see cref="AuditLogRepository"/> class.
         /// </summary>
         /// <param name="work">
         /// The <see cref="IDatabaseUnitOfWork"/>.
@@ -31,7 +31,7 @@
         /// <param name="mappingResolver">
         /// The <see cref="IMappingResolver"/>.
         /// </param>
-        public AppliedPaymentRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
+        public AuditLogRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger, mappingResolver)
         {
         }
@@ -40,13 +40,13 @@
         protected override Sql<SqlContext> GetBaseQuery(bool isCount)
         {
             return Sql().Select(isCount ? "COUNT(*)" : "*")
-                .From<AppliedPaymentDto>();
+                .From<AuditLogDto>();
         }
 
         /// <inheritdoc/>
         protected override string GetBaseWhereClause()
         {
-            return "[merchAppliedPayment].[pk] = @Key";
+            return "merchAuditLog.pk = @Key";
         }
 
         /// <inheritdoc/>
@@ -54,7 +54,7 @@
         {
             var list = new List<string>
                 {
-                    "DELETE FROM [merchAppliedPayment] WHERE [merchAppliedPayment].[pk] = @Key"
+                    "DELETE FROM merchAuditLog WHERE merchAuditLog.pk = @Key"
                 };
 
             return list;

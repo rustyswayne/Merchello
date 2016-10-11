@@ -66,7 +66,7 @@
             var sql = GetBaseQuery(false);
             sql.Where(GetBaseWhereClause(), new { Key = key });
 
-            var dto = Database.First<TDto>(sql);
+            var dto = Database.FirstOrDefault<TDto>(sql);
             if (dto == null)
                 return null;
 

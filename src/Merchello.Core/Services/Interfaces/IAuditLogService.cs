@@ -14,6 +14,70 @@
     /// </summary>
     public interface IAuditLogService
     {
+        /// <summary>
+        /// Gets a log by it's key.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IAuditLog"/>.
+        /// </returns>
+        IAuditLog GetByKey(Guid key);
+
+        /// <summary>
+        /// Gets a collection of <see cref="IAuditLog"/> for a particular entity
+        /// </summary>
+        /// <param name="entityKey">
+        /// The entity key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IAuditLog}"/>.
+        /// </returns>
+        IEnumerable<IAuditLog> GetByEntityKey(Guid entityKey);
+
+        /// <summary>
+        /// Gets a collection of <see cref="IAuditLog"/> for an entity type
+        /// </summary>
+        /// <param name="entityTfKey">
+        /// The entity type field key.
+        /// </param>
+        /// <param name="page">
+        /// The page.
+        /// </param>
+        /// <param name="itemsPerPage">
+        /// The items per page.
+        /// </param>
+        /// <param name="sortBy">
+        /// The sort by.
+        /// </param>
+        /// <param name="direction">
+        /// The sort direction.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PagedCollection{IAuditLog}"/>.
+        /// </returns>
+        PagedCollection<IAuditLog> GetByEntityTfKey(Guid entityTfKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending);
+
+        /// <summary>
+        /// Gets a collection of <see cref="IAuditLog"/> where IsError == true
+        /// </summary>
+        /// <param name="page">
+        /// The page.
+        /// </param>
+        /// <param name="itemsPerPage">
+        /// The items per page.
+        /// </param>
+        /// <param name="sortBy">
+        /// The sort by.
+        /// </param>
+        /// <param name="direction">
+        /// The sort direction.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PagedCollection{IAuditLog}"/>.
+        /// </returns>
+        PagedCollection<IAuditLog> GetErrorLogs(long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending);
 
         /// <summary>
         /// Creates an audit record and saves it to the database
@@ -155,10 +219,7 @@
         /// <param name="auditLog">
         /// The <see cref="IAuditLog"/> to be deleted
         /// </param>
-        /// <param name="raiseEvents">
-        /// Optional boolean indicating whether or not to raise events
-        /// </param>
-        void Delete(IAuditLog auditLog, bool raiseEvents = true);
+        void Delete(IAuditLog auditLog);
 
         /// <summary>
         /// Deletes a collection of <see cref="IAuditLog"/>
@@ -172,59 +233,5 @@
         /// Deletes all error logs
         /// </summary>
         void DeleteErrorLogs();
-
-        /// <summary>
-        /// Gets a collection of <see cref="IAuditLog"/> for a particular entity
-        /// </summary>
-        /// <param name="entityKey">
-        /// The entity key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IEnumerable{IAuditLog}"/>.
-        /// </returns>
-        IEnumerable<IAuditLog> GetByEntityKey(Guid entityKey);
-
-        /// <summary>
-        /// Gets a collection of <see cref="IAuditLog"/> for an entity type
-        /// </summary>
-        /// <param name="entityTfKey">
-        /// The entity type field key.
-        /// </param>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="direction">
-        /// The sort direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="PagedCollection{IAuditLog}"/>.
-        /// </returns>
-        PagedCollection<IAuditLog> GetByEntityTfKey(Guid entityTfKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending);
-
-        /// <summary>
-        /// Gets a collection of <see cref="IAuditLog"/> where IsError == true
-        /// </summary>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="direction">
-        /// The sort direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="PagedCollection{IAuditLog}"/>.
-        /// </returns>
-        PagedCollection<IAuditLog> GetErrorLogs(long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending);
     }
 }

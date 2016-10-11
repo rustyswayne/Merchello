@@ -53,6 +53,7 @@
     <Compile Include="Acquired\Persistence\DatabaseModelDefinitions\DefinitionFactory.cs" />
     <Compile Include="Cache\Policies\ProductOptionRepositoryCachePolicy.cs" />
     <Compile Include="Events\DeleteEventArgs.cs" />
+    <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\SaveEventArgs.cs" />
     <Compile Include="Models\Rdbms\FilterCountingDto.cs" />
     <Compile Include="Models\Rdbms\DistinctCurrencyCodeDto.cs" />
@@ -403,6 +404,11 @@
     <Compile Include="Persistence\NPocoSqlExtensions.cs" />
     <Compile Include="Persistence\Repositories\AnonymousCustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\AppliedPaymentRepository.cs" />
+    <Compile Include="Persistence\Repositories\AuditLogRepository.cs" />
+    <Compile Include="Persistence\Repositories\AuditLogRepository.querying.cs" />
+    <Compile Include="Persistence\Repositories\AuditLogRepository.searchterm.cs">
+      <DependentUpon>AuditLogRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\CustomerAddressRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.entitycollection.cs">
@@ -423,6 +429,7 @@
     <Compile Include="Persistence\Repositories\GatewayProviderSettingsRepository.npoco.cs">
       <DependentUpon>GatewayProviderSettingsRepository.cs</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\Repositories\Interfaces\IAuditLogRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IBulkOperationRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IEnsureDocumentNumberRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\ICustomerRepository.cs" />

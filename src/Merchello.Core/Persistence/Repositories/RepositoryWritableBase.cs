@@ -65,7 +65,7 @@
         /// <inheritdoc/>
         public void PersistDeletedItem(IEntity entity)
         {
-            CachePolicy.Delete((TEntity)entity, PersistNewItem);
+            CachePolicy.Delete((TEntity)entity, PersistDeletedItem);
         }
 
         /// <summary>

@@ -14,6 +14,7 @@
             base.Initialize();
 
             var schemaManager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            schemaManager.UninstallDatabaseSchema();
             schemaManager.InstallDatabaseSchema();
 
             Database = IoC.Container.GetInstance<IDatabaseFactory>().GetDatabase().Database;

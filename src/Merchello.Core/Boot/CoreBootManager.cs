@@ -13,10 +13,8 @@
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Logging;
     using Merchello.Core.Mapping;
-    using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.Migrations.Initial;
-    using Merchello.Core.Services;
 
     using Ensure = Merchello.Core.Ensure;
 
@@ -251,11 +249,6 @@
                 });
         }
 
-        protected virtual void InitialCurrencyContext()
-        {
-
-        }
-
         /// <summary>
         /// Initializes the logger resolver.
         /// </summary>
@@ -289,16 +282,7 @@
             //OfferProcessorFactory.Current = new OfferProcessorFactory(PluginManager.Current.ResolveOfferConstraintChains());
         }
 
-        /// <summary>
-        /// Initializes value converters.
-        /// </summary>
-        protected virtual void InitializeValueConverters()
-        {
-        }
 
-        protected virtual void InitializeGatewayResolver()
-        {
-        }
 
         /// <summary>
         /// Responsible initializing observer subscriptions.
