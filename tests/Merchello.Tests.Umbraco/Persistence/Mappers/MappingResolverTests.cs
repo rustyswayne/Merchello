@@ -5,7 +5,7 @@
     using Merchello.Core.Models.Migrations;
     using Merchello.Core.Models.TypeFields;
     using Merchello.Core.Persistence.Mappers;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
+    using Merchello.Tests.Base;
 
     using NUnit.Framework;
 

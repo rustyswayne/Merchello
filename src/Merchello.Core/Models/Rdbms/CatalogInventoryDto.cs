@@ -68,7 +68,7 @@
         /// Gets or sets the warehouse catalog dto.
         /// </summary>
         [ResultColumn]
-        [Reference(ReferenceType.Foreign, ColumnName = "catalogKey", ReferenceMemberName = "Key")]
+        [Reference(ReferenceType.Foreign, ReferenceMemberName = "Key")]
         public WarehouseCatalogDto WarehouseCatalogDto { get; set; }
 
         ///// <summary>

@@ -7,7 +7,7 @@
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
+    using Merchello.Tests.Base;
 
     using NPoco;
 

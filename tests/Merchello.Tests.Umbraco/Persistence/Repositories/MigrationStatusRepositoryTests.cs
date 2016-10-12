@@ -1,17 +1,13 @@
 ﻿namespace Merchello.Tests.Umbraco.Persistence.Repositories
 {
-    using System;
     using System.Linq;
 
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Models.Migrations;
     using Merchello.Core.Models.Rdbms;
-    using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
-
-    using NPoco;
+    using Merchello.Tests.Base;
 
     using NUnit.Framework;
 

@@ -86,7 +86,7 @@
         /// Gets or sets the order status dto.
         /// </summary>
         [ResultColumn]
-        [Reference(ReferenceType.Foreign, ColumnName = "pk", ReferenceMemberName = "Key")]
+        [Reference(ReferenceType.Foreign, ColumnName = "[merchOrderStatus].[pk]", ReferenceMemberName = "Key")]
         public OrderStatusDto OrderStatusDto { get; set; }
     }
 }

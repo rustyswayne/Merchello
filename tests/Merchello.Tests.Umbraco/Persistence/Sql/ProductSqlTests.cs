@@ -5,16 +5,15 @@
     using System.Linq;
 
     using Core.Acquired.Persistence;
-    using global::Umbraco.Core.Persistence;
 
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
+    using Merchello.Tests.Base;
+
     using NPoco;
     using NUnit.Framework;
-    using NUnit.Framework.Internal;
 
     using SqlContext = global::Merchello.Core.Persistence.SqlContext;
 
@@ -173,14 +172,16 @@
                     .From<ProductVariantDto>()
                     .InnerJoin<CatalogInventoryDto>()
                     .On<ProductVariantDto, CatalogInventoryDto>(left => left.Key, right => right.ProductVariantKey)
-                    .Where<ProductVariantDto>(x => x.TrackInventory)
-                    .Where<CatalogInventoryDto>(x => x.Count > 0);
+                    .Where<ProductVariantDto>(x => x.TrackInventory == false)
+                    .Append("OR ([merchCatalogInventory].[count] > 0 AND [merchProductVariant].[trackInventory] = 1)");
 
-            //.Or<ProductVariantDto>(x => !x.TrackInventory);
 
-            Console.WriteLine(innerSql.SQL);
+            var sql = GetBaseQuery(false)
+                        .SingleWhereIn<ProductDto>(x => x.Key, innerSql);
 
-            //Assert.DoesNotThrow(() => _dbAdapter.Database.Execute(innerSql));
+            Console.WriteLine(sql.SQL);
+
+            Assert.DoesNotThrow(() => _dbAdapter.Database.Execute(sql));
         }
 
         [Test]

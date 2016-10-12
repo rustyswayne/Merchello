@@ -36,10 +36,10 @@
         [Index(IndexTypes.NonClustered, Name = "IX_merchInvoiceItemSku")]
         public override string Sku { get; set; }
 
-        /// <summary>
-        /// Gets or sets the <see cref="InvoiceDto"/>.
-        /// </summary>
-        [ResultColumn]
-        public InvoiceDto InvoiceDto { get; set; }
+        ///// <summary>
+        ///// Gets or sets the <see cref="InvoiceDto"/>.
+        ///// </summary>
+        //[ResultColumn]
+        //public InvoiceDto InvoiceDto { get; set; }
     }
 }

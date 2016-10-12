@@ -2,7 +2,7 @@
 {
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Persistence;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
+    using Merchello.Tests.Base;
 
     using NUnit.Framework;
 

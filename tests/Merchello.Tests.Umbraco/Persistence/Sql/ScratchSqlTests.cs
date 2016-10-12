@@ -7,7 +7,7 @@
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Persistence;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
+    using Merchello.Tests.Base;
 
     using NPoco;
 
@@ -101,7 +101,7 @@
             public Guid StatusKey { get; set; }
 
             [ResultColumn]
-            [Reference(ReferenceType.OneToOne, ColumnName = "pk", ReferenceMemberName = "Key")]
+            [Reference(ReferenceType.OneToOne, ReferenceMemberName = "Key")]
             public StatusDto StatusDto { get; set; }
         }
     }

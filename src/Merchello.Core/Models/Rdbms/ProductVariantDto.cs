@@ -194,7 +194,7 @@
         /// Gets or sets the product variant index dto.
         /// </summary>
         [ResultColumn]
-        [Reference(ReferenceType.OneToOne, ColumnName = "productVariantKey", ReferenceMemberName = "ProductVariantKey")]
+        [Reference(ReferenceType.OneToOne, ReferenceMemberName = "ProductVariantKey")]
         public ProductVariantIndexDto ProductVariantIndexDto { get; set; }
 
         //[ResultColumn]

@@ -5,7 +5,7 @@
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence.SqlSyntax;
     using Merchello.Core.Plugins;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
+    using Merchello.Tests.Base;
 
     using NUnit.Framework;
 

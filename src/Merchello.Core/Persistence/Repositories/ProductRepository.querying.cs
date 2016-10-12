@@ -233,36 +233,21 @@
         /// <inheritdoc/>
         public PagedCollection<IProduct> GetProductsInStock(long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending, bool includeAllowOutOfStockPurchase = false)
         {
-            // TODO
-            /// TESTS DON'T PASS ON THIS
-
-            var innerSql =
-                Sql()
+            var innerSql = Sql()
                     .SelectDistinct<ProductVariantDto>(x => x.ProductKey)
                     .From<ProductVariantDto>()
                     .InnerJoin<CatalogInventoryDto>()
                     .On<ProductVariantDto, CatalogInventoryDto>(left => left.Key, right => right.ProductVariantKey)
-                    .Where<CatalogInventoryDto>(x => x.Count > 0)
-                    .Where<ProductVariantDto>(x => x.TrackInventory)
-                    .Or<ProductVariantDto>(x => !x.TrackInventory);
+                    .Where<ProductVariantDto>(x => x.TrackInventory == false)
+                    .Append("OR ([merchCatalogInventory].[count] > 0 AND [merchProductVariant].[trackInventory] = 1)");
 
-            throw new NotImplementedException();
 
-            //var sql = new Sql();
-            //sql.Append("SELECT *")
-            //   .Append("FROM [merchProductVariant]")
-            //   .Append("WHERE [merchProductVariant].[productKey] IN (")
-            //   .Append("SELECT DISTINCT([productKey])")
-            //   .Append("FROM (")
-            //   .Append("SELECT	[merchProductVariant].[productKey]")
-            //   .Append("FROM [merchProductVariant]")
-            //   .Append("INNER JOIN [merchCatalogInventory]")
-            //   .Append("ON	[merchProductVariant].[pk] = [merchCatalogInventory].[productVariantKey]")
-            //   .Append("WHERE ([merchCatalogInventory].[count] > 0 AND [merchProductVariant].[trackInventory] = 1)")
-            //   .Append("OR [merchProductVariant].[trackInventory] = 0")
-            //   .Append(") [merchProductVariant]")
-            //   .Append(")")
-            //   .Append("AND [merchProductVariant].[master] = 1");
+            var sql = GetBaseQuery(false)
+                        .SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+                        .AppendOrderExpression<ProductVariantDto>(ValidateSortByField(orderExpression), direction);
+
+            return Database.Page<ProductDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
+
         }
 
         /// <inheritdoc/>
@@ -272,7 +257,8 @@
                             .From<ProductVariantDto>()
                             .Where<ProductVariantDto>(x => x.OnSale);
 
-            var sql = GetBaseQuery(false).SingleWhereIn<ProductDto>(x => x.Key, innerSql);
+            var sql = GetBaseQuery(false).SingleWhereIn<ProductDto>(x => x.Key, innerSql)
+                        .AppendOrderExpression<ProductVariantDto>(ValidateSortByField(orderExpression), direction);
 
             return Database.Page<ProductDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }

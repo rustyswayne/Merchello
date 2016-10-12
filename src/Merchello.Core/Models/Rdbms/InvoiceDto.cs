@@ -183,7 +183,7 @@
         /// Gets or sets the invoice status dto.
         /// </summary>
         [ResultColumn]
-        [Reference(ReferenceType.Foreign, ColumnName = "pk", ReferenceMemberName = "Key")]
+        [Reference(ReferenceType.Foreign, ReferenceMemberName = "Key")]
         public InvoiceStatusDto InvoiceStatusDto { get; set; }
     }
 }

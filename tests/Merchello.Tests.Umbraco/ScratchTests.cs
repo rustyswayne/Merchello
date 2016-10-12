@@ -1,22 +1,14 @@
 ﻿namespace Merchello.Tests.Umbraco
 {
-    using System;
-    using System.Linq;
-
     using global::Umbraco.Core.Logging;
 
     using Merchello.Core;
-    using Merchello.Core.Acquired.Persistence;
-    using Merchello.Core.Acquired.Persistence.DatabaseAnnotations;
-    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
-
-    using NPoco;
+    using Merchello.Tests.Base;
 
     using NUnit.Framework;
 

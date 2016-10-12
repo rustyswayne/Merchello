@@ -13,13 +13,5 @@
             Assert.NotNull(CountriesSection.Countries);
             Assert.IsTrue(CountriesSection.Countries.Any());
         }
-
-        //// Arrange
-
-
-        //// Act
-
-
-        //// Assert
     }
 }

@@ -8,8 +8,8 @@
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence;
     using Merchello.Core.Services;
-    using Merchello.Tests.Umbraco.TestHelpers.Base;
-    using Merchello.Tests.Umbraco.TestHelpers.Mocks;
+    using Merchello.Tests.Base;
+    using Merchello.Tests.Base.Mocks;
 
     using NUnit.Framework;
 
