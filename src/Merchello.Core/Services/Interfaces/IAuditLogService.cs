@@ -12,19 +12,8 @@
     /// <summary>
     /// Represents a data service for <see cref="IAuditLog"/>.
     /// </summary>
-    public interface IAuditLogService
+    public interface IAuditLogService : IService<IAuditLog>
     {
-        /// <summary>
-        /// Gets a log by it's key.
-        /// </summary>
-        /// <param name="key">
-        /// The key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IAuditLog"/>.
-        /// </returns>
-        IAuditLog GetByKey(Guid key);
-
         /// <summary>
         /// Gets a collection of <see cref="IAuditLog"/> for a particular entity
         /// </summary>
@@ -195,39 +184,6 @@
         /// The <see cref="IAuditLog"/>.
         /// </returns>
         IAuditLog CreateWithKey(Guid? entityKey, Guid? entityTfKey, string message, ExtendedDataCollection extendedData, bool isError = false);
-
-
-        /// <summary>
-        /// Saves an <see cref="IAuditLog"/>
-        /// </summary>
-        /// <param name="auditLog">
-        /// The <see cref="IAuditLog"/> to save
-        /// </param>
-        void Save(IAuditLog auditLog);
-
-        /// <summary>
-        /// Saves a collection of <see cref="IAuditLog"/>
-        /// </summary>
-        /// <param name="auditLogs">
-        /// The collection of <see cref="IAuditLog"/>s to be saved
-        /// </param>
-        void Save(IEnumerable<IAuditLog> auditLogs);
-
-        /// <summary>
-        /// Deletes a <see cref="IAuditLog"/>
-        /// </summary>
-        /// <param name="auditLog">
-        /// The <see cref="IAuditLog"/> to be deleted
-        /// </param>
-        void Delete(IAuditLog auditLog);
-
-        /// <summary>
-        /// Deletes a collection of <see cref="IAuditLog"/>
-        /// </summary>
-        /// <param name="auditLogs">
-        /// The collection of <see cref="IAuditLog"/>s to be deleted
-        /// </param>
-        void Delete(IEnumerable<IAuditLog> auditLogs);
 
         /// <summary>
         /// Deletes all error logs

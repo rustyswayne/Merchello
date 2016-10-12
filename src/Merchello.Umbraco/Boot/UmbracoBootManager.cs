@@ -4,13 +4,13 @@
 
     using Merchello.Core.DependencyInjection;
     using Merchello.Umbraco.Adapters;
+    using Merchello.Umbraco.Adapters.Persistence;
     using Merchello.Umbraco.DependencyInjection;
     using Merchello.Web.Boot;
 
     using global::Umbraco.Core;
-    using global::Umbraco.Core.Plugins;
 
-    using Merchello.Umbraco.Adapters.Persistence;
+    using global::Umbraco.Core.Plugins;
 
     using IDatabaseFactory = Merchello.Core.Persistence.IDatabaseFactory;
 

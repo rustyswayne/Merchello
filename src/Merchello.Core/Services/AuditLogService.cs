@@ -173,7 +173,6 @@
         /// <inheritdoc/>
         public void Save(IAuditLog auditLog)
         {
-
             if (Saving.IsRaisedEventCancelled(new SaveEventArgs<IAuditLog>(auditLog), this))
             {
                 ((AuditLog)auditLog).WasCancelled = true;
