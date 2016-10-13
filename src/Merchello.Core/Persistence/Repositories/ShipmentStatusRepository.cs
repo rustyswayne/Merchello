@@ -59,5 +59,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override ShipmentStatusFactory GetFactoryInstance()
+        {
+            return new ShipmentStatusFactory();
+        }
     }
 }

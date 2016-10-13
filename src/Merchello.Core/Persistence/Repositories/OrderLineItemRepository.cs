@@ -6,6 +6,7 @@
 
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -42,6 +43,12 @@
             //// Not really needed since this is a NullCacheRepository - but added in case we change it to
             //// an isolated cache.
             CachePolicy.ClearAll();
+        }
+
+        /// <inheritdoc/>
+        protected override OrderLineItemFactory GetFactoryInstance()
+        {
+            return new OrderLineItemFactory();
         }
     }
 }

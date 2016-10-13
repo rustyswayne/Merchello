@@ -52,5 +52,11 @@
 
             return dtos.DistinctBy(x => x.Key).Select(dto => factory.BuildEntity(dto));
         }
+
+        /// <inheritdoc/>
+        protected override GatewayProviderSettingsFactory GetFactoryInstance()
+        {
+            return new GatewayProviderSettingsFactory();
+        }
     }
 }

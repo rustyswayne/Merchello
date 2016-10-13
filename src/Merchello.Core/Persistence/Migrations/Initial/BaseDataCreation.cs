@@ -302,7 +302,7 @@
         {
             using (var transaction = _database.GetTransaction())
             {
-                _database.Insert("merchStoreSetting", "Key", false, new StoreSettingDto() { Key = Constants.StoreSetting.CurrencyCodeKey, Name = "currencyCode", Value = "USD", TypeName = "System.String", CreateDate = DateTime.Now, UpdateDate = DateTime.Now});
+                _database.Insert("merchStoreSetting", "Key", false, new StoreSettingDto() { Key = Constants.StoreSetting.CurrencyCodeKey, Name = "currencyCode", Value = Constants.StoreSetting.DefaultCurrencyCode, TypeName = "System.String", CreateDate = DateTime.Now, UpdateDate = DateTime.Now});
                 _database.Insert("merchStoreSetting", "Key", false, new StoreSettingDto() { Key = Constants.StoreSetting.NextOrderNumberKey, Name = "nextOrderNumber", Value = "1", TypeName = "System.Int32", CreateDate = DateTime.Now, UpdateDate = DateTime.Now});
                 _database.Insert("merchStoreSetting", "Key", false, new StoreSettingDto() { Key = Constants.StoreSetting.NextInvoiceNumberKey, Name = "nextInvoiceNumber", Value = "1", TypeName = "System.Int32", CreateDate = DateTime.Now, UpdateDate = DateTime.Now });
                 _database.Insert("merchStoreSetting", "Key", false, new StoreSettingDto() { Key = Constants.StoreSetting.NextShipmentNumberKey, Name = "nextShipmentNumber", Value = "1", TypeName = "System.Int32", CreateDate = DateTime.Now, UpdateDate = DateTime.Now });

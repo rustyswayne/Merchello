@@ -185,5 +185,11 @@
 
             return filterGroup;
         }
+
+        /// <inheritdoc/>
+        protected override EntityCollectionFactory GetFactoryInstance()
+        {
+            return new EntityCollectionFactory();
+        }
     }
 }

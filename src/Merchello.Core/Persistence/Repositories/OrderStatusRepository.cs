@@ -59,5 +59,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override OrderStatusFactory GetFactoryInstance()
+        {
+            return new OrderStatusFactory();
+        }
     }
 }

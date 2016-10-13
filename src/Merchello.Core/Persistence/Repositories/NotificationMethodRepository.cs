@@ -60,5 +60,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override NotificationMethodFactory GetFactoryInstance()
+        {
+            return new NotificationMethodFactory();
+        }
     }
 }

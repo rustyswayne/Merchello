@@ -3,6 +3,8 @@
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents a payment factory.
     /// </summary>
@@ -19,7 +21,7 @@
         /// </returns>
         public IPayment BuildEntity(PaymentDto dto)
         {
-            var payment = new Payment(dto.PaymentTfKey, dto.Amount, dto.PaymentMethodKey, new ExtendedDataCollection(dto.ExtendedData))
+            var payment = new Payment(dto.PaymentTfKey, new Money(dto.Amount), dto.PaymentMethodKey, new ExtendedDataCollection(dto.ExtendedData))
             {
                 Key = dto.Key,
                 CustomerKey = dto.CustomerKey,
@@ -57,7 +59,7 @@
                 PaymentTfKey = entity.PaymentTypeFieldKey,
                 PaymentMethodName = entity.PaymentMethodName,
                 ReferenceNumber = entity.ReferenceNumber,
-                Amount = entity.Amount,
+                Amount = entity.Amount.Amount,
                 Authorized = entity.Authorized,
                 Collected = entity.Collected,
                 Voided = entity.Voided,

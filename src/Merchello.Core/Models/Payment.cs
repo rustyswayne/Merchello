@@ -9,6 +9,8 @@
     using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Models.TypeFields;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents a payment.
     /// </summary>
@@ -51,7 +53,7 @@
         /// <summary>
         /// The amount.
         /// </summary>
-        private decimal _amount;
+        private Money _amount;
 
         /// <summary>
         /// The authorized.
@@ -89,7 +91,7 @@
         /// <param name="amount">
         /// The amount.
         /// </param>
-        internal Payment(PaymentMethodType paymentMethodType, decimal amount)
+        internal Payment(PaymentMethodType paymentMethodType, Money amount)
             : this(paymentMethodType, amount, null, new ExtendedDataCollection())
         {
         }
@@ -106,7 +108,7 @@
         /// <param name="paymentMethodKey">
         /// The payment method key.
         /// </param>
-        internal Payment(PaymentMethodType paymentMethodType, decimal amount, Guid? paymentMethodKey)
+        internal Payment(PaymentMethodType paymentMethodType, Money amount, Guid? paymentMethodKey)
             : this(paymentMethodType, amount, paymentMethodKey, new ExtendedDataCollection())
         {
         }
@@ -126,7 +128,7 @@
         /// <param name="extendedData">
         /// The extended data.
         /// </param>
-        internal Payment(PaymentMethodType paymentMethodType, decimal amount, Guid? paymentMethodKey, ExtendedDataCollection extendedData)
+        internal Payment(PaymentMethodType paymentMethodType, Money amount, Guid? paymentMethodKey, ExtendedDataCollection extendedData)
             : this(EnumTypeFieldConverter.PaymentMethod.GetTypeField(paymentMethodType).TypeKey, amount, paymentMethodKey, extendedData)
         {
         }
@@ -146,7 +148,7 @@
         /// <param name="extendedData">
         /// The extended data.
         /// </param>
-        internal Payment(Guid paymentTypeFieldKey, decimal amount, Guid? paymentMethodKey, ExtendedDataCollection extendedData)  
+        internal Payment(Guid paymentTypeFieldKey, Money amount, Guid? paymentMethodKey, ExtendedDataCollection extendedData)  
         {
             Ensure.ParameterCondition(!Guid.Empty.Equals(paymentTypeFieldKey), "paymentTypeFieldKey");
             Ensure.ParameterNotNull(extendedData, "extendedData");
@@ -235,7 +237,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal Amount
+        public Money Amount
         {
             get
             {
@@ -391,7 +393,7 @@
             /// <summary>
             /// The amount selector.
             /// </summary>
-            public readonly PropertyInfo AmountSelector = ExpressionHelper.GetPropertyInfo<Payment, decimal>(x => x.Amount);
+            public readonly PropertyInfo AmountSelector = ExpressionHelper.GetPropertyInfo<Payment, Money>(x => x.Amount);
 
             /// <summary>
             /// The authorized selector.

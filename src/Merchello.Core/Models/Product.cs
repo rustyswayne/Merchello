@@ -11,6 +11,8 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Models.DetachedContent;
 
+    using NodaMoney;
+
     /// <summary>
     /// Defines a product variant
     /// </summary>
@@ -171,7 +173,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal Price
+        public Money Price
         {
             get
             {
@@ -186,7 +188,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal? CostOfGoods
+        public Money? CostOfGoods
         {
             get
             {
@@ -201,7 +203,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal? SalePrice
+        public Money? SalePrice
         {
             get
             {

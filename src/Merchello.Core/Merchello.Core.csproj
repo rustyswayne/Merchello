@@ -52,11 +52,21 @@
     <Compile Include="Acquired\NetworkHelper.cs" />
     <Compile Include="Acquired\Persistence\DatabaseModelDefinitions\DefinitionFactory.cs" />
     <Compile Include="Cache\Policies\ProductOptionRepositoryCachePolicy.cs" />
+    <Compile Include="Constants.Store.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Events\DeleteEventArgs.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\SaveEventArgs.cs" />
+    <Compile Include="Extensions.IStore.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions.Money.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Rdbms\FilterCountingDto.cs" />
     <Compile Include="Models\Rdbms\DistinctCurrencyCodeDto.cs" />
+    <Compile Include="Models\StoreSettingsCollection.cs" />
     <Compile Include="Persistence\Factories\InvoiceFactory.cs" />
     <Compile Include="Persistence\NPocoDatabaseExtensions.cs" />
     <Compile Include="Acquired\Persistence\NPocoDatabaseTypeExtensions.cs" />
@@ -405,7 +415,9 @@
     <Compile Include="Persistence\Repositories\AnonymousCustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\AppliedPaymentRepository.cs" />
     <Compile Include="Persistence\Repositories\AuditLogRepository.cs" />
-    <Compile Include="Persistence\Repositories\AuditLogRepository.querying.cs" />
+    <Compile Include="Persistence\Repositories\AuditLogRepository.querying.cs">
+      <DependentUpon>AuditLogRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\AuditLogRepository.searchterm.cs">
       <DependentUpon>AuditLogRepository.cs</DependentUpon>
     </Compile>

@@ -61,5 +61,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override AnonymousCustomerFactory GetFactoryInstance()
+        {
+            return new AnonymousCustomerFactory();
+        }
     }
 }

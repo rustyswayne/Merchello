@@ -6,6 +6,8 @@
     using Merchello.Core.Models.DetachedContent;
     using Merchello.Core.Models.Rdbms;
 
+    using NodaMoney;
+
     /// <summary>
     /// A class responsible for building ProductVariant entities and DTO objects.
     /// </summary>
@@ -66,12 +68,12 @@
         /// </returns>
         public IProductVariant BuildEntity(ProductVariantDto dto)
         {
-            var entity = new ProductVariant(dto.Name, dto.Sku, dto.Price)
+            var entity = new ProductVariant(dto.Name, dto.Sku, new Money(dto.Price))
             {
                 Key = dto.Key,
                 ProductKey = dto.ProductKey,
-                CostOfGoods = dto.CostOfGoods,
-                SalePrice = dto.SalePrice,
+                CostOfGoods = dto.CostOfGoods != null ? new Money(dto.CostOfGoods.Value) : (Money?)null,
+                SalePrice = dto.SalePrice != null ? new Money(dto.SalePrice.Value) : (Money?)null,
                 OnSale = dto.OnSale,
                 Manufacturer = dto.Manufacturer,
                 ManufacturerModelNumber = dto.ManufacturerModelNumber,
@@ -118,9 +120,9 @@
                 ProductKey = entity.ProductKey,
                 Name = entity.Name,
                 Sku = entity.Sku,
-                Price = entity.Price,
-                CostOfGoods = entity.CostOfGoods,
-                SalePrice = entity.SalePrice,
+                Price = entity.Price.Amount,
+                CostOfGoods = entity.CostOfGoods.Amount(),
+                SalePrice = entity.SalePrice.Amount(),
                 Manufacturer = entity.Manufacturer,
                 ManufacturerModelNumber = entity.ManufacturerModelNumber,
                 OnSale = entity.OnSale,

@@ -2,14 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using LightInject;
 
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
-    using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
@@ -49,6 +47,12 @@
         {
             var query = Query.Where(x => x.EntityKey == entityKey && x.EntityTfKey == entityTfKey);
             return GetByQuery(query);
+        }
+
+        /// <inheritdoc/>
+        protected override NoteFactory GetFactoryInstance()
+        {
+            return new NoteFactory();
         }
     }
 }

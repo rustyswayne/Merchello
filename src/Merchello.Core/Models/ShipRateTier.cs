@@ -7,6 +7,8 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Models.EntityBase;
 
+    using NodaMoney;
+
     /// <summary>
     /// Defines a ShipRateTier - used in flat rate shipping rate tables
     /// </summary>
@@ -27,17 +29,17 @@
         /// <summary>
         /// Low range value.
         /// </summary>
-        private decimal _rangeLow;
+        private Money _rangeLow;
 
         /// <summary>
         /// High range value.
         /// </summary>
-        private decimal _rangeHigh;
+        private Money _rangeHigh;
 
         /// <summary>
         /// The rate.
         /// </summary>
-        private decimal _rate;
+        private Money _rate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShipRateTier"/> class.
@@ -64,7 +66,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal RangeLow 
+        public Money RangeLow 
         {
             get
             {
@@ -79,7 +81,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal RangeHigh
+        public Money RangeHigh
         {
             get
             {
@@ -94,7 +96,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal Rate
+        public Money Rate
         {
             get
             {
@@ -115,17 +117,17 @@
             /// <summary>
             /// The range low selector.
             /// </summary>
-            public readonly PropertyInfo RangeLowSelector = ExpressionHelper.GetPropertyInfo<ShipRateTier, decimal>(x => x.RangeLow);
+            public readonly PropertyInfo RangeLowSelector = ExpressionHelper.GetPropertyInfo<ShipRateTier, Money>(x => x.RangeLow);
 
             /// <summary>
             /// The range high selector.
             /// </summary>
-            public readonly PropertyInfo RangeHighSelector = ExpressionHelper.GetPropertyInfo<ShipRateTier, decimal>(x => x.RangeHigh);
+            public readonly PropertyInfo RangeHighSelector = ExpressionHelper.GetPropertyInfo<ShipRateTier, Money>(x => x.RangeHigh);
 
             /// <summary>
             /// The rate selector.
             /// </summary>
-            public readonly PropertyInfo RateSelector = ExpressionHelper.GetPropertyInfo<ShipRateTier, decimal>(x => x.Rate);
+            public readonly PropertyInfo RateSelector = ExpressionHelper.GetPropertyInfo<ShipRateTier, Money>(x => x.Rate);
         }
     }
 }

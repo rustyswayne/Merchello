@@ -81,5 +81,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override DetachedContentTypeFactory GetFactoryInstance()
+        {
+            return new DetachedContentTypeFactory();
+        }
     }
 }

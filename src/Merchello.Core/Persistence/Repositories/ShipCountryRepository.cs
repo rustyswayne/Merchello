@@ -7,6 +7,7 @@
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
     using Merchello.Core.Models.Rdbms;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -51,6 +52,12 @@
                 .Where<ShipCountryDto>(x => x.CatalogKey == catalogKey && x.CountryCode == countryCode);
 
             return Database.ExecuteScalar<int>(sql) > 0;
+        }
+
+        /// <inheritdoc/>
+        protected override ShipCountryFactory GetFactoryInstance()
+        {
+            return new ShipCountryFactory();
         }
     }
 }

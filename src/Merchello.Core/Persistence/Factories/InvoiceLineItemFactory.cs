@@ -3,6 +3,8 @@
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents factory responsible for building <see cref="IInvoiceLineItem"/> and <see cref="InvoiceItemDto"/>.
     /// </summary>
@@ -24,7 +26,7 @@
                 dto.Name,
                 dto.Sku,
                 dto.Quantity,
-                dto.Price,
+                new Money(dto.Price),
                 string.IsNullOrEmpty(dto.ExtendedData)
                     ? new ExtendedDataCollection()
                     : new ExtendedDataCollection(dto.ExtendedData))
@@ -60,7 +62,7 @@
                 Sku = entity.Sku,
                 Name = entity.Name,
                 Quantity = entity.Quantity,
-                Price = entity.Price,
+                Price = entity.Price.Amount,
                 ExtendedData = entity.ExtendedData.SerializeToXml(),
                 Exported = entity.Exported,
                 UpdateDate = entity.UpdateDate,

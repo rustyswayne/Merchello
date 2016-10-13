@@ -59,5 +59,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override InvoiceStatusFactory GetFactoryInstance()
+        {
+            return new InvoiceStatusFactory();
+        }
     }
 }

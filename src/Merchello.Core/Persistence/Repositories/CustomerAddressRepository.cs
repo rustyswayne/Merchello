@@ -61,5 +61,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override CustomerAddressFactory GetFactoryInstance()
+        {
+            return new CustomerAddressFactory();
+        }
     }
 }

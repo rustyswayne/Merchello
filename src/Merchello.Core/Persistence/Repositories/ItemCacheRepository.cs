@@ -8,6 +8,7 @@
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -100,6 +101,12 @@
             }
 
             return Database.ExecuteScalar<int>(sql);
+        }
+
+        /// <inheritdoc/>
+        protected override ItemCacheFactory GetFactoryInstance()
+        {
+            return new ItemCacheFactory();
         }
     }
 }

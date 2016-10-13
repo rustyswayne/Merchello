@@ -2,6 +2,7 @@
 {
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -36,6 +37,12 @@
         {
             Ensure.ParameterNotNull(paymentRepository, nameof(paymentRepository));
             _paymentRepository = paymentRepository;
+        }
+
+        /// <inheritdoc/>
+        protected override PaymentMethodFactory GetFactoryInstance()
+        {
+            return new PaymentMethodFactory();
         }
     }
 }

@@ -6,6 +6,8 @@
 
     using Merchello.Core.Acquired;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents an order line item
     /// </summary>
@@ -40,7 +42,7 @@
         /// <param name="amount">
         /// The amount.
         /// </param>
-        public OrderLineItem(string name, string sku, decimal amount)
+        public OrderLineItem(string name, string sku, Money amount)
             : base(name, sku, amount)
         {
         }
@@ -60,7 +62,7 @@
         /// <param name="amount">
         /// The amount.
         /// </param>
-        public OrderLineItem(string name, string sku, int quantity, decimal amount)
+        public OrderLineItem(string name, string sku, int quantity, Money amount)
             : base(name, sku, quantity, amount)
         {
         }
@@ -83,7 +85,7 @@
         /// <param name="price">
         /// The price.
         /// </param>
-        public OrderLineItem(LineItemType lineItemType, string name, string sku, int quantity, decimal price)
+        public OrderLineItem(LineItemType lineItemType, string name, string sku, int quantity, Money price)
             : base(lineItemType, name, sku, quantity, price)
         {
         }
@@ -114,7 +116,7 @@
             string name,
             string sku,
             int quantity,
-            decimal price,
+            Money price,
             ExtendedDataCollection extendedData)
             : base(lineItemType, name, sku, quantity, price, extendedData)
         {
@@ -146,7 +148,7 @@
             string name,
             string sku,
             int quantity,
-            decimal price,
+            Money price,
             ExtendedDataCollection extendedData)
             : base(lineItemTfKey, name, sku, quantity, price, extendedData)
         {

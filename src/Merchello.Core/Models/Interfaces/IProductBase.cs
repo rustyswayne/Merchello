@@ -6,6 +6,8 @@
 
     using Merchello.Core.Models.DetachedContent;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents base product information.
     /// </summary>
@@ -27,19 +29,19 @@
         /// Gets or sets the price for the Product
         /// </summary>
         [DataMember]
-        decimal Price { get; set; }
+        Money Price { get; set; }
 
         /// <summary>
         /// Gets or sets the shop's cost for the product
         /// </summary>
         [DataMember]
-        decimal? CostOfGoods { get; set; }
+        Money? CostOfGoods { get; set; }
 
         /// <summary>
         /// Gets or sets the sale price of the product if on sale
         /// </summary>
         [DataMember]
-        decimal? SalePrice { get; set; }
+        Money? SalePrice { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not this product is on sale

@@ -10,6 +10,8 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Models.DetachedContent;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents an abstract class for base Product properties and methods
     /// </summary>
@@ -37,12 +39,12 @@
         /// <summary>
         /// The price.
         /// </summary>
-        private decimal _price;
+        private Money _price;
 
         /// <summary>
         /// The cost of goods.
         /// </summary>
-        private decimal? _costOfGoods;
+        private Money? _costOfGoods;
 
         /// <summary>
         /// The on sale.
@@ -52,7 +54,7 @@
         /// <summary>
         /// The sale price.
         /// </summary>
-        private decimal? _salePrice;
+        private Money? _salePrice;
 
         /// <summary>
         /// The manufacturer.
@@ -159,7 +161,7 @@
         /// <param name="detachedContents">
         /// The detached Contents.
         /// </param>
-        internal ProductBase(string name, string sku, decimal price, CatalogInventoryCollection catalogInventoryCollection, DetachedContentCollection<IProductVariantDetachedContent> detachedContents)
+        internal ProductBase(string name, string sku, Money price, CatalogInventoryCollection catalogInventoryCollection, DetachedContentCollection<IProductVariantDetachedContent> detachedContents)
         {
             Ensure.ParameterNotNullOrEmpty(name, "name");
             Ensure.ParameterNotNullOrEmpty(sku, "sku");
@@ -184,7 +186,7 @@
         /// <param name="price">
         /// The price.
         /// </param>
-        protected ProductBase(string name, string sku, decimal price)
+        protected ProductBase(string name, string sku, Money price)
             : this(name, sku, price, new CatalogInventoryCollection(), new DetachedContentCollection<IProductVariantDetachedContent>())
         {
         }
@@ -253,7 +255,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal Price
+        public Money Price
         {
             get
             {
@@ -268,7 +270,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal? CostOfGoods
+        public Money? CostOfGoods
         {
             get
             {
@@ -283,7 +285,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal? SalePrice
+        public Money? SalePrice
         {
             get
             {
@@ -599,17 +601,17 @@
             /// <summary>
             /// The price selector.
             /// </summary>
-            public readonly PropertyInfo PriceSelector = ExpressionHelper.GetPropertyInfo<ProductBase, decimal>(x => x.Price);
+            public readonly PropertyInfo PriceSelector = ExpressionHelper.GetPropertyInfo<ProductBase, Money>(x => x.Price);
 
             /// <summary>
             /// The cost of goods selector.
             /// </summary>
-            public readonly PropertyInfo CostOfGoodsSelector = ExpressionHelper.GetPropertyInfo<ProductBase, decimal?>(x => x.CostOfGoods);
+            public readonly PropertyInfo CostOfGoodsSelector = ExpressionHelper.GetPropertyInfo<ProductBase, Money?>(x => x.CostOfGoods);
 
             /// <summary>
             /// The sale price selector.
             /// </summary>
-            public readonly PropertyInfo SalePriceSelector = ExpressionHelper.GetPropertyInfo<ProductBase, decimal?>(x => x.SalePrice);
+            public readonly PropertyInfo SalePriceSelector = ExpressionHelper.GetPropertyInfo<ProductBase, Money?>(x => x.SalePrice);
 
             /// <summary>
             /// The on sale selector.

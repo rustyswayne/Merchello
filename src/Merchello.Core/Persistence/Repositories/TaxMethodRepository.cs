@@ -59,5 +59,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override TaxMethodFactory GetFactoryInstance()
+        {
+            return new TaxMethodFactory();
+        }
     }
 }

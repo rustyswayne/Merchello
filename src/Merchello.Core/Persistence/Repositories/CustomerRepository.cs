@@ -63,5 +63,11 @@
 
             return sql;
         }
+
+        /// <inheritdoc/>
+        protected override CustomerFactory GetFactoryInstance()
+        {
+            return new CustomerFactory();
+        }
     }
 }

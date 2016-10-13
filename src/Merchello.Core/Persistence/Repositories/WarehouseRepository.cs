@@ -2,6 +2,7 @@
 {
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -26,6 +27,12 @@
         public WarehouseRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
             : base(work, cache, logger, mappingResolver)
         {
+        }
+
+        /// <inheritdoc/>
+        protected override WarehouseFactory GetFactoryInstance()
+        {
+            return new WarehouseFactory();
         }
     }
 }

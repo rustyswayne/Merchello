@@ -30,7 +30,7 @@
     internal abstract class NPocoEntityRepositoryBase<TEntity, TDto, TFactory> : NPocoRepositoryBase<TEntity>
         where TEntity : class, IEntity
         where TDto : class, IKeyDto
-        where TFactory : class, IEntityFactory<TEntity, TDto>, new()
+        where TFactory : class, IEntityFactory<TEntity, TDto>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NPocoEntityRepositoryBase{TEntity,TDto,TFactory}"/> class.
@@ -70,7 +70,7 @@
             if (dto == null)
                 return null;
 
-            var factory = new TFactory();
+            var factory = GetFactoryInstance();
             var entity = factory.BuildEntity(dto);
 
             entity.ResetDirtyProperties();
@@ -81,7 +81,7 @@
         /// <inheritdoc/>
         protected override IEnumerable<TEntity> PerformGetAll(params Guid[] keys)
         {
-            var factory = new TFactory();
+            var factory = GetFactoryInstance();
 
             if (keys.Any())
             {
@@ -99,7 +99,7 @@
             var translator = new SqlTranslator<TEntity>(sqlClause, query);
             var sql = translator.Translate();
 
-            var factory = new TFactory();
+            var factory = GetFactoryInstance();
             var dtos = Database.Fetch<TDto>(sql);
             return dtos.Select(factory.BuildEntity);
         }
@@ -116,7 +116,7 @@
             var merchEntity = entity as Entity;
             merchEntity?.AddingEntity();
 
-            var factory = new TFactory();
+            var factory = GetFactoryInstance();
             var dto = factory.BuildDto(entity);
             Database.Insert(dto);
             entity.Key = dto.Key;
@@ -130,7 +130,7 @@
             var merchEntity = entity as Entity;
             merchEntity?.UpdatingEntity();
 
-            var factory = new TFactory();
+            var factory = GetFactoryInstance();
             var dto = factory.BuildDto(entity);
             Database.Update(dto);
 
@@ -150,5 +150,13 @@
         {
             return GetAll(dtos.Select(dto => dto.Key).ToArray());
         }
+
+        /// <summary>
+        /// Gets an instance of <see cref="TFactory"/>.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="TFactory"/>.
+        /// </returns>
+        protected abstract TFactory GetFactoryInstance();
     }
 }

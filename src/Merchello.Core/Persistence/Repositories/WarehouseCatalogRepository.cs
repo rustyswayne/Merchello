@@ -6,6 +6,7 @@
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -37,6 +38,12 @@
         {
             var query = Query.Where(x => x.WarehouseKey == warehouseKey);
             return this.GetByQuery(query);
+        }
+
+        /// <inheritdoc/>
+        protected override WarehouseCatalogFactory GetFactoryInstance()
+        {
+            return new WarehouseCatalogFactory();
         }
     }
 }

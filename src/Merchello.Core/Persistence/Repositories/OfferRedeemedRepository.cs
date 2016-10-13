@@ -1,15 +1,11 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     using LightInject;
 
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
-    using Merchello.Core.Models;
-    using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
@@ -43,6 +39,12 @@
             Database.Execute(
                 "UPDATE merchOfferRedeemed SET offerSettingsKey = NULL WHERE offerSettingsKey = @Key",
                 new { @Key = offerSettingsKey });
+        }
+
+        /// <inheritdoc/>
+        protected override OfferRedeemedFactory GetFactoryInstance()
+        {
+            return new OfferRedeemedFactory();
         }
     }
 }

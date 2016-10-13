@@ -59,5 +59,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override ShipRateTierFactory GetFactoryInstance()
+        {
+            return new ShipRateTierFactory();
+        }
     }
 }

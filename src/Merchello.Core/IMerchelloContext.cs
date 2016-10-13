@@ -27,6 +27,7 @@
         ///// </summary>
         //IGatewayContext Gateways { get; }
 
+
         /// <summary>
         /// Gets a value indicating whether or not the Merchello needs to be upgraded
         /// </summary>

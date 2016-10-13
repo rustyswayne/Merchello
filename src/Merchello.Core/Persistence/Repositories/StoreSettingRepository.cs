@@ -9,6 +9,7 @@
     using Merchello.Core.Logging;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Models.TypeFields;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -100,6 +101,12 @@
         {
             var dtos = Database.Fetch<TypeFieldDto>();
             return dtos.Select(dto => new TypeField(dto.Alias, dto.Name, dto.Key));
+        }
+
+        /// <inheritdoc/>
+        protected override StoreSettingFactory GetFactoryInstance()
+        {
+            return new StoreSettingFactory();
         }
     }
 }

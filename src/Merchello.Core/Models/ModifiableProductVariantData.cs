@@ -6,6 +6,8 @@
 
     using Newtonsoft.Json;
 
+    using NodaMoney;
+
     /// <summary>
     /// The modifiable product variant data.
     /// </summary>
@@ -24,12 +26,12 @@
         /// <summary>
         /// Gets or sets the price.
         /// </summary>
-        public decimal Price { get; set; }
+        public Money Price { get; set; }
 
         /// <summary>
         /// Gets or sets the sale price.
         /// </summary>
-        public decimal SalePrice { get; set; }
+        public Money SalePrice { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether on sale.

@@ -5,6 +5,8 @@
 
     using Merchello.Core.Models.EntityBase;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents an payment applied to an invoice.
     /// </summary>
@@ -38,7 +40,7 @@
         /// Gets or sets the amount for the Transaction
         /// </summary>
         [DataMember]
-        decimal Amount { get; set; }
+        Money Amount { get; set; }
             
         /// <summary>
         /// Gets or sets a value indicating whether if this record has been exported

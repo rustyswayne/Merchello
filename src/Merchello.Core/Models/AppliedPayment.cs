@@ -8,6 +8,8 @@
     using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Models.TypeFields;
 
+    using NodaMoney;
+
     /// <inheritdoc/>
     [Serializable]
     [DataContract(IsReference = true)]
@@ -41,7 +43,7 @@
         /// <summary>
         /// The amount.
         /// </summary>
-        private decimal _amount;
+        private Money _amount;
 
         /// <summary>
         /// The exported
@@ -146,7 +148,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal Amount
+        public Money Amount
         {
             get
             {
@@ -215,7 +217,7 @@
             /// The amount selector.
             /// </summary>
             public readonly PropertyInfo AmountSelector =
-                ExpressionHelper.GetPropertyInfo<AppliedPayment, decimal>(x => x.Amount);
+                ExpressionHelper.GetPropertyInfo<AppliedPayment, Money>(x => x.Amount);
 
             /// <summary>
             /// The exported selector.

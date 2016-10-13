@@ -16,5 +16,10 @@
         /// Gets or sets the alias.
         /// </summary>
         string Alias { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="StoreSettingsCollection"/>.
+        /// </summary>
+        StoreSettingsCollection Settings { get; }
     }
 }

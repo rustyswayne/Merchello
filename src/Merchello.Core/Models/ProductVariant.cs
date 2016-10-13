@@ -10,6 +10,8 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Models.DetachedContent;
 
+    using NodaMoney;
+
     /// <summary>
     /// Defines a product variant
     /// </summary>
@@ -57,7 +59,7 @@
         /// <param name="price">
         /// The price.
         /// </param>
-        internal ProductVariant(string name, string sku, decimal price)
+        internal ProductVariant(string name, string sku, Money price)
             : this(Guid.Empty, new ProductAttributeCollection(), new CatalogInventoryCollection(), false, name, sku, price)
         {            
         }
@@ -85,7 +87,7 @@
             ProductAttributeCollection attributes,
             string name,
             string sku,
-            decimal price)
+            Money price)
             : this(productKey, attributes, new CatalogInventoryCollection(), false, name, sku, price)
         {            
         }
@@ -117,7 +119,7 @@
             CatalogInventoryCollection catalogInventoryCollection,
             string name,
             string sku,
-            decimal price)
+            Money price)
             : this(productKey, attributes, catalogInventoryCollection, false, name, sku, price)
         {            
         }
@@ -146,7 +148,7 @@
         /// <param name="price">
         /// The price.
         /// </param>
-        internal ProductVariant(Guid productKey, ProductAttributeCollection attributes, CatalogInventoryCollection catalogInventoryCollection, bool master, string name, string sku, decimal price)
+        internal ProductVariant(Guid productKey, ProductAttributeCollection attributes, CatalogInventoryCollection catalogInventoryCollection, bool master, string name, string sku, Money price)
             : this(productKey, attributes, catalogInventoryCollection, new DetachedContentCollection<IProductVariantDetachedContent>(), false, name, sku, price)
         {
         }
@@ -178,7 +180,7 @@
         /// <param name="price">
         /// The price.
         /// </param>
-        internal ProductVariant(Guid productKey, ProductAttributeCollection attributes, CatalogInventoryCollection catalogInventoryCollection, DetachedContentCollection<IProductVariantDetachedContent> detachedContents,  bool master, string name, string sku, decimal price)
+        internal ProductVariant(Guid productKey, ProductAttributeCollection attributes, CatalogInventoryCollection catalogInventoryCollection, DetachedContentCollection<IProductVariantDetachedContent> detachedContents,  bool master, string name, string sku, Money price)
             : base(name, sku, price, catalogInventoryCollection, detachedContents)
         {
             Ensure.ParameterNotNull(attributes, "attributes");

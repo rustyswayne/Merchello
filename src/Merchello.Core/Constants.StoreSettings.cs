@@ -13,6 +13,11 @@
         public static class StoreSetting
         {
             /// <summary>
+            /// The default currency code.
+            /// </summary>
+            public const string DefaultCurrencyCode = "USD";
+
+            /// <summary>
             /// Gets the currency code settings key.
             /// </summary>
             public static Guid CurrencyCodeKey

@@ -1,5 +1,7 @@
 ﻿namespace Merchello.Core.Models
 {
+    using NodaMoney;
+
     /// <summary>
     /// Represents modifiable product data.
     /// </summary>
@@ -16,12 +18,12 @@
         /// <summary>
         /// Gets or sets the price.
         /// </summary>
-        decimal Price { get; set; }
+        Money Price { get; set; }
 
         /// <summary>
         /// Gets or sets the sale price.
         /// </summary>
-        decimal SalePrice { get; set; }
+        Money SalePrice { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether on sale.

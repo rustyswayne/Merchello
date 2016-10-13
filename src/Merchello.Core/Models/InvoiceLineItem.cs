@@ -3,6 +3,8 @@
     using System;
     using System.Runtime.Serialization;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents an invoice line item
     /// </summary>
@@ -25,7 +27,7 @@
         /// <param name="amount">
         /// The amount.
         /// </param>
-        public InvoiceLineItem(string name, string sku, decimal amount) 
+        public InvoiceLineItem(string name, string sku, Money amount) 
             : base(name, sku, amount)
         {
         }
@@ -45,7 +47,7 @@
         /// <param name="amount">
         /// The amount.
         /// </param>
-        public InvoiceLineItem(string name, string sku, int quantity, decimal amount) 
+        public InvoiceLineItem(string name, string sku, int quantity, Money amount) 
             : base(name, sku, quantity, amount)
         {
         }
@@ -68,7 +70,7 @@
         /// <param name="price">
         /// The price.
         /// </param>
-        public InvoiceLineItem(LineItemType lineItemType, string name, string sku, int quantity, decimal price) 
+        public InvoiceLineItem(LineItemType lineItemType, string name, string sku, int quantity, Money price) 
             : base(lineItemType, name, sku, quantity, price)
         {
         }
@@ -94,7 +96,7 @@
         /// <param name="extendedData">
         /// The extended data.
         /// </param>
-        public InvoiceLineItem(LineItemType lineItemType, string name, string sku, int quantity, decimal price, ExtendedDataCollection extendedData) 
+        public InvoiceLineItem(LineItemType lineItemType, string name, string sku, int quantity, Money price, ExtendedDataCollection extendedData) 
             : base(lineItemType, name, sku, quantity, price, extendedData)
         {
         }
@@ -120,7 +122,7 @@
         /// <param name="extendedData">
         /// The extended data.
         /// </param>
-        public InvoiceLineItem(Guid lineItemTfKey, string name, string sku, int quantity, decimal price, ExtendedDataCollection extendedData) 
+        public InvoiceLineItem(Guid lineItemTfKey, string name, string sku, int quantity, Money price, ExtendedDataCollection extendedData) 
             : base(lineItemTfKey, name, sku, quantity, price, extendedData)
         {
         }

@@ -5,6 +5,8 @@
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
+    using NodaMoney;
+
     /// <summary>
     /// Factory responsible for building the <see cref="IInvoice"/>.
     /// </summary>
@@ -75,10 +77,9 @@
                     BillToEmail = dto.BillToEmail,
                     BillToPhone = dto.BillToPhone,
                     BillToCompany = dto.BillToCompany,
-                    CurrencyCode = dto.CurrencyCode,
                     Exported = dto.Exported,
                     Archived = dto.Archived,
-                    Total = dto.Total,
+                    Total = new Money(dto.Total, dto.CurrencyCode),
                     CreateDate = dto.CreateDate,
                     UpdateDate = dto.UpdateDate,
                     Items = _lineItemCollection,
@@ -125,7 +126,7 @@
                     CurrencyCode = entity.CurrencyCode,
                     Exported = entity.Exported,
                     Archived = entity.Archived,
-                    Total = entity.Total,
+                    Total = entity.Total.Amount,
                     CreateDate = entity.CreateDate,
                     UpdateDate = entity.UpdateDate
                 };

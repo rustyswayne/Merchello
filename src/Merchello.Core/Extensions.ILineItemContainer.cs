@@ -5,6 +5,8 @@
 
     using Merchello.Core.Models;
 
+    using NodaMoney;
+
     /// <summary>
     /// Extension methods for <see cref="ILineItemContainer"/>.
     /// </summary>
@@ -172,7 +174,7 @@
         /// <param name="extendedData">
         /// The extended Data.
         /// </param>
-        public static void AddItem(this ILineItemContainer container, LineItemType lineItemType, string name, string sku, int quantity, decimal amount, ExtendedDataCollection extendedData)
+        public static void AddItem(this ILineItemContainer container, LineItemType lineItemType, string name, string sku, int quantity, Money amount, ExtendedDataCollection extendedData)
         {
             var lineItem = new ItemCacheLineItem(lineItemType, name, sku, quantity, amount, extendedData)
             {

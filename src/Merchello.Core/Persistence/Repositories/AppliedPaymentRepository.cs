@@ -59,5 +59,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override AppliedPaymentFactory GetFactoryInstance()
+        {
+            return new AppliedPaymentFactory();
+        }
     }
 }

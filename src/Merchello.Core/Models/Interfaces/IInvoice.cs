@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents an invoice.
     /// </summary>
@@ -112,13 +114,13 @@
         string BillToCompany { get; set; }
 
         /// <summary>
-        /// Gets or sets the currency code.
+        /// Gets the currency code.
         /// </summary>
         /// <remarks>
         /// Introduced in 1.14.0
         /// </remarks>
         [DataMember]
-        string CurrencyCode { get; set; }
+        string CurrencyCode { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not this invoice has been exported to an external system
@@ -136,7 +138,7 @@
         /// Gets or sets the total invoice amount
         /// </summary>
         [DataMember]
-        decimal Total { get; set; }
+        Money Total { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of Orders associated with the Invoice

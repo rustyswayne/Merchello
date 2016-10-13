@@ -5,6 +5,8 @@
 
     using Merchello.Core.Models.EntityBase;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents a payment.
     /// </summary>
@@ -44,7 +46,7 @@
         /// Gets or sets the amount for the payment
         /// </summary>
         [DataMember]
-        decimal Amount { get; set; }
+        Money Amount { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not this payment has been authorized with the payment gateway provider

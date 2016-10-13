@@ -4,6 +4,7 @@
 
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
+    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -35,6 +36,12 @@
         {
             Database.Execute("UPDATE [merchPayment] SET [merchPayment].[paymentMethodKey] = NULL WHERE [merchPayment].[paymentMethodKey] = @Key", new { @Key = paymentMethodKey });
             CachePolicy.ClearAll();
+        }
+
+        /// <inheritdoc/>
+        protected override PaymentFactory GetFactoryInstance()
+        {
+            return new PaymentFactory();
         }
     }
 }

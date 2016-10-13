@@ -3,6 +3,8 @@
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents the Order line item factory
     /// </summary>
@@ -24,7 +26,7 @@
                 dto.Name,
                 dto.Sku,
                 dto.Quantity,
-                dto.Price,
+                new Money(dto.Price),
                 string.IsNullOrEmpty(dto.ExtendedData)
                     ? new ExtendedDataCollection()
                     : new ExtendedDataCollection(dto.ExtendedData))
@@ -63,7 +65,7 @@
                 Sku = entity.Sku,
                 Name = entity.Name,
                 Quantity = entity.Quantity,
-                Price = entity.Price,
+                Price = entity.Price.Amount,
                 ExtendedData = entity.ExtendedData.SerializeToXml(),
                 BackOrder = entity.BackOrder,
                 Exported = entity.Exported,

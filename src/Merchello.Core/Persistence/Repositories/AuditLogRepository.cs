@@ -59,5 +59,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override AuditLogFactory GetFactoryInstance()
+        {
+            return new AuditLogFactory();
+        }
     }
 }

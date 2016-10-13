@@ -3,6 +3,8 @@
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents a ship rate tier factory.
     /// </summary>
@@ -22,9 +24,9 @@
             var entity = new ShipRateTier(dto.ShipMethodKey)
                 {
                     Key = dto.Key,
-                    RangeLow = dto.RangeLow,
-                    RangeHigh = dto.RangeHigh,
-                    Rate = dto.Rate,
+                    RangeLow = new Money(dto.RangeLow),
+                    RangeHigh = new Money(dto.RangeHigh),
+                    Rate = new Money(dto.Rate),
                     UpdateDate = dto.UpdateDate,
                     CreateDate = dto.CreateDate
                 };
@@ -49,9 +51,9 @@
                 {
                     Key = entity.Key,
                     ShipMethodKey = entity.ShipMethodKey,
-                    RangeLow = entity.RangeLow,
-                    RangeHigh = entity.RangeHigh,
-                    Rate = entity.Rate,
+                    RangeLow = entity.RangeLow.Amount,
+                    RangeHigh = entity.RangeHigh.Amount,
+                    Rate = entity.Rate.Amount,
                     UpdateDate = entity.UpdateDate,
                     CreateDate = entity.CreateDate
                 };

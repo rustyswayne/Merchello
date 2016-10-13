@@ -54,5 +54,11 @@ namespace Merchello.Core.Persistence.Repositories
 
             return result == null ? null : factory.BuildEntity(result);
         }
+
+        /// <inheritdoc/>
+        protected override MigrationStatusFactory GetFactoryInstance()
+        {
+            return new MigrationStatusFactory();
+        }
     }
 }

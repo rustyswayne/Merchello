@@ -61,5 +61,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override ItemCacheLineItemFactory GetFactoryInstance()
+        {
+            return new ItemCacheLineItemFactory();
+        }
     }
 }

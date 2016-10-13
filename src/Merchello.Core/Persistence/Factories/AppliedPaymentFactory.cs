@@ -55,7 +55,7 @@
                 InvoiceKey = entity.InvoiceKey,
                 AppliedPaymentTfKey = entity.AppliedPaymentTfKey,
                 Description = entity.Description,
-                Amount = entity.Amount,
+                Amount = entity.Amount.Amount,
                 Exported = entity.Exported,
                 UpdateDate = entity.UpdateDate,
                 CreateDate = entity.CreateDate                

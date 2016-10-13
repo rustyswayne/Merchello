@@ -10,6 +10,8 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Models.EntityBase;
 
+    using NodaMoney;
+
     /// <summary>
     /// The invoice.
     /// </summary>
@@ -105,11 +107,6 @@
         private string _billToCompany;
 
         /// <summary>
-        /// The currency code.
-        /// </summary>
-        private string _currencyCode;
-
-        /// <summary>
         /// The exported.
         /// </summary>
         private bool _exported;
@@ -122,7 +119,7 @@
         /// <summary>
         /// The total.
         /// </summary>
-        private decimal _total;
+        private Money _total;
 
         /// <summary>
         /// The items.
@@ -463,12 +460,7 @@
         {
             get
             {
-                return _currencyCode;
-            }
-
-            set
-            {
-                SetPropertyValueAndDetectChanges(value, ref _currencyCode, _ps.Value.CurrencyCodeSelector);
+                return _total.Currency.Code;
             }
         }
 
@@ -504,7 +496,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public decimal Total
+        public Money Total
         {
             get
             {
@@ -673,11 +665,6 @@
             public readonly PropertyInfo BillToCompanySelector = ExpressionHelper.GetPropertyInfo<Invoice, string>(x => x.BillToCompany);
 
             /// <summary>
-            /// The bill to company selector.
-            /// </summary>
-            public readonly PropertyInfo CurrencyCodeSelector = ExpressionHelper.GetPropertyInfo<Invoice, string>(x => x.CurrencyCode);
-
-            /// <summary>
             /// The exported selector.
             /// </summary>
             public readonly PropertyInfo ExportedSelector = ExpressionHelper.GetPropertyInfo<Invoice, bool>(x => x.Exported);
@@ -690,7 +677,7 @@
             /// <summary>
             /// The total selector.
             /// </summary>
-            public readonly PropertyInfo TotalSelector = ExpressionHelper.GetPropertyInfo<Invoice, decimal>(x => x.Total);
+            public readonly PropertyInfo TotalSelector = ExpressionHelper.GetPropertyInfo<Invoice, Money>(x => x.Total);
 
             /// <summary>
             /// The orders changed selector.

@@ -59,5 +59,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override NotificationMessageFactory GetFactoryInstance()
+        {
+            return new NotificationMessageFactory();
+        }
     }
 }

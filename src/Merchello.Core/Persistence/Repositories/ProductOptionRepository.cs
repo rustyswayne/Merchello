@@ -81,5 +81,11 @@
 
             return options;
         }
+
+        /// <inheritdoc/>
+        protected override ProductOptionFactory GetFactoryInstance()
+        {
+            return new ProductOptionFactory();
+        }
     }
 }

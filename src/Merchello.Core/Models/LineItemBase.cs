@@ -13,6 +13,8 @@
     using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Models.TypeFields;
 
+    using NodaMoney;
+
     using Constants = Merchello.Core.Constants;
 
     /// <summary>
@@ -55,7 +57,7 @@
         /// <summary>
         /// The Price.
         /// </summary>
-        private decimal _price;
+        private Money _price;
 
         /// <summary>
         /// The <see cref="ExtendedDataCollection"/>.
@@ -86,7 +88,7 @@
         /// <param name="amount">
         /// The amount.
         /// </param>
-        protected LineItemBase(string name, string sku, decimal amount)
+        protected LineItemBase(string name, string sku, Money amount)
             : this(name, sku, 1, amount)
         {
         }
@@ -103,11 +105,11 @@
         /// <param name="quantity">
         /// The quantity.
         /// </param>
-        /// <param name="amount">
-        /// The amount.
+        /// <param name="price">
+        /// The price.
         /// </param>
-        protected LineItemBase(string name, string sku, int quantity, decimal amount)
-            : this(LineItemType.Product, name, sku, quantity, amount)
+        protected LineItemBase(string name, string sku, int quantity, Money price)
+            : this(LineItemType.Product, name, sku, quantity, price)
         {
         }
 
@@ -129,7 +131,7 @@
         /// <param name="price">
         /// The price.
         /// </param>
-        protected LineItemBase(LineItemType lineItemType, string name, string sku, int quantity, decimal price)
+        protected LineItemBase(LineItemType lineItemType, string name, string sku, int quantity, Money price)
             : this(
                 EnumTypeFieldConverter.LineItemType.GetTypeField(lineItemType).TypeKey,
                 name,
@@ -166,7 +168,7 @@
             string name,
             string sku,
             int quantity,
-            decimal price,
+            Money price,
             ExtendedDataCollection extendedData)
             : this(
                 EnumTypeFieldConverter.LineItemType.GetTypeField(lineItemType).TypeKey,
@@ -199,7 +201,7 @@
         /// <param name="extendedData">
         /// The extended data.
         /// </param>
-        protected LineItemBase(Guid lineItemTfKey, string name, string sku, int quantity, decimal price, ExtendedDataCollection extendedData)  
+        protected LineItemBase(Guid lineItemTfKey, string name, string sku, int quantity, Money price, ExtendedDataCollection extendedData)  
         {
             if (lineItemTfKey.Equals(Guid.Empty))
             {
@@ -298,7 +300,7 @@
     
         /// <inheritdoc/>
         [DataMember]
-        public decimal Price
+        public Money Price
         {
             get
             {
@@ -339,7 +341,7 @@
 
         /// <inheritdoc/>
         [IgnoreDataMember]
-        public decimal TotalPrice 
+        public Money TotalPrice 
         {
             get
             {
@@ -456,7 +458,7 @@
             /// <summary>
             /// The price selector.
             /// </summary>
-            public readonly PropertyInfo PriceSelector = ExpressionHelper.GetPropertyInfo<LineItemBase, decimal>(x => x.Price);
+            public readonly PropertyInfo PriceSelector = ExpressionHelper.GetPropertyInfo<LineItemBase, Money>(x => x.Price);
 
             /// <summary>
             /// The extended data changed selector.

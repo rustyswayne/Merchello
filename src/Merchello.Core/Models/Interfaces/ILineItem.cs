@@ -5,6 +5,8 @@
 
     using Merchello.Core.Models.EntityBase;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents a line Item
     /// </summary>
@@ -44,7 +46,7 @@
         /// Gets or sets the price for the line item
         /// </summary>
         [DataMember]
-        decimal Price { get; set; }
+        Money Price { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not this line item has been exported to an external system
@@ -66,7 +68,7 @@
         /// Gets the total price of the line item (quantity * price)
         /// </summary>
         [IgnoreDataMember]
-        decimal TotalPrice { get; }
+        Money TotalPrice { get; }
 
         /// <summary>
         /// Accept for visitor operations

@@ -63,5 +63,11 @@
 
             return list;
         }
+
+        /// <inheritdoc/>
+        protected override InvoiceLineItemFactory GetFactoryInstance()
+        {
+            return new InvoiceLineItemFactory();
+        }
     }
 }

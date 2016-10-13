@@ -1,12 +1,7 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
-    using Merchello.Core.Models;
-    using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
@@ -42,6 +37,12 @@
         {
             Ensure.ParameterNotNull(offerRedeemedRepository, nameof(offerRedeemedRepository));
             _offerRedeemedRepository = offerRedeemedRepository;
+        }
+
+        /// <inheritdoc/>
+        protected override OfferSettingsFactory GetFactoryInstance()
+        {
+            return new OfferSettingsFactory();
         }
     }
 }
