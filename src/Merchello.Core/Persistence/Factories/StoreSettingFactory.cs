@@ -25,6 +25,7 @@
                 Name = dto.Name,
                 Value = dto.Value,
                 TypeName = dto.TypeName,
+                IsGlobal = dto.IsGlobal,
                 CreateDate = dto.CreateDate,
                 UpdateDate = dto.UpdateDate
             };
@@ -51,6 +52,7 @@
                 Name = entity.Name,
                 Value = entity.Value,
                 TypeName = entity.TypeName,
+                IsGlobal = entity.IsGlobal,
                 CreateDate = entity.CreateDate,
                 UpdateDate = entity.UpdateDate
             };

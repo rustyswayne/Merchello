@@ -32,6 +32,11 @@
         /// </summary>
         private string _typeName;
 
+        /// <summary>
+        /// A value indicating whether or not the setting is global.
+        /// </summary>
+        private bool isGlobal;
+
         /// <inheritdoc/>
         [DataMember]
         public string Name
@@ -77,6 +82,21 @@
             }
         }
 
+        /// <inheritdoc/>
+        [DataMember]
+        public bool IsGlobal
+        {
+            get
+            {
+                return this.isGlobal;
+            }
+
+            internal set
+            {
+                SetPropertyValueAndDetectChanges(value, ref this.isGlobal, _ps.Value.GlobalSelector);
+            }
+        }
+
         /// <summary>
         /// The property selectors.
         /// </summary>
@@ -96,6 +116,11 @@
             /// The type name selector.
             /// </summary>
             public readonly PropertyInfo TypeNameSelector = ExpressionHelper.GetPropertyInfo<StoreSetting, string>(x => x.TypeName);
+
+            /// <summary>
+            /// The global selector.
+            /// </summary>
+            public readonly PropertyInfo GlobalSelector = ExpressionHelper.GetPropertyInfo<StoreSetting, bool>(x => x.IsGlobal);
         }
     }
 }

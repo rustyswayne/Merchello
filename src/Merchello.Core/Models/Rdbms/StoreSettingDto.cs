@@ -41,6 +41,12 @@
         [Column("typeName")]
         public string TypeName { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this is a global (same setting used in every store).
+        /// </summary>
+        [Column("isGlobal")]
+        public bool IsGlobal { get; set; }
+
         /// <inheritdoc/>
         [Column("updateDate")]
         [Constraint(Default = SystemMethods.CurrentDateTime)]
