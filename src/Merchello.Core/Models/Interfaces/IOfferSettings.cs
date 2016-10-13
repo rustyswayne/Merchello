@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents offer settings.
     /// </summary>
-    public interface IOfferSettings : IEntity
+    public interface IOfferSettings : IStoreSpecificEntity
     {
         /// <summary>
         /// Gets or sets the name.

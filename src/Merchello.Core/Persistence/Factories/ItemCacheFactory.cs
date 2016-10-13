@@ -22,6 +22,7 @@
             var itemCache = new ItemCache(dto.EntityKey, dto.ItemCacheTfKey)
             {
                 Key = dto.Key,
+                StoreKey = dto.StoreKey,
                 VersionKey = dto.VersionKey,
                 UpdateDate = dto.UpdateDate,
                 CreateDate = dto.CreateDate
@@ -46,6 +47,7 @@
             var dto = new ItemCacheDto()
             {
                 Key = entity.Key,
+                StoreKey = entity.StoreKey,
                 EntityKey = entity.EntityKey,
                 ItemCacheTfKey = entity.ItemCacheTfKey,
                 VersionKey = entity.VersionKey,

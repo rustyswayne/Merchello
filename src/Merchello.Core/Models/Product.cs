@@ -18,7 +18,7 @@
     /// </summary>
     [Serializable]
     [DataContract(IsReference = true)]
-    internal class Product : Entity, IProduct
+    internal class Product : DeployableEntity, IProduct
     {
         /// <summary>
         /// The property selectors.

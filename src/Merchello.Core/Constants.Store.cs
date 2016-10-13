@@ -8,13 +8,19 @@
     public static partial class Constants
     {
         /// <summary>
-        /// Gets the default store key.
+        /// Store contants.
         /// </summary>
-        public static Guid DefaultStoreKey
+        public static class Store
         {
-            get
+            /// <summary>
+            /// Gets the default store key.
+            /// </summary>
+            public static Guid DefaultStoreKey
             {
-                return new Guid("AC9083D4-98F3-43E0-AFC0-9CA16EE37B1E");
+                get
+                {
+                    return new Guid("AC9083D4-98F3-43E0-AFC0-9CA16EE37B1E");
+                }
             }
         }
     }

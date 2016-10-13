@@ -27,6 +27,9 @@
         /// </summary>
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// The sql syntax provider.
+        /// </summary>
         private readonly ISqlSyntaxProviderAdapter _sqlSyntax;
 
 
@@ -52,6 +55,7 @@
         public void InitializeBaseData()
         {
             InitializeBaseData("merchLock");
+            InitializeBaseData("merchStore");
             InitializeBaseData("merchTypeField");
             InitializeBaseData("merchInvoiceStatus");
             InitializeBaseData("merchWarehouse");
@@ -71,6 +75,8 @@
             _logger.Info<BaseDataCreation>($"Creating data in table {tableName}");
 
             if (tableName.Equals("merchLock")) CreateLockData();
+
+            if (tableName.Equals("merchStore")) CreateStoreData();
 
             if (tableName.Equals("merchTypeField")) CreateDbTypeFieldData();   
 
@@ -118,7 +124,19 @@
         }
 
         /// <summary>
-        /// The create database type field data.
+        /// Creates the store table data.
+        /// </summary>
+        private void CreateStoreData()
+        {
+            using (var transaction = _database.GetTransaction())
+            {
+                _database.Insert("merchStore", "Key", false, new StoreDto() { Key = Constants.Store.DefaultStoreKey, Alias = "defaultStore", Name = "Default Store", UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                transaction.Complete();
+            }
+        }
+
+        /// <summary>
+        /// Creates database type field data.
         /// </summary>
         private void CreateDbTypeFieldData()
         {
@@ -242,7 +260,7 @@
         {
             using (var transaction = _database.GetTransaction())
             {
-                _database.Insert("merchWarehouse", "Key", false, new WarehouseDto() { Key = Constants.Warehouse.DefaultWarehouseKey, Name = "Default Warehouse", CountryCode = string.Empty, IsDefault = true, CreateDate = DateTime.Now, UpdateDate = DateTime.Now });
+                _database.Insert("merchWarehouse", "Key", false, new WarehouseDto() { Key = Constants.Warehouse.DefaultWarehouseKey, StoreKey = Constants.Store.DefaultStoreKey, Name = "Default Warehouse", CountryCode = string.Empty, IsDefault = true, CreateDate = DateTime.Now, UpdateDate = DateTime.Now });
                 _database.Insert("merchWarehouseCatalog", "Key", false, new WarehouseCatalogDto() { Key = Constants.Warehouse.DefaultWarehouseCatalogKey, WarehouseKey = Constants.Warehouse.DefaultWarehouseKey, Name = "Default Catalog", Description = null, CreateDate = DateTime.Now, UpdateDate = DateTime.Now });
 
                 transaction.Complete();
@@ -317,6 +335,22 @@
                 _database.Insert("merchStoreSetting", "Key", false, new StoreSettingDto() { Key = Constants.StoreSetting.GlobalTaxationApplicationKey, Name = "globalTaxationApplication", Value = "Invoice", TypeName = "System.String", CreateDate = DateTime.Now, UpdateDate = DateTime.Now });
                 _database.Insert("merchStoreSetting", "Key", false, new StoreSettingDto() { Key = Core.Constants.StoreSetting.DefaultExtendedContentCulture, Name = "defaultExtendedContentCulture", Value = "en-US", TypeName = "System.String", CreateDate = DateTime.Now, UpdateDate = DateTime.Now });
                 _database.Insert("merchStoreSetting", "Key", false, new StoreSettingDto() { Key = Core.Constants.StoreSetting.HasDomainRecordKey, Name = "hasDomainRecord", Value = false.ToString(), TypeName = "System.Boolean", CreateDate = DateTime.Now, UpdateDate = DateTime.Now });
+
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.CurrencyCodeKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.NextOrderNumberKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.NextInvoiceNumberKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.NextShipmentNumberKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.DateFormatKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.TimeFormatKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.UnitSystemKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.GlobalShippableKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.GlobalTaxableKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.GlobalTrackInventoryKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.GlobalShippingIsTaxableKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.MigrationKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.GlobalTaxationApplicationKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.DefaultExtendedContentCulture, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
+                _database.Insert(new Store2StoreSettingDto { SettingKey = Constants.StoreSetting.HasDomainRecordKey, StoreKey = Constants.Store.DefaultStoreKey, UpdateDate = DateTime.Now, CreateDate = DateTime.Now });
 
                 transaction.Complete();
             }

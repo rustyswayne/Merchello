@@ -24,6 +24,14 @@
         public Guid Key { get; set; }
 
         /// <summary>
+        /// Gets or sets the store key.
+        /// </summary>
+        [Column("storeKey")]
+        [ForeignKey(typeof(StoreDto), Name = "FK_merchStore_merchItemCache", Column = "pk")]
+        public Guid StoreKey { get; set; }
+
+
+        /// <summary>
         /// Gets or sets the entity key.
         /// </summary>
         [Column("entityKey")]

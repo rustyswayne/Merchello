@@ -14,7 +14,7 @@
     /// </summary>
     [Serializable]
     [DataContract(IsReference = true)]
-    public sealed class ProductOption : Entity, IProductOption
+    public sealed class ProductOption : DeployableEntity, IProductOption
     {
         /// <summary>
         /// The property selectors.

@@ -10,7 +10,7 @@
     /// <inheritdoc/>
     [Serializable]
     [DataContract(IsReference = true)]
-    public class StoreSetting : Entity, IStoreSetting
+    public class StoreSetting : DeployableEntity, IStoreSetting
     {
         /// <summary>
         /// The property selectors.

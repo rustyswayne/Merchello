@@ -208,6 +208,10 @@
 
         /// <inheritdoc/>
         [DataMember]
+        public Guid StoreKey { get; internal set; }
+
+        /// <inheritdoc/>
+        [DataMember]
         public Guid? CustomerKey
         {
             get

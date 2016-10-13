@@ -112,8 +112,12 @@
             _entityKey = entityKey;
             _itemCacheTfKey = itemCacheTfKey;
             _items = items;
-        }               
-        
+        }
+
+        /// <inheritdoc/>
+        [DataMember]
+        public Guid StoreKey { get; internal set; }
+
         /// <inheritdoc/>
         [DataMember]
         public Guid EntityKey

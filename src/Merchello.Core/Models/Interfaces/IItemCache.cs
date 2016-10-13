@@ -3,10 +3,12 @@
     using System;
     using System.Runtime.Serialization;
 
+    using Merchello.Core.Models.EntityBase;
+
     /// <summary>
     /// Represents an item cache.
     /// </summary>
-    public interface IItemCache : ILineItemContainer
+    public interface IItemCache : IStoreSpecificEntity, ILineItemContainer
     {
         /// <summary>
         /// Gets or sets the key of the entity associated with the item cache

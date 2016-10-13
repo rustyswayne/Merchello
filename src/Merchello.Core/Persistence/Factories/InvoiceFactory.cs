@@ -61,6 +61,7 @@
             var invoice = new Invoice(factory.BuildEntity(dto.InvoiceStatusDto))
                 {
                     Key = dto.Key,
+                    StoreKey = dto.StoreKey,
                     CustomerKey = dto.CustomerKey,
                     InvoiceNumberPrefix = dto.InvoiceNumberPrefix,
                     InvoiceNumber = dto.InvoiceNumber,
@@ -106,6 +107,7 @@
             return new InvoiceDto()
                 {
                     Key = entity.Key,
+                    StoreKey = entity.StoreKey,
                     CustomerKey = entity.CustomerKey,
                     InvoiceNumberPrefix = entity.InvoiceNumberPrefix,
                     InvoiceNumber = entity.InvoiceNumber,

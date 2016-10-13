@@ -11,7 +11,7 @@
     /// </summary>
     [Serializable]
     [DataContract(IsReference = true)]
-    public sealed class ProductAttribute : Entity, IProductAttribute
+    public sealed class ProductAttribute : DeployableEntity, IProductAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductAttribute"/> class.

@@ -4,12 +4,14 @@
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
+    using Merchello.Core.Models.EntityBase;
+
     using NodaMoney;
 
     /// <summary>
     /// Represents an invoice.
     /// </summary>
-    public interface IInvoice : ILineItemContainer, IHasNotes
+    public interface IInvoice : IStoreSpecificEntity, ILineItemContainer, IHasNotes
     {
         /// <summary>
         /// Gets or sets the unique customer 'key' to associated with the invoice

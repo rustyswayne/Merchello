@@ -37,6 +37,7 @@
             var settings = new OfferSettings(dto.Name, dto.OfferCode, dto.OfferProviderKey, definitionCollection)
                 {
                     Key = dto.Key,
+                    StoreKey = dto.StoreKey,
                     Active = dto.Active,
                     OfferStartsDate = dto.OfferStartsDate.ConvertDateTimeNullToMinValue(),
                     OfferEndsDate = dto.OfferEndsDate.ConvertDateTimeNullToMaxValue(),
@@ -65,6 +66,7 @@
             return new OfferSettingsDto()
                        {
                            Key = entity.Key,
+                           StoreKey = entity.StoreKey,
                            Name = entity.Name,
                            OfferCode = entity.OfferCode,
                            OfferProviderKey = entity.OfferProviderKey,

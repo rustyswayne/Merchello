@@ -14,7 +14,7 @@
     /// </summary>
     [Serializable]
     [DataContract(IsReference = true)]
-    internal class OfferSettings : Entity, IOfferSettings
+    internal class OfferSettings : DeployableEntity, IOfferSettings
     {
         /// <summary>
         /// The property selectors.
@@ -107,6 +107,10 @@
             _active = true;
             this._componentDefinitions = componentDefinitions;
         }
+
+        /// <inheritdoc/>
+        [DataMember]
+        public Guid StoreKey { get; internal set; }
 
         /// <inheritdoc/>
         [DataMember]

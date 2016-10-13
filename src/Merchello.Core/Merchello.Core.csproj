@@ -64,9 +64,13 @@
     <Compile Include="Extensions.Money.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\EntityBase\IStoreSpecificEntity.cs" />
     <Compile Include="Models\Interfaces\IHasCurrencyCode.cs" />
     <Compile Include="Models\Rdbms\FilterCountingDto.cs" />
     <Compile Include="Models\Rdbms\DistinctCurrencyCodeDto.cs" />
+    <Compile Include="Models\Rdbms\Store2GatewayProviderSettingsDto.cs" />
+    <Compile Include="Models\Rdbms\Store2StoreEntityCollection.cs" />
+    <Compile Include="Models\Rdbms\Store2StoreSettingDto.cs" />
     <Compile Include="Models\StoreSettingsCollection.cs" />
     <Compile Include="Persistence\Factories\InvoiceFactory.cs" />
     <Compile Include="Persistence\NPocoDatabaseExtensions.cs" />

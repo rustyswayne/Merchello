@@ -12,7 +12,7 @@
     /// </summary>
     [Serializable]
     [DataContract(IsReference = true)]
-    public abstract class NotifiedStatusBase : Entity, INotifyStatus
+    public abstract class NotifiedStatusBase : DeployableEntity, INotifyStatus
     {
         /// <summary>
         /// The property selectors.

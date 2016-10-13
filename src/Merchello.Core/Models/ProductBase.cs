@@ -17,7 +17,7 @@
     /// </summary>
     [Serializable]
     [DataContract(IsReference = true)]
-    public abstract class ProductBase : Entity, IProductBase
+    public abstract class ProductBase : DeployableEntity, IProductBase
     {
         /// <summary>
         /// The property selectors.

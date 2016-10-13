@@ -24,6 +24,13 @@
         public Guid Key { get; set; }
 
         /// <summary>
+        /// Gets or sets the store key.
+        /// </summary>
+        [Column("storeKey")]
+        [ForeignKey(typeof(StoreDto), Name = "FK_merchStore_merchInvoice", Column = "pk")]
+        public Guid StoreKey { get; set; }
+
+        /// <summary>
         /// Gets or sets the customer key.
         /// </summary>
         [Column("customerKey")]

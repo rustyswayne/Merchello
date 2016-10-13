@@ -12,7 +12,7 @@
     /// <inheritdoc/>
     [Serializable]
     [DataContract(IsReference = true)]
-    internal class Warehouse : Entity, IWarehouse
+    internal class Warehouse : DeployableEntity, IWarehouse
     {
         /// <summary>
         /// The property selectors.
@@ -249,6 +249,9 @@
                 SetPropertyValueAndDetectChanges(value, ref _isDefault, _ps.Value.IsDefaultSelector);
             }
         }
+
+        /// <inheritdoc/>
+        public Guid StoreKey { get; internal set; }
 
         /// <inheritdoc/>
         [IgnoreDataMember]

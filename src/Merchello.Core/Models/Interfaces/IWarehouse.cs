@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a warehouse.
     /// </summary>
-    public interface IWarehouse : IEntity
+    public interface IWarehouse : IStoreSpecificEntity
     {            
         /// <summary>
         /// Gets or sets the name for the Warehouse
