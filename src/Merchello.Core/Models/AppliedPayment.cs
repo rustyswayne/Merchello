@@ -176,6 +176,9 @@
             }
         }
 
+        [DataMember]
+        public string CurrencyCode { get; }
+
         /// <inheritdoc/>
         [DataMember]
         public AppliedPaymentType TransactionType
@@ -210,20 +213,17 @@
             /// <summary>
             /// The description selector.
             /// </summary>
-            public readonly PropertyInfo DescriptionSelector =
-                ExpressionHelper.GetPropertyInfo<AppliedPayment, string>(x => x.Description);
+            public readonly PropertyInfo DescriptionSelector = ExpressionHelper.GetPropertyInfo<AppliedPayment, string>(x => x.Description);
 
             /// <summary>
             /// The amount selector.
             /// </summary>
-            public readonly PropertyInfo AmountSelector =
-                ExpressionHelper.GetPropertyInfo<AppliedPayment, Money>(x => x.Amount);
+            public readonly PropertyInfo AmountSelector = ExpressionHelper.GetPropertyInfo<AppliedPayment, Money>(x => x.Amount);
 
             /// <summary>
             /// The exported selector.
             /// </summary>
-            public readonly PropertyInfo ExportedSelector =
-                ExpressionHelper.GetPropertyInfo<AppliedPayment, bool>(x => x.Exported);
+            public readonly PropertyInfo ExportedSelector = ExpressionHelper.GetPropertyInfo<AppliedPayment, bool>(x => x.Exported);
         }
     }
 }

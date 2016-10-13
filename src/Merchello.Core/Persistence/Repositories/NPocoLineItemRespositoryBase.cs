@@ -13,6 +13,8 @@
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
+    using NodaMoney;
+
     /// <inheritdoc/>
     internal abstract class NPocoLineItemRespositoryBase<TLineItem, TDto, TFactory> : NPocoEntityRepositoryBase<TLineItem, TDto, TFactory>, ILineItemRepository<TLineItem>
         where TLineItem : class, ILineItem
@@ -39,21 +41,14 @@
         }
 
         /// <inheritdoc/>
-        public virtual IEnumerable<TLineItem> GetByContainerKey(Guid containerKey)
-        {
-            var query = Query.Where(x => x.ContainerKey == containerKey);
-            return PerformGetByQuery(query);
-        }
-
-        /// <inheritdoc/>
-        public LineItemCollection GetLineItemCollection(Guid containerKey)
+        public virtual LineItemCollection GetLineItemCollection(Guid containerKey, string currencyCode)
         {
             var items = GetByContainerKey(containerKey);
 
             var collection = new LineItemCollection();
             foreach (var item in items)
             {
-                collection.Add(item);
+                collection.Add(item.EnsureMoneyCurrency(currencyCode));
             }
 
             return collection;
@@ -96,6 +91,12 @@
                 PersistUpdatedItem(item);
             }
         }
-    }
 
+        /// <inheritdoc/>
+        protected virtual IEnumerable<TLineItem> GetByContainerKey(Guid containerKey)
+        {
+            var query = Query.Where(x => x.ContainerKey == containerKey);
+            return PerformGetByQuery(query);
+        }
+    }
 }

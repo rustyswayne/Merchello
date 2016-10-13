@@ -21,7 +21,12 @@
         /// <summary>
         /// A function to query order line items.
         /// </summary>
-        private readonly Func<Guid, LineItemCollection> _lineItemGetter;
+        private readonly Func<Guid, string, LineItemCollection> _lineItemGetter;
+
+        /// <summary>
+        /// The currency code.
+        /// </summary>
+        private readonly string _currencyCode;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderFactory"/> class.
@@ -32,11 +37,16 @@
         /// <param name="lineItemGetter">
         /// A function to query order line items.
         /// </param>
-        public OrderFactory(OrderStatusFactory orderStatusFactory, Func<Guid, LineItemCollection> lineItemGetter)
+        /// <param name="currencyCode">
+        /// The currency code
+        /// </param>
+        public OrderFactory(OrderStatusFactory orderStatusFactory, Func<Guid, string, LineItemCollection> lineItemGetter, string currencyCode)
         {
             Ensure.ParameterNotNull(orderStatusFactory, nameof(orderStatusFactory));
             Ensure.ParameterNotNull(lineItemGetter, nameof(lineItemGetter));
+            Ensure.ParameterNotNullOrEmpty(currencyCode, nameof(currencyCode));
 
+            _currencyCode = currencyCode;
             _orderStatusFactory = orderStatusFactory;
             _lineItemGetter = lineItemGetter;
         }
@@ -44,8 +54,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderFactory"/> class.
         /// </summary>
+        /// <remarks>
+        /// Used for create and updates since we don't need the currency code
+        /// </remarks>
         internal OrderFactory()
-            : this(new OrderStatusFactory())
         {
         }
 
@@ -55,8 +67,11 @@
         /// <param name="orderStatusFactory">
         /// The order status factory.
         /// </param>
-        internal OrderFactory(OrderStatusFactory orderStatusFactory)
-            : this(orderStatusFactory, IoC.Container.GetInstance<IOrderLineItemRepository>().GetLineItemCollection)
+        /// <param name="currencyCode">
+        /// The currency code
+        /// </param>
+        internal OrderFactory(OrderStatusFactory orderStatusFactory, string currencyCode)
+            : this(orderStatusFactory, IoC.Container.GetInstance<IOrderLineItemRepository>().GetLineItemCollection, currencyCode)
         {
         }
 
@@ -79,9 +94,10 @@
                     OrderNumberPrefix = dto.OrderNumberPrefix,
                     OrderNumber = dto.OrderNumber,
                     OrderDate = dto.OrderDate,
+                    CurrencyCode = dto.CurrencyCode,
                     VersionKey = dto.VersionKey,
                     Exported = dto.Exported,
-                    Items = _lineItemGetter.Invoke(dto.Key),
+                    Items = _lineItemGetter.Invoke(dto.Key, _currencyCode),
                     UpdateDate = dto.UpdateDate,
                     CreateDate = dto.CreateDate
                 };
@@ -110,6 +126,7 @@
                     OrderNumber = entity.OrderNumber,
                     OrderStatusKey = entity.OrderStatusKey,
                     OrderDate = entity.OrderDate,
+                    CurrencyCode = entity.CurrencyCode,
                     VersionKey = entity.VersionKey,
                     Exported = entity.Exported,
                     UpdateDate = entity.UpdateDate,

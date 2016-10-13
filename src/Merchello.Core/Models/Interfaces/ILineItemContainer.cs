@@ -7,12 +7,12 @@
     /// <summary>
     /// Represents a line item container.
     /// </summary>
-    public interface ILineItemContainer : IVersionTaggedEntity
+    public interface ILineItemContainer : IVersionTaggedEntity, IHasCurrencyCode
     {
         /// <summary>
         /// Gets the collection of <see cref="ILineItem"/>
         /// </summary>
         [DataMember]
-        LineItemCollection Items { get; } 
+        LineItemCollection Items { get; }
     }
 }

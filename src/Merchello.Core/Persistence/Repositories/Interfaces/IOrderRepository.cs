@@ -15,9 +15,12 @@
         /// <param name="invoiceKey">
         /// The invoice key.
         /// </param>
+        /// <param name="currencyCode">
+        /// The currency code
+        /// </param>
         /// <returns>
         /// The <see cref="OrderCollection"/>.
         /// </returns>
-        OrderCollection GetOrderCollection(Guid invoiceKey);
+        OrderCollection GetOrderCollection(Guid invoiceKey, string currencyCode);
     }
 }

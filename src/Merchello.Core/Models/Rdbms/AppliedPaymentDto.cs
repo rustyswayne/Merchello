@@ -57,6 +57,13 @@
         public decimal Amount { get; set; }
 
         /// <summary>
+        /// Gets or sets the currency code.
+        /// </summary>
+        [Column("currencyCode")]
+        [Length(3)]
+        public string CurrencyCode { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether exported.
         /// </summary>
         [Column("exported")]

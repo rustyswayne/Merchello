@@ -46,7 +46,7 @@
 
             var manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
             manager.UninstallDatabaseSchema();
-           // manager.InstallDatabaseSchema();
+            manager.InstallDatabaseSchema();
             Assert.NotNull(manager);
         }
     }

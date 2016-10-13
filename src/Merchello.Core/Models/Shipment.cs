@@ -1,6 +1,7 @@
 ﻿namespace Merchello.Core.Models
 {
     using System;
+    using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
 
@@ -669,6 +670,16 @@
                 set
             {
                 _items = value;
+            }
+        }
+
+        /// <inheritdoc/>
+        [IgnoreDataMember]
+        public string CurrencyCode
+        {
+            get
+            {
+                return Items.Any() ? Items.First().Price.Currency.Code : string.Empty;
             }
         }
 

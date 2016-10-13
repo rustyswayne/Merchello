@@ -52,9 +52,9 @@
         private bool _exported;
 
         /// <summary>
-        /// The examine id.
+        /// The currency code.
         /// </summary>
-        private int _examineId = 1;
+        private string _currencyCode;
 
         /// <summary>
         /// The items.
@@ -216,6 +216,21 @@
         }
 
         /// <inheritdoc/>
+        [DataMember]
+        public string CurrencyCode
+        {
+            get
+            {
+                return _currencyCode;
+            }
+
+            internal set
+            {
+                SetPropertyValueAndDetectChanges(value, ref _currencyCode, _ps.Value.CurrencyCodeSelector);
+            }
+        }
+
+        /// <inheritdoc/>
         public void Accept(ILineItemVisitor visitor)
         {
             Items.Accept(visitor);
@@ -250,6 +265,11 @@
             /// The order status selector.
             /// </summary>
             public readonly PropertyInfo OrderStatusSelector = ExpressionHelper.GetPropertyInfo<Order, IOrderStatus>(x => x.OrderStatus);
+
+            /// <summary>
+            /// The currency code selector.
+            /// </summary>
+            public readonly PropertyInfo CurrencyCodeSelector = ExpressionHelper.GetPropertyInfo<Order, string>(x => x.CurrencyCode);
 
             /// <summary>
             /// The exported selector.

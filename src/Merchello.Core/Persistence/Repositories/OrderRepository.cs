@@ -45,7 +45,7 @@
         }
 
         /// <inheritdoc/>
-        public OrderCollection GetOrderCollection(Guid invoiceKey)
+        public OrderCollection GetOrderCollection(Guid invoiceKey, string currencyCode)
         {
             var query = Query.Where(x => x.InvoiceKey == invoiceKey);
             var orders = GetByQuery(query);

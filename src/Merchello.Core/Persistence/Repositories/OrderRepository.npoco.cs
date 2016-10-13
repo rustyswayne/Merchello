@@ -53,7 +53,7 @@
             if (dto == null)
                 return null;
 
-            var factory = new OrderFactory(new OrderStatusFactory(), _orderLineItemRepository.GetLineItemCollection);
+            var factory = new OrderFactory(new OrderStatusFactory(), _orderLineItemRepository.GetLineItemCollection, dto.CurrencyCode);
             var entity = factory.BuildEntity(dto);
 
             entity.ResetDirtyProperties();
@@ -89,8 +89,7 @@
 
             if (!dtos.Any()) return Enumerable.Empty<IOrder>();
 
-            var factory = new OrderFactory(new OrderStatusFactory(), _orderLineItemRepository.GetLineItemCollection);
-            return dtos.Select(dto => factory.BuildEntity(dto));
+            return GetAll(dtos.Select(dto => dto.Key).ToArray());
         }
 
         /// <inheritdoc/>
@@ -98,7 +97,7 @@
         {
             ((Entity)entity).AddingEntity();
 
-            var factory = new OrderFactory(new OrderStatusFactory(), _orderLineItemRepository.GetLineItemCollection);
+            var factory = new OrderFactory();
             var dto = factory.BuildDto(entity);
 
             Database.Insert(dto);
@@ -114,7 +113,7 @@
         {
             ((Entity)entity).UpdatingEntity();
 
-            var factory = new OrderFactory(new OrderStatusFactory(), _orderLineItemRepository.GetLineItemCollection);
+            var factory = new OrderFactory();
             var dto = factory.BuildDto(entity);
 
             Database.Update(dto);

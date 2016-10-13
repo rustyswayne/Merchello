@@ -26,8 +26,8 @@
 
             if (dto == null) return null;
 
-            var lineItems = _invoiceLineItemRepository.GetLineItemCollection(key);
-            var orders = _orderRepository.GetOrderCollection(key);
+            var lineItems = _invoiceLineItemRepository.GetLineItemCollection(key, dto.CurrencyCode);
+            var orders = _orderRepository.GetOrderCollection(key, dto.CurrencyCode);
             var notes = _noteRepository.GetNotes(key);
             var factory = new InvoiceFactory(lineItems, orders, notes);
             return factory.BuildEntity(dto);

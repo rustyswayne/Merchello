@@ -3,6 +3,8 @@
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents an applied payment factory.
     /// </summary>
@@ -26,7 +28,7 @@
             {
                 Key = dto.Key,
                 Description = dto.Description,
-                Amount = dto.Amount,
+                Amount = new Money(dto.Amount, dto.CurrencyCode),
                 Exported = dto.Exported,
                 UpdateDate = dto.UpdateDate,
                 CreateDate = dto.CreateDate
@@ -56,6 +58,7 @@
                 AppliedPaymentTfKey = entity.AppliedPaymentTfKey,
                 Description = entity.Description,
                 Amount = entity.Amount.Amount,
+                CurrencyCode = entity.Amount.Currency.Code,
                 Exported = entity.Exported,
                 UpdateDate = entity.UpdateDate,
                 CreateDate = entity.CreateDate                

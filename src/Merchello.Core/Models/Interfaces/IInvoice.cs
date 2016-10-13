@@ -113,14 +113,6 @@
         [DataMember]
         string BillToCompany { get; set; }
 
-        /// <summary>
-        /// Gets the currency code.
-        /// </summary>
-        /// <remarks>
-        /// Introduced in 1.14.0
-        /// </remarks>
-        [DataMember]
-        string CurrencyCode { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not this invoice has been exported to an external system

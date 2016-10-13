@@ -12,30 +12,22 @@
     /// <typeparam name="TLineItem">
     /// The type of the line item
     /// </typeparam>
-    public interface ILineItemRepository<TLineItem>
+    public interface ILineItemRepository<in TLineItem>
         where TLineItem : ILineItem
     {
-        /// <summary>
-        /// Gets the line items by a line item container key.
-        /// </summary>
-        /// <param name="containerKey">
-        /// The container key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IEnumerable{ILineItem}"/>.
-        /// </returns>
-        IEnumerable<TLineItem> GetByContainerKey(Guid containerKey);
-
         /// <summary>
         /// Gets a <see cref="LineItemCollection"/>.
         /// </summary>
         /// <param name="containerKey">
         /// The container key.
         /// </param>
+        /// <param name="currencyCode">
+        /// The currency code
+        /// </param>
         /// <returns>
         /// The <see cref="LineItemCollection"/>.
         /// </returns>
-        LineItemCollection GetLineItemCollection(Guid containerKey);
+        LineItemCollection GetLineItemCollection(Guid containerKey, string currencyCode);
 
         /// <summary>
         /// Saves a <see cref="LineItemCollection"/>.

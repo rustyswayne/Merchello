@@ -8,11 +8,33 @@
     using Merchello.Core.Models;
     using Merchello.Core.Models.TypeFields;
 
+    using NodaMoney;
+
     /// <summary>
     /// Extension methods for <see cref="ILineItem"/>.
     /// </summary>
     public static partial class Extensions
     {
+        /// <summary>
+        /// Ensures the money currency.
+        /// </summary>
+        /// <param name="lineItem">
+        /// The line item.
+        /// </param>
+        /// <param name="currencyCode">
+        /// The currency code.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ILineItem"/>.
+        /// </returns>
+        public static ILineItem EnsureMoneyCurrency(this ILineItem lineItem, string currencyCode)
+        {
+            if (lineItem.Price.Currency.Code.Equals(currencyCode, StringComparison.InvariantCultureIgnoreCase)) return lineItem;
+
+            lineItem.Price = new Money(lineItem.Price.Amount, currencyCode);
+            return lineItem;
+        }
+
         /// <summary>
         /// The allows validation.
         /// </summary>

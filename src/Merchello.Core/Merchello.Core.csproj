@@ -64,6 +64,7 @@
     <Compile Include="Extensions.Money.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Interfaces\IHasCurrencyCode.cs" />
     <Compile Include="Models\Rdbms\FilterCountingDto.cs" />
     <Compile Include="Models\Rdbms\DistinctCurrencyCodeDto.cs" />
     <Compile Include="Models\StoreSettingsCollection.cs" />

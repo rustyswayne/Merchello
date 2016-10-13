@@ -21,7 +21,7 @@
         /// </returns>
         public IPayment BuildEntity(PaymentDto dto)
         {
-            var payment = new Payment(dto.PaymentTfKey, new Money(dto.Amount), dto.PaymentMethodKey, new ExtendedDataCollection(dto.ExtendedData))
+            var payment = new Payment(dto.PaymentTfKey, new Money(dto.Amount, dto.CurrencyCode), dto.PaymentMethodKey, new ExtendedDataCollection(dto.ExtendedData))
             {
                 Key = dto.Key,
                 CustomerKey = dto.CustomerKey,
@@ -60,6 +60,7 @@
                 PaymentMethodName = entity.PaymentMethodName,
                 ReferenceNumber = entity.ReferenceNumber,
                 Amount = entity.Amount.Amount,
+                CurrencyCode = entity.Amount.Currency.Code,
                 Authorized = entity.Authorized,
                 Collected = entity.Collected,
                 Voided = entity.Voided,

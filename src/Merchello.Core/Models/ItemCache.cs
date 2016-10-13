@@ -38,6 +38,11 @@
         /// </summary>
         private LineItemCollection _items;
 
+        /// <summary>
+        /// The currency code.
+        /// </summary>
+        private string _currencyCode;
+
         #endregion
 
         /// <summary>
@@ -175,6 +180,20 @@
         }
 
         /// <inheritdoc/>
+        public string CurrencyCode
+        {
+            get
+            {
+                return _currencyCode;
+            }
+
+            set
+            {
+                SetPropertyValueAndDetectChanges(value, ref _currencyCode, _ps.Value.CurrencyCodeSelector);
+            }
+        }
+
+        /// <inheritdoc/>
         public void Accept(ILineItemVisitor visitor)
         {
             this.Items.Accept(visitor);
@@ -194,6 +213,11 @@
             /// The item cache type field key selector.
             /// </summary>
             public readonly PropertyInfo ItemCacheTfKeySelector = ExpressionHelper.GetPropertyInfo<ItemCache, Guid>(x => x.ItemCacheTfKey);
+
+            /// <summary>
+            /// The currency code selector.
+            /// </summary>
+            public readonly PropertyInfo CurrencyCodeSelector = ExpressionHelper.GetPropertyInfo<ItemCache, string>(x => x.CurrencyCode);
 
         }
     }
