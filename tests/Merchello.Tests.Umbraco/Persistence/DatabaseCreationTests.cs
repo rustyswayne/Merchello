@@ -30,7 +30,7 @@
         public void Can_Install_Merch_Database_Tables()
         {
             //// Arrange
-            const int expected = 49; // tables
+            const int expected = 52; // tables
 
             //// Act
             SchemaManager.InstallDatabaseSchema();
