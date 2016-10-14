@@ -8,10 +8,14 @@
     /// <summary>
     /// Represents a service that uses repositories.
     /// </summary>
-    public abstract class RepositoryServiceBase : ServiceBase
+    /// <typeparam name="TUowProvider">
+    /// The type of the unit of work provider.
+    /// </typeparam>
+    public abstract class RepositoryServiceBase<TUowProvider> : ServiceBase
+        where TUowProvider : class, IDatabaseUnitOfWorkProvider<IDatabaseUnitOfWork>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RepositoryServiceBase"/> class.
+        /// Initializes a new instance of the <see cref="RepositoryServiceBase{TUowProvider}"/> class. 
         /// </summary>
         /// <param name="provider">
         /// The <see cref="IDatabaseUnitOfWorkProvider"/>.
@@ -22,7 +26,7 @@
         /// <param name="eventMessagesFactory">
         /// The <see cref="IEventMessagesFactory"/>.
         /// </param>
-        protected RepositoryServiceBase(IDatabaseUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory)
+        protected RepositoryServiceBase(TUowProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory)
             : base(logger, eventMessagesFactory)
         {
             Ensure.ParameterNotNull(provider, nameof(provider));
@@ -32,6 +36,6 @@
         /// <summary>
         /// Gets the unit of work provider.
         /// </summary>
-        protected IDatabaseUnitOfWorkProvider UowProvider { get; private set; }
+        protected TUowProvider UowProvider { get; private set; }
     }
 }

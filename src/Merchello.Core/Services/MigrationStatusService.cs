@@ -13,7 +13,7 @@
     using Semver;
 
     /// <inheritdoc/>
-    internal class MigrationStatusService : RepositoryServiceBase, IMigrationStatusService
+    internal class MigrationStatusService : RepositoryServiceBase<IDatabaseUnitOfWorkProvider>, IMigrationStatusService
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MigrationStatusService"/> class.

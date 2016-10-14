@@ -427,6 +427,9 @@
       <DependentUpon>AuditLogRepository.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\Repositories\CustomerAddressRepository.cs" />
+    <Compile Include="Persistence\Repositories\CustomerAddressRepository.npoco.cs">
+      <DependentUpon>CustomerAddressRepository.cs</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\Repositories\CustomerRepository.cs" />
     <Compile Include="Persistence\Repositories\CustomerRepository.entitycollection.cs">
       <DependentUpon>CustomerRepository.cs</DependentUpon>
@@ -666,6 +669,7 @@
     <Compile Include="Persistence\UnitOfWork\IDatabaseBulkUnitOfWorkProvider.cs" />
     <Compile Include="Persistence\UnitOfWork\IDatabaseUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\IDatabaseUnitOfWorkProvider.cs" />
+    <Compile Include="Persistence\UnitOfWork\IDatabaseUnitOfWorkProvider{T}.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWorkProvider.cs" />
     <Compile Include="Persistence\UnitOfWork\IUnitOfWorkRepository.cs" />
@@ -924,8 +928,14 @@
     <Compile Include="Models\Interfaces\ITaxProvince.cs" />
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Services\AuditLogService.cs" />
+    <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\CustomerService.persist.cs">
+      <DependentUpon>CustomerService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\EntityCollectionEntityServiceBase{T}.cs" />
     <Compile Include="Services\Interfaces\IAuditLogService.cs" />
-    <Compile Include="Services\RepositoryBulkServiceBase.cs" />
+    <Compile Include="Services\Interfaces\IEntityCollectionEntityService.cs" />
+    <Compile Include="Services\Interfaces\ICustomerService.cs" />
     <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
     <Compile Include="Services\ServiceBase.cs" />

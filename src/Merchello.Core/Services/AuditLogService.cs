@@ -13,7 +13,7 @@
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <inheritdoc/>
-    public class AuditLogService : RepositoryServiceBase, IAuditLogService
+    public class AuditLogService : RepositoryServiceBase<IDatabaseUnitOfWorkProvider>, IAuditLogService
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuditLogService"/> class. 

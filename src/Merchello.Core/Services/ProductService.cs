@@ -2,10 +2,12 @@
 {
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
+    using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <inheritdoc/>
-    public class ProductService : RepositoryBulkServiceBase, IProductService
+    public class ProductService : EntityCollectionEntityServiceBase<IProduct, IDatabaseBulkUnitOfWorkProvider, IProductRepository>, IProductService
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductService"/> class.
@@ -20,7 +22,7 @@
         /// The <see cref="IEventMessagesFactory"/>.
         /// </param>
         public ProductService(IDatabaseBulkUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory)
-            : base(provider, logger, eventMessagesFactory)
+            : base(provider, logger, eventMessagesFactory, Constants.Locks.ProductTree)
         {
         }
     }

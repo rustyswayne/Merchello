@@ -1,10 +1,11 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using LightInject;
 
-    using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
@@ -13,10 +14,8 @@
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
-    using NPoco;
-
     /// <inheritdoc/>
-    internal class CustomerAddressRepository : NPocoEntityRepositoryBase<ICustomerAddress, CustomerAddressDto, CustomerAddressFactory>, ICustomerAddressRepository
+    internal partial class CustomerAddressRepository : NPocoEntityRepositoryBase<ICustomerAddress, CustomerAddressDto, CustomerAddressFactory>, ICustomerAddressRepository
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerAddressRepository"/> class.
@@ -39,27 +38,10 @@
         }
 
         /// <inheritdoc/>
-        protected override Sql<SqlContext> GetBaseQuery(bool isCount)
+        public IEnumerable<ICustomerAddress> GetByCustomerKey(Guid customerKey)
         {
-            return Sql().Select(isCount ? "COUNT(*)" : "*")
-                .From<CustomerAddressDto>();
-        }
-
-        /// <inheritdoc/>
-        protected override string GetBaseWhereClause()
-        {
-            return "merchCustomerAddress.pk = @Key";
-        }
-
-        /// <inheritdoc/>
-        protected override IEnumerable<string> GetDeleteClauses()
-        {
-            var list = new List<string>
-                {
-                    "DELETE FROM merchCustomerAddress WHERE pk = @Key",
-                };
-
-            return list;
+            var query = Query.Where(x => x.CustomerKey == customerKey);
+            return GetByQuery(query);
         }
 
         /// <inheritdoc/>
