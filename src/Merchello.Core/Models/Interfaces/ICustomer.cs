@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a customer
     /// </summary>
-    public interface ICustomer : ICustomerBase, IHasNotes
+    public interface ICustomer : ICustomerBase, IHasNotes, IDeepCloneable
     {
         /// <summary>
         /// Gets the full name of the customer

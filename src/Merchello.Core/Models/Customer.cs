@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
 
@@ -186,6 +187,22 @@
                 // REFACTOR Should be a notify collection
                 _addresses = value;
             }
+        }
+
+        /// <inheritdoc/>
+        public object DeepClone()
+        {
+            var clone = (ICustomer)this.MemberwiseClone();
+            var notes = this.Notes.Select(x => x.ShallowClone()).OrderByDescending(x => ((INote)x).CreateDate).ToArray();
+            var addresses = this.Addresses.Select(x => x.ShallowClone()).ToArray();
+
+            // ReSharper disable once PossibleInvalidCastException
+            clone.Notes = (IEnumerable<INote>)notes;
+
+            // ReSharper disable once PossibleInvalidCastException
+            ((Customer)clone).Addresses = (IEnumerable<ICustomerAddress>)addresses;
+
+            return clone;
         }
 
 

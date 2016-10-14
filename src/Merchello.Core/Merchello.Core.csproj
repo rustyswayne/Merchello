@@ -51,6 +51,9 @@
     <Compile Include="Acquired\Logging\ProfilerExtensions.cs" />
     <Compile Include="Acquired\NetworkHelper.cs" />
     <Compile Include="Acquired\Persistence\DatabaseModelDefinitions\DefinitionFactory.cs" />
+    <Compile Include="Cache\DefaultCloneableCacheEntityFactory.cs" />
+    <Compile Include="Cache\ICloneableCacheEntityFactory.cs" />
+    <Compile Include="Cache\Policies\DeepCloneRepositoryCachePolicy.cs" />
     <Compile Include="Cache\Policies\ProductOptionRepositoryCachePolicy.cs" />
     <Compile Include="Constants.Store.cs">
       <DependentUpon>Constants.cs</DependentUpon>
@@ -64,8 +67,10 @@
     <Compile Include="Extensions.Money.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cache\DefaultCloneableCacheEntry.cs" />
     <Compile Include="Models\EntityBase\IStoreSpecificEntity.cs" />
     <Compile Include="Models\Interfaces\IHasCurrencyCode.cs" />
+    <Compile Include="Models\Interfaces\IShallowClone.cs" />
     <Compile Include="Models\Rdbms\FilterCountingDto.cs" />
     <Compile Include="Models\Rdbms\DistinctCurrencyCodeDto.cs" />
     <Compile Include="Models\Rdbms\Store2GatewayProviderSettingsDto.cs" />
@@ -262,8 +267,8 @@
     <Compile Include="Models\AnonymousCustomer.cs" />
     <Compile Include="Models\AppliedPayment.cs" />
     <Compile Include="Models\AuditLog.cs" />
-    <Compile Include="Models\Cache\CacheModelBase.cs" />
-    <Compile Include="Models\Cache\ICacheModel.cs" />
+    <Compile Include="Models\Cache\CloneableCacheEntityBase.cs" />
+    <Compile Include="Models\Cache\ICloneableCacheEntity.cs" />
     <Compile Include="Models\CatalogInventory.cs" />
     <Compile Include="Models\CatalogInventoryCollection.cs" />
     <Compile Include="Models\Currency.cs" />

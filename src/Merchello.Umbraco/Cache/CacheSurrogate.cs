@@ -1,11 +1,11 @@
-﻿namespace Merchello.Umbraco.Models
+﻿namespace Merchello.Umbraco.Cache
 {
     using Merchello.Core.Models;
     using Merchello.Core.Models.Cache;
     using Merchello.Core.Models.EntityBase;
 
     /// <inheritdoc/>
-    internal class CacheSurrogate<TEntity> : CacheModelBase<TEntity>, ICacheSurrogate<TEntity>
+    internal class CacheSurrogate<TEntity> : CloneableCacheEntityBase<TEntity>, ICacheSurrogate<TEntity>
         where TEntity : class, IEntity, ITracksDirty, IDeepCloneable
     {
         /// <summary>

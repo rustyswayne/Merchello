@@ -2,9 +2,11 @@
 {
     using LightInject;
 
+    using Merchello.Core.Cache;
     using Merchello.Core.DependencyInjection;
     using Merchello.Umbraco.Adapters;
     using Merchello.Umbraco.Adapters.Persistence;
+    using Merchello.Umbraco.Cache;
     using Merchello.Umbraco.DependencyInjection;
     using Merchello.Web.Boot;
 
@@ -97,6 +99,9 @@
 
             // Need to wait for Merchello's IQueryFactory to be defined
             container.RegisterSingleton<IDatabaseFactory, DatabaseContextAdapter>();
+
+            // Replace ICloneableCacheEntityFactory
+            container.Register<ICloneableCacheEntityFactory, CacheSurrogateFactory>();
         }
     }
 }

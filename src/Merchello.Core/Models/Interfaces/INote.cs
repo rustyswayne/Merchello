@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a note.
     /// </summary>
-    public interface INote : IEntity
+    public interface INote : IEntity, IShallowClone
     {
         /// <summary>
         /// Gets or sets the entity key related to the note

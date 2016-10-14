@@ -224,6 +224,9 @@
             // Cache
             container.RegisterSingleton<IRuntimeCacheProviderAdapter>(factory => factory.GetInstance<ICacheHelper>().RuntimeCache);
 
+            // TODO see Umbraco's MixedScopeManagerProvider 
+            // container.Register<ICloneableCacheEntityFactory, DefaultCloneableCacheEntityFactory>();
+
             // Repositories
             container.RegisterFrom<RepositoryCompositionRoot>();
 

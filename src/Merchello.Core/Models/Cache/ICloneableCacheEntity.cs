@@ -8,7 +8,7 @@
     /// <typeparam name="TEntity">
     /// The model or entity to be cached
     /// </typeparam>
-    public interface ICacheModel<out TEntity>
+    public interface ICloneableCacheEntity<out TEntity>
         where TEntity : class, IEntity, IDeepCloneable
     {
         /// <summary>

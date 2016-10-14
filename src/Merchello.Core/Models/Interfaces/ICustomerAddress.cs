@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a customer address.
     /// </summary>
-    public interface ICustomerAddress : IEntity
+    public interface ICustomerAddress : IEntity, IShallowClone
     {
         /// <summary>
         /// Gets the customer key.

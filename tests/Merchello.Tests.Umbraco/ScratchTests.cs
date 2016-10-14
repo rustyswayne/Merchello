@@ -1,8 +1,11 @@
 ﻿namespace Merchello.Tests.Umbraco
 {
+    using System;
+
     using global::Umbraco.Core.Logging;
 
     using Merchello.Core;
+    using Merchello.Core.Cache;
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Mappers;
@@ -48,6 +51,11 @@
             manager.UninstallDatabaseSchema();
             manager.InstallDatabaseSchema();
             Assert.NotNull(manager);
+
+
+            var cacheFactory = IoC.Container.GetInstance<ICloneableCacheEntityFactory>();
+
+            Console.WriteLine(cacheFactory.GetType());
         }
     }
 }

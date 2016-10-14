@@ -1,7 +1,6 @@
-﻿namespace Merchello.Umbraco.Models
+﻿namespace Merchello.Umbraco.Cache
 {
     using Merchello.Core.Models;
-    using Merchello.Core.Models.Cache;
     using Merchello.Core.Models.EntityBase;
 
     /// <summary>
@@ -14,7 +13,7 @@
     /// We have to wrap Merchello's entities in a proxy wrapper so that they can implement Umbraco's
     /// IDeepCloneable interface and not have to have a full dependency on the Umbraco Core.
     /// </remarks>
-    public interface ICacheSurrogate<out TEntity> : ICacheModel<TEntity>, global::Umbraco.Core.Models.IDeepCloneable
+    public interface ICacheSurrogate<out TEntity> : Core.Models.Cache.ICloneableCacheEntity<TEntity>, global::Umbraco.Core.Models.IDeepCloneable
         where TEntity : class, IEntity, IDeepCloneable
     {
     }

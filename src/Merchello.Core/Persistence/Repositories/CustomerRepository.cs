@@ -19,6 +19,11 @@
     internal partial class CustomerRepository : ICustomerRepository
     {
         /// <summary>
+        /// The <see cref="ICloneableCacheEntityFactory"/>.
+        /// </summary>
+        private readonly ICloneableCacheEntityFactory _cacheModelFactory;
+
+        /// <summary>
         /// The <see cref="ICustomerAddressRepository"/>.
         /// </summary>
         private readonly ICustomerAddressRepository _customerAddressRepository;
@@ -43,18 +48,23 @@
         /// <param name="mappingResolver">
         /// The <see cref="IMappingResolver"/>.
         /// </param>
+        /// <param name="cacheModelFactory">
+        /// The <see cref="ICloneableCacheEntityFactory"/>
+        /// </param>
         /// <param name="customerAddressRepository">
         /// The <see cref="ICustomerAddressRepository"/>.
         /// </param>
         /// <param name="noteRepository">
         /// The <see cref="INoteRepository"/>.
         /// </param>
-        public CustomerRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, ICustomerAddressRepository customerAddressRepository, INoteRepository noteRepository)
+        public CustomerRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, ICloneableCacheEntityFactory cacheModelFactory, ICustomerAddressRepository customerAddressRepository, INoteRepository noteRepository)
             : base(work, cache, logger, mappingResolver)
         {
+            Ensure.ParameterNotNull(cacheModelFactory, nameof(cacheModelFactory));
             Ensure.ParameterNotNull(customerAddressRepository, nameof(customerAddressRepository));
             Ensure.ParameterNotNull(noteRepository, nameof(noteRepository));
 
+            _cacheModelFactory = cacheModelFactory;
             _customerAddressRepository = customerAddressRepository;
             _noteRepository = noteRepository;
         }

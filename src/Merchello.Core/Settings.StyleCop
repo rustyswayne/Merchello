@@ -1,6 +1,7 @@
 <StyleCopSettings Version="105">
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
+      <Value>cloneable</Value>
       <Value>Cms</Value>
       <Value>Db</Value>
       <Value>dll</Value>

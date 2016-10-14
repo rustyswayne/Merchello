@@ -323,6 +323,12 @@
             }
         }
 
+        /// <inheritdoc/>
+        public object ShallowClone()
+        {
+            return this.MemberwiseClone();
+        }
+
         /// <summary>
         /// The property selectors.
         /// </summary>

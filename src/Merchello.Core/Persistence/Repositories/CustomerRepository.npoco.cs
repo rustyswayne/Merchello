@@ -6,7 +6,11 @@
 
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Acquired.Persistence.Querying;
+    using Cache;
+
+    using Merchello.Core.Cache.Policies;
     using Merchello.Core.Models;
+    using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Querying;
@@ -16,6 +20,29 @@
     /// <inheritdoc/>
     internal partial class CustomerRepository : NPocoRepositoryBase<ICustomer>
     {
+        /// <summary>
+        /// The caching policy.
+        /// </summary>
+        private IRepositoryCachePolicy<ICustomer> _cachePolicy;
+
+        /// <inheritdoc/>
+        protected override IRepositoryCachePolicy<ICustomer> CachePolicy
+        {
+            get
+            {
+                var options = new RepositoryCachePolicyOptions(() =>
+                {
+                    // Get count of all entities of current type (TEntity) to ensure cached result is correct
+                    var query = Query.Where(x => x.Key != null && x.Key != Guid.Empty);
+                    return PerformCount(query);
+                });
+
+                _cachePolicy = new DeepcloneRepositoryCachePolicy<ICustomer>(RuntimeCache, options, _cacheModelFactory);
+
+                return _cachePolicy;
+            }
+        }
+
         /// <inheritdoc/>
         protected override ICustomer PerformGet(Guid key)
         {
@@ -77,7 +104,17 @@
         /// <inheritdoc/>
         protected override void PersistNewItem(ICustomer entity)
         {
-            throw new NotImplementedException();
+            ((Entity)entity).AddingEntity();
+
+            var factory = new CustomerFactory();
+            var dto = factory.BuildDto(entity);
+            Database.Insert(dto);
+            entity.Key = dto.Key;
+
+            SaveAddresses(entity);
+            SaveNotes(entity);
+
+            entity.ResetDirtyProperties();
         }
 
         /// <inheritdoc/>
