@@ -58,6 +58,10 @@
     <Compile Include="Constants.Store.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
+    <Compile Include="EntityCollections\EntityCollectionProviderBase.cs" />
+    <Compile Include="EntityCollections\EntityCollectionProviderResolver.cs" />
+    <Compile Include="EntityCollections\IEntityCollectionProviderResolver.cs" />
+    <Compile Include="EntityCollections\IEntityFilterGroupProvider.cs" />
     <Compile Include="Events\DeleteEventArgs.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\SaveEventArgs.cs" />
@@ -1063,7 +1067,9 @@
     <None Include="Cache\readme.md" />
     <None Include="project.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="EntityCollections\Providers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

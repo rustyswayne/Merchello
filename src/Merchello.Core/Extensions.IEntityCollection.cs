@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Web.UI.WebControls;
 
+    using Merchello.Core.Acquired;
+    using Merchello.Core.EntityCollections;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.EntityBase;
@@ -235,6 +237,38 @@
             return !MerchelloContext.HasCurrent ?
                 Enumerable.Empty<IEntityCollection>() :
                 MerchelloContext.Current.Services.EntityCollectionService.GetChildren(collection.Key);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="EntityCollectionProviderAttribute"/>.
+        /// </summary>
+        /// <param name="provider">
+        /// The entity collection provider.
+        /// </param>
+        /// <returns>
+        /// The <see cref="EntityCollectionProviderAttribute"/>.
+        /// </returns>
+        public static EntityCollectionProviderAttribute ProviderAttribute(this EntityCollectionProviderBase provider)
+        {
+            return provider.GetType().GetCustomAttribute<EntityCollectionProviderAttribute>(false);
+        }
+
+        /// <summary>
+        /// Gets a collection of <see cref="IEntityCollection"/> by the managing provider.
+        /// </summary>
+        /// <param name="provider">
+        /// The provider.
+        /// </param>
+        /// <returns>
+        /// The collection of <see cref="IEntityCollection"/>.
+        /// </returns>
+        public static IEnumerable<IEntityCollection> GetManagedCollections(this EntityCollectionProviderBase provider)
+        {
+            var att = provider.ProviderAttribute();
+
+            if (!MerchelloContext.HasCurrent || att == null) return Enumerable.Empty<IEntityCollection>();
+
+            return MerchelloContext.Current.Services.EntityCollectionService.GetByProviderKey(att.Key);
         }
 
         ///// <summary>

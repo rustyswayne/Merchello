@@ -22,32 +22,6 @@ namespace Merchello.Core.Acquired.ObjectResolution
     {
         private readonly IServiceContainer _container;
 
-        //TODO: Get rid of these - pretty sure all tests will still fail with these pass throughs, need to update
-        // all tests that use resolvers to use a real container - then update most tests that are not integration tests to not use any resolvers!
-        #region Constructors used for test - ONLY so that a container is not required and will just revert to using the normal ManyObjectsResolverBase
-        [Obsolete("Used for tests only - should remove")]
-        internal ContainerManyObjectsResolver(ILogger logger, IEnumerable<Type> types, ObjectLifetimeScope scope = ObjectLifetimeScope.Application)
-            : base(logger, types, scope)
-        {
-        }
-        [Obsolete("Used for tests only - should remove")]
-        internal ContainerManyObjectsResolver(IServiceProvider serviceProvider, ILogger logger, ObjectLifetimeScope scope = ObjectLifetimeScope.Application)
-            : base(serviceProvider, logger, scope)
-        {
-        }
-        [Obsolete("Used for tests only - should remove")]
-        internal ContainerManyObjectsResolver(IServiceProvider serviceProvider, ILogger logger, HttpContextBase httpContext)
-            : base(serviceProvider, logger, httpContext)
-        {
-        }
-        [Obsolete("Used for tests only - should remove")]
-        internal ContainerManyObjectsResolver(IServiceProvider serviceProvider, ILogger logger, IEnumerable<Type> value, ObjectLifetimeScope scope = ObjectLifetimeScope.Application)
-            : base(serviceProvider, logger, value, scope)
-        {
-        } 
-        #endregion
-
-
         /// <summary>
         /// Constructor for use with IoC
         /// </summary>
@@ -64,8 +38,6 @@ namespace Merchello.Core.Acquired.ObjectResolution
 
         }
      
-        
-
         /// <summary>
         /// When resolution is frozen add all the types to the container
         /// </summary>

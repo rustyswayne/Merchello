@@ -11,6 +11,17 @@
     public interface IEntityCollectionService : IService<IEntityCollection>
     {
         /// <summary>
+        /// Gets all <see cref="IEntityCollection"/>s.
+        /// </summary>
+        /// <param name="keys">
+        /// Optional keys parameter to limit results.
+        /// </param>
+        /// <returns>
+        /// The collection of <see cref="IEntityCollection"/>.
+        /// </returns>
+        IEnumerable<IEntityCollection> GetAll(params Guid[] keys);
+
+        /// <summary>
         /// Gets a collection of providers associated with a specific entity type field.
         /// </summary>
         /// <param name="entityTfKey">

@@ -42,6 +42,12 @@
         }
 
         /// <inheritdoc/>
+        public IEnumerable<IEntityCollection> GetAll(params Guid[] keys)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
         public IEnumerable<IEntityCollection> GetByEntityTfKey(Guid entityTfKey)
         {
             throw new NotImplementedException();
