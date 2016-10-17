@@ -6,8 +6,7 @@
 
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Acquired.Persistence.Querying;
-    using Cache;
-
+    using Merchello.Core.Cache;
     using Merchello.Core.Cache.Policies;
     using Merchello.Core.Models;
     using Merchello.Core.Models.EntityBase;
@@ -69,7 +68,7 @@
         {
             if (keys.Any())
             {
-                return Database.Fetch<ProductDto>("WHERE pk in (@keys)", new { keys = keys })
+                return Database.Fetch<CustomerDto>("WHERE pk in (@keys)", new { keys = keys })
                     .Select(x => Get(x.Key));
             }
 
@@ -83,7 +82,7 @@
             var translator = new SqlTranslator<ICustomer>(sqlClause, query);
             var sql = translator.Translate();
 
-            var dtos = Database.Fetch<ProductDto>(sql);
+            var dtos = Database.Fetch<CustomerDto>(sql);
 
             return GetAll(dtos.Select(x => x.Key).ToArray());
         }

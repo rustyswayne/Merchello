@@ -59,6 +59,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScratchTests.cs" />
     <Compile Include="Services\AuditLogServiceTests.cs" />
+    <Compile Include="Services\CustomerServiceTests.addresses.cs">
+      <DependentUpon>CustomerServiceTests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\CustomerServiceTests.cs" />
+    <Compile Include="Services\CustomerServiceTests.entitycollection.cs">
+      <DependentUpon>CustomerServiceTests.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

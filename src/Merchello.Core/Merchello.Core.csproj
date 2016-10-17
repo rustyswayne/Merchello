@@ -934,13 +934,27 @@
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Services\AuditLogService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\CustomerService.events.cs">
+      <DependentUpon>CustomerService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\CustomerService.persist.cs">
       <DependentUpon>CustomerService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\EntityCollectionEntityServiceBase{T}.cs" />
+    <Compile Include="Services\EntityCollectionService.cs" />
+    <Compile Include="Services\EntityCollectionService.events.cs">
+      <DependentUpon>EntityCollectionService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\EntityCollectionService.filtergroups.cs">
+      <DependentUpon>EntityCollectionService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\EntityCollectionService.persist.cs">
+      <DependentUpon>EntityCollectionService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\Interfaces\IAuditLogService.cs" />
     <Compile Include="Services\Interfaces\IEntityCollectionEntityService.cs" />
     <Compile Include="Services\Interfaces\ICustomerService.cs" />
+    <Compile Include="Services\Interfaces\IEntityCollectionService.cs" />
     <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
     <Compile Include="Services\ServiceBase.cs" />

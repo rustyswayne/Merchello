@@ -2,17 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
     using System.Linq;
-    using System.Xml;
-    using System.Xml.Linq;
 
-    using Merchello.Core.Logging;
     using Merchello.Core.Models;
-    using Merchello.Core.Models.Interfaces;
-
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Extension methods for <see cref="ICustomer"/>.
@@ -48,76 +40,76 @@
             };
         }
 
-        ///// <summary>
-        ///// The default customer address associated with a customer of a given type
-        ///// </summary>
-        ///// <param name="customer">
-        ///// The customer.
-        ///// </param>
-        ///// <param name="addressType">
-        ///// The address type.
-        ///// </param>
-        ///// <returns>
-        ///// The collection of <see cref="ICustomerAddress"/>
-        ///// </returns>
-        //public static ICustomerAddress DefaultCustomerAddress(this ICustomer customer, AddressType addressType)
-        //{
-        //    return customer.DefaultCustomerAddress(MerchelloContext.Current, addressType);
-        //}
+        /// <summary>
+        /// The default customer address associated with a customer of a given type
+        /// </summary>
+        /// <param name="customer">
+        /// The customer.
+        /// </param>
+        /// <param name="addressType">
+        /// The address type.
+        /// </param>
+        /// <returns>
+        /// The collection of <see cref="ICustomerAddress"/>
+        /// </returns>
+        public static ICustomerAddress DefaultCustomerAddress(this ICustomer customer, AddressType addressType)
+        {
+            return customer.Addresses.FirstOrDefault(x => x.AddressType == addressType && x.IsDefault);
+        }
 
-        ///// <summary>
-        ///// Creates a <see cref="ICustomerAddress"/> based off an <see cref="IAddress"/>
-        ///// </summary>
-        ///// <param name="customer">
-        ///// The customer associated with the address
-        ///// </param>
-        ///// <param name="address">
-        ///// The address.
-        ///// </param>
-        ///// <param name="label">
-        ///// The address label
-        ///// </param>
-        ///// <param name="addressType">
-        ///// The <see cref="AddressType"/>
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="ICustomerAddress"/>.
-        ///// </returns>
-        //public static ICustomerAddress CreateCustomerAddress(this ICustomer customer, IAddress address, string label, AddressType addressType)
-        //{
-        //    return customer.CreateCustomerAddress(MerchelloContext.Current, address, label, addressType);
-        //}
+        /// <summary>
+        /// Creates a <see cref="ICustomerAddress"/> based off an <see cref="IAddress"/>
+        /// </summary>
+        /// <param name="customer">
+        /// The customer associated with the address
+        /// </param>
+        /// <param name="address">
+        /// The address.
+        /// </param>
+        /// <param name="label">
+        /// The address label
+        /// </param>
+        /// <param name="addressType">
+        /// The <see cref="AddressType"/>
+        /// </param>
+        /// <returns>
+        /// The <see cref="ICustomerAddress"/>.
+        /// </returns>
+        public static ICustomerAddress CreateCustomerAddress(this ICustomer customer, IAddress address, string label, AddressType addressType)
+        {
+            return customer.CreateCustomerAddress(MerchelloContext.Current, address, label, addressType);
+        }
 
-        ///// <summary>
-        ///// The <see cref="ICustomerAddress"/> to be saved
-        ///// </summary>
-        ///// <param name="customer">
-        ///// The customer associated with the address
-        ///// </param>
-        ///// <param name="address">
-        ///// The address.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="ICustomerAddress"/>.
-        ///// </returns>
-        //public static ICustomerAddress SaveCustomerAddress(this ICustomer customer, ICustomerAddress address)
-        //{
-        //    return customer.SaveCustomerAddress(MerchelloContext.Current, address);
-        //}
+        /// <summary>
+        /// The <see cref="ICustomerAddress"/> to be saved
+        /// </summary>
+        /// <param name="customer">
+        /// The customer associated with the address
+        /// </param>
+        /// <param name="address">
+        /// The address.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ICustomerAddress"/>.
+        /// </returns>
+        public static ICustomerAddress SaveCustomerAddress(this ICustomer customer, ICustomerAddress address)
+        {
+            return customer.SaveCustomerAddress(MerchelloContext.Current, address);
+        }
 
-        ///// <summary>
-        ///// Deletes a customer address.
-        ///// </summary>
-        ///// <param name="customer">
-        ///// The customer.
-        ///// </param>
-        ///// <param name="address">
-        ///// The address to be deleted
-        ///// </param>
-        //public static void DeleteCustomerAddress(this ICustomer customer, ICustomerAddress address)
-        //{
-        //    customer.DeleteCustomerAddress(MerchelloContext.Current, address);
-        //}
+        /// <summary>
+        /// Deletes a customer address.
+        /// </summary>
+        /// <param name="customer">
+        /// The customer.
+        /// </param>
+        /// <param name="address">
+        /// The address to be deleted
+        /// </param>
+        public static void DeleteCustomerAddress(this ICustomer customer, ICustomerAddress address)
+        {
+            customer.DeleteCustomerAddress(MerchelloContext.Current, address);
+        }
 
         ///// <summary>
         ///// Gets a collection of <see cref="IInvoice"/> associated with the customer
@@ -238,64 +230,6 @@
         //}
 
 
-
-        ///// <summary>
-        ///// Gets a collection of addresses associated with the customer
-        ///// </summary>
-        ///// <param name="customer">
-        ///// The customer.
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The merchello context.
-        ///// </param>
-        ///// <returns>
-        ///// The collection of <see cref="ICustomerAddress"/> associated with the customer
-        ///// </returns>
-        //internal static IEnumerable<ICustomerAddress> CustomerAddresses(this ICustomer customer, IMerchelloContext merchelloContext)
-        //{
-        //    return ((ServiceContext)merchelloContext.Services).CustomerAddressService.GetByCustomerKey(customer.Key);
-        //}
-
-        ///// <summary>
-        ///// The addresses.
-        ///// </summary>
-        ///// <param name="customer">
-        ///// The customer.
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The merchello Context.
-        ///// </param>
-        ///// <param name="addressType">
-        ///// The address Type.
-        ///// </param>
-        ///// <returns>
-        ///// The collection of <see cref="ICustomerAddress"/> associated with the customer of a given type
-        ///// </returns>
-        //internal static IEnumerable<ICustomerAddress> CustomerAddresses(this ICustomer customer, IMerchelloContext merchelloContext, AddressType addressType)
-        //{
-        //    return ((ServiceContext)merchelloContext.Services).CustomerAddressService.GetByCustomerKey(customer.Key, addressType);
-        //}
-
-        ///// <summary>
-        ///// The default customer address.
-        ///// </summary>
-        ///// <param name="customer">
-        ///// The customer.
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The merchello context.
-        ///// </param>
-        ///// <param name="addressType">
-        ///// The address type.
-        ///// </param>
-        ///// <returns>
-        ///// The default <see cref="ICustomerAddress"/> of a given type
-        ///// </returns>
-        //internal static ICustomerAddress DefaultCustomerAddress(this ICustomer customer, IMerchelloContext merchelloContext, AddressType addressType)
-        //{
-        //    return ((ServiceContext)merchelloContext.Services).CustomerAddressService.GetDefaultCustomerAddress(customer.Key, addressType);
-        //}
-
         /// <summary>
         /// The create customer address.
         /// </summary>
@@ -345,11 +279,6 @@
 
             var addressList = new List<ICustomerAddress>();
 
-            // REFACTOR-v3
-            // Caching issue - customerAddresses can return with a null address in the list, usually caused from the
-            // redundant cache item created by customer's being retrieved from the customer context.  (Added note there).
-            // HACK remove the null addresses here as are caused from items being removed without cache cleared correctly and
-            // which will allow things to proceed normally (and the cache correct itself in a hacky way).
             var addresses = customer.Addresses.Where(x => x != null).ToList();
             var isUpdate = false;
             foreach (var adr in addresses)
@@ -368,8 +297,7 @@
 
             ((Customer)customer).Addresses = addresses;
 
-            // REFACTOR
-            // merchelloContext.Services.CustomerService.Save(customer);
+             merchelloContext.Services.CustomerService.Save(customer);
 
             return address;
         }
@@ -392,12 +320,12 @@
 
             var addresses = customer.Addresses.Where(x => x.Key != address.Key).ToList();
 
-            if (addresses.Any(x => x.AddressType == address.AddressType) && address.IsDefault) addresses.First(x => x.AddressType == address.AddressType).IsDefault = true;
+            if (addresses.Any(x => x.AddressType == address.AddressType) && address.IsDefault)
+                addresses.First(x => x.AddressType == address.AddressType).IsDefault = true;
 
             ((Customer)customer).Addresses = addresses;
 
-            // REFACTOR
-            //merchelloContext.Services.CustomerService.Save(customer);
+            merchelloContext.Services.CustomerService.Save(customer);
         }
 
         ///// <summary>

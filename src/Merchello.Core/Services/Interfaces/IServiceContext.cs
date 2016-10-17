@@ -11,6 +11,16 @@
         IAuditLogService AuditLogService { get; }
 
         /// <summary>
+        /// Gets the <see cref="ICustomerService"/>.
+        /// </summary>
+        ICustomerService CustomerService { get; }
+
+        /// <summary>
+        /// Gets the <see cref="IEntityCollectionService"/>.
+        /// </summary>
+        IEntityCollectionService EntityCollectionService { get; }
+
+        /// <summary>
         /// Gets the <see cref="IMigrationStatusService"/>.
         /// </summary>
         IMigrationStatusService MigrationStatusService { get; }

@@ -22,8 +22,6 @@
 
         public override void TearDown()
         {
-            var schemaManager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
-            schemaManager.UninstallDatabaseSchema();
             base.TearDown();
         }
     }
