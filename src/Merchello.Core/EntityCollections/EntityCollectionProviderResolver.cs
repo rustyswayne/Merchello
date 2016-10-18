@@ -47,7 +47,7 @@
         /// The merchello context.
         /// </param>
         public EntityCollectionProviderResolver(IServiceContainer container, ILogger logger, Func<IEnumerable<Type>> typeListProducerList, IMerchelloContext merchelloContext)
-            : base(container, logger, typeListProducerList, ObjectLifetimeScope.Application)
+            : base(container, logger, typeListProducerList, ObjectLifetimeScope.Transient)
         {
             Core.Ensure.ParameterNotNull(merchelloContext, nameof(merchelloContext));
             _merchelloContext = merchelloContext;

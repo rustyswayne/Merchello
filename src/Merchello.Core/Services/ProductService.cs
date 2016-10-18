@@ -1,5 +1,7 @@
 ﻿namespace Merchello.Core.Services
 {
+    using System;
+
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
@@ -7,7 +9,7 @@
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <inheritdoc/>
-    public class ProductService : EntityCollectionEntityServiceBase<IProduct, IDatabaseBulkUnitOfWorkProvider, IProductRepository>, IProductService
+    public partial class ProductService : EntityCollectionEntityServiceBase<IProduct, IDatabaseBulkUnitOfWorkProvider, IProductRepository>, IProductService
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductService"/> class.
@@ -24,6 +26,12 @@
         public ProductService(IDatabaseBulkUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory)
             : base(provider, logger, eventMessagesFactory, Constants.Locks.ProductTree)
         {
+        }
+
+        /// <inheritdoc/>
+        public IProduct GetByKey(Guid key)
+        {
+            throw new NotImplementedException();
         }
     }
 }

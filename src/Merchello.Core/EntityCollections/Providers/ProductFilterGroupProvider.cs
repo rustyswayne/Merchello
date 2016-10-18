@@ -2,6 +2,9 @@
 {
     using System;
 
+    using Merchello.Core.Cache;
+    using Merchello.Core.Services;
+
     /// <summary>
     /// Represents the product based filter collection.
     /// </summary>
@@ -14,14 +17,20 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductFilterGroupProvider"/> class.
         /// </summary>
-        /// <param name="merchelloContext">
-        /// The merchello context.
+        /// <param name="productService">
+        /// The <see cref="IProductService"/>.
+        /// </param>
+        /// <param name="entityCollectionService">
+        /// The <see cref="IEntityCollectionService"/>.
+        /// </param>
+        /// <param name="cacheHelper">
+        /// The <see cref="ICacheHelper"/>.
         /// </param>
         /// <param name="collectionKey">
-        /// The collection key.
+        /// The collection Key.
         /// </param>
-        public ProductFilterGroupProvider(IMerchelloContext merchelloContext, Guid collectionKey)
-            : base(merchelloContext, collectionKey)
+        public ProductFilterGroupProvider(IProductService productService, IEntityCollectionService entityCollectionService, ICacheHelper cacheHelper, Guid collectionKey)
+            : base(productService, entityCollectionService, cacheHelper, collectionKey)
         {
         }
     }

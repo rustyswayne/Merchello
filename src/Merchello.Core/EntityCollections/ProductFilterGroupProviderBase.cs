@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Merchello.Core.Cache;
     using Merchello.Core.EntityCollections.Providers;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
@@ -12,19 +13,25 @@
     /// <summary>
     /// A base class for Product based Specified Filter Collections Providers.
     /// </summary>
-    public abstract class ProductFilterGroupProviderBase : CachedQueryableEntityCollectionProviderBase<IProduct>, IProductEntityFilterGroupProvider
+    public abstract class ProductFilterGroupProviderBase : EntityCollectionProviderBase<IProductService, IProduct>, IProductFilterGroupProvider
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductFilterGroupProviderBase"/> class.
         /// </summary>
-        /// <param name="merchelloContext">
-        /// The <see cref="MerchelloContext"/>.
+        /// <param name="productService">
+        /// The <see cref="IProductService"/>.
+        /// </param>
+        /// <param name="entityCollectionService">
+        /// The <see cref="IEntityCollectionService"/>.
+        /// </param>
+        /// <param name="cacheHelper">
+        /// The <see cref="ICacheHelper"/>.
         /// </param>
         /// <param name="collectionKey">
-        /// The collection key.
+        /// The collection Key.
         /// </param>
-        protected ProductFilterGroupProviderBase(IMerchelloContext merchelloContext, Guid collectionKey)
-            : base(merchelloContext, collectionKey)
+        protected ProductFilterGroupProviderBase(IProductService productService, IEntityCollectionService entityCollectionService, ICacheHelper cacheHelper, Guid collectionKey)
+            : base(productService, entityCollectionService, cacheHelper, collectionKey)
         {
         }
 
@@ -51,208 +58,6 @@
         }
 
         /// <summary>
-        /// Returns true if the entity exists in the collection.
-        /// </summary>
-        /// <param name="entity">
-        /// The entity.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        protected override bool PerformExists(IProduct entity)
-        {
-            if (!this.EntityGroup.Filters.Any()) return false;
-
-            var keys = this.EntityGroup.Filters.Select(x => x.Key);
-
-            return MerchelloContext.Services.ProductService.ExistsInCollection(entity.Key, keys);
-        }
-
-        /// <summary>
-        /// The perform get paged entities.
-        /// </summary>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="sortDirection">
-        /// The sort direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Page{T}"/>.
-        /// </returns>
-        protected override Page<IProduct> PerformGetPagedEntities(
-            long page,
-            long itemsPerPage,
-            string sortBy = "",
-            SortDirection sortDirection = SortDirection.Ascending)
-        {
-            var keys = GetAttributeCollectionKeys();
-
-            return keys != null ?
-                MerchelloContext.Services.ProductService.GetProductsThatExistInAllCollections(keys, page, itemsPerPage, sortBy, sortDirection) :
-                null;
-        }
-
-        /// <summary>
-        /// The perform get paged keys.
-        /// </summary>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="sortDirection">
-        /// The sort direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Page{Guid}"/>.
-        /// </returns>
-        protected override Page<Guid> PerformGetPagedEntityKeys(
-            long page,
-            long itemsPerPage,
-            string sortBy = "",
-            SortDirection sortDirection = SortDirection.Ascending)
-        {
-            var keys = GetAttributeCollectionKeys();
-
-            return keys != null ?
-                ((ProductService)MerchelloContext.Services.ProductService)
-                    .GetKeysThatExistInAllCollections(keys, page, itemsPerPage, sortBy, sortDirection) :
-                    null;
-        }
-
-        /// <summary>
-        /// Gets a distinct page of product keys not in multiple collections.
-        /// </summary>
-        /// <param name="args">
-        /// The args.
-        /// </param>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="sortDirection">
-        /// The sort direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Page{Guid}"/>.
-        /// </returns>
-        protected override Page<Guid> PerformGetPagedEntityKeys(
-            Dictionary<string, object> args,
-            long page,
-            long itemsPerPage,
-            string sortBy = "",
-            SortDirection sortDirection = SortDirection.Ascending)
-        {
-            if (!args.ContainsKey("searchTerm")) return PerformGetPagedEntityKeys(page, itemsPerPage, sortBy, sortDirection);
-
-            var keys = GetAttributeCollectionKeys();
-
-            return keys != null
-                       ? ((ProductService)MerchelloContext.Services.ProductService).GetKeysThatExistInAllCollections(
-                           keys,
-                           args["searchTerm"].ToString(),
-                           page,
-                           itemsPerPage,
-                           sortBy,
-                           sortDirection) :
-                        null;
-        }
-
-        /// <summary>
-        /// Gets a distinct page of product keys from multiple collections.
-        /// </summary>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="sortDirection">
-        /// The sort direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Page{Guid}"/>.
-        /// </returns>
-        protected override Page<Guid> PerformGetPagedEntityKeysNotInCollection(
-            long page,
-            long itemsPerPage,
-            string sortBy = "",
-            SortDirection sortDirection = SortDirection.Ascending)
-        {
-            var keys = GetAttributeCollectionKeys();
-
-            return keys != null
-                       ? ((ProductService)MerchelloContext.Services.ProductService).GetKeysNotInAnyCollections(
-                           keys,
-                           page,
-                           itemsPerPage,
-                           sortBy,
-                           sortDirection) :
-                           null;
-        }
-
-        /// <summary>
-        /// Gets a distinct page of product keys that don't exist in multiple collections.
-        /// </summary>
-        /// <param name="args">
-        /// The args.
-        /// </param>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="sortDirection">
-        /// The sort direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Page{Guid}"/>.
-        /// </returns>
-        protected override Page<Guid> PerformGetPagedEntityKeysNotInCollection(
-            Dictionary<string, object> args,
-            long page,
-            long itemsPerPage,
-            string sortBy = "",
-            SortDirection sortDirection = SortDirection.Ascending)
-        {
-            if (!args.ContainsKey("searchTerm")) return PerformGetPagedEntityKeysNotInCollection(page, itemsPerPage, sortBy, sortDirection);
-            var keys = GetAttributeCollectionKeys();
-
-            return keys != null
-                       ? ((ProductService)MerchelloContext.Services.ProductService).GetKeysNotInAnyCollections(
-                           keys,
-                           args["searchTerm"].ToString(),
-                           page,
-                           itemsPerPage,
-                           sortBy,
-                           sortDirection) :
-                           null;
-        }
-
-        /// <summary>
         /// Gets the collection of child collection keys.
         /// </summary>
         /// <returns>
@@ -262,7 +67,7 @@
         {
             if (!this.EntityGroup.Filters.Any())
             {
-                MultiLogHelper.Info<ProductFilterGroupProvider>("ProductSpecificationCollection does not have any child collections. Returning null.");
+                MultiLogHelper.Info<ProductFilterGroupProviderBase>("ProductFilterGroup does not have any child collections. Returning null.");
                 return null;
             }
 

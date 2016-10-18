@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a service that is responsible for operations related to <see cref="IProduct"/>.
     /// </summary>
-    public interface IProductService : IService
+    public interface IProductService : IEntityCollectionEntityService<IProduct>, IService<IProduct>
     {    
     }
 }

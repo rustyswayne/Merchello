@@ -58,10 +58,21 @@
     <Compile Include="Constants.Store.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
+    <Compile Include="EntityCollections\IProductCollectionProvider.cs" />
+    <Compile Include="EntityCollections\IProductFilterGroupProvider.cs" />
+    <Compile Include="EntityCollections\ProductFilterGroupProviderBase.cs" />
+    <Compile Include="EntityCollections\Providers\ProductFilterGroupProvider.cs" />
+    <Compile Include="EntityCollections\Providers\StaticCustomerCollectionProvider.cs" />
+    <Compile Include="EntityCollections\Providers\StaticInvoiceCollectionProvider.cs" />
+    <Compile Include="EntityCollections\Providers\StaticProductCollectionProvider.cs" />
+    <Compile Include="EntityCollections\QueryableEntityCollectionProviderBase.cs" />
     <Compile Include="EntityCollections\EntityCollectionProviderBase.cs" />
+    <Compile Include="EntityCollections\EntityCollectionProviderBase{T}.cs" />
     <Compile Include="EntityCollections\EntityCollectionProviderResolver.cs" />
     <Compile Include="EntityCollections\IEntityCollectionProviderResolver.cs" />
+    <Compile Include="EntityCollections\IEntityCollectionProvider{T}.cs" />
     <Compile Include="EntityCollections\IEntityFilterGroupProvider.cs" />
+    <Compile Include="EntityCollections\IQueryableEntityCollectionProvider.cs" />
     <Compile Include="Events\DeleteEventArgs.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\SaveEventArgs.cs" />
@@ -959,8 +970,12 @@
     <Compile Include="Services\Interfaces\IEntityCollectionEntityService.cs" />
     <Compile Include="Services\Interfaces\ICustomerService.cs" />
     <Compile Include="Services\Interfaces\IEntityCollectionService.cs" />
+    <Compile Include="Services\Interfaces\IInvoiceService.cs" />
     <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
+    <Compile Include="Services\ProductService.persist.cs">
+      <DependentUpon>ProductService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\MigrationStatusService.cs" />
     <Compile Include="Services\ProductService.cs" />
@@ -1067,9 +1082,7 @@
     <None Include="Cache\readme.md" />
     <None Include="project.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EntityCollections\Providers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

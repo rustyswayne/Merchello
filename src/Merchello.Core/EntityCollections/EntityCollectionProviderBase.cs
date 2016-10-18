@@ -1,15 +1,12 @@
 ﻿namespace Merchello.Core.EntityCollections
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.UI.WebControls;
 
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
-    using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Models.TypeFields;
+    using Merchello.Core.Services;
 
     /// <summary>
     /// A base class of entity collection providers.
@@ -24,17 +21,21 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityCollectionProviderBase"/> class.
         /// </summary>
-        /// <param name="merchelloContext">
-        /// The merchello context.
+        /// <param name="entityCollectionService">
+        /// The <see cref="IEntityCollectionService"/>.
+        /// </param>
+        /// <param name="cacheHelper">
+        /// The <see cref="ICacheHelper"/>.
         /// </param>
         /// <param name="collectionKey">
         /// The collection Key.
         /// </param>
-        protected EntityCollectionProviderBase(IMerchelloContext merchelloContext, Guid collectionKey)
+        protected EntityCollectionProviderBase(IEntityCollectionService entityCollectionService, ICacheHelper cacheHelper, Guid collectionKey)
         {
             Ensure.ParameterNotEmptyGuid(collectionKey, nameof(collectionKey));
-            Ensure.ParameterNotNull(merchelloContext, "merchelloContext");
-            MerchelloContext = merchelloContext;
+            Ensure.ParameterNotNull(entityCollectionService, nameof(entityCollectionService));
+            EntityCollectionService = entityCollectionService;
+            this.Cache = cacheHelper.RequestCache;
             this.CollectionKey = collectionKey;
             this.Initialize();
         }
@@ -53,18 +54,12 @@
         /// <summary>
         /// Gets the cache.
         /// </summary>
-        protected ICacheProviderAdapter Cache
-        {
-            get
-            {
-                return MerchelloContext.Cache.RequestCache;
-            }
-        }
+        protected ICacheProviderAdapter Cache { get; }
 
         /// <summary>
         /// Gets the <see cref="IMerchelloContext"/>.
         /// </summary>
-        protected IMerchelloContext MerchelloContext { get; private set; }
+        protected IEntityCollectionService EntityCollectionService { get; private set; }
 
 
         /// <summary>
@@ -73,87 +68,6 @@
         protected Guid CollectionKey { get; private set; }
 
 
-        /// <summary>
-        /// The get entities.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IEnumerable{Object}"/>.
-        /// </returns>
-        public abstract IEnumerable<object> GetEntities();
-        
-
-        /// <summary>
-        /// The get entities.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type of <see cref="IEntity"/>
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="IEnumerable{T}"/>.
-        /// </returns>
-        public IEnumerable<T> GetEntities<T>() where T : class, IEntity
-        {
-            this.ValidateType(typeof(T)); 
-            
-            return this.GetEntities().Select(x => x as T);
-        }
-
-        /// <summary>
-        /// Gets a generic page of entities.
-        /// </summary>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="sortDirection">
-        /// The sort direction.
-        /// </param>
-        /// <returns>
-        /// The <see cref="PagedCollection{Object}"/>.
-        /// </returns>
-        public abstract PagedCollection<object> GetPagedEntities(long page, long itemsPerPage, string sortBy = "", SortDirection sortDirection = SortDirection.Ascending);
-
-        /// <summary>
-        /// Gets a page of typed entities
-        /// </summary>
-        /// <param name="page">
-        /// The page.
-        /// </param>
-        /// <param name="itemsPerPage">
-        /// The items per page.
-        /// </param>
-        /// <param name="sortBy">
-        /// The sort by.
-        /// </param>
-        /// <param name="sortDirection">
-        /// The sort direction.
-        /// </param>
-        /// <typeparam name="TEntity">
-        /// The type of <see cref="IEntity"/>
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="PagedCollection"/>.
-        /// </returns>
-        public PagedCollection<TEntity> GetPagedEntities<TEntity>(long page, long itemsPerPage, string sortBy = "", SortDirection sortDirection = SortDirection.Ascending)
-            where TEntity : class, IEntity
-        {
-            this.ValidateType(typeof(TEntity));
-
-            var p = GetPagedEntities(page, itemsPerPage, sortBy, sortDirection);
-
-            return new PagedCollection<TEntity>()
-                {
-                    PageSize = p.PageSize,
-                    TotalItems = p.TotalItems,
-                    TotalPages = p.TotalPages,
-                    Items = p.Items.Select(x => x as TEntity).ToList()
-                };
-        }
 
         /// <summary>
         /// Ensures this is the provider by <see cref="System.Type"/>.
@@ -227,14 +141,14 @@
         protected virtual IEntityCollection GetInstance()
         {
             var cacheKey = string.Format("merch.entitycollection.{0}", CollectionKey);
-            var provider = Cache.GetCacheItem(cacheKey);
-            if (provider != null) return (IEntityCollection)provider;
+            var collection = Cache.GetCacheItem(cacheKey);
+            if (collection != null) return (IEntityCollection)collection;
 
             return
                 (IEntityCollection)
                 Cache.GetCacheItem(
                     cacheKey,
-                    () => MerchelloContext.Services.EntityCollectionService.GetByKey(CollectionKey));
+                    () => EntityCollectionService.GetByKey(CollectionKey));
         }
 
         /// <summary>
