@@ -2,7 +2,7 @@
   "dependencies": {
     "LightInject": "4.1.0",
     "LightInject.Annotation": "1.0.0.4",
-    "Newtonsoft.Json": "8.0.*",
+    "Newtonsoft.Json": "8.0.3",
     "UmbracoCms.Core": "8.0.0-build4727"
   },
   "frameworks": {
