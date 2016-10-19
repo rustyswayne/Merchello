@@ -53,6 +53,7 @@
     <Compile Include="Configurations\MerchelloExtensibility\ViewsElementTests.cs" />
     <Compile Include="Configurations\MerchelloExtensibility\VirtualContentElementTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\CheckoutContextElementTests.cs" />
+    <Compile Include="Configurations\MerchelloSettings\ConfigurationStatusTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\CurrencyElementTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\CustomersElementTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\FiltersElementTests.cs" />

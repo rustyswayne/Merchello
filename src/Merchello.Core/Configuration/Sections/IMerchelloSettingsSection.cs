@@ -5,6 +5,8 @@
     using Merchello.Core.Configuration.Elements;
     using Merchello.Core.Models.Interfaces;
 
+    using Semver;
+
     /// <summary>
     /// Represents a MerchelloSettings configuration section
     /// </summary>
@@ -13,6 +15,11 @@
     /// </remarks>
     public interface IMerchelloSettingsSection : IMerchelloSection
     {
+        /// <summary>
+        /// Gets the Merchello Configuration Status.
+        /// </summary>
+        SemVersion ConfigurationStatus { get; }
+
         /// <summary>
         /// Gets the default connection string name for Merchello database connectivity.
         /// </summary>

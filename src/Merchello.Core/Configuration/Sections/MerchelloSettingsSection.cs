@@ -4,8 +4,11 @@
     using System.Collections.Generic;
     using System.Configuration;
 
+    using Merchello.Core.Acquired.Configuration;
     using Merchello.Core.Configuration.Elements;
     using Merchello.Core.Models.Interfaces;
+
+    using Semver;
 
     /// <summary>
     /// Represents the MerchelloSettings configuration section.
@@ -29,6 +32,17 @@
         public bool EnableInstallTracking
         {
             get { return (bool)this["enableInstallTracking"]; }
+        }
+
+        /// <summary>
+        /// Gets the Merchello Configuration Status.
+        /// </summary>
+        SemVersion IMerchelloSettingsSection.ConfigurationStatus
+        {
+            get
+            {
+                return SemVersion.Parse(this.ConfigurationStatus);
+            }
         }
 
         /// <summary>
@@ -95,6 +109,18 @@
                 return this.CurrencyFormats.GetCurrencyFormats();
             }
         }
+
+
+        /// <inheritdoc/>
+        [ConfigurationProperty("merchelloConfigurationStatus")]
+        internal InnerTextConfigurationElement<string> ConfigurationStatus
+        {
+            get
+            {
+                return (InnerTextConfigurationElement<string>)this["merchelloConfigurationStatus"];
+            }
+        }
+
 
         /// <inheritdoc/>
         [ConfigurationProperty("products", IsRequired = true)]

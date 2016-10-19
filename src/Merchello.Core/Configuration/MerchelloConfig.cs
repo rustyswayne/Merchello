@@ -2,9 +2,14 @@
 {
     using System;
     using System.Configuration;
+    using System.Linq;
+    using System.Xml.Linq;
 
+    using Merchello.Core.Acquired.IO;
     using Merchello.Core.Configuration.Sections;
     using Merchello.Core.Logging;
+
+    using Semver;
 
     /// <summary>
     /// Provides access to configurations in the Merchello configuration files.
@@ -189,6 +194,36 @@
         public void SetMerchelloCountries(IMerchelloCountriesSection value)
         {
             this._merchelloCountries = value;
+        }
+
+        /// <summary>
+        /// Saves the configuration status.
+        /// </summary>
+        /// <param name="version">
+        /// The version.
+        /// </param>
+        /// <param name="fileName">
+        /// The path.
+        /// </param>
+        internal static void SaveConfigurationStatus(SemVersion version, string fileName = "")
+        {
+            if (fileName.IsNullOrWhiteSpace())
+            {
+                fileName = IOHelper.MapPath(string.Format("{0}/merchelloSettings.config", Constants.ConfigPath));
+            }
+
+            var xml = XDocument.Load(fileName, LoadOptions.PreserveWhitespace);
+
+            var status = xml.Root.DescendantsAndSelf("merchelloConfigurationStatus").Single();
+
+            // Update appSetting if it exists, or else create a new appSetting for the given key and value
+            status.SetValue(version.ToString());
+
+
+            xml.Save(fileName, SaveOptions.DisableFormatting);
+            ConfigurationManager.RefreshSection("merchello/merchelloSettings");
+            var settings = ConfigurationManager.GetSection("merchello/merchelloSettings") as IMerchelloSettingsSection;
+            config.Value._merchelloSettings = settings;
         }
     }
 }

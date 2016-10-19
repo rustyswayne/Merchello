@@ -52,6 +52,7 @@
     <Compile Include="Cache\ICloneableCacheEntityFactory.cs" />
     <Compile Include="Cache\Policies\DeepCloneRepositoryCachePolicy.cs" />
     <Compile Include="Cache\Policies\ProductOptionRepositoryCachePolicy.cs" />
+    <Compile Include="Configuration\Elements\CheckoutContextElement.cs" />
     <Compile Include="Constants.Store.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
@@ -752,7 +753,6 @@
     <Compile Include="Configuration\Mvc\CultureRouteBasePath.cs" />
     <Compile Include="Configuration\Elements\BackOfficeElement.cs" />
     <Compile Include="Configuration\Elements\BackOfficeTreesElement.cs" />
-    <Compile Include="Configuration\Elements\CheckoutContextElement.cs" />
     <Compile Include="Configuration\Elements\CheckoutElement.cs" />
     <Compile Include="Configuration\Elements\CurrencyFormatsElement.cs" />
     <Compile Include="Configuration\Elements\CustomersElement.cs" />

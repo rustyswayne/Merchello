@@ -1,5 +1,7 @@
 namespace Merchello.Core.Configuration.Sections
 {
+    using Merchello.Core.Services;
+
     /// <summary>
     /// Represents a configuration section for configurations related to Merchello "CheckoutContext". .
     /// </summary>

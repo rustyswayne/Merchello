@@ -7,6 +7,7 @@ var debug = 'bin/Debug/';
 var release = 'bin/Release/';
 
 // source locations
+var versionText = '../../build/MerchelloVersion.txt'
 var allSrc = 'src/**/*.js';
 var configs = 'src/config/';
 var dist = './build/App_Plugins/Merchello/';
@@ -37,6 +38,8 @@ gulp.task('copy:tests', function() {
 
     var copy = require('gulp-copy');
     var rename = require('gulp-rename');
+    var fs = require('fs');
+    var xmlpoke = require('gulp-xmlpoke');
 
     var paths = {
         settings: 'Configurations/MerchelloSettings/',
@@ -61,9 +64,54 @@ gulp.task('copy:tests', function() {
     // setttings
     // -------------------
     // merchelloSettings.config
+
+    var version;
+/*
+    .pipe(fs.readFile(versionText, "utf-8", function(err, data) {
+        // parse the file contents
+        var lines = data.split('\n');
+        version = clean(lines[1]);
+        if (lines.length > 2) {
+            version += '-' + clean(lines[2]);
+        }
+
+        console.info(version);
+
+        // remove the carage returns
+        function clean(item) {
+            return item.replace(/(\r\n|\n|\r)/gm,"");
+        }
+    }))
+    */
+
     gulp.src(configs + 'merchelloSettings.config')
+        // set the version to the build version
+        .pipe(xmlpoke({
+                replacements: [{
+                    xpath: "//merchelloConfigurationStatus",
+                    value: function (node) {
+                       // get the contents of the version file in the build directory
+                        var data =  fs.readFileSync(versionText, "utf-8");
+
+                        var lines = data.split('\n');
+                        version = clean(lines[1]);
+                        if (lines.length > 2) {
+                            version += '-' + clean(lines[2]);
+                        }
+
+                        return version;
+
+                        // remove the carage returns
+                        function clean(item) {
+                            return item.replace(/(\r\n|\n|\r)/gm,"");
+                        }
+                    }
+                }]
+            }))
         .pipe(gulp.dest(tdebug + paths.settings))
         .pipe(gulp.dest(trelease + paths.settings));
+
+
 
     // web.config
     gulp.src(configs + 'tests/web.settings.config')

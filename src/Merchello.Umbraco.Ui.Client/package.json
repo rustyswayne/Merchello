@@ -36,6 +36,7 @@
     "gulp-ruby-sass": "^2.1.0",
     "gulp-size": "^2.1.0",
     "gulp-uglify": "^2.0.0",
+    "gulp-xmlpoke": "^0.2.0",
     "jshint": "^2.9.3",
     "jshint-stylish": "^2.2.1",
     "read-package-json": "^2.0.4"

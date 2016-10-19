@@ -31,7 +31,7 @@
         /// Gets the version comment (like beta or RC).
         /// </summary>
         /// <value>The version comment.</value>
-        public static string CurrentComment => "alpha0000";
+        public static string CurrentComment => "alpha0001";
 
         /// <summary>
         /// Gets the assembly version.

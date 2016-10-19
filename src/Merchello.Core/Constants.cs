@@ -6,6 +6,11 @@
     public static partial class Constants
     {
         /// <summary>
+        /// The path to Merchello configuration files.
+        /// </summary>
+        public const string ConfigPath = "~/Config/";
+
+        /// <summary>
         /// Gets the default culture name.
         /// </summary>
         public static string DefaultCultureName
