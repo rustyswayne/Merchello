@@ -11,6 +11,8 @@
 
     using NUnit.Framework;
 
+    using InvoiceDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.InvoiceDto;
+
     [TestFixture]
     public class InvoiceSqlTests : MerchelloDatabaseTestBase
     {

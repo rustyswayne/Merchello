@@ -3,6 +3,8 @@
     using System;
 
     using Merchello.Core.Cache;
+
+    using Semver;
     //using Gateways;
     using Services;
 

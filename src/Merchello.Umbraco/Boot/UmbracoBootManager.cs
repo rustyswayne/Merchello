@@ -14,6 +14,10 @@
 
     using global::Umbraco.Core.Plugins;
 
+    using Merchello.Core.Logging;
+    using Merchello.Core.Persistence.Migrations;
+    using Merchello.Umbraco.Migrations;
+
     using IDatabaseFactory = Merchello.Core.Persistence.IDatabaseFactory;
 
     /// <summary>
@@ -89,6 +93,9 @@
             container.RegisterSingleton<global::Umbraco.Core.Plugins.PluginManager>(factory => _pluginManager);
 
             container.RegisterFrom<UmbracoCompositionRoot>();
+
+            // Migrations
+            container.Register<IMigrationManager, MigrationManager>();
         }
 
         /// <inheritdoc/>
@@ -102,6 +109,25 @@
 
             // Replace ICloneableCacheEntityFactory
             container.Register<ICloneableCacheEntityFactory, CacheSurrogateFactory>();
+        }
+
+        /// <inheritdoc/>
+        protected override void EnsureInstallVersion(IServiceContainer container)
+        {
+            var manager = container.GetInstance<IMigrationManager>();
+
+            var status = manager.GetDbSchemaStatus();
+            switch (status)
+            {
+                case DbSchemaStatus.RequiresInstall:
+                    manager.InstallDatabaseSchema();
+                    break;
+                case DbSchemaStatus.RequiresUpgrade:
+                    break;
+                case DbSchemaStatus.Current:
+                default:
+                    break;
+            }
         }
     }
 }

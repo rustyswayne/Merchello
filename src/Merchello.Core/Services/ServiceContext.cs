@@ -27,6 +27,11 @@
         /// </summary>
         private readonly Lazy<IMigrationStatusService> _migrationStatusService;
 
+        /// <summary>
+        /// The <see cref="IStoreSettingService"/>.
+        /// </summary>
+        private readonly Lazy<IStoreSettingService> _storeSettingService;
+
         #endregion
 
         /// <summary>
@@ -44,16 +49,21 @@
         /// <param name="migrationStatusService">
         /// The <see cref="IMigrationStatusService"/>.
         /// </param>
+        /// <param name="storeSettingService">
+        /// The <see cref="IStoreSettingService"/>
+        /// </param>
         public ServiceContext(
             Lazy<IAuditLogService> auditLogService, 
             Lazy<ICustomerService> customerService, 
             Lazy<IEntityCollectionService> entityCollectionService, 
-            Lazy<IMigrationStatusService> migrationStatusService)
+            Lazy<IMigrationStatusService> migrationStatusService,
+            Lazy<IStoreSettingService> storeSettingService)
         {
             _auditLogService = auditLogService;
             _customerService = customerService;
             _entityCollectionService = entityCollectionService;
             _migrationStatusService = migrationStatusService;
+            _storeSettingService = storeSettingService;
         }
 
         /// <summary>
@@ -71,16 +81,21 @@
         /// <param name="migrationStatusService">
         /// The <see cref="IMigrationStatusService"/>.
         /// </param>
+        /// <param name="storeSettingServcie">
+        /// The <see cref="IStoreSettingService"/>
+        /// </param>
         public ServiceContext(
             IAuditLogService auditLogService = null,
             ICustomerService customerService = null,
             IEntityCollectionService entityCollectionService = null,
-            IMigrationStatusService migrationStatusService = null)
+            IMigrationStatusService migrationStatusService = null,
+            IStoreSettingService storeSettingServcie = null)
         {
             if (auditLogService != null) _auditLogService = new Lazy<IAuditLogService>(() => auditLogService);
             if (customerService != null) _customerService = new Lazy<ICustomerService>(() => customerService);
             if (entityCollectionService != null) _entityCollectionService = new Lazy<IEntityCollectionService>(() => entityCollectionService);
             if (migrationStatusService != null) _migrationStatusService = new Lazy<IMigrationStatusService>(() => migrationStatusService);
+            if (storeSettingServcie != null) _storeSettingService = new Lazy<IStoreSettingService>(() => storeSettingServcie);
         }
 
 
@@ -95,5 +110,8 @@
 
         /// <inheritdoc/>
         public IMigrationStatusService MigrationStatusService => _migrationStatusService.Value;
+
+        /// <inheritdoc/>
+        public IStoreSettingService StoreSettingService => _storeSettingService.Value;
     }
 }

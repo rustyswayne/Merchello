@@ -8,12 +8,6 @@
         /// <summary>
         /// Gets the migration name.
         /// </summary>
-        public static string MerchelloMigrationName
-        {
-            get
-            {
-                return "Merchello";
-            }
-        }
+        public const string MerchelloMigrationName = "Merchello";
     }
 }

@@ -13,6 +13,8 @@
 
     using NUnit.Framework;
 
+    using ItemCacheDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.ItemCacheDto;
+
     [TestFixture]
     public class ItemCacheSqlTests : MerchelloDatabaseTestBase
     {

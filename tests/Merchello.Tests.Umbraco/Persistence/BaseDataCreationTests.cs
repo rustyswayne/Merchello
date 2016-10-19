@@ -9,6 +9,9 @@
 
     using NUnit.Framework;
 
+    using StoreSettingDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.StoreSettingDto;
+    using WarehouseDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.WarehouseDto;
+
     [TestFixture]
     public class BaseDataCreationTests : UmbracoApplicationContextTestBase
     {

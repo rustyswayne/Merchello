@@ -2,12 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Web.UI.WebControls;
 
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models;
-
-    using NPoco;
 
     /// <summary>
     /// Represents a data service for <see cref="IAuditLog"/>.

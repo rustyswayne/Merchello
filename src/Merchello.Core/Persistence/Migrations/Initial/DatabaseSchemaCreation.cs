@@ -144,18 +144,7 @@ namespace Merchello.Core.Persistence.Migrations.Initial
         /// </summary>
         public void InitializeDatabaseSchema()
         {
-            var e = new DatabaseCreationEventArgs();
-            this.FireBeforeCreation(e);
-
-            if (e.Cancel == false)
-            {
-                foreach (var item in OrderedTables.OrderBy(x => x.Key))
-                {
-                    this._schemaManager.CreateTable(false, item.Value);
-                }
-            }
-
-            this.FireAfterCreation(e);
+            InitializeDatabaseSchema(OrderedTables);
         }
 
         /// <summary>
@@ -222,6 +211,68 @@ namespace Merchello.Core.Persistence.Migrations.Initial
             }
         }
 
+        /// <summary>
+        /// Initializes database schema.
+        /// </summary>
+        /// <param name="orderedTables">
+        /// The ordered tables.
+        /// </param>
+        /// <remarks>
+        /// Separated out for testing
+        /// </remarks>
+        internal void InitializeDatabaseSchema(Dictionary<int, Type> orderedTables)
+        {
+
+            var e = new DatabaseCreationEventArgs();
+            this.FireBeforeCreation(e);
+
+            if (e.Cancel == false)
+            {
+                foreach (var item in orderedTables.OrderBy(x => x.Key))
+                {
+                    this._schemaManager.CreateTable(false, item.Value);
+                }
+            }
+
+            this.FireAfterCreation(e);
+        }
+
+        /// <summary>
+        /// Drops all Merchello tables in the database.
+        /// </summary>
+        /// <param name="orderedTables">
+        /// The ordered Tables.
+        /// </param>
+        /// <remarks>
+        /// Separated out for testing
+        /// </remarks>
+        internal void UninstallDatabaseSchema(Dictionary<int, Type> orderedTables)
+        {
+            this._logger.Info<DatabaseSchemaCreation>("Start Merchello UninstallDatabaseSchema");
+
+            foreach (var item in orderedTables.OrderByDescending(x => x.Key))
+            {
+                var tableNameAttribute = item.Value.FirstAttribute<TableNameAttribute>();
+
+                var tableName = tableNameAttribute == null ? item.Value.Name : tableNameAttribute.Value;
+
+                this._logger.Info<DatabaseSchemaCreation>("Uninstall" + tableName);
+
+                try
+                {
+                    if (this._schemaManager.TableExist(tableName))
+                    {
+                        this._schemaManager.DropTable(tableName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // swallow this for now, not sure how best to handle this with diff databases... though this is internal
+                    // and only used for unit tests. If this fails its because the table doesn't exist... generally!
+                    this._logger.Error<DatabaseSchemaCreation>("Could not drop table " + tableName, ex);
+                }
+            }
+        }
 
         /// <summary>
         /// Raises the <see cref="BeforeCreation"/> event.

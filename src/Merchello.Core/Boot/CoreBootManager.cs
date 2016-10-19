@@ -126,15 +126,18 @@
 
             _muliLogResolver = new MultiLogResolver(GetMultiLogger(_logger));
 
+            // Setup the container with all of the application services
             ConfigureCoreServices(IoC.Container);
 
-            MerchelloContext.Current = _merchelloContext = IoC.Container.GetInstance<IMerchelloContext>();
-
+            // AutoMapper mappings need to be setup for database definition adapters before checking the installation
             InitializeAutoMapperMappers();
 
+            // Ensure Installation
+            EnsureInstallVersion(IoC.Container);
 
-            // Ensure the Merchello database is installed.
-            this.EnsureDatabase(IoC.Container);
+            // Wait until we are certain the database is setup and upgraded before instantiating the MerchelloContext.
+            // Certain resolvers may require data.
+            MerchelloContext.Current = _merchelloContext = IoC.Container.GetInstance<IMerchelloContext>();
 
             InitializeResolvers();
 
@@ -237,6 +240,16 @@
         }
 
         /// <summary>
+        /// Ensures Merchello is installed and the database has been migrated to the current version.
+        /// </summary>
+        /// <param name="container">
+        /// The container.
+        /// </param>
+        protected virtual void EnsureInstallVersion(IServiceContainer container)
+        {
+        }
+
+        /// <summary>
         /// The initializes the AutoMapper mappings.
         /// </summary>
         protected void InitializeAutoMapperMappers()
@@ -304,44 +317,6 @@
             //}
 
             //LogHelper.Info<Umbraco.Core.CoreBootManager>("Finished subscribing Monitors to Triggers");            
-        }
-
-        /// <summary>
-        /// Ensures the Merchello database is present.
-        /// </summary>
-        /// <param name="container">
-        /// The IoC container.
-        /// </param>
-        /// <remarks>
-        /// We actually removed the package action to install the database in around version 1.12(?) so that we 
-        /// could push installs to UAAS more easily.  For this version, we are going a bit further and getting rid
-        /// of ALL package actions so that we can more easily offer straight NuGet based install (without requiring installation through
-        /// the CMS back office).
-        /// </remarks>
-        protected virtual void EnsureDatabase(IServiceContainer container)
-        {
-            MultiLogHelper.Info<CoreBootManager>("Verifying Merchello database is present.");
-            var schemaCreation = container.GetInstance<IDatabaseSchemaCreation>();
-            var result = schemaCreation.ValidateSchema();
-
-            var dbVersion = result.DetermineInstalledVersion();
-
-            if (dbVersion != MerchelloVersion.Current)
-            {
-                // TODO initial migration
-                if (dbVersion == new Version(0, 0, 0))
-                {
-                    _logger.Info<CoreBootManager>("Merchello database not installed.  Initial migration");
-                }
-                else
-                {
-                    _logger.Info<CoreBootManager>("Merchello version did not match, find migration(s).");
-                }
-            }
-            else
-            {
-                _logger.Info<CoreBootManager>("Merchello database is the current version");
-            }
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ namespace Merchello.Core.Persistence.Migrations.Initial
 
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Configuration;
+    using Merchello.Core.Logging;
     using Merchello.Core.Persistence.SqlSyntax;
     using Merchello.Core.Services;
 
@@ -106,9 +107,13 @@ namespace Merchello.Core.Persistence.Migrations.Initial
                  && this.TableDefinitions.SelectMany(definition => definition.Columns).All(x => this.ValidColumns.Contains(x.Name))))
                 return MerchelloVersion.Current;
 
-            // TODO- starting at version 2.x
-           
-            return MerchelloVersion.Current;
+            var success = false;
+            var version = DatabaseVersionHelper.DetermineInstalledVersion(this, out success);
+            if (!success)
+            {
+                MultiLogHelper.Warn<DatabaseSchemaResult>("Errors found in Merchello database schema but unable to determine exact version.  Returning current version.");
+            }
+            return version;
         }
 
         /// <summary>

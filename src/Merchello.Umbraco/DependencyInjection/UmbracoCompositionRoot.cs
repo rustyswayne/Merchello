@@ -9,14 +9,13 @@
     using Merchello.Core.Persistence.SqlSyntax;
     using Merchello.Core.Plugins;
     using Merchello.Umbraco.Adapters;
+    using Merchello.Umbraco.Adapters.Logging;
+    using Merchello.Umbraco.Adapters.Persistence;
     using Merchello.Umbraco.Mapping;
 
     using global::Umbraco.Core;
 
     using global::Umbraco.Core.Cache;
-
-    using Merchello.Umbraco.Adapters.Logging;
-    using Merchello.Umbraco.Adapters.Persistence;
 
     /// <summary>
     /// Adds Umbraco native class mappings to the container

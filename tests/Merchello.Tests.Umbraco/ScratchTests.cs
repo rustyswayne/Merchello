@@ -9,6 +9,7 @@
     using Merchello.Core.DependencyInjection;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Mappers;
+    using Merchello.Core.Persistence.Migrations;
     using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
     using Merchello.Tests.Base;
@@ -49,10 +50,14 @@
 
             var manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
             manager.UninstallDatabaseSchema();
-            manager.InstallDatabaseSchema();
+            //manager.InstallDatabaseSchema();
             Assert.NotNull(manager);
 
-
+            //var manager = IoC.Container.GetInstance<IMigrationManager>();
+            //Assert.NotNull(manager);
+            //var version = new Version("0.0.0");
+            //Assert.That(manager.DbVersion, Is.EqualTo(version));
+            
             var cacheFactory = IoC.Container.GetInstance<ICloneableCacheEntityFactory>();
 
             Console.WriteLine(cacheFactory.GetType());

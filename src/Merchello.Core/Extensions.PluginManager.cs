@@ -1,14 +1,15 @@
-﻿namespace Merchello.Core.Plugins
+﻿namespace Merchello.Core
 {
     using System;
     using System.Collections.Generic;
 
     using Merchello.Core.Persistence.Mappers;
+    using Merchello.Core.Plugins;
 
     /// <summary>
-    /// Extension methods for the <see cref="IPluginManager"/>.
+    /// Extensions for <see cref="IPluginManager"/>.
     /// </summary>
-    internal static class PluginManagerExtensions
+    public static partial class Extensions
     {
         /// <summary>
         /// Resolves the <see cref="BaseMapper"/> types for mapping entities to DTO classes by attribute.
@@ -19,9 +20,9 @@
         /// <returns>
         /// The resolved types.
         /// </returns>
-        public static IEnumerable<Type> ResolveBaseMappers(this IPluginManager pluginManager)
+        internal static IEnumerable<Type> ResolveBaseMappers(this IPluginManager pluginManager)
         {
             return pluginManager.ResolveTypesWithAttribute<BaseMapper, MapperForAttribute>();
-        } 
+        }
     }
 }
