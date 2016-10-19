@@ -3,11 +3,11 @@
     "AutoMapper": "4.2.*",
     "LightInject": "4.1.0",
     "LightInject.Annotation": "1.0.0.4",
-    "MiniProfiler": "2.1.0",
+    "log4net": "2.0.5",
     "Newtonsoft.Json": "8.0.3",
     "NodaMoney": "1.0.0",
-    "npoco": "3.3.4",
-    "semver": "1.*"
+    "NPoco": "3.4.0",
+    "Semver": "1.1.2"
   },
   "frameworks": {
     "net461": {}
