@@ -126,15 +126,47 @@
             }
         }
 
+        /// <summary>
+        /// Determines if a service has already been registered/available.
+        /// </summary>
+        /// <param name="container">
+        /// The container.
+        /// </param>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <typeparam name="TService">
+        /// The type of the service
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="ServiceRegistration"/>.
+        /// </returns>
         public static ServiceRegistration GetAvailableService<TService>(this IServiceRegistry container, string name)
         {
             var typeofTService = typeof(TService);
             return container.AvailableServices.SingleOrDefault(x => x.ServiceType == typeofTService && x.ServiceName == name);
         }
 
+        /// <summary>
+        /// Updates a service registration.
+        /// </summary>
+        /// <param name="container">
+        /// The container.
+        /// </param>
+        /// <param name="registration">
+        /// The registration.
+        /// </param>
+        /// <param name="implementingType">
+        /// The implementing type.
+        /// </param>
+        /// <param name="factoryExpression">
+        /// The factory expression.
+        /// </param>
+        /// <remarks>
+        /// Used when overriding registrations made in Merchello.Core in Merchello.Web or Merchello.Umbraco.
+        /// </remarks>
         private static void UpdateRegistration(this IServiceRegistry container, ServiceRegistration registration, Type implementingType, Delegate factoryExpression)
         {
-            // not sure which is best? that one works, though, and looks simpler
             registration.ImplementingType = implementingType;
             registration.FactoryExpression = factoryExpression;
         }

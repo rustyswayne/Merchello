@@ -16,6 +16,7 @@
     using Semver;
 
     /// <inheritdoc/>
+    /// TODO REFACTOR TO USE SINGLETONS FROM CONTAINER
     public class MerchelloContext : IMerchelloContext
     {
         /// <summary>
@@ -58,8 +59,6 @@
             _container = container;
             _services = serviceContext;
             _cache = cache;
-
-            Initialize();
         }
 
         /// <summary>
@@ -112,38 +111,6 @@
             Resolution.Reset();
             _services = null;
             _cache = null;
-        }
-
-        /// <summary>
-        /// Initializes the context
-        /// </summary>
-        private void Initialize()
-        {
-            MultiLogHelper.Info<CoreBootManager>("Verifying Merchello database is present.");
-            var schemaCreation = _container.GetInstance<IDatabaseSchemaCreation>();
-            var result = schemaCreation.ValidateSchema();
-
-            DbVersion = result.DetermineInstalledVersion();
-
-            if (DbVersion != MerchelloVersion.Current)
-            {
-                // TODO initial migration
-                if (DbVersion == new Version(0, 0, 0))
-                {
-                    MultiLogHelper.Info<CoreBootManager>("Merchello database not installed.  Initial migration");
-                }
-                else
-                {
-                    MultiLogHelper.Info<CoreBootManager>("Merchello version did not match, find migration(s).");
-                }
-
-                this.IsConfigured = false;
-            }
-            else
-            {
-                MultiLogHelper.Info<CoreBootManager>("Merchello database is the current version");
-                this.IsConfigured = true;
-            }
         }
     }
 }
