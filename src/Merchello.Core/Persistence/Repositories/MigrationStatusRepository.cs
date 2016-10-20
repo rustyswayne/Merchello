@@ -1,12 +1,9 @@
 namespace Merchello.Core.Persistence.Repositories
 {
-    using System;
-
     using LightInject;
 
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Cache;
-    using Merchello.Core.DependencyInjection;
     using Merchello.Core.Logging;
     using Merchello.Core.Models.Migrations;
     using Merchello.Core.Models.Rdbms;

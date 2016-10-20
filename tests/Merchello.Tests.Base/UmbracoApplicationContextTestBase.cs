@@ -5,7 +5,7 @@
     using global::Umbraco.Core.Services;
 
     using Merchello.Core.Boot;
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Tests.Base.Boot;
 
     public abstract class UmbracoApplicationContextTestBase : UmbracoPluginManagerTestBase

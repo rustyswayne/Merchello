@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence;

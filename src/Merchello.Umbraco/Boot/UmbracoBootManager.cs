@@ -3,19 +3,19 @@
     using LightInject;
 
     using Merchello.Core.Cache;
-    using Merchello.Core.DependencyInjection;
     using Merchello.Umbraco.Adapters;
     using Merchello.Umbraco.Adapters.Persistence;
     using Merchello.Umbraco.Cache;
-    using Merchello.Umbraco.DependencyInjection;
     using Merchello.Web.Boot;
 
     using global::Umbraco.Core;
 
     using global::Umbraco.Core.Plugins;
 
+    using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence.Migrations;
+    using Merchello.Umbraco.DI;
     using Merchello.Umbraco.Migrations;
 
     using IDatabaseFactory = Merchello.Core.Persistence.IDatabaseFactory;

@@ -1,6 +1,6 @@
 ﻿namespace Merchello.Tests.Umbraco.Persistence
 {
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Persistence;
     using Merchello.Tests.Base;
 

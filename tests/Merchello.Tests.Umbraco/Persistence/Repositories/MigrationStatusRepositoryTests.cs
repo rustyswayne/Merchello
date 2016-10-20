@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Models.Migrations;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence.Repositories;

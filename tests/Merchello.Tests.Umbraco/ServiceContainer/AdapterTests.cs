@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Tests.Umbraco.ServiceContainer
 {
     using Merchello.Core.Cache;
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence.SqlSyntax;
     using Merchello.Core.Plugins;

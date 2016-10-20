@@ -83,6 +83,7 @@
     <Compile Include="Extensions.PluginManager.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.Version.cs" />
     <Compile Include="Models\Cache\DefaultCloneableCacheEntry.cs" />
     <Compile Include="Models\EntityBase\IStoreSpecificEntity.cs" />
     <Compile Include="Models\Interfaces\IHasCurrencyCode.cs" />
@@ -177,7 +178,7 @@
     <Compile Include="Constants.Warehouse.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
-    <Compile Include="DependencyInjection\ServicesCompositionRoot.cs" />
+    <Compile Include="DI\ServicesCompositionRoot.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Events\CacheRefresherEventArgs.cs" />
     <Compile Include="Events\TypedEventHandler.cs" />
@@ -690,9 +691,9 @@
     <Compile Include="Persistence\SqlContext.cs" />
     <Compile Include="Persistence\SqlSyntax\ColumnInfo.cs" />
     <Compile Include="Acquired\ServiceProviderExtensions.cs" />
-    <Compile Include="DependencyInjection\ConfigurationCompositionRoot .cs" />
-    <Compile Include="DependencyInjection\LightInjectExtensions.cs" />
-    <Compile Include="DependencyInjection\RepositoryCompositionRoot.cs" />
+    <Compile Include="DI\ConfigurationCompositionRoot .cs" />
+    <Compile Include="DI\LightInjectExtensions.cs" />
+    <Compile Include="DI\RepositoryCompositionRoot.cs" />
     <Compile Include="Logging\ExtendedLoggerData.cs" />
     <Compile Include="Logging\MultiLogger.cs" />
     <Compile Include="Mapping\MerchelloMapperConfiguration.cs" />
@@ -711,7 +712,7 @@
     <Compile Include="Persistence\UnitOfWork\NPocoUnitOfWorkProviderBase.cs" />
     <Compile Include="Persistence\UnitOfWork\UnitOfWorkBase.cs" />
     <Compile Include="Plugins\IPluginManager.cs" />
-    <Compile Include="DependencyInjection\IoC.cs" />
+    <Compile Include="DI\IoC.cs" />
     <Compile Include="Persistence\IDatabaseContext.cs" />
     <Compile Include="Acquired\Persistence\Mappers\BaseExpressionHelper.cs" />
     <Compile Include="Persistence\Mappers\IMappingResolver.cs" />

@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using Semver;
+
     /// <summary>
     /// Represents a migration resolver for finding Merchello specific migrations.
     /// </summary>
@@ -25,7 +27,7 @@
         /// <returns>
         /// The collection of migrations.
         /// </returns>
-        IEnumerable<IMigration> OrderedUpgradeMigrations(Version currentVersion, Version targetVersion);
+        IEnumerable<IMerchelloMigration> OrderedUpgradeMigrations(SemVersion currentVersion, SemVersion targetVersion);
 
         /// <summary>
         /// Gets a collection of ordered upgrade migrations for downgrading.
@@ -39,6 +41,6 @@
         /// <returns>
         /// The collection of migrations.
         /// </returns>
-        IEnumerable<IMigration> OrderedDowngradeMigrations(Version currentVersion, Version targetVersion);
+        IEnumerable<IMerchelloMigration> OrderedDowngradeMigrations(SemVersion currentVersion, SemVersion targetVersion);
     }
 }

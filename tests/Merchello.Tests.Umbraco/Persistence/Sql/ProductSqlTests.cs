@@ -7,7 +7,7 @@
     using Core.Acquired.Persistence;
 
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Persistence;
     using Merchello.Tests.Base;

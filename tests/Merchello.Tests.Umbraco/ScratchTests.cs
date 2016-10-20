@@ -6,7 +6,7 @@
 
     using Merchello.Core;
     using Merchello.Core.Cache;
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.Migrations;

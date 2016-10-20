@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Tests.Umbraco.Contexts
 {
     using Merchello.Core;
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Persistence;
     using Merchello.Tests.Base;
 

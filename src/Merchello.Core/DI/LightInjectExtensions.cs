@@ -1,7 +1,8 @@
-﻿namespace Merchello.Core.DependencyInjection
+﻿namespace Merchello.Core.DI
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using LightInject;
 
@@ -123,6 +124,19 @@
             {                
                 container.Register(type);                
             }
-        }       
+        }
+
+        public static ServiceRegistration GetAvailableService<TService>(this IServiceRegistry container, string name)
+        {
+            var typeofTService = typeof(TService);
+            return container.AvailableServices.SingleOrDefault(x => x.ServiceType == typeofTService && x.ServiceName == name);
+        }
+
+        private static void UpdateRegistration(this IServiceRegistry container, ServiceRegistration registration, Type implementingType, Delegate factoryExpression)
+        {
+            // not sure which is best? that one works, though, and looks simpler
+            registration.ImplementingType = implementingType;
+            registration.FactoryExpression = factoryExpression;
+        }
     }
 }

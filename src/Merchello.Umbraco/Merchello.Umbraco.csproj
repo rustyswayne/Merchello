@@ -68,7 +68,7 @@
     <Compile Include="Boot\UmbracoBootManager.cs" />
     <Compile Include="Boot\BootSettings.cs" />
     <Compile Include="Boot\IBootSettings.cs" />
-    <Compile Include="DependencyInjection\UmbracoCompositionRoot.cs" />
+    <Compile Include="DI\UmbracoCompositionRoot.cs" />
     <Compile Include="Mapping\UmbracoAdapterAutoMapperMappings.cs" />
     <Compile Include="Cache\ICacheSurrogate.cs" />
     <Compile Include="Cache\CacheSurrogate.cs" />

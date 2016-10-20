@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Migrations;
 

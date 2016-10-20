@@ -46,10 +46,10 @@
         public IEnumerable<Type> InstanceTypes { get; private set; }
 
         /// <inheritdoc/>
-        public IEnumerable<IMigration> OrderedUpgradeMigrations(Version currentVersion, Version targetVersion)
+        public IEnumerable<IMerchelloMigration> OrderedUpgradeMigrations(SemVersion currentVersion, SemVersion targetVersion)
         {
-            var targetVersionToCompare = targetVersion;
-            var currentVersionToCompare = currentVersion;
+            var targetVersionToCompare = targetVersion.GetVersion(3);
+            var currentVersionToCompare = currentVersion.GetVersion(3);
 
             var migrations = (from migration in InstanceTypes
                               let migrationAttributes = migration.GetCustomAttributes<MigrationAttribute>(false)
@@ -63,14 +63,14 @@
 
             var activated = migrations.Select(Activator.CreateInstance);
 
-            return activated.Select(x => (IMigration)x);
+            return activated.Select(x => (IMerchelloMigration)x);
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IMigration> OrderedDowngradeMigrations(Version currentVersion, Version targetVersion)
+        public IEnumerable<IMerchelloMigration> OrderedDowngradeMigrations(SemVersion currentVersion, SemVersion targetVersion)
         {
-            var targetVersionToCompare = targetVersion;
-            var currentVersionToCompare = currentVersion;
+            var targetVersionToCompare = targetVersion.GetVersion(3);
+            var currentVersionToCompare = currentVersion.GetVersion(3);
 
             var migrations = (from migration in InstanceTypes
                               let migrationAttributes = migration.GetCustomAttributes<MigrationAttribute>(false)
@@ -85,7 +85,7 @@
 
             var activated = migrations.Select(Activator.CreateInstance);
 
-            return activated.Select(x => (IMigration)x);
+            return activated.Select(x => (IMerchelloMigration)x);
         }
     }
 }

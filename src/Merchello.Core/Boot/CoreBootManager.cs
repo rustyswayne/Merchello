@@ -10,7 +10,7 @@
     using Merchello.Core.Acquired.ObjectResolution;
     using Merchello.Core.Cache;
     using Merchello.Core.Configuration;
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Mapping;
     using Merchello.Core.Persistence.Mappers;

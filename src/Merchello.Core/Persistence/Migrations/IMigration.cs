@@ -1,7 +1,9 @@
 ﻿namespace Merchello.Core.Persistence.Migrations
 {
-    internal interface IMigration
+    /// <summary>
+    /// Marker interface for Merchello Migrations.
+    /// </summary>
+    internal interface IMerchelloMigration
     {
-         
     }
 }

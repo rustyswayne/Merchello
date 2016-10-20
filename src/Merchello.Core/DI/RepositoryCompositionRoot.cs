@@ -1,4 +1,4 @@
-﻿namespace Merchello.Core.DependencyInjection
+﻿namespace Merchello.Core.DI
 {
     using LightInject;
 

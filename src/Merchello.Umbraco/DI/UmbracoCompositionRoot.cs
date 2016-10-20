@@ -1,9 +1,9 @@
-﻿namespace Merchello.Umbraco.DependencyInjection
+﻿namespace Merchello.Umbraco.DI
 {
     using LightInject;
 
     using Merchello.Core.Cache;
-    using Merchello.Core.DependencyInjection;
+    using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.SqlSyntax;
