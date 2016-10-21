@@ -36,14 +36,14 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
         /// <param name="productOptionRepository">
         /// The <see cref="IProductOptionRepository"/>
         /// </param>
-        public ProductVariantRepository(IDatabaseBulkUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IProductOptionRepository productOptionRepository)
-            : base(work, cache, logger, mappingResolver)
+        public ProductVariantRepository(IDatabaseBulkUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMapperRegister mappers, IProductOptionRepository productOptionRepository)
+            : base(work, cache, logger, mappers)
         {
             Ensure.ParameterNotNull(productOptionRepository, nameof(productOptionRepository));
             _productOptionRepository = productOptionRepository;

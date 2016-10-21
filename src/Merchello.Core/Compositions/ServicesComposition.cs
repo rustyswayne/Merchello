@@ -1,14 +1,15 @@
-﻿namespace Merchello.Core.DI
+﻿namespace Merchello.Core.Compositions
 {
     using LightInject;
 
+    using Merchello.Core.DI;
     using Merchello.Core.Events;
     using Merchello.Core.Services;
 
     /// <summary>
     /// Sets the IoC container for the Merchello services.
     /// </summary>
-    public class ServicesCompositionRoot : ICompositionRoot
+    public class ServicesComposition : ICompositionRoot
     {
         /// <summary>
         /// Composes configuration services by adding services to the <paramref name="container"/>.

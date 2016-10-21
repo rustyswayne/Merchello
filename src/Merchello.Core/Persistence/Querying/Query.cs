@@ -5,6 +5,7 @@
     using System.Linq.Expressions;
 
     using Merchello.Core.Acquired.Persistence.Mappers;
+    using Merchello.Core.Acquired.Persistence.Querying;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.SqlSyntax;
 
@@ -24,7 +25,7 @@
         /// <summary>
         /// The Merchello's mapping resolver.
         /// </summary>
-        private readonly IMappingResolver _mappingResolver;
+        private readonly IMapperRegister _mappers;
 
         /// <summary>
         /// The translated list of where clauses.
@@ -37,13 +38,13 @@
         /// <param name="sqlSyntax">
         /// The sql syntax provider.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The Merchello's mapping resolver.
+        /// <param name="mappers">
+        /// Mapper register.
         /// </param>
-        public Query(ISqlSyntaxProviderAdapter sqlSyntax, IMappingResolver mappingResolver)
+        public Query(ISqlSyntaxProviderAdapter sqlSyntax, IMapperRegister mappers)
         {
             _sqlSyntax = sqlSyntax;
-            _mappingResolver = mappingResolver;
+            _mappers = mappers;
         }
 
         /// <summary>
@@ -55,7 +56,7 @@
         {
             if (predicate != null)
             {
-                var expressionHelper = new ModelToSqlExpressionHelper<T>(_sqlSyntax, _mappingResolver);
+                var expressionHelper = new ModelToSqlExpressionHelper<T>(_sqlSyntax, _mappers);
                 string whereExpression = expressionHelper.Visit(predicate);
 
                 _wheres.Add(new Tuple<string, object[]>(whereExpression, expressionHelper.GetSqlParameters()));

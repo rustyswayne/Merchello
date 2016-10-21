@@ -21,7 +21,7 @@
         [Test]
         public void Can_GetItemCachePage()
         {
-            var dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            var dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
             Assert.NotNull(dbAdapter);
 
             var SqlSyntax = dbAdapter.SqlSyntax;
@@ -74,7 +74,7 @@
         public void Can_Count(CustomerType customerType)
         {
 
-            var dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            var dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
             Assert.NotNull(dbAdapter);
 
             var start = DateTime.Now.AddDays(-1);

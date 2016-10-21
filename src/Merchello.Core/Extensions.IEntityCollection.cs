@@ -234,9 +234,7 @@
         /// </returns>
         public static IEnumerable<IEntityCollection> ChildCollections(this IEntityCollection collection)
         {
-            return !MerchelloContext.HasCurrent ?
-                Enumerable.Empty<IEntityCollection>() :
-                MerchelloContext.Current.Services.EntityCollectionService.GetChildren(collection.Key);
+            return MerchelloContext.Current.Services.EntityCollectionService.GetChildren(collection.Key);
         }
 
         /// <summary>
@@ -265,9 +263,6 @@
         public static IEnumerable<IEntityCollection> GetManagedCollections(this EntityCollectionProviderBase provider)
         {
             var att = provider.ProviderAttribute();
-
-            if (!MerchelloContext.HasCurrent || att == null) return Enumerable.Empty<IEntityCollection>();
-
             return MerchelloContext.Current.Services.EntityCollectionService.GetByProviderKey(att.Key);
         }
 
@@ -282,13 +277,14 @@
         ///// </returns>
         //public static EntityCollectionProviderBase ResolveProvider(this IEntityCollection collection)
         //{
+        //    // TODO
         //    if (!EntityCollectionProviderResolver.HasCurrent) return null;
 
         //    var attempt = EntityCollectionProviderResolver.Current.GetProviderForCollection(collection.Key);
 
         //    if (attempt.Success) return attempt.Result;
 
-        //    MultiLogHelper.Error(typeof(EntityCollectionExtensions), "Resolver failed to resolve collection provider", attempt.Exception);
+        //    MultiLogHelper.Error(typeof(Extensions), "Resolver failed to resolve collection provider", attempt.Exception);
         //    return null;
         //}
 
@@ -303,7 +299,7 @@
         /// </param>
         internal static void SetParent(this IEntityCollection collection, IEntityCollection parent)
         {
-            if (!MerchelloContext.HasCurrent || collection.EntityTfKey != parent.EntityTfKey) return;
+            if (collection.EntityTfKey != parent.EntityTfKey) return;
 
             collection.ParentKey = parent.Key;
 
@@ -319,7 +315,6 @@
         internal static void SetParent(this IEntityCollection collection)
         {
             if (collection.ParentKey == null) return;
-            if (!MerchelloContext.HasCurrent) return;
             collection.ParentKey = null;
             MerchelloContext.Current.Services.EntityCollectionService.Save(collection);
         }

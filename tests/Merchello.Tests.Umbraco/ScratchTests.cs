@@ -24,31 +24,26 @@
         { 
             Logger.Info<ScratchTests>("Logging test");
 
-            Assert.NotNull(IoC.Current);
-
-
             Assert.NotNull(ApplicationContext.DatabaseContext, "DatabaseContext was null");
             Assert.NotNull(ApplicationContext.DatabaseContext.SqlSyntax, "SqlSyntax was null");
 
-            var mappingResolver = IoC.Container.GetInstance<IMappingResolver>();
-
-            Assert.NotNull(mappingResolver);
-
-            var dbFactory = IoC.Container.GetInstance<IDatabaseFactory>();
+            var dbFactory = MC.Container.GetInstance<IDatabaseFactory>();
             Assert.NotNull(dbFactory);
 
-            var uowProvider = IoC.Container.GetInstance<IDatabaseUnitOfWorkProvider>();
+            var uowProvider = MC.Container.GetInstance<IDatabaseUnitOfWorkProvider>();
             using (var uow = uowProvider.CreateUnitOfWork())
             {
                 var repo = uow.CreateRepository<IMigrationStatusRepository>();
                 Assert.NotNull(repo);
             }
 
-            Assert.That(MerchelloContext.HasCurrent, Is.True);
+            var merchelloContext = MerchelloContext.Current;
+
+            Assert.NotNull(merchelloContext.Services);
 
             //var unitOfWork = IoC.Container.GetInstance<IUnitOfWork>();
 
-            var manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            var manager = MC.Container.GetInstance<IDatabaseSchemaManager>();
             manager.UninstallDatabaseSchema();
             //manager.InstallDatabaseSchema();
             Assert.NotNull(manager);
@@ -58,7 +53,7 @@
             //var version = new Version("0.0.0");
             //Assert.That(manager.DbVersion, Is.EqualTo(version));
             
-            var cacheFactory = IoC.Container.GetInstance<ICloneableCacheEntityFactory>();
+            var cacheFactory = MC.Container.GetInstance<ICloneableCacheEntityFactory>();
 
             Console.WriteLine(cacheFactory.GetType());
         }

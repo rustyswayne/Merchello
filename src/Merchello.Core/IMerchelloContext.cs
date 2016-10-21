@@ -23,7 +23,7 @@
         /// Gets the Merchello <see cref="IServiceContext"/>
         /// </summary>
         IServiceContext Services { get; }
-        
+
         ///// <summary>
         ///// Gets the <see cref="IGatewayContext"/>
         ///// </summary>

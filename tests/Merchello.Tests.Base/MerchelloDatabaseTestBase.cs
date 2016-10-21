@@ -13,11 +13,11 @@
         {
             base.Initialize();
 
-            var schemaManager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            var schemaManager = MC.Container.GetInstance<IDatabaseSchemaManager>();
             schemaManager.UninstallDatabaseSchema();
             schemaManager.InstallDatabaseSchema();
 
-            this.Database = IoC.Container.GetInstance<IDatabaseFactory>().GetDatabase().Database;
+            this.Database = MC.Container.GetInstance<IDatabaseFactory>().GetDatabase().Database;
         }
 
         public override void TearDown()

@@ -9,6 +9,8 @@
 
     using NUnit.Framework;
 
+    // TODO REMOVE
+
     [TestFixture]
     public class MappingResolverTests : UmbracoApplicationContextTestBase
     {

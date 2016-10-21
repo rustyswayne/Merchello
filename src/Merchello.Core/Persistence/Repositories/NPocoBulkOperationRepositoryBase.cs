@@ -35,11 +35,11 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
-        protected NPocoBulkOperationRepositoryBase(IDatabaseBulkUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
-            : base(work, cache, logger, mappingResolver)
+        protected NPocoBulkOperationRepositoryBase(IDatabaseBulkUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers)
+            : base(work, cache, logger, mappers)
         {
         }
 

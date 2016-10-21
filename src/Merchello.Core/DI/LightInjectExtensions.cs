@@ -28,7 +28,11 @@
         /// </param>
         public static void RegisterSingleton<TService>(this IServiceRegistry container, Func<IServiceFactory, TService> factory, string serviceName)
         {
-            container.Register(factory, serviceName, new PerContainerLifetime());
+            var registration = container.GetAvailableService<TService>(serviceName);
+            if (registration == null)
+                container.Register(factory, serviceName, new PerContainerLifetime());
+            else
+                container.UpdateRegistration(registration, null, factory);
         }
 
         /// <summary>
@@ -46,7 +50,12 @@
         public static void RegisterSingleton<TService, TImplementation>(this IServiceRegistry container) 
             where TImplementation : TService
         {
-            container.Register<TService, TImplementation>(new PerContainerLifetime());
+            var registration = container.GetAvailableService<TService>();
+
+            if (registration == null)
+                container.Register<TService, TImplementation>(new PerContainerLifetime());
+            else
+                container.UpdateRegistration(registration, typeof(TImplementation), null);
         }
 
         /// <summary>
@@ -60,7 +69,11 @@
         /// </param>
         public static void RegisterSingleton<TImplementation>(this IServiceRegistry container)
         {
-            container.Register<TImplementation>(new PerContainerLifetime());
+            var registration = container.GetAvailableService<TImplementation>();
+            if (registration == null)
+                container.Register<TImplementation>(new PerContainerLifetime());
+            else
+                container.UpdateRegistration(registration, typeof(TImplementation), null);
         }
 
         /// <summary>
@@ -148,6 +161,65 @@
         }
 
         /// <summary>
+        /// Determines if a service has already been registered/available.
+        /// </summary>
+        /// <param name="container">
+        /// The container.
+        /// </param>
+        /// <typeparam name="TService">
+        /// The type of the service
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="ServiceRegistration"/>.
+        /// </returns>
+        public static ServiceRegistration GetAvailableService<TService>(this IServiceRegistry container)
+        {
+            var typeofTService = typeof(TService);
+            return container.AvailableServices.SingleOrDefault(x => x.ServiceType == typeofTService);
+        }
+
+        /// <summary>
+        /// Determines if a service has already been registered/available.
+        /// </summary>
+        /// <param name="container">
+        /// The container.
+        /// </param>
+        /// <typeparam name="TService">
+        /// The type of the service
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IEnumerable{ServiceRegistration}"/>.
+        /// </returns>
+        public static IEnumerable<ServiceRegistration> GetAvailableServices<TService>(this IServiceRegistry container)
+        {
+            var typeofTService = typeof(TService);
+            return container.AvailableServices.Where(x => x.ServiceType == typeofTService);
+        }
+
+        /// <summary>
+        /// Registers a register builder.
+        /// </summary>
+        /// <param name="container">
+        /// The container.
+        /// </param>
+        /// <typeparam name="TBuilder">
+        /// The type of the register builder
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TBuilder"/>.
+        /// </returns>
+        public static TBuilder RegisterRegisterBuilder<TBuilder>(this IServiceContainer container)
+        {
+            // register the builder - per container
+            var builderLifetime = new PerContainerLifetime();
+            container.Register<TBuilder>(builderLifetime);
+
+            // return the builder
+            // (also initializes the builder)
+            return container.GetInstance<TBuilder>();
+        }
+
+        /// <summary>
         /// Updates a service registration.
         /// </summary>
         /// <param name="container">
@@ -170,5 +242,6 @@
             registration.ImplementingType = implementingType;
             registration.FactoryExpression = factoryExpression;
         }
+
     }
 }

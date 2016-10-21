@@ -42,8 +42,8 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
         /// <param name="invoiceLineItemRepository">
         /// The <see cref="IInvoiceLineItemRepository"/>
@@ -54,8 +54,8 @@
         /// <param name="noteRepository">
         /// The <see cref="INoteRepository"/>
         /// </param>
-        public InvoiceRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IInvoiceLineItemRepository invoiceLineItemRepository, IOrderRepository orderRepository, INoteRepository noteRepository)
-            : base(work, cache, logger, mappingResolver)
+        public InvoiceRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers, IInvoiceLineItemRepository invoiceLineItemRepository, IOrderRepository orderRepository, INoteRepository noteRepository)
+            : base(work, cache, logger, mappers)
         {
             Ensure.ParameterNotNull(invoiceLineItemRepository, nameof(invoiceLineItemRepository));
             Ensure.ParameterNotNull(orderRepository, nameof(orderRepository));

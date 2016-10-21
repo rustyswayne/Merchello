@@ -26,14 +26,14 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
         /// <param name="paymentRepository">
         /// The <see cref="IPaymentRepository"/>
         /// </param>
-        public PaymentMethodRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IPaymentRepository paymentRepository)
-            : base(work, cache, logger, mappingResolver)
+        public PaymentMethodRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers, IPaymentRepository paymentRepository)
+            : base(work, cache, logger, mappers)
         {
             Ensure.ParameterNotNull(paymentRepository, nameof(paymentRepository));
             _paymentRepository = paymentRepository;

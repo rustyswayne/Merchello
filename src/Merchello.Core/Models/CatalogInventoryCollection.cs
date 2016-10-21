@@ -8,8 +8,6 @@
 
     using Merchello.Core.Acquired.Threading;
 
-    using Umbraco.Core;
-
     /// <summary>
     /// Represents a catalog inventory collection.
     /// </summary>

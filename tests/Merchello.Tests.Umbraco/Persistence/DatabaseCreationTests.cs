@@ -14,9 +14,9 @@
         public override void Initialize()
         {
             base.Initialize();
-            Assert.NotNull(IoC.Container, "IoC container not setup");
+            Assert.NotNull(MC.Container, "IoC container not setup");
 
-            SchemaManager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            SchemaManager = MC.Container.GetInstance<IDatabaseSchemaManager>();
             Assert.NotNull(SchemaManager);
         }
 

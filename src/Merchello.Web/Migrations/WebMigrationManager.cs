@@ -70,18 +70,16 @@
                 return new HttpResponseMessage(HttpStatusCode.OK);
 
             // reset the domain analytic
-            if (MerchelloContext.HasCurrent)
+            var storeSettingService = MerchelloContext.Current.Services.StoreSettingService;
+
+            var setting = storeSettingService.GetByKey(Constants.StoreSetting.HasDomainRecordKey);
+            if (setting != null)
             {
-                var storeSettingService = MerchelloContext.Current.Services.StoreSettingService;
-
-                var setting = storeSettingService.GetByKey(Constants.StoreSetting.HasDomainRecordKey);
-                if (setting != null)
-                {
-                    setting.Value = false.ToString();
-                }
-
-                storeSettingService.Save(setting);
+                setting.Value = false.ToString();
             }
+
+            storeSettingService.Save(setting);
+            
 
             var data = JsonConvert.SerializeObject(record);
 

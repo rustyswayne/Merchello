@@ -3,7 +3,7 @@
     /// <summary>
     /// Methods for getting boot manager settings and adapting Umbraco's instantiated objects.
     /// </summary>
-    public partial class UmbracoBoot
+    public partial class PackageBootstrap
     {
         /// <summary>
         /// Gets <see cref="IBootSettings"/> for Merchello startup.

@@ -22,7 +22,7 @@
         {
             base.Initialize();
 
-            this._db = IoC.Container.GetInstance<IDatabaseAdapter>();
+            this._db = MC.Container.GetInstance<IDatabaseAdapter>();
         }
 
         internal Sql<SqlContext> Sql()

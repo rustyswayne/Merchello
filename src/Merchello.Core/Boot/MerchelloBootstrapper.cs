@@ -11,14 +11,14 @@
         /// Initializes the Bootstrap process.
         /// </summary>
         /// <param name="bootManager">
-        /// The <see cref="BootManagerBase"/>.
+        /// The <see cref="BootBase"/>.
         /// </param>
-        public static void Init(BootManagerBase bootManager)
+        public static void Init(BootBase boot)
         {
-            bootManager
+            boot
                 .Initialize()
-                .Startup(merchContext => bootManager.OnMerchelloStarting(bootManager, new EventArgs()))
-                .Complete(merchContext => bootManager.OnMerchelloStarted(bootManager, new EventArgs()));
+                .Startup(merchContext => boot.OnMerchelloStarting(boot, new EventArgs()))
+                .Complete(merchContext => boot.OnMerchelloStarted(boot, new EventArgs()));
         }
     }
 }

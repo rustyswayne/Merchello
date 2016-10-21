@@ -28,14 +28,14 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
         /// <param name="orderLineItemRepository">
         /// The <see cref="IOrderLineItemRepository"/>
         /// </param>
-        public ShipmentRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IOrderLineItemRepository orderLineItemRepository)
-            : base(work, cache, logger, mappingResolver)
+        public ShipmentRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers, IOrderLineItemRepository orderLineItemRepository)
+            : base(work, cache, logger, mappers)
         {
             Ensure.ParameterNotNull(orderLineItemRepository, nameof(orderLineItemRepository));
             _orderLineItemRepository = orderLineItemRepository;

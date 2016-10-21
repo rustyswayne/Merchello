@@ -34,14 +34,14 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
         /// <param name="productOptionRepository">
         /// The <see cref="IProductOptionRepository"/>
         /// </param>
-        public DetachedContentTypeRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IProductOptionRepository productOptionRepository)
-            : base(work, cache, logger, mappingResolver)
+        public DetachedContentTypeRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers, IProductOptionRepository productOptionRepository)
+            : base(work, cache, logger, mappers)
         {
             Ensure.ParameterNotNull(productOptionRepository, nameof(productOptionRepository));
             _productOptionRepository = productOptionRepository;

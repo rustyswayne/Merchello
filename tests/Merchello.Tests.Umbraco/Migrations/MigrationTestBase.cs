@@ -79,8 +79,8 @@
 
         internal static DatabaseSchemaCreation GetDbSchemaCreation(IDatabaseSchemaManager manager)
         {
-            var dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
-            var logger = IoC.Container.GetInstance<ILogger>();
+            var dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
+            var logger = MC.Container.GetInstance<ILogger>();
 
             return new DatabaseSchemaCreation(dbAdapter, logger, manager);
         }

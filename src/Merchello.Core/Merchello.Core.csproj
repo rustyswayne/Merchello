@@ -44,6 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acquired\DisposableTimer.cs" />
+    <Compile Include="Boot\IBoot.cs" />
+    <Compile Include="Boot\IBootManager.cs" />
+    <Compile Include="Compositions\CacheComposition.cs" />
+    <Compile Include="Compositions\LoggerComposition.cs" />
+    <Compile Include="DI\RegisterBuilderBase.cs" />
+    <Compile Include="DI\IRegisterBuilder.cs" />
+    <Compile Include="DI\LazyRegisterBuilderBase.cs" />
     <Compile Include="Acquired\Logging\LogProfiler.cs" />
     <Compile Include="Acquired\Logging\ProfilerExtensions.cs" />
     <Compile Include="Acquired\NetworkHelper.cs" />
@@ -56,6 +63,8 @@
     <Compile Include="Constants.Store.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
+    <Compile Include="DI\IRegister.cs" />
+    <Compile Include="DI\Register.cs" />
     <Compile Include="EntityCollections\IProductCollectionProvider.cs" />
     <Compile Include="EntityCollections\IProductFilterGroupProvider.cs" />
     <Compile Include="EntityCollections\ProductFilterGroupProviderBase.cs" />
@@ -84,6 +93,8 @@
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
     <Compile Include="Extensions.Version.cs" />
+    <Compile Include="Logging\DefaultEmptyRemoteLogger.cs" />
+    <Compile Include="Logging\RemoteLoggerBase.cs" />
     <Compile Include="Models\Cache\DefaultCloneableCacheEntry.cs" />
     <Compile Include="Models\EntityBase\IStoreSpecificEntity.cs" />
     <Compile Include="Models\Interfaces\IHasCurrencyCode.cs" />
@@ -95,6 +106,9 @@
     <Compile Include="Models\Rdbms\Store2StoreSettingDto.cs" />
     <Compile Include="Models\StoreSettingsCollection.cs" />
     <Compile Include="Persistence\Factories\InvoiceFactory.cs" />
+    <Compile Include="Persistence\Mappers\IMapperRegister.cs" />
+    <Compile Include="Persistence\Mappers\MapperRegister.cs" />
+    <Compile Include="Persistence\Mappers\MapperRegisterBuilder.cs" />
     <Compile Include="Persistence\Migrations\Analytics\MigrationDomain.cs" />
     <Compile Include="Persistence\Migrations\Analytics\MigrationRecord.cs" />
     <Compile Include="Persistence\Migrations\IMigration.cs" />
@@ -178,7 +192,7 @@
     <Compile Include="Constants.Warehouse.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
-    <Compile Include="DI\ServicesCompositionRoot.cs" />
+    <Compile Include="Compositions\ServicesComposition.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Events\CacheRefresherEventArgs.cs" />
     <Compile Include="Events\TypedEventHandler.cs" />
@@ -252,17 +266,6 @@
     <Compile Include="IAttempt.cs" />
     <Compile Include="Cache\IIsolatedRuntimeCacheAdapter.cs" />
     <Compile Include="Acquired\ObjectExtensions.cs" />
-    <Compile Include="Acquired\ObjectResolution\ContainerLazyManyObjectsResolver.cs" />
-    <Compile Include="Acquired\ObjectResolution\ContainerManyObjectsResolver.cs" />
-    <Compile Include="Acquired\ObjectResolution\ContainerSingleObjectResolver.cs" />
-    <Compile Include="Acquired\ObjectResolution\LazyManyObjectsResolverbase.cs" />
-    <Compile Include="Acquired\ObjectResolution\ManyObjectsResolverBase.cs" />
-    <Compile Include="Acquired\ObjectResolution\ObjectLifetimeScope.cs" />
-    <Compile Include="Acquired\ObjectResolution\Resolution.cs" />
-    <Compile Include="Acquired\ObjectResolution\ResolverBase.cs" />
-    <Compile Include="Acquired\ObjectResolution\ResolverCollection.cs" />
-    <Compile Include="Acquired\ObjectResolution\SingleObjectResolverBase.cs" />
-    <Compile Include="Acquired\ObjectResolution\WeightedPluginAttribute.cs" />
     <Compile Include="Acquired\Persistence\DatabaseAnnotations\ConstraintAttribute.cs" />
     <Compile Include="Acquired\Persistence\DatabaseAnnotations\ForeignKeyAttribute.cs" />
     <Compile Include="Acquired\Persistence\DatabaseAnnotations\IndexAttribute.cs" />
@@ -691,9 +694,9 @@
     <Compile Include="Persistence\SqlContext.cs" />
     <Compile Include="Persistence\SqlSyntax\ColumnInfo.cs" />
     <Compile Include="Acquired\ServiceProviderExtensions.cs" />
-    <Compile Include="DI\ConfigurationCompositionRoot .cs" />
+    <Compile Include="Compositions\ConfigurationComposition.cs" />
     <Compile Include="DI\LightInjectExtensions.cs" />
-    <Compile Include="DI\RepositoryCompositionRoot.cs" />
+    <Compile Include="Compositions\RepositoryComposition.cs" />
     <Compile Include="Logging\ExtendedLoggerData.cs" />
     <Compile Include="Logging\MultiLogger.cs" />
     <Compile Include="Mapping\MerchelloMapperConfiguration.cs" />
@@ -712,14 +715,11 @@
     <Compile Include="Persistence\UnitOfWork\NPocoUnitOfWorkProviderBase.cs" />
     <Compile Include="Persistence\UnitOfWork\UnitOfWorkBase.cs" />
     <Compile Include="Plugins\IPluginManager.cs" />
-    <Compile Include="DI\IoC.cs" />
+    <Compile Include="DI\MC.cs" />
     <Compile Include="Persistence\IDatabaseContext.cs" />
     <Compile Include="Acquired\Persistence\Mappers\BaseExpressionHelper.cs" />
-    <Compile Include="Persistence\Mappers\IMappingResolver.cs" />
     <Compile Include="Acquired\Persistence\Mappers\PocoMapper.cs" />
-    <Compile Include="Acquired\Persistence\Mappers\ModelToSqlExpressionHelper.cs" />
     <Compile Include="Persistence\Mappers\MapperForAttribute.cs" />
-    <Compile Include="Persistence\Mappers\MappingResolver.cs" />
     <Compile Include="Persistence\Querying\IQuery.cs" />
     <Compile Include="Persistence\Querying\IQueryFactory.cs" />
     <Compile Include="Acquired\Persistence\Querying\TextColumnType.cs" />
@@ -738,7 +738,7 @@
     <Compile Include="Acquired\Attempt.cs" />
     <Compile Include="Acquired\Attempt{T}.cs" />
     <Compile Include="Adapters\DatabaseContextAdapterBase.cs" />
-    <Compile Include="Boot\BootManagerBase.cs" />
+    <Compile Include="Boot\BootBase.cs" />
     <Compile Include="Boot\CoreBootSettings.cs" />
     <Compile Include="Boot\ICoreBootSettings.cs" />
     <Compile Include="Cache\ICacheHelper.cs" />
@@ -803,7 +803,7 @@
     <Compile Include="Configuration\Sections\IMerchelloSettingsSection.cs" />
     <Compile Include="Configuration\Elements\ProductsElement.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Boot\CoreBootManager.cs" />
+    <Compile Include="Boot\CoreBoot.cs" />
     <Compile Include="Acquired\CustomBooleanTypeConverter.cs" />
     <Compile Include="Acquired\DelegateEqualityComparer.cs" />
     <Compile Include="Acquired\DisposableObject.cs" />
@@ -838,7 +838,6 @@
     <Compile Include="Events\UpdateItemEventArgs.cs" />
     <Compile Include="Events\ValidationEventArgs.cs" />
     <Compile Include="Acquired\ExpressionHelper.cs" />
-    <Compile Include="Boot\IBootManager.cs" />
     <Compile Include="IDisposableTimer.cs" />
     <Compile Include="IMerchelloContext.cs" />
     <Compile Include="Integration\IAdapter.cs" />
@@ -854,7 +853,6 @@
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Logging\MultiLogHelper.cs" />
-    <Compile Include="Logging\MultiLogResolver.cs" />
     <Compile Include="Marketing\Offer\OfferComponentConfiguration.cs" />
     <Compile Include="Marketing\Offer\OfferComponentDefinition.cs" />
     <Compile Include="Boot\MerchelloBootstrapper.cs" />
@@ -1091,7 +1089,6 @@
     <Compile Include="Enums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Acquired\ObjectResolution\readme.md" />
     <None Include="Cache\readme.md" />
     <None Include="project.json" />
   </ItemGroup>

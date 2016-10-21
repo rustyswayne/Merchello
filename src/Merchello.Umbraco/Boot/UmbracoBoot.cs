@@ -1,74 +1,130 @@
 ﻿namespace Merchello.Umbraco.Boot
 {
-    using System;
-    using System.Reflection;
+    using LightInject;
 
-    using log4net;
-
-    using Merchello.Core.Boot;
+    using Merchello.Core.Cache;
+    using Merchello.Core.DI;
+    using Merchello.Core.Persistence.Migrations;
+    using Merchello.Umbraco.Adapters.Persistence;
+    using Merchello.Umbraco.Cache;
+    using Merchello.Umbraco.DI;
+    using Merchello.Umbraco.Migrations;
+    using Merchello.Web.Boot;
 
     using global::Umbraco.Core;
 
+    using global::Umbraco.Core.Plugins;
+
+    using IDatabaseFactory = Merchello.Core.Persistence.IDatabaseFactory;
+
     /// <summary>
-    /// Handles Umbraco's Initialized event to start Merchello's bootstrap process.
+    /// Starts the Merchello Umbraco CMS Package.
     /// </summary>
-    /// <remarks>
-    /// FYI: This is a partial class so we can nest actual event handler registrations in a more organized fashion
-    /// </remarks> 
-    public partial class UmbracoBoot : IApplicationEventHandler
+    internal class UmbracoBoot : WebBoot
     {
         /// <summary>
-        /// A logger to log startup
+        /// Umbraco's <see cref="ApplicationContext"/>.
         /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ApplicationContext _appContext;
 
-        /// <inheritdoc/>
-        public void OnApplicationInitialized(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        /// <summary>
+        /// Umbraco's <see cref="PluginManager"/>.
+        /// </summary>
+        private readonly PluginManager _pluginManager;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Merchello.Umbraco.Boot.UmbracoBoot"/> class.
+        /// </summary>
+        public UmbracoBoot()
+            : this(new BootSettings(), ApplicationContext.Current, PluginManager.Current)
         {
-        }
-
-        /// <inheritdoc/>
-        public void OnApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-        {
-        }
-    
-        /// <inheritdoc/>
-        /// <remarks>
-        /// Merchello starts it's boot sequence after Umbraco has completed
-        /// </remarks>
-        public void OnApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-        {
-            BootManagerBase.MerchelloStarted += this.OnMerchelloStarted;
-
-            try
-            {
-                // Initialize Merchello
-                Log.Info("Attempting to initialize Merchello Umbraco Package");
-
-                // Build the settings and adapt Umbraco singleton instances
-                var settings = GetBootSettings();
-
-                MerchelloBootstrapper.Init(new UmbracoBootManager(settings, applicationContext));
-                
-                Log.Info("Initialization of Merchello Umbraco Package complete");
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Initialization of Merchello failed", ex);
-            }
         }
 
         /// <summary>
-        /// Handles the <see cref="BootManagerBase"/> Started event.
+        /// Initializes a new instance of the <see cref="Merchello.Umbraco.Boot.UmbracoBoot"/> class.
         /// </summary>
-        /// <param name="sender">
-        /// The <see cref="BootManagerBase"/>.
+        /// <param name="settings">
+        /// The settings.
         /// </param>
-        /// <param name="e">
-        /// The <see cref="EventArgs"/>.
-        /// </param>>
-        private void OnMerchelloStarted(object sender, EventArgs e)
+        /// <param name="appContext">
+        /// The app context.
+        /// </param>
+        public UmbracoBoot(IBootSettings settings, ApplicationContext appContext)
+            : this(settings, appContext, PluginManager.Current)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Merchello.Umbraco.Boot.UmbracoBoot"/> class.
+        /// </summary>
+        /// <param name="settings">
+        /// The <see cref="IBootSettings"/>.
+        /// </param>
+        /// <param name="appContext">
+        /// Umbraco's ApplicationContext.
+        /// </param>
+        /// <param name="pluginManager">
+        /// Umbraco's PluginManager
+        /// </param>
+        public UmbracoBoot(IBootSettings settings, ApplicationContext appContext, PluginManager pluginManager)
+            : base(settings)
+        {
+            Core.Ensure.ParameterNotNull(appContext, nameof(appContext));
+            Core.Ensure.ParameterNotNull(pluginManager, nameof(pluginManager));
+            
+            _appContext = appContext;
+            _pluginManager = pluginManager;
+        }
+
+        /// <inheritdoc/>
+        internal override void ConfigureCmsServices(IServiceContainer container)
+        {
+            base.ConfigureCmsServices(container);
+
+            // ApplicationContext direct
+            container.RegisterSingleton<global::Umbraco.Core.Persistence.SqlSyntax.ISqlSyntaxProvider>(factory => _appContext.DatabaseContext.SqlSyntax);
+            container.RegisterSingleton<global::Umbraco.Core.Cache.CacheHelper>(factory => _appContext.ApplicationCache);
+            container.RegisterSingleton<global::Umbraco.Core.Logging.ProfilingLogger>(factory => _appContext.ProfilingLogger);
+            container.RegisterSingleton<global::Umbraco.Core.Logging.ILogger>(factory => _appContext.ProfilingLogger.Logger);
+            container.RegisterSingleton<global::Umbraco.Core.DatabaseContext>(factory => _appContext.DatabaseContext);
+            container.RegisterSingleton<global::Umbraco.Core.Plugins.PluginManager>(factory => _pluginManager);
+
+            container.RegisterFrom<UmbracoCompositionRoot>();
+
+            // Migrations
+            container.Register<IMigrationManager, MigrationManager>();
+        }
+
+        /// <inheritdoc/>
+        /// <param name="container"></param>
+        internal override void ConfigureCoreServices(IServiceContainer container)
+        {
+            base.ConfigureCoreServices(container);
+
+            // Need to wait for Merchello's IQueryFactory to be defined
+            container.RegisterSingleton<IDatabaseFactory, DatabaseContextAdapter>();
+
+            // Replace ICloneableCacheEntityFactory
+            container.Register<ICloneableCacheEntityFactory, CacheSurrogateFactory>();
+        }
+
+        /// <inheritdoc/>
+        protected override void EnsureInstallVersion(IServiceContainer container)
+        {
+            var manager = container.GetInstance<IMigrationManager>();
+
+            var status = manager.GetDbSchemaStatus();
+            switch (status)
+            {
+                case DbSchemaStatus.RequiresInstall:
+                    manager.InstallDatabaseSchema();
+                    break;
+                case DbSchemaStatus.RequiresUpgrade:
+                    break;
+                case DbSchemaStatus.Current:
+                default:
+                    break;
+            }
         }
     }
 }

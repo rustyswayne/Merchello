@@ -18,15 +18,10 @@ namespace Merchello.Core.Acquired.Persistence.Querying
             this._mapper = mapper;
         }
 
-        public ModelToSqlExpressionHelper(ISqlSyntaxProviderAdapter sqlSyntax, IMappingResolver mappingResolver)
+        public ModelToSqlExpressionHelper(ISqlSyntaxProviderAdapter sqlSyntax, IMapperRegister mappers)
             : base(sqlSyntax)
         {
-            this._mapper = mappingResolver.ResolveMapperByType(typeof(T));
-
-            if (this._mapper == null)
-            {
-                throw new InvalidOperationException("Could not resolve a mapper for type " + typeof (T));
-            }
+            _mapper = mappers[typeof(T)]; // throws if not found
         }
 
         protected override string VisitMemberAccess(MemberExpression m)

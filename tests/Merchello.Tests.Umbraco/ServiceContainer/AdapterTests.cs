@@ -15,48 +15,48 @@
         [Test]
         public void UmbracoDatabaseContext()
         {
-            Assert.NotNull(IoC.Container.GetInstance<global::Umbraco.Core.DatabaseContext>());
+            Assert.NotNull(MC.Container.GetInstance<global::Umbraco.Core.DatabaseContext>());
         }
 
         [Test]
         public void UmbracoLogger()
         {
-            Assert.NotNull(IoC.Container.GetInstance<global::Umbraco.Core.Logging.ILogger>());
+            Assert.NotNull(MC.Container.GetInstance<global::Umbraco.Core.Logging.ILogger>());
         }
 
         [Test]
         public void UmbracoDatabase()
         {
-            Assert.NotNull(IoC.Container.GetInstance<global::Umbraco.Core.Persistence.UmbracoDatabase>());
+            Assert.NotNull(MC.Container.GetInstance<global::Umbraco.Core.Persistence.UmbracoDatabase>());
         }
 
         [Test]
         public void DatabaseSchemaHelper()
         {
-            Assert.NotNull(IoC.Container.GetInstance<global::Umbraco.Core.Persistence.DatabaseSchemaHelper>());
+            Assert.NotNull(MC.Container.GetInstance<global::Umbraco.Core.Persistence.DatabaseSchemaHelper>());
         }
 
         [Test]
         public void IPluginManager()
         {
-            Assert.NotNull(IoC.Container.GetInstance<IPluginManager>());
+            Assert.NotNull(MC.Container.GetInstance<IPluginManager>());
         }
 
         [Test]
         public void ISqlSyntaxProvider()
         {
-            Assert.NotNull(IoC.Container.GetInstance<ISqlSyntaxProviderAdapter>());
+            Assert.NotNull(MC.Container.GetInstance<ISqlSyntaxProviderAdapter>());
         }
 
         [Test]
         public void ICacheHelper()
         {
-            Assert.NotNull(IoC.Container.GetInstance<ICacheHelper>());
+            Assert.NotNull(MC.Container.GetInstance<ICacheHelper>());
         }
 
         public void ILogger()
         {
-            Assert.NotNull(IoC.Container.GetInstance<ILogger>());
+            Assert.NotNull(MC.Container.GetInstance<ILogger>());
         }
     }
 }

@@ -71,7 +71,7 @@
         /// The currency code
         /// </param>
         internal OrderFactory(OrderStatusFactory orderStatusFactory, string currencyCode)
-            : this(orderStatusFactory, IoC.Container.GetInstance<IOrderLineItemRepository>().GetLineItemCollection, currencyCode)
+            : this(orderStatusFactory, MC.Container.GetInstance<IOrderLineItemRepository>().GetLineItemCollection, currencyCode)
         {
         }
 

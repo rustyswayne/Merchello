@@ -9,23 +9,24 @@
     /// <summary>
     /// The web boot manager.
     /// </summary>
-    internal class WebBootManager : CoreBootManager
+    internal class WebBoot : CoreBoot
     {
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebBootManager"/> class. 
+        /// Initializes a new instance of the <see cref="WebBoot"/> class. 
         /// </summary>
-        public WebBootManager()
+        public WebBoot()
             : base(new CoreBootSettings())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebBootManager"/> class. 
+        /// Initializes a new instance of the <see cref="WebBoot"/> class. 
         /// </summary>
         /// <param name="settings">
         /// The <see cref="IWebBootSettings"/>.
         /// </param>
-        internal WebBootManager(IWebBootSettings settings)
+        internal WebBoot(IWebBootSettings settings)
             : base(settings)
         {
         }
@@ -40,35 +41,6 @@
             base.Initialize();
 
             return this;
-        }
-
-        /// <summary>
-        /// Initializer resolvers.
-        /// </summary>
-        protected override void InitializeResolvers()
-        {
-            base.InitializeResolvers();
-        }
-
-        /// <summary>
-        /// Overrides the base GetMultiLogger.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IMultiLogger"/>.
-        /// </returns>
-        protected override IMultiLogger GetMultiLogger(ILogger logger)
-        {
-            return base.GetMultiLogger(logger);
-            //try
-            //{
-            //    var remoteLogger = PluggableObjectHelper.GetInstance<RemoteLoggerBase>("RemoteLogger");
-            //    return new MultiLogger(Logger, remoteLogger);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Logger.WarnWithException<WebBootManager>("Failed to instantiate remote logger. Returning default logger", ex, () => new object[] { });
-            //    return new MultiLogger();
-            //}
         }
     }
 }

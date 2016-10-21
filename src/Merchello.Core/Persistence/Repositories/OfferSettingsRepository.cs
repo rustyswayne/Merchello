@@ -26,14 +26,14 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
         /// <param name="offerRedeemedRepository">
         /// The <see cref="IOfferRedeemedRepository"/>
         /// </param>
-        public OfferSettingsRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IOfferRedeemedRepository offerRedeemedRepository)
-            : base(work, cache, logger, mappingResolver)
+        public OfferSettingsRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers, IOfferRedeemedRepository offerRedeemedRepository)
+            : base(work, cache, logger, mappers)
         {
             Ensure.ParameterNotNull(offerRedeemedRepository, nameof(offerRedeemedRepository));
             _offerRedeemedRepository = offerRedeemedRepository;

@@ -29,21 +29,21 @@
         /// Initializes a new instance of the <see cref="NPocoRepositoryBase{TEntity}"/> class.
         /// </summary>
         /// <param name="work">
-        /// The work.
+        /// The <see cref="IDatabaseUnitOfWork"/>.
         /// </param>
         /// <param name="cache">
-        /// The cache.
+        /// The <see cref="ICacheHelper"/>.
         /// </param>
         /// <param name="logger">
-        /// The logger.
+        /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The mapping resolver.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
-        protected NPocoRepositoryBase(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
+        protected NPocoRepositoryBase(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers)
             : base(work, cache, logger)
         {
-            QueryFactory = new QueryFactory(SqlSyntax, mappingResolver);
+            QueryFactory = new QueryFactory(SqlSyntax, mappers);
         }
 
         /// <summary>

@@ -7,14 +7,11 @@
     using LightInject;
 
     using Merchello.Core.Acquired;
-    using Merchello.Core.Acquired.ObjectResolution;
-    using Merchello.Core.Cache;
+    using Merchello.Core.Compositions;
     using Merchello.Core.Configuration;
     using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Mapping;
-    using Merchello.Core.Persistence.Mappers;
-    using Merchello.Core.Persistence.Migrations.Initial;
 
     using Ensure = Merchello.Core.Ensure;
 
@@ -25,14 +22,10 @@
     /// <remarks>
     /// We needed our own boot strap to setup Merchello specific singletons
     /// </remarks>
-    internal class CoreBootManager : BootManagerBase, IBootManager
+    internal class CoreBoot : BootBase, IBoot, IBootManager
     {
         #region Fields
 
-        /// <summary>
-        /// The multi log resolver.
-        /// </summary>
-        private MultiLogResolver _muliLogResolver;
 
         /// <summary>
         /// The Logger.
@@ -58,12 +51,12 @@
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CoreBootManager"/> class.
+        /// Initializes a new instance of the <see cref="CoreBoot"/> class.
         /// </summary>
         /// <param name="settings">
         /// The settings.
         /// </param>
-        internal CoreBootManager(ICoreBootSettings settings)
+        internal CoreBoot(ICoreBootSettings settings)
         {
             Ensure.ParameterNotNull(settings, nameof(settings));
 
@@ -72,7 +65,9 @@
             // "Service Registry" - singleton to for required application objects needed for the Merchello instance
             var container = new ServiceContainer();
             container.EnableAnnotatedConstructorInjection();
-            IoC.Current = new IoC(container);
+            container.EnableAnnotatedPropertyInjection();
+
+            MC.Container = container;
 
             this.IsForTesting = settings.IsForTesting;
         }
@@ -114,32 +109,25 @@
             OnMerchelloInit();
 
             // Grab everythin we need from Umbraco
-            ConfigureCmsServices(IoC.Container);
+            ConfigureCmsServices(MC.Container);
 
             _timer =
-                IoC.Container.GetInstance<IProfilingLogger>()
-                    .TraceDuration<CoreBootManager>(
+                MC.Container.GetInstance<IProfilingLogger>()
+                    .TraceDuration<CoreBoot>(
                         $"Merchello {MerchelloVersion.GetSemanticVersion()} application starting on {NetworkHelper.MachineName}",
                         "Merchello application startup complete");
 
-            _logger = IoC.Container.GetInstance<ILogger>();
-
-            _muliLogResolver = new MultiLogResolver(GetMultiLogger(_logger));
+            _logger = MC.Container.GetInstance<ILogger>();
 
             // Setup the container with all of the application services
-            ConfigureCoreServices(IoC.Container);
+            ConfigureCoreServices(MC.Container);
 
             // AutoMapper mappings need to be setup for database definition adapters before checking the installation
             InitializeAutoMapperMappers();
 
             // Ensure Installation
-            EnsureInstallVersion(IoC.Container);
+            EnsureInstallVersion(MC.Container);
 
-            // Wait until we are certain the database is setup and upgraded before instantiating the MerchelloContext.
-            // Certain resolvers may require data.
-            MerchelloContext.Current = _merchelloContext = IoC.Container.GetInstance<IMerchelloContext>();
-
-            InitializeResolvers();
 
 
             this.IsInitialized = true;   
@@ -183,12 +171,11 @@
             if (this._isComplete)
                 throw new InvalidOperationException("The boot manager has already been completed");
 
-            FreezeResolution();
 
-            //if (afterComplete != null)
-            //{
-            //    afterComplete(MerchelloContext.Current);
-            //}
+            // if (afterComplete != null)
+            // {
+            // afterComplete(MerchelloContext.Current);
+            // }
 
             this._isComplete = true;
 
@@ -218,23 +205,19 @@
         internal virtual void ConfigureCoreServices(IServiceContainer container)
         {
             // Logger
-            container.RegisterSingleton<MultiLogResolver>(factory => _muliLogResolver);
-
+            container.RegisterFrom<LoggerComposition>();
 
             // Configuration
-            container.RegisterFrom<ConfigurationCompositionRoot>();
+            container.RegisterFrom<ConfigurationComposition>();
 
             // Cache
-            container.RegisterSingleton<IRuntimeCacheProviderAdapter>(factory => factory.GetInstance<ICacheHelper>().RuntimeCache);
-
-            // TODO see Umbraco's MixedScopeManagerProvider 
-            // container.Register<ICloneableCacheEntityFactory, DefaultCloneableCacheEntityFactory>();
+            container.RegisterFrom<CacheComposition>();
 
             // Repositories
-            container.RegisterFrom<RepositoryCompositionRoot>();
+            container.RegisterFrom<RepositoryComposition>();
 
             // Data Services/ServiceContext/etc...
-            container.RegisterFrom<ServicesCompositionRoot>();
+            container.RegisterFrom<ServicesComposition>();
 
             container.RegisterSingleton<IMerchelloContext, MerchelloContext>();
         }
@@ -254,7 +237,7 @@
         /// </summary>
         protected void InitializeAutoMapperMappers()
         {
-            var container = IoC.Container;
+            var container = MC.Container;
 
             Mapper.Initialize(configuration =>
                 {
@@ -265,80 +248,15 @@
                 });
         }
 
-        /// <summary>
-        /// Initializes the logger resolver.
-        /// </summary>
-        /// <param name="logger">
-        /// The logger.
-        /// </param>
-        protected virtual void InitializeLoggerResolver(IMultiLogger logger)
+
+        public void Boot()
         {
-            if (!MultiLogResolver.HasCurrent)
-                MultiLogResolver.Current = new MultiLogResolver(logger);
+            throw new NotImplementedException();
         }
 
-
-
-        /// <summary>
-        /// Responsible for initializing resolvers.
-        /// </summary>
-        protected virtual void InitializeResolvers()
+        public void Terminate()
         {
-            var container = IoC.Container;
-
-            MappingResolver.Current = (MappingResolver)container.GetInstance<IMappingResolver>();
-
-            //if (!TriggerResolver.HasCurrent)
-            //TriggerResolver.Current = new TriggerResolver(PluginManager.Current.ResolveObservableTriggers());
-
-            //if (!MonitorResolver.HasCurrent)
-            //MonitorResolver.Current = new MonitorResolver(MerchelloContext.Current.Gateways.Notification, PluginManager.Current.ResolveObserverMonitors());            
-
-            //if (!OfferProcessorFactory.HasCurrent)
-            //OfferProcessorFactory.Current = new OfferProcessorFactory(PluginManager.Current.ResolveOfferConstraintChains());
-        }
-
-
-
-        /// <summary>
-        /// Responsible initializing observer subscriptions.
-        /// </summary>
-        protected virtual void InitializeObserverSubscriptions()
-        {
-            //if (!TriggerResolver.HasCurrent || !MonitorResolver.HasCurrent) return;
-
-            //var monitors = MonitorResolver.Current.GetAllMonitors();
-
-            //LogHelper.Info<CoreBootManager>("Starting subscribing Monitors to Triggers");
-
-            //foreach (var monitor in monitors)
-            //{
-            //    monitor.Subscribe(TriggerResolver.Current);
-            //}
-
-            //LogHelper.Info<Umbraco.Core.CoreBootManager>("Finished subscribing Monitors to Triggers");            
-        }
-
-        /// <summary>
-        /// Gets the <see cref="MultiLogger"/>.
-        /// </summary>
-        /// <param name="logger">
-        /// The logger.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IMultiLogger"/>.
-        /// </returns>
-        protected virtual IMultiLogger GetMultiLogger(ILogger logger)
-        {
-            return new MultiLogger(logger);
-        }
-
-        /// <summary>
-        /// Freeze resolution to not allow Resolvers to be modified
-        /// </summary>
-        protected virtual void FreezeResolution()
-        {
-            Resolution.Freeze();
+            throw new NotImplementedException();
         }
     }
 }

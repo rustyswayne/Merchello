@@ -50,6 +50,9 @@
     <Compile Include="Adapters\PluginManagerAdapter.cs" />
     <Compile Include="Adapters\Logging\ProfilingLoggerAdapter.cs" />
     <Compile Include="Adapters\Persistence\UmbracoDatabaseAdapter.cs" />
+    <Compile Include="Boot\PackageBootstrap-SettingsAndAdapters.cs">
+      <DependentUpon>PackageBootstrap.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cache\CacheSurrogateFactory.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="Adapters\IUmbracoAdapter.cs" />
@@ -58,14 +61,8 @@
     <Compile Include="Adapters\Logging\LoggerAdapter.cs" />
     <Compile Include="Adapters\Persistence\SqlSyntaxProviderAdapter.cs" />
     <Compile Include="Adapters\UmbracoAttemptExtensions.cs" />
-    <Compile Include="Boot\UmbracoBoot-MapperConfigurations.cs">
-      <DependentUpon>UmbracoBoot.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boot\UmbracoBoot-SettingsAndAdapters.cs">
-      <DependentUpon>UmbracoBoot.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Boot\PackageBootstrap.cs" />
     <Compile Include="Boot\UmbracoBoot.cs" />
-    <Compile Include="Boot\UmbracoBootManager.cs" />
     <Compile Include="Boot\BootSettings.cs" />
     <Compile Include="Boot\IBootSettings.cs" />
     <Compile Include="DI\UmbracoCompositionRoot.cs" />

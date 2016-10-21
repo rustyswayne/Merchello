@@ -1,7 +1,8 @@
-﻿namespace Merchello.Core.DI
+﻿namespace Merchello.Core.Compositions
 {
     using LightInject;
 
+    using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Mappers;
@@ -14,7 +15,7 @@
     /// <summary>
     /// Sets the IoC container for the Merchello data layer/repositories/sql/database/etc...
     /// </summary>
-    public sealed class RepositoryCompositionRoot : ICompositionRoot
+    public sealed class RepositoryComposition : ICompositionRoot
     {
         /// <summary>
         /// Composes configuration services by adding repositories to the <paramref name="container"/>.
@@ -32,13 +33,8 @@
             container.RegisterSingleton<IDatabaseUnitOfWorkProvider, NPocoUnitOfWorkProvider>();
             container.RegisterSingleton<IDatabaseBulkUnitOfWorkProvider, NPocoBulkUnitOfWorkProvider>();
 
-            // register mapping resover as IMappingResolver
-            container.RegisterSingleton<IMappingResolver>(
-                factory =>
-                new MappingResolver(
-                    factory.GetInstance<IServiceContainer>(),
-                    factory.GetInstance<ILogger>(),
-                    () => factory.GetInstance<IPluginManager>().ResolveBaseMappers()));
+            ((IServiceContainer)container).RegisterRegisterBuilder<MapperRegisterBuilder>()
+                .Add(factory => factory.GetInstance<IPluginManager>().ResolveBaseMappers());
 
             // Query Factory
             container.Register<IQueryFactory, QueryFactory>();

@@ -9,7 +9,6 @@
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
-    using Merchello.Core.Persistence.Factories;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
@@ -45,8 +44,8 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
         /// <param name="cacheModelFactory">
         /// The <see cref="ICloneableCacheEntityFactory"/>
@@ -57,8 +56,8 @@
         /// <param name="noteRepository">
         /// The <see cref="INoteRepository"/>.
         /// </param>
-        public CustomerRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, ICloneableCacheEntityFactory cacheModelFactory, ICustomerAddressRepository customerAddressRepository, INoteRepository noteRepository)
-            : base(work, cache, logger, mappingResolver)
+        public CustomerRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers, ICloneableCacheEntityFactory cacheModelFactory, ICustomerAddressRepository customerAddressRepository, INoteRepository noteRepository)
+            : base(work, cache, logger, mappers)
         {
             Ensure.ParameterNotNull(cacheModelFactory, nameof(cacheModelFactory));
             Ensure.ParameterNotNull(customerAddressRepository, nameof(customerAddressRepository));

@@ -14,19 +14,19 @@
         /// <param name="sqlSyntax">
         /// The sql syntax.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The mapping resolver.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
-        public QueryFactory(ISqlSyntaxProviderAdapter sqlSyntax, IMappingResolver mappingResolver)
+        public QueryFactory(ISqlSyntaxProviderAdapter sqlSyntax, IMapperRegister mappers)
         {
             SqlSyntax = sqlSyntax;
-            MappingResolver = mappingResolver;
+            Mappers = mappers;
         }
 
         /// <summary>
         /// Gets the resolver for mapping properties between entities and DTO (POCO) classes.
         /// </summary>
-        public IMappingResolver MappingResolver { get; }
+        public IMapperRegister Mappers { get; }
 
         /// <summary>
         /// Gets the sql syntax provider.
@@ -44,7 +44,7 @@
         /// </returns>
         public IQuery<T> Create<T>()
         {
-            return new Query<T>(SqlSyntax, MappingResolver);
+            return new Query<T>(SqlSyntax, Mappers);
         }
     }
 }

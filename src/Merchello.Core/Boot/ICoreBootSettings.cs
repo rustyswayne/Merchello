@@ -10,7 +10,7 @@
     using Merchello.Core.Persistence.SqlSyntax;
 
     /// <summary>
-    /// Defines settings required for the <see cref="CoreBootManager"/>.
+    /// Defines settings required for the <see cref="CoreBoot"/>.
     /// </summary>
     internal interface ICoreBootSettings
     {

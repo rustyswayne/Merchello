@@ -15,14 +15,8 @@
             base.Initialize();
 
             // Ensure the database is deleted so we can test how this behaves on installs
-            var schemaManager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            var schemaManager = MC.Container.GetInstance<IDatabaseSchemaManager>();
             schemaManager.UninstallDatabaseSchema();
-        }
-
-        [Test]
-        public void Can_Be_Setup_As_NotConfigured()
-        {
-            Assert.That(MerchelloContext.Current.IsConfigured, Is.False);
         }
     }
 }

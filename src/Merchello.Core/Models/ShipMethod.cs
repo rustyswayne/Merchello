@@ -9,8 +9,6 @@
     using Merchello.Core.Models.EntityBase;
     using Merchello.Core.Models.Interfaces;
 
-    using Umbraco.Core;
-
     /// <inheritdoc/>
     [Serializable]
     [DataContract(IsReference = true)]
@@ -20,11 +18,6 @@
         /// The property selectors.
         /// </summary>
         private static readonly Lazy<PropertySelectors> _ps = new Lazy<PropertySelectors>();
-
-        /// <summary>
-        /// The name.
-        /// </summary>
-        private string _name;
 
         /// <summary>
         /// The provider key.
@@ -37,8 +30,15 @@
         private readonly Guid _shipCountryKey;
 
         /// <summary>
+        /// The name.
+        /// </summary>
+        private string _name;
+
+
+        /// <summary>
         /// The surcharge.
         /// </summary>
+        /// TODO change to Money
         private decimal _surcharge;
 
         /// <summary>

@@ -19,7 +19,7 @@
         [Test]
         public void Can_GetFieldsForInvoiceDto()
         {
-            var dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            var dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
             var expresionist = new PocoToSqlExpressionHelper<InvoiceDto>(dbAdapter.Sql().SqlContext);
 
             Assert.NotNull(expresionist);
@@ -28,7 +28,7 @@
         [Test]
         public void Can_Create_SelectSumSqlWithWhereBetween()
         {
-            var dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            var dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
             Assert.NotNull(dbAdapter);
 
             var start = DateTime.Now.AddDays(-1);
@@ -52,7 +52,7 @@
         [Test]
         public void Can_Execute_SqlFor_Invoice_SumLineItemTotalsBySku()
         {
-            var dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            var dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
             var SqlSyntax = dbAdapter.SqlSyntax;
 
             var sku = "test";

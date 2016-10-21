@@ -30,7 +30,7 @@
         {
             base.Initialize();
 
-            _dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            _dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
 
         }
 

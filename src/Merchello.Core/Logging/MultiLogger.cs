@@ -66,35 +66,17 @@
         /// <summary>
         /// Gets the Umbraco <see cref="ILogger"/>.
         /// </summary>
-        public virtual ILogger Logger
-        {
-            get
-            {
-                return _logger;
-            }
-        }
+        public virtual ILogger Logger => this._logger;
 
         /// <summary>
         /// Gets the <see cref="IRemoteLogger"/>.
         /// </summary>
-        public virtual IRemoteLogger RemoteLogger
-        {
-            get
-            {
-                return _remoteLogger;
-            }
-        }
+        public virtual IRemoteLogger RemoteLogger => this._remoteLogger;
 
         /// <summary>
         /// Gets a value indicating whether is ready.
         /// </summary>
-        public virtual bool IsReady
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public virtual bool IsReady => true;
 
         /// <summary>
         /// Logs an error.

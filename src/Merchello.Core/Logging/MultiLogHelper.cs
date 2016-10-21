@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Merchello.Core.DI;
+
     /// <summary>
     /// The multi log helper.
     /// </summary>
@@ -10,26 +12,17 @@
         /// <summary>
         /// Gets the Umbraco <see cref="ILogger"/>.
         /// </summary>
-        public static ILogger Logger
-        {
-            get
-            {
-                if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) Logging.Logger.CreateWithDefaultLog4NetConfiguration();
-                return MultiLogResolver.Current.Logger.Logger;
-            }
-        }
+        public static ILogger Logger => MC.Container.GetInstance<ILogger>();
 
         /// <summary>
         /// Gets the remote logger.
         /// </summary>
-        public static IRemoteLogger RemoteLogger
-        {
-            get
-            {
-                if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return null;
-                return MultiLogResolver.Current.Logger.RemoteLogger;
-            }
-        }
+        public static IRemoteLogger RemoteLogger => MC.Container.GetInstance<IRemoteLogger>();
+
+        /// <summary>
+        /// The <see cref="IMultiLogger"/>.
+        /// </summary>
+        internal static IMultiLogger MultiLogger => MC.Container.GetInstance<IMultiLogger>();
 
         /// <summary>
         /// Logs and error.
@@ -62,8 +55,7 @@
         /// </param>
         public static void Error(Type callingType, string message, Exception exception)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Error(callingType, message, exception);
+            MultiLogger.Logger.Error(callingType, message, exception);
         }
 
         /// <summary>
@@ -97,8 +89,7 @@
         /// </param>
         public static void Warn(Type callingType, string message, params Func<object>[] formatItems)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Warn(callingType, message, formatItems);
+            MultiLogger.Logger.Warn(callingType, message, formatItems);
         }
 
         /// <summary>
@@ -138,8 +129,7 @@
         /// </param>
         public static void WarnWithException(Type callingType, string message, Exception e, params Func<object>[] formatItems)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.WarnWithException(callingType, message, e, formatItems);
+            MultiLogger.Logger.WarnWithException(callingType, message, e, formatItems);
         }
 
         /// <summary>
@@ -195,8 +185,7 @@
         /// </param>
         public static void Info(Type callingType, Func<string> generateMessage)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Info(callingType, generateMessage);
+            MultiLogger.Logger.Info(callingType, generateMessage);
         }
 
         /// <summary>
@@ -213,8 +202,7 @@
         /// </param>
         public static void Info(Type type, string generateMessageFormat, params Func<object>[] formatItems)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Info(type, generateMessageFormat, formatItems);
+            MultiLogger.Logger.Info(type, generateMessageFormat, formatItems);
         }
 
         /// <summary>
@@ -242,8 +230,7 @@
         /// </param>
         public static void Debug(Type callingType, Func<string> generateMessage)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Debug(callingType, generateMessage);
+            MultiLogger.Logger.Debug(callingType, generateMessage);
         }
 
         /// <summary>
@@ -277,8 +264,7 @@
         /// </param>
         public static void Debug(Type type, string generateMessageFormat, params Func<object>[] formatItems)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Debug(type, generateMessageFormat, formatItems);
+            MultiLogger.Logger.Debug(type, generateMessageFormat, formatItems);
         }
 
         /// <summary>
@@ -318,8 +304,7 @@
         /// </param>
         public static void Error(Type callingType, string message, Exception exception, IExtendedLoggerData loggerData)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Error(callingType, message, exception, loggerData);
+            MultiLogger.Error(callingType, message, exception, loggerData);
         }
 
         /// <summary>
@@ -353,8 +338,7 @@
         /// </param>
         public static void Warn(Type callingType, string message, IExtendedLoggerData loggerData)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Warn(callingType, message, loggerData);
+            MultiLogger.Warn(callingType, message, loggerData);
         }
 
         /// <summary>
@@ -394,8 +378,7 @@
         /// </param>
         public static void WarnWithException(Type callingType, string message, Exception exception, IExtendedLoggerData loggerData)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.WarnWithException(callingType, message, exception, loggerData);
+            MultiLogger.WarnWithException(callingType, message, exception, loggerData);
         }
 
         /// <summary>
@@ -429,8 +412,7 @@
         /// </param>
         public static void Info(Type callingType, string message, IExtendedLoggerData loggerData)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Info(callingType, message, loggerData);
+            MultiLogger.Info(callingType, message, loggerData);
         }
 
         /// <summary>
@@ -464,8 +446,7 @@
         /// </param>
         public static void Debug(Type callingType, string message, IExtendedLoggerData loggerData)
         {
-            if (MultiLogResolver.HasCurrent == false || MultiLogResolver.Current.HasValue == false) return;
-            MultiLogResolver.Current.Logger.Debug(callingType, message, loggerData);
+            MultiLogger.Debug(callingType, message, loggerData);
         }
     }
 }

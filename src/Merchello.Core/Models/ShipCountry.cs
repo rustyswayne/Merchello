@@ -8,8 +8,6 @@
 
     using Merchello.Core.Acquired;
 
-    using Umbraco.Core;
-
     /// <summary>
     /// Represents a country associated with a warehouse
     /// </summary>

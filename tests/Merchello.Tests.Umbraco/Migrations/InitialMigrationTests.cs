@@ -18,17 +18,17 @@
         {
             IsUpgradeTest = false;
             // Ensure the database is deleted so we can test how this behaves on installs
-            var manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            var manager = MC.Container.GetInstance<IDatabaseSchemaManager>();
 
             //var creation = GetDbSchemaCreation(manager);
             //creation.UninstallDatabaseSchema(V2OrderedTables);
             //manager.UninstallDatabaseSchema();
         }
 
-        //[TearDown]
+        [TearDown]
         public void Teardown()
         {
-            var manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            var manager = MC.Container.GetInstance<IDatabaseSchemaManager>();
             if (IsUpgradeTest)
             {
                 var creation = GetDbSchemaCreation(manager);
@@ -44,7 +44,7 @@
         [Test]
         public void Can_Detect_Install_Required()
         {
-            var manager = IoC.Container.GetInstance<IMigrationManager>();
+            var manager = MC.Container.GetInstance<IMigrationManager>();
 
             var status = manager.GetDbSchemaStatus();
 
@@ -54,7 +54,7 @@
         [Test]
         public void Can_Install_Database()
         {
-            var manager = IoC.Container.GetInstance<IMigrationManager>();
+            var manager = MC.Container.GetInstance<IMigrationManager>();
 
             var status = manager.GetDbSchemaStatus();
 
@@ -75,9 +75,9 @@
         [Test]
         public void Can_Uninstall_Database()
         {
-            var schemaManager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            var schemaManager = MC.Container.GetInstance<IDatabaseSchemaManager>();
             schemaManager.InstallDatabaseSchema();
-            var manager = IoC.Container.GetInstance<IMigrationManager>();
+            var manager = MC.Container.GetInstance<IMigrationManager>();
 
             var status = manager.GetDbSchemaStatus();
 
@@ -94,6 +94,7 @@
         }
 
         [Test]
+        [Ignore("Not ready for this")]
         public void Can_Detect_UpgradeRequired()
         {
             // Toggle to delete the old db version
@@ -102,12 +103,12 @@
             //// Arrange
           
             // install a V2.3.1 database
-            var schemaManager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            var schemaManager = MC.Container.GetInstance<IDatabaseSchemaManager>();
             var dbCreation = GetDbSchemaCreation(schemaManager);
             dbCreation.InitializeDatabaseSchema(V2OrderedTables);
 
             //// Act
-            var manager = IoC.Container.GetInstance<IMigrationManager>();
+            var manager = MC.Container.GetInstance<IMigrationManager>();
 
             var status = manager.GetDbSchemaStatus();
             Console.Write(manager.GetSummary());

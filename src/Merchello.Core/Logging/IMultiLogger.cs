@@ -14,5 +14,6 @@
         /// Gets the remote logger.
         /// </summary>
         IRemoteLogger RemoteLogger { get; }
+
     }
 }

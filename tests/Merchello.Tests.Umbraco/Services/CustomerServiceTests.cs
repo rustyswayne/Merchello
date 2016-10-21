@@ -32,8 +32,8 @@
         {
             base.Initialize();
 
-            _customerService = IoC.Container.GetInstance<ICustomerService>();
-            _dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            _customerService = MC.Container.GetInstance<ICustomerService>();
+            _dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
 
             CustomerService.Creating += CancelCreating;
             CustomerService.Created += CreatedCalledCreateWithKey;

@@ -59,7 +59,7 @@
     <Compile Include="Migrations\V2Dtos\WarehouseDto.cs" />
     <Compile Include="Persistence\BaseDataCreationTests.cs" />
     <Compile Include="Persistence\DatabaseCreationTests.cs" />
-    <Compile Include="Persistence\Mappers\MappingResolverTests.cs" />
+    <Compile Include="Persistence\Mappers\MapperRegisterTests.cs" />
     <Compile Include="Persistence\Sql\ProductSqlTests.cs" />
     <Compile Include="Persistence\Sql\ScratchSqlTests.cs" />
     <Compile Include="Persistence\Sql\EntityCollectionSqlTests.cs" />

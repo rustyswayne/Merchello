@@ -6,6 +6,7 @@
       <Value>Db</Value>
       <Value>dll</Value>
       <Value>dto</Value>
+      <Value>ie</Value>
       <Value>ioc</Value>
       <Value>Linq</Value>
       <Value>Lucene</Value>
@@ -64,12 +65,12 @@
     </Analyzer>
     <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
       <Rules>
-        <Rule Name="PrefixLocalCallsWithThis">
+        <Rule Name="DoNotUseRegions">
           <RuleSettings>
-            <BooleanProperty Name="Enabled">False</BooleanProperty>
+            <BooleanProperty Name="Enabled">True</BooleanProperty>
           </RuleSettings>
         </Rule>
-        <Rule Name="PrefixCallsCorrectly">
+        <Rule Name="PrefixLocalCallsWithThis">
           <RuleSettings>
             <BooleanProperty Name="Enabled">False</BooleanProperty>
           </RuleSettings>

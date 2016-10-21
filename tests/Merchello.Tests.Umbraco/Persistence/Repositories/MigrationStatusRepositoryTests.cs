@@ -20,7 +20,7 @@
         public void Can_Add_MigrationStatus()
         {
             //// Arrange
-            var uowProvider = IoC.Container.GetInstance<IDatabaseUnitOfWorkProvider>();
+            var uowProvider = MC.Container.GetInstance<IDatabaseUnitOfWorkProvider>();
             var status = new MigrationStatus { MigrationName = "MerchelloTest", Version = new SemVersion(3) };
 
 

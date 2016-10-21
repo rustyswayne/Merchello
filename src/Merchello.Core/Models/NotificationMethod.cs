@@ -7,8 +7,6 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Models.EntityBase;
 
-    using Umbraco.Core;
-
     /// <summary>
     /// Represents a notification method
     /// </summary>

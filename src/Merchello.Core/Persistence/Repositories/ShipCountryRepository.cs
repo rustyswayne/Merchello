@@ -31,14 +31,14 @@
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        /// <param name="mappingResolver">
-        /// The <see cref="IMappingResolver"/>.
+        /// <param name="mappers">
+        /// The <see cref="IMapperRegister"/>.
         /// </param>
         /// <param name="shipmentRepository">
         /// The <see cref="IShipmentRepository"/>
         /// </param>
-        public ShipCountryRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver, IShipmentRepository shipmentRepository)
-            : base(work, cache, logger, mappingResolver)
+        public ShipCountryRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers, IShipmentRepository shipmentRepository)
+            : base(work, cache, logger, mappers)
         {
             Ensure.ParameterNotNull(shipmentRepository, nameof(shipmentRepository));
             _shipmentRepository = shipmentRepository;

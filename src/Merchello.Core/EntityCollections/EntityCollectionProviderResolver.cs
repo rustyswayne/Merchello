@@ -8,18 +8,14 @@
     using LightInject;
 
     using Merchello.Core.Acquired;
-    using Merchello.Core.Acquired.ObjectResolution;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.TypeFields;
-    using Merchello.Core.Services;
-
-    using Umbraco.Core.ObjectResolution;
 
     /// <summary>
     /// The entity collection provider manager.
     /// </summary>
-    internal class EntityCollectionProviderResolver : ContainerLazyManyObjectsResolver<EntityCollectionProviderResolver, IEntityCollectionProvider>, IEntityCollectionProviderResolver
+    internal class EntityCollectionProviderResolver : IEntityCollectionProviderResolver
     {
         /// <summary>
         /// The activated gateway provider cache.
@@ -30,6 +26,9 @@
         /// The <see cref="IMerchelloContext"/>.
         /// </summary>
         private readonly IMerchelloContext _merchelloContext;
+
+        // HACK TODO REMOVE
+        protected IEnumerable<Type> InstanceTypes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityCollectionProviderResolver"/> class.
@@ -47,7 +46,6 @@
         /// The merchello context.
         /// </param>
         public EntityCollectionProviderResolver(IServiceContainer container, ILogger logger, Func<IEnumerable<Type>> typeListProducerList, IMerchelloContext merchelloContext)
-            : base(container, logger, typeListProducerList, ObjectLifetimeScope.Transient)
         {
             Core.Ensure.ParameterNotNull(merchelloContext, nameof(merchelloContext));
             _merchelloContext = merchelloContext;

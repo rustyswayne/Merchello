@@ -4,7 +4,6 @@
 
     using global::Umbraco.Core.Logging;
 
-    using Merchello.Core.Acquired.ObjectResolution;
     using Merchello.Tests.Base.Adapter;
     using Merchello.Umbraco.Adapters.Logging;
 
@@ -30,8 +29,6 @@
         [OneTimeTearDown]
         public virtual void TearDown()
         {
-            Resolution.Reset();
-            ResolverCollection.ResetAll();
         }
     }
 }

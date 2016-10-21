@@ -5,7 +5,7 @@
     /// <summary>
     /// A base class for Merchello BootManagers.
     /// </summary>
-    public abstract class BootManagerBase
+    public abstract class BootBase
     {
         #region Events
 

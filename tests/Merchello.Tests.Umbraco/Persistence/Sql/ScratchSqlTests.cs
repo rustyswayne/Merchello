@@ -21,7 +21,7 @@
         public override void Initialize()
         {
             base.Initialize();
-            this._manager = IoC.Container.GetInstance<IDatabaseSchemaManager>();
+            this._manager = MC.Container.GetInstance<IDatabaseSchemaManager>();
             this._manager.CreateTable(true, typeof(StatusDto));
             this._manager.CreateTable(true, typeof(ThingDto));
         }
@@ -37,7 +37,7 @@
         public void Can_Get_ForeignKeyed_ResultColumn()
         {
             
-            var dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            var dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
             var database = dbAdapter.Database;
             var statusKey = Guid.NewGuid();
             var thingKey = Guid.NewGuid();

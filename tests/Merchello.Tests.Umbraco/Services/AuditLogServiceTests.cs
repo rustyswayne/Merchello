@@ -24,8 +24,8 @@
         {
             base.Initialize();
 
-            _auditLogService = IoC.Container.GetInstance<IAuditLogService>();
-            _dbAdapter = IoC.Container.GetInstance<IDatabaseAdapter>();
+            _auditLogService = MC.Container.GetInstance<IAuditLogService>();
+            _dbAdapter = MC.Container.GetInstance<IDatabaseAdapter>();
         }
 
         [Test]

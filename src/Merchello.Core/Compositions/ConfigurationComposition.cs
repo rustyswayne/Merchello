@@ -1,4 +1,4 @@
-﻿namespace Merchello.Core.DI
+﻿namespace Merchello.Core.Compositions
 {
     using LightInject;
 
@@ -8,7 +8,7 @@
     /// <summary>
     /// Adds configurations to the service container
     /// </summary>
-    public sealed class ConfigurationCompositionRoot : ICompositionRoot
+    public sealed class ConfigurationComposition : ICompositionRoot
     {
         /// <summary>
         /// Composes configuration services by adding services to the <paramref name="container"/>.

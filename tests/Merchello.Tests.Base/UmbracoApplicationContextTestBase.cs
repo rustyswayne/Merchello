@@ -34,7 +34,7 @@
 
         public override void TearDown()
         {
-            IoC.Container.Dispose();
+            MC.Container.Dispose();
             base.TearDown();
 
        

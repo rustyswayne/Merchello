@@ -28,11 +28,11 @@ namespace Merchello.Core.Persistence.Repositories
         /// <param name="logger">
         /// The logger.
         /// </param>
-        /// <param name="mappingResolver">
+        /// <param name="mappers">
         /// The mapping resolver.
         /// </param>
-        public MigrationStatusRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMappingResolver mappingResolver)
-            : base(work, cache, logger, mappingResolver)
+        public MigrationStatusRepository(IDatabaseUnitOfWork work, [Inject(Constants.Repository.DisabledCache)] ICacheHelper cache, ILogger logger, IMapperRegister mappers)
+            : base(work, cache, logger, mappers)
         {
         }
 

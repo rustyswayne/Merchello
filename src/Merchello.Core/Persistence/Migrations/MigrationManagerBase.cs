@@ -117,15 +117,15 @@
             {
                 if (DbVersion == new Version(0, 0, 0))
                 {
-                    Logger.Info<CoreBootManager>("Merchello database not installed.  Initial migration");
+                    Logger.Info<CoreBoot>("Merchello database not installed.  Initial migration");
                     return DbSchemaStatus.RequiresInstall;
                 }
 
-                Logger.Info<CoreBootManager>("Merchello version did not match, find migration(s).");
+                Logger.Info<CoreBoot>("Merchello version did not match, find migration(s).");
                 return DbSchemaStatus.RequiresUpgrade;
             }
            
-            Logger.Info<CoreBootManager>("Merchello database is the current version");
+            Logger.Info<CoreBoot>("Merchello database is the current version");
 
             return DbSchemaStatus.Current;
         }
