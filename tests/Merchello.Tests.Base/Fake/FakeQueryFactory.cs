@@ -11,7 +11,7 @@
 
         public FakeQueryFactory(ISqlSyntaxProvider sqlSyntax)
         {
-            this.MappingResolver = new Mock<IMappingResolver>().Object;
+            this.Mappers = new Mock<IMapperCollection>().Object;
 
             this.SqlSyntax = sqlSyntax;
         }
@@ -21,7 +21,7 @@
             throw new System.NotImplementedException();
         }
 
-        public IMappingResolver MappingResolver { get; }
+        public IMapperCollection Mappers { get; }
 
         public ISqlSyntaxProvider SqlSyntax { get; }
     }

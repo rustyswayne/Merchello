@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.EntityCollections;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Plugins;
 
@@ -23,6 +24,20 @@
         internal static IEnumerable<Type> ResolveBaseMappers(this IPluginManager pluginManager)
         {
             return pluginManager.ResolveTypesWithAttribute<BaseMapper, MapperForAttribute>();
+        }
+
+        /// <summary>
+        /// Resolves the <see cref="IEntityCollectionProvider"/> type for mapping entity collection providers.
+        /// </summary>
+        /// <param name="pluginManager">
+        /// The plugin manager.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{Type}"/>.
+        /// </returns>
+        internal static IEnumerable<Type> ResolveEnityCollectionProviders(this IPluginManager pluginManager)
+        {
+            return pluginManager.ResolveTypesWithAttribute<IEntityCollectionProvider, EntityCollectionProviderAttribute>();
         }
     }
 }

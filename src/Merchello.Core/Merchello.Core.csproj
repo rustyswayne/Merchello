@@ -45,9 +45,9 @@
   <ItemGroup>
     <Compile Include="Acquired\DisposableTimer.cs" />
     <Compile Include="Boot\IBoot.cs" />
-    <Compile Include="Boot\IBootManager.cs" />
     <Compile Include="Compositions\CacheComposition.cs" />
     <Compile Include="Compositions\LoggerComposition.cs" />
+    <Compile Include="Compositions\RegistersComposition.cs" />
     <Compile Include="DI\RegisterBuilderBase.cs" />
     <Compile Include="DI\IRegisterBuilder.cs" />
     <Compile Include="DI\LazyRegisterBuilderBase.cs" />
@@ -65,6 +65,9 @@
     </Compile>
     <Compile Include="DI\IRegister.cs" />
     <Compile Include="DI\Register.cs" />
+    <Compile Include="EntityCollections\EntityCollectionProviderRegister.cs" />
+    <Compile Include="EntityCollections\EntityCollectionProviderRegisterBuilder.cs" />
+    <Compile Include="EntityCollections\IEntityCollectionProviderRegister.cs" />
     <Compile Include="EntityCollections\IProductCollectionProvider.cs" />
     <Compile Include="EntityCollections\IProductFilterGroupProvider.cs" />
     <Compile Include="EntityCollections\ProductFilterGroupProviderBase.cs" />
@@ -75,8 +78,6 @@
     <Compile Include="EntityCollections\QueryableEntityCollectionProviderBase.cs" />
     <Compile Include="EntityCollections\EntityCollectionProviderBase.cs" />
     <Compile Include="EntityCollections\EntityCollectionProviderBase{T}.cs" />
-    <Compile Include="EntityCollections\EntityCollectionProviderResolver.cs" />
-    <Compile Include="EntityCollections\IEntityCollectionProviderResolver.cs" />
     <Compile Include="EntityCollections\IEntityCollectionProvider{T}.cs" />
     <Compile Include="EntityCollections\IEntityFilterGroupProvider.cs" />
     <Compile Include="EntityCollections\IQueryableEntityCollectionProvider.cs" />
@@ -738,9 +739,6 @@
     <Compile Include="Acquired\Attempt.cs" />
     <Compile Include="Acquired\Attempt{T}.cs" />
     <Compile Include="Adapters\DatabaseContextAdapterBase.cs" />
-    <Compile Include="Boot\BootBase.cs" />
-    <Compile Include="Boot\CoreBootSettings.cs" />
-    <Compile Include="Boot\ICoreBootSettings.cs" />
     <Compile Include="Cache\ICacheHelper.cs" />
     <Compile Include="Acquired\Cache\CacheProviderExtensions.cs" />
     <Compile Include="Cache\ICacheProviderAdapter.cs" />
@@ -855,7 +853,6 @@
     <Compile Include="Logging\MultiLogHelper.cs" />
     <Compile Include="Marketing\Offer\OfferComponentConfiguration.cs" />
     <Compile Include="Marketing\Offer\OfferComponentDefinition.cs" />
-    <Compile Include="Boot\MerchelloBootstrapper.cs" />
     <Compile Include="Models\Counting\EntityUseCount.cs" />
     <Compile Include="Models\Counting\IProductOptionUseCount.cs" />
     <Compile Include="Models\Counting\ProductOptionUseCount.cs" />

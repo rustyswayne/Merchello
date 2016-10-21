@@ -6,8 +6,11 @@ namespace Merchello.Tests.Base
     using global::Umbraco.Core;
     using global::Umbraco.Core.Persistence;
     using global::Umbraco.Core.Persistence.SqlSyntax;
+    using global::Umbraco.Core.Services;
 
     using Merchello.Tests.Base.Fake;
+
+    using Moq;
 
     public abstract class UmbracoDataContextTestBase : UmbracoCacheTestBase
     {
@@ -36,7 +39,7 @@ namespace Merchello.Tests.Base
             this.DatabaseFactory = new TestUmbracoDatabaseFactory(this.Logger, queryFactory);
 
             // Create an Umbraco Database Context using a fake Umbraco query factory
-            this.DatabaseContext = new DatabaseContext(this.DatabaseFactory, this.Logger);
+            this.DatabaseContext = new DatabaseContext(this.DatabaseFactory, this.Logger, Mock.Of<IRuntimeState>(), Mock.Of<IMigrationEntryService>());
 
             if (this.DatabaseFactory.CanConnect)
             {

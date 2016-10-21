@@ -28,7 +28,9 @@
 
             container.RegisterSingleton<IAuditLogService, AuditLogService>();
             container.RegisterSingleton<ICustomerService, CustomerService>();
+            container.RegisterSingleton<IEntityCollectionService, EntityCollectionService>();
             container.RegisterSingleton<IMigrationStatusService, MigrationStatusService>();
+            container.RegisterSingleton<IProductService, ProductService>();
         }
     }
 }

@@ -32,7 +32,7 @@
         private readonly List<Type> _excluded = new List<Type>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LazyRegisterBuilderBase{TRegister,TCollection,TItem}"/> class.
+        /// Initializes a new instance of the <see cref="LazyRegisterBuilderBase{TBuilder,TRegister,TItem}"/> class. 
         /// </summary>
         /// <param name="container">
         /// The container.

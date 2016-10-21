@@ -5,6 +5,7 @@
     using LightInject;
 
     using Merchello.Core.Cache;
+    using Merchello.Core.EntityCollections;
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence;
     using Merchello.Core.Services;
@@ -38,6 +39,13 @@
         /// Gets the <see cref="IServiceContext"/>.
         /// </summary>
         public static IServiceContext Services => Container.GetInstance<IServiceContext>();
+
+
+
+        /// <summary>
+        /// Gets the <see cref="IEntityCollectionProviderRegister"/>.
+        /// </summary>
+        internal static IEntityCollectionProviderRegister EntityCollectionProviderRegister => Container.GetInstance<IEntityCollectionProviderRegister>();
 
         /// <summary>
         /// Gets or sets the <see cref="IServiceContainer"/>.

@@ -24,8 +24,8 @@
         { 
             Logger.Info<ScratchTests>("Logging test");
 
-            Assert.NotNull(ApplicationContext.DatabaseContext, "DatabaseContext was null");
-            Assert.NotNull(ApplicationContext.DatabaseContext.SqlSyntax, "SqlSyntax was null");
+            Assert.NotNull(this.DatabaseContext, "DatabaseContext was null");
+            Assert.NotNull(this.DatabaseContext.SqlSyntax, "SqlSyntax was null");
 
             var dbFactory = MC.Container.GetInstance<IDatabaseFactory>();
             Assert.NotNull(dbFactory);
@@ -55,7 +55,9 @@
             
             var cacheFactory = MC.Container.GetInstance<ICloneableCacheEntityFactory>();
 
-            Console.WriteLine(cacheFactory.GetType());
+            var ecRegister = MC.EntityCollectionProviderRegister;
+
+            Console.WriteLine(ecRegister.Count);
         }
     }
 }

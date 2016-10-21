@@ -43,13 +43,7 @@
         /// <summary>
         /// Gets the entity collection.
         /// </summary>
-        public IEntityCollection EntityCollection
-        {
-            get
-            {
-                return _entityCollection.Value;
-            }
-        }
+        public IEntityCollection EntityCollection => this._entityCollection.Value;
 
         /// <summary>
         /// Gets the cache.
@@ -140,7 +134,7 @@
         /// </returns>
         protected virtual IEntityCollection GetInstance()
         {
-            var cacheKey = string.Format("merch.entitycollection.{0}", CollectionKey);
+            var cacheKey = $"merch.entitycollection.{this.CollectionKey}";
             var collection = Cache.GetCacheItem(cacheKey);
             if (collection != null) return (IEntityCollection)collection;
 

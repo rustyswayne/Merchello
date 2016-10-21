@@ -9,7 +9,7 @@
     using Merchello.Core.DI;
 
     /// <inheritdoc/>
-    public class MapperRegister : Register<BaseMapper>, IMapperRegister
+    internal class MapperRegister : Register<BaseMapper>, IMapperRegister
     {
         /// <summary>
         /// maintain our own index for faster lookup

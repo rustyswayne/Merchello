@@ -3,19 +3,21 @@
     using System;
     using System.Reflection;
 
+    using LightInject;
+
     using log4net;
 
-    using Merchello.Core.Boot;
-
     using global::Umbraco.Core;
+
+    using global::Umbraco.Web;
 
     /// <summary>
     /// Handles Umbraco's Initialized event to start Merchello's bootstrap process.
     /// </summary>
     /// <remarks>
-    /// FYI: This is a partial class so we can nest actual event handler registrations in a more organized fashion
+    /// TODO - remove this class and replace with V8 intended
     /// </remarks> 
-    public partial class PackageBootstrap : IApplicationEventHandler
+    public class PackageBootstrap : IApplicationEventHandler
     {
         /// <summary>
         /// A logger to log startup
@@ -38,17 +40,24 @@
         /// </remarks>
         public void OnApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            BootBase.MerchelloStarted += this.OnMerchelloStarted;
 
             try
             {
                 // Initialize Merchello
                 Log.Info("Attempting to initialize Merchello Umbraco Package");
 
-                // Build the settings and adapt Umbraco singleton instances
-                var settings = GetBootSettings();
 
-                MerchelloBootstrapper.Init(new UmbracoBoot(settings, applicationContext));
+                var container = new ServiceContainer();
+                container.EnableAnnotatedConstructorInjection();
+                container.EnableAnnotatedPropertyInjection();
+                var loader = new UmbracoBoot(
+                    container, 
+                    Current.DatabaseContext, 
+                    Current.ApplicationCache, 
+                    Current.ProfilingLogger, 
+                    Current.PluginManager);
+
+                loader.Boot();
                 
                 Log.Info("Initialization of Merchello Umbraco Package complete");
             }
@@ -56,19 +65,6 @@
             {
                 Log.Error("Initialization of Merchello failed", ex);
             }
-        }
-
-        /// <summary>
-        /// Handles the <see cref="BootBase"/> Started event.
-        /// </summary>
-        /// <param name="sender">
-        /// The <see cref="BootBase"/>.
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="EventArgs"/>.
-        /// </param>>
-        private void OnMerchelloStarted(object sender, EventArgs e)
-        {
         }
     }
 }

@@ -5,12 +5,24 @@
     using System.Collections.Generic;
 
     using Merchello.Core.Acquired;
+    using Merchello.Core.DI;
 
     /// <summary>
-    /// Defines an EntityCollectionProviderResolver.
+    /// A register for <see cref="IEntityCollectionProvider"/>.
     /// </summary>
-    internal interface IEntityCollectionProviderResolver
+    internal interface IEntityCollectionProviderRegister : IRegister<Type>
     {
+        /// <summary>
+        /// Indexed property for getting a <see cref="IEntityCollectionProvider"/> by it's key.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEntityCollectionProvider"/>.
+        /// </returns>
+        IEntityCollectionProvider this[Guid key] { get; }
+
         /// <summary>
         /// Gets the provider key for a particular type.
         /// </summary>
@@ -40,7 +52,7 @@
         /// The type of the provider
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IEnumerable{Guid}"/>.
+        /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
         IEnumerable<Guid> GetProviderKeys<T>();
 
@@ -95,8 +107,8 @@
         /// <returns>
         /// The <see cref="IEnumerable{EntityCollectionProviderAttribute}"/>.
         /// </returns>
-        IEnumerable<EntityCollectionProviderAttribute> GetProviderAttributes(); 
-            
+        IEnumerable<EntityCollectionProviderAttribute> GetProviderAttributes();
+
         /// <summary>
         /// Gets a collection provider types for a specific entity type.
         /// </summary>
@@ -107,17 +119,6 @@
         /// The <see cref="IEnumerable"/>.
         /// </returns>
         IEnumerable<Type> GetProviderTypesForEntityType(EntityType entityType);
-
-        /// <summary>
-        /// The get provider for collection.
-        /// </summary>
-        /// <param name="collectionKey">
-        /// The collection key.
-        /// </param>
-        /// <returns>
-        /// The <see cref="EntityCollectionProviderBase"/>.
-        /// </returns>
-        Attempt<EntityCollectionProviderBase> GetProviderForCollection(Guid collectionKey);
 
         /// <summary>
         /// Gets the provider attribute for providers responsible for filter group's filters.
@@ -142,6 +143,6 @@
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        Attempt<T> GetProviderForCollection<T>(Guid collectionKey) where T : EntityCollectionProviderBase;
+        T GetProviderForCollection<T>(Guid collectionKey) where T : EntityCollectionProviderBase;
     }
 }

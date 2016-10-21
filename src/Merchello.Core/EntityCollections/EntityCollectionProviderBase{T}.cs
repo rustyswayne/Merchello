@@ -126,7 +126,7 @@
         /// </returns>
         private static string GetExistsCacheKey(TEntity entity)
         {
-            return string.Format("{0}.{1}.exists", typeof(TEntity), entity.Key);
+            return $"{typeof(TEntity)}.{entity.Key}.exists";
         }
     }
 }

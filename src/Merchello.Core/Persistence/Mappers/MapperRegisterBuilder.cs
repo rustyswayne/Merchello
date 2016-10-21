@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a builder for the MapperRegister.
     /// </summary>
-    public class MapperRegisterBuilder : LazyRegisterBuilderBase<MapperRegisterBuilder, MapperRegister, BaseMapper>
+    internal class MapperRegisterBuilder : LazyRegisterBuilderBase<MapperRegisterBuilder, MapperRegister, BaseMapper>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MapperRegisterBuilder"/> class.

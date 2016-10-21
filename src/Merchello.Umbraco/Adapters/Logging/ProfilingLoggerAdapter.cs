@@ -38,51 +38,39 @@
         public IProfiler Profiler { get; }
 
         /// <inheritdoc/>
-        public IDisposableTimer DebugDuration(Type loggerType, string startMessage, string completeMessage)
+        public IDisposableTimer TraceDuration<T>(string startMessage)
         {
-            return new DisposableTimerAdapter(this._profileLogger.DebugDuration(loggerType, startMessage, completeMessage));
+            return new DisposableTimerAdapter(_profileLogger.TraceDuration<T>(startMessage));
         }
 
         /// <inheritdoc/>
-        public IDisposableTimer DebugDuration(Type loggerType, string startMessage, string completeMessage, int minimumMsThreshold)
+        public IDisposableTimer TraceDuration<T>(string startMessage, string completeMessage, string failMessage = null)
         {
-            return new DisposableTimerAdapter(this._profileLogger.DebugDuration(loggerType, startMessage, completeMessage, minimumMsThreshold));
+            return new DisposableTimerAdapter(_profileLogger.TraceDuration<T>(startMessage, completeMessage, failMessage));
+        }
+
+        /// <inheritdoc/>
+        public IDisposableTimer TraceDuration(Type loggerType, string startMessage, string completeMessage, string failMessage = null)
+        {
+            return new DisposableTimerAdapter(_profileLogger.TraceDuration(loggerType, startMessage, completeMessage, failMessage));
         }
 
         /// <inheritdoc/>
         public IDisposableTimer DebugDuration<T>(string startMessage)
         {
-            return new DisposableTimerAdapter(this._profileLogger.DebugDuration<T>(startMessage));
+            return new DisposableTimerAdapter(_profileLogger.DebugDuration<T>(startMessage));
         }
 
         /// <inheritdoc/>
-        public IDisposableTimer DebugDuration<T>(string startMessage, string completeMessage)
+        public IDisposableTimer DebugDuration<T>(string startMessage, string completeMessage, string failMessage = null, int thresholdMilliseconds = 0)
         {
-            return new DisposableTimerAdapter(this._profileLogger.DebugDuration<T>(startMessage, completeMessage));
+            return new DisposableTimerAdapter(_profileLogger.DebugDuration<T>(startMessage, completeMessage, failMessage, thresholdMilliseconds));
         }
 
         /// <inheritdoc/>
-        public IDisposableTimer DebugDuration<T>(string startMessage, string completeMessage, int minimumMsThreshold)
+        public IDisposableTimer DebugDuration(Type loggerType, string startMessage, string completeMessage, string failMessage = null, int thresholdMilliseconds = 0)
         {
-            return new DisposableTimerAdapter(this._profileLogger.DebugDuration<T>(startMessage, completeMessage, minimumMsThreshold));
-        }
-
-        /// <inheritdoc/>
-        public IDisposableTimer TraceDuration(Type loggerType, string startMessage, string completeMessage)
-        {
-            return new DisposableTimerAdapter(this._profileLogger.TraceDuration(loggerType, startMessage, completeMessage));
-        }
-
-        /// <inheritdoc/>
-        public IDisposableTimer TraceDuration<T>(string startMessage)
-        {
-            return new DisposableTimerAdapter(this._profileLogger.TraceDuration<T>(startMessage));
-        }
-
-        /// <inheritdoc/>
-        public IDisposableTimer TraceDuration<T>(string startMessage, string completeMessage)
-        {
-            return new DisposableTimerAdapter(this._profileLogger.TraceDuration<T>(startMessage, completeMessage));
+            return new DisposableTimerAdapter(_profileLogger.DebugDuration(loggerType, startMessage, completeMessage, failMessage, thresholdMilliseconds));
         }
     }
 }

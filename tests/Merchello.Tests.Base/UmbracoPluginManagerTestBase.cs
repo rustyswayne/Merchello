@@ -11,10 +11,8 @@ namespace Merchello.Tests.Base
         {
             base.Initialize();
 
-            var serviceProvider = new global::Merchello.Core.ActivatorServiceProvider();
-
             // Umbraco's Plugin Manager
-            this.PluginManager = new PluginManager(serviceProvider, this.CacheHelper.RuntimeCache, this.ProfileLogger, true);
+            this.PluginManager = new PluginManager(this.CacheHelper.RuntimeCache, this.ProfileLogger, true);
         }
 
         public override void TearDown()

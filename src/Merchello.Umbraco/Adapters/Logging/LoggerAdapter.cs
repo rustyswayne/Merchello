@@ -52,7 +52,7 @@
         /// <inheritdoc/>
         public void WarnWithException(Type callingType, string message, Exception exception, params Func<object>[] formatItems)
         {
-            this._logger.WarnWithException(callingType, message, exception, formatItems);
+            this._logger.Warn(callingType, message, exception, formatItems);
         }
 
         /// <inheritdoc/>
