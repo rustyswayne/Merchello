@@ -12,7 +12,6 @@
     using Merchello.Web.Boot;
 
     using global::Umbraco.Core;
-
     using global::Umbraco.Core.Plugins;
 
     using IDatabaseFactory = Merchello.Core.Persistence.IDatabaseFactory;

@@ -11,7 +11,6 @@
     /// </summary>
     internal class WebBoot : CoreBoot
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WebBoot"/> class. 
         /// </summary>

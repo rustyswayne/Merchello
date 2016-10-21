@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Migrations\V3Dtos\Readme.md" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
