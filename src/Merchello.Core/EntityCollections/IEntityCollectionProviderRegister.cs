@@ -6,23 +6,23 @@
 
     using Merchello.Core.Acquired;
     using Merchello.Core.DI;
+    using Merchello.Core.Models;
 
     /// <summary>
     /// A register for <see cref="IEntityCollectionProvider"/>.
     /// </summary>
     internal interface IEntityCollectionProviderRegister : IRegister<Type>
     {
-
         /// <summary>
         /// Indexed property for getting a <see cref="IEntityCollectionProvider"/> by it's key.
         /// </summary>
-        /// <param name="key">
+        /// <param name="providerKey">
         /// The key.
         /// </param>
         /// <returns>
         /// The <see cref="IEntityCollectionProvider"/>.
         /// </returns>
-        IEntityCollectionProvider this[Guid key] { get; }
+        IEntityCollectionProvider this[Guid providerKey] { get; }
 
         /// <summary>
         /// Gets the provider key for a particular type.
@@ -75,23 +75,23 @@
         /// The key.
         /// </param>
         /// <returns>
-        /// The <see cref="EntityCollectionProviderAttribute"/>.
+        /// The <see cref="IEntityCollectionProviderMeta"/>.
         /// </returns>
-        EntityCollectionProviderAttribute GetProviderAttributeByProviderKey(Guid key);
+        IEntityCollectionProviderMeta GetProviderMetaByProviderKey(Guid key);
 
         /// <summary>
-        /// Gets the <see cref="EntityCollectionProviderAttribute"/> from the provider of type T.
+        /// Gets the <see cref="IEntityCollectionProviderMeta"/> from the provider of type T.
         /// </summary>
         /// <typeparam name="T">
         /// The type of provider
         /// </typeparam>
         /// <returns>
-        /// The <see cref="EntityCollectionProviderAttribute"/>.
+        /// The <see cref="IEntityCollectionProviderMeta"/>.
         /// </returns>
-        EntityCollectionProviderAttribute GetProviderAttribute<T>();
+        IEntityCollectionProviderMeta GetProviderMeta<T>();
 
         /// <summary>
-        /// Gets a collection of <see cref="EntityCollectionProviderAttribute"/> from providers of type T.
+        /// Gets a collection of <see cref="IEntityCollectionProviderMeta"/> from providers of type T.
         /// </summary>
         /// <typeparam name="T">
         /// The type of the provider
@@ -99,16 +99,24 @@
         /// <returns>
         /// The <see cref="IEnumerable"/>.
         /// </returns>
-        IEnumerable<EntityCollectionProviderAttribute> GetProviderAttributes<T>();
+        IEnumerable<IEntityCollectionProviderMeta> GetProviderMetas<T>();
 
 
         /// <summary>
         /// Gets the provider attributes for all resolved types.
         /// </summary>
         /// <returns>
-        /// The <see cref="IEnumerable{EntityCollectionProviderAttribute}"/>.
+        /// The <see cref="IEnumerable{IEntityCollectionProviderMeta}"/>.
         /// </returns>
-        IEnumerable<EntityCollectionProviderAttribute> GetProviderAttributes();
+        IEnumerable<IEntityCollectionProviderMeta> GetProviderMetas();
+
+        /// <summary>
+        /// Gets the provider attiributes for all self managed providers.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityCollectionProviderMeta}"/>.
+        /// </returns>
+        IEnumerable<IEntityCollectionProviderMeta> GetSelfManagedProviderMetas();
 
         /// <summary>
         /// Gets a collection provider types for a specific entity type.
@@ -124,19 +132,30 @@
         /// <summary>
         /// Gets the provider attribute for providers responsible for filter group's filters.
         /// </summary>
-        /// <param name="collectionKey">
-        /// The collection key.
+        /// <param name="collection">
+        /// The <see cref="IEntityCollection"/>.
         /// </param>
         /// <returns>
-        /// The <see cref="EntityCollectionProviderAttribute"/>.
+        /// The <see cref="IEntityCollectionProviderMeta"/>.
         /// </returns>
-        EntityCollectionProviderAttribute GetProviderAttributeForFilter(Guid collectionKey);
+        IEntityCollectionProviderMeta GetProviderMetaForFilter(IEntityCollection collection);
 
         /// <summary>
-        /// The get provider for collection.
+        /// Gets the provider for the collection.
         /// </summary>
-        /// <param name="collectionKey">
-        /// The collection key.
+        /// <param name="collection">
+        /// The collection.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEntityCollectionProvider"/>.
+        /// </returns>
+        IEntityCollectionProvider GetProviderForCollection(IEntityCollection collection);
+
+        /// <summary>
+        /// Gets a typed provider for the collection.
+        /// </summary>
+        /// <param name="collection">
+        /// The <see cref="IEntityCollection"/>.
         /// </param>
         /// <typeparam name="T">
         /// The type of provider
@@ -144,6 +163,6 @@
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        T GetProviderForCollection<T>(Guid collectionKey) where T : EntityCollectionProviderBase;
+        T GetProviderForCollection<T>(IEntityCollection collection) where T : IEntityCollectionProvider;
     }
 }

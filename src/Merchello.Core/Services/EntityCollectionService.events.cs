@@ -3,6 +3,7 @@
     using Merchello.Core.Events;
     using Merchello.Core.Models;
 
+    /// <inheritdoc/>
     public partial class EntityCollectionService : IEntityCollectionService
     {
         /// <summary>

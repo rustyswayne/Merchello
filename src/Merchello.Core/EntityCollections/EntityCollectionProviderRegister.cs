@@ -11,6 +11,7 @@
     using Merchello.Core.Cache;
     using Merchello.Core.DI;
     using Merchello.Core.Logging;
+    using Merchello.Core.Models;
     using Merchello.Core.Models.TypeFields;
     using Merchello.Core.Services;
 
@@ -44,18 +45,18 @@
         }
 
         /// <inheritdoc/>
-        public IEntityCollectionProvider this[Guid key]
+        public IEntityCollectionProvider this[Guid providerKey]
         {
             get
             {
                 var type = _index.GetOrAdd(
-                    key,
+                    providerKey, // <= this is the collection key
                     p =>
                         {
                             var found =
                                 this.FirstOrDefault(
                                     x =>
-                                    x.GetCustomAttribute<EntityCollectionProviderAttribute>(false).Key == key);
+                                    x.GetCustomAttribute<EntityCollectionProviderAttribute>(false).Key == providerKey);
 
                             if (found != null)
                             {
@@ -70,7 +71,7 @@
                             throw new NullReferenceException($"Could not find type for key");
                         });
 
-                return _container.GetInstance<Guid, IEntityCollectionProvider>(key, type.Name);
+                return _container.GetInstance<Guid, IEntityCollectionProvider>(providerKey, type.Name);
             }
         }
 
@@ -103,27 +104,33 @@
         }
 
         /// <inheritdoc/>
-        public EntityCollectionProviderAttribute GetProviderAttributeByProviderKey(Guid key)
+        public IEntityCollectionProviderMeta GetProviderMetaByProviderKey(Guid key)
         {
-            return GetProviderAttributes().FirstOrDefault(x => x.Key == key);
+            return this.GetProviderMetas().FirstOrDefault(x => x.Key == key);
         }
 
         /// <inheritdoc/>
-        public EntityCollectionProviderAttribute GetProviderAttribute<T>()
+        public IEntityCollectionProviderMeta GetProviderMeta<T>()
         {
-            return GetProviderAttributes<T>().FirstOrDefault();
+            return GetProviderMetas<T>().FirstOrDefault();
         }
 
         /// <inheritdoc/>
-        public IEnumerable<EntityCollectionProviderAttribute> GetProviderAttributes<T>()
+        public IEnumerable<IEntityCollectionProviderMeta> GetProviderMetas<T>()
         {
             return GetProviderAttribute(typeof(T));
         }
 
         /// <inheritdoc/>
-        public IEnumerable<EntityCollectionProviderAttribute> GetProviderAttributes()
+        public IEnumerable<IEntityCollectionProviderMeta> GetProviderMetas()
         {
             return this.Select(x => x.GetCustomAttribute<EntityCollectionProviderAttribute>(false));
+        }
+        
+        /// <inheritdoc/>
+        public IEnumerable<IEntityCollectionProviderMeta> GetSelfManagedProviderMetas()
+        {
+            return GetProviderMetas().Where(x => x.ManagesUniqueCollection);
         }
 
         /// <inheritdoc/>
@@ -137,9 +144,9 @@
         }
 
         /// <inheritdoc/>
-        public EntityCollectionProviderAttribute GetProviderAttributeForFilter(Guid collectionKey)
+        public IEntityCollectionProviderMeta GetProviderMetaForFilter(IEntityCollection collection)
         {
-            var provider = this[collectionKey] as IEntityFilterGroupProvider;
+            var provider = this[collection.ProviderKey] as IEntityFilterGroupProvider;
             if (provider == null)
             {
                 var nullRef = new NullReferenceException("Provider found did not implement IEntityFilterProvider");
@@ -151,11 +158,17 @@
         }
 
         /// <inheritdoc/>
-        public T GetProviderForCollection<T>(Guid collectionKey) where T : EntityCollectionProviderBase
+        public IEntityCollectionProvider GetProviderForCollection(IEntityCollection collection)
         {
-            var provider = this[collectionKey];
+            return this[collection.ProviderKey];
+        }
 
-            if (provider is T) return provider as T;
+        /// <inheritdoc/>
+        public T GetProviderForCollection<T>(IEntityCollection collection) where T : IEntityCollectionProvider
+        {
+            var provider = this[collection.ProviderKey];
+
+            if (provider is T) return (T)provider;
 
             throw new Exception("Provider was resolved but was not of expected type.");
         }

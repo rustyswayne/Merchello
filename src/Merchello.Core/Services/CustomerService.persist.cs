@@ -30,6 +30,7 @@
 
             if (!Creating.IsRaisedEventCancelled(new NewEventArgs<ICustomer>(customer, true), this))
             {
+                Created.RaiseEvent(new NewEventArgs<ICustomer>(customer, false), this);
                 return customer;
             }
 
@@ -66,15 +67,7 @@
 
             if (((Customer)customer).WasCancelled) return customer;
 
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                uow.WriteLock(Constants.Locks.CustomersTree);
-                var repo = uow.CreateRepository<ICustomerRepository>();
-                repo.AddOrUpdate(customer);
-                uow.Complete();
-            }
-
-            Created.RaiseEvent(new NewEventArgs<ICustomer>(customer, false), this);
+            Save(customer);
 
             return customer;
         }

@@ -22,6 +22,17 @@
         IEnumerable<IEntityCollection> GetAll(params Guid[] keys);
 
         /// <summary>
+        /// Gets a collection of providers associated with a specific entity type.
+        /// </summary>
+        /// <param name="entityType">
+        /// The entity type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityCollection}"/>.
+        /// </returns>
+        IEnumerable<IEntityCollection> GetByEntityType(EntityType entityType);
+
+        /// <summary>
         /// Gets a collection of providers associated with a specific entity type field.
         /// </summary>
         /// <param name="entityTfKey">

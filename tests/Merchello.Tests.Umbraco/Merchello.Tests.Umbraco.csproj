@@ -79,6 +79,8 @@
     <Compile Include="Services\CustomerServiceTests.entitycollection.cs">
       <DependentUpon>CustomerServiceTests.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\EntityCollectionServiceTests.cs" />
+    <Compile Include="Services\EventServiceTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
