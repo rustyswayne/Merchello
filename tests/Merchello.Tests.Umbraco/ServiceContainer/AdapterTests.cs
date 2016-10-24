@@ -10,7 +10,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class AdapterTests : UmbracoApplicationContextTestBase
+    public class AdapterTests : UmbracoRuntimeTestBase
     {
         [Test]
         public void UmbracoDatabaseContext()

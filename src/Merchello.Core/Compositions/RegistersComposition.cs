@@ -19,9 +19,13 @@
         /// </param>
         public void Compose(IServiceRegistry container)
         {
-          
-            ((IServiceContainer)container).RegisterRegisterBuilder<EntityCollectionProviderRegisterBuilder>()
-                .Add(factory => factory.GetInstance<IPluginManager>().ResolveEnityCollectionProviders());
+
+            // EntityCollectionProviders
+            ((IServiceContainer)container).RegisterRegisterBuilder<EntityCollectionProviderRegisterBuilder>(
+                factory => new EntityCollectionProviderRegisterBuilder(
+                    factory.GetInstance<IServiceContainer>(), 
+                    factory.GetInstance<IPluginManager>().ResolveEnityCollectionProviders()));
+
         }
     }
 }

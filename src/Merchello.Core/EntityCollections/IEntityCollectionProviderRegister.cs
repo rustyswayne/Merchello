@@ -12,6 +12,7 @@
     /// </summary>
     internal interface IEntityCollectionProviderRegister : IRegister<Type>
     {
+
         /// <summary>
         /// Indexed property for getting a <see cref="IEntityCollectionProvider"/> by it's key.
         /// </summary>

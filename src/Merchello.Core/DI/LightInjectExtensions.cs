@@ -6,6 +6,8 @@
 
     using LightInject;
 
+    using Merchello.Core.Plugins;
+
     /// <summary>
     /// Extension methods for <see cref="IServiceRegistry"/>
     /// </summary>
@@ -213,6 +215,17 @@
             // register the builder - per container
             var builderLifetime = new PerContainerLifetime();
             container.Register<TBuilder>(builderLifetime);
+
+            // return the builder
+            // (also initializes the builder)
+            return container.GetInstance<TBuilder>();
+        }
+
+        public static TBuilder RegisterRegisterBuilder<TBuilder>(this IServiceContainer container, Func<IServiceFactory, TBuilder> builder)
+        {
+            // register the builder - per container
+            var builderLifetime = new PerContainerLifetime();
+            container.Register<TBuilder>(builder, builderLifetime);
 
             // return the builder
             // (also initializes the builder)

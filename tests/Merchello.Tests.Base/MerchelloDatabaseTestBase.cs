@@ -5,7 +5,7 @@
 
     using NPoco;
 
-    public abstract class MerchelloDatabaseTestBase : UmbracoApplicationContextTestBase
+    public abstract class MerchelloDatabaseTestBase : UmbracoRuntimeTestBase
     {
         protected Database Database;
 

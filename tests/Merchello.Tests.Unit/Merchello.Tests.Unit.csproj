@@ -61,6 +61,7 @@
     <Compile Include="Configurations\MerchelloSettings\MigrationsElementTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\ProductsElementTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\SalesElement.cs" />
+    <Compile Include="EntityCollections\AssignableTests.cs" />
     <Compile Include="Persistence\Mappers\AnonymousCustomerMapperTests.cs" />
     <Compile Include="Persistence\Mappers\AppliedPaymentMapperTests.cs" />
     <Compile Include="Persistence\Mappers\AuditLogMapperTests.cs" />

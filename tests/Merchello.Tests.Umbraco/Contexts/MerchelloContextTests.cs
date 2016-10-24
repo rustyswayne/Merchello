@@ -8,7 +8,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class MerchelloContextTests : UmbracoApplicationContextTestBase
+    public class MerchelloContextTests : UmbracoRuntimeTestBase
     {
         public override void Initialize()
         {

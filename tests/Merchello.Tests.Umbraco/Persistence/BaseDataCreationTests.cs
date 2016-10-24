@@ -13,7 +13,7 @@
     using WarehouseDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.WarehouseDto;
 
     [TestFixture]
-    public class BaseDataCreationTests : UmbracoApplicationContextTestBase
+    public class BaseDataCreationTests : UmbracoRuntimeTestBase
     {
         private IDatabaseSchemaManager SchemaManager;
 

@@ -8,9 +8,11 @@
     using LightInject;
 
     using Merchello.Core.Acquired;
+    using Merchello.Core.Cache;
     using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Models.TypeFields;
+    using Merchello.Core.Services;
 
     /// <inheritdoc/>
     internal class EntityCollectionProviderRegister : Register<Type>, IEntityCollectionProviderRegister
@@ -37,6 +39,8 @@
         public EntityCollectionProviderRegister(IServiceContainer container, IEnumerable<Type> items)
             : base(items)
         {
+            Core.Ensure.ParameterNotNull(container, nameof(container));
+            _container = container;
         }
 
         /// <inheritdoc/>
@@ -44,7 +48,6 @@
         {
             get
             {
-
                 var type = _index.GetOrAdd(
                     key,
                     p =>
@@ -54,12 +57,20 @@
                                     x =>
                                     x.GetCustomAttribute<EntityCollectionProviderAttribute>(false).Key == key);
 
-                            if (found != null) return found;
+                            if (found != null)
+                            {
+                                // Ensure the registration
+                                if (_container.GetAvailableService<IEntityCollectionProvider>(found.Name) != null) return found;
 
-                            throw new Exception($"Could not find a matching entity collection provider for key {key}");
+                                // register the service
+                                RegisterServiceForType(found);
+                                return found;
+                            }
+
+                            throw new NullReferenceException($"Could not find type for key");
                         });
 
-                throw new NotImplementedException();
+                return _container.GetInstance<Guid, IEntityCollectionProvider>(key, type.Name);
             }
         }
 
@@ -165,6 +176,39 @@
             return typesArray.Any() ?
                 typesArray.Select(x => x.GetCustomAttribute<EntityCollectionProviderAttribute>(false))
                 : Enumerable.Empty<EntityCollectionProviderAttribute>();
+        }
+
+        /// <summary>
+        /// Registers the provider.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        private void RegisterServiceForType(Type type)
+        {
+            var tWrapped = typeof(IProductFilterGroupProvider).IsAssignableFrom(type)
+                           || typeof(IProductCollectionProvider).IsAssignableFrom(type)
+                               ? typeof(IProductService)
+                               : typeof(IInvoiceCollectionProvider).IsAssignableFrom(type)
+                                     ? typeof(IInvoiceService)
+                                     : typeof(ICustomerService);
+
+            _container.Register<Guid, IEntityCollectionProvider>(
+                (factory, value) =>
+                    {
+                        var activator = factory.GetInstance<ActivatorServiceProvider>();
+
+                        var provider = activator.GetService<IEntityCollectionProvider>(
+                            type,
+                            new[]
+                                {
+                                    factory.GetInstance(tWrapped), factory.GetInstance<IEntityCollectionService>(),
+                                    factory.GetInstance<ICacheHelper>(), value
+                                });
+
+                        return provider;
+                    },
+                type.Name);
         }
     }
 }

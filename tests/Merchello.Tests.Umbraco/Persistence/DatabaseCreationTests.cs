@@ -7,7 +7,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class DatabaseCreationTests : UmbracoApplicationContextTestBase
+    public class DatabaseCreationTests : UmbracoRuntimeTestBase
     {
         private IDatabaseSchemaManager SchemaManager;
 

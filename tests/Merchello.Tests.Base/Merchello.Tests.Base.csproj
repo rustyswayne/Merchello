@@ -47,7 +47,7 @@
     <Compile Include="Mocks\MockCustomer.cs" />
     <Compile Include="Properties\AssemblyVisibility.cs" />
     <Compile Include="TestUmbracoDatabaseFactory.cs" />
-    <Compile Include="UmbracoApplicationContextTestBase.cs" />
+    <Compile Include="UmbracoRuntimeTestBase.cs" />
     <Compile Include="UmbracoCacheTestBase.cs" />
     <Compile Include="UmbracoDataContextTestBase.cs" />
     <Compile Include="UmbracoLoggerTestBase.cs" />

@@ -11,7 +11,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class MapperRegisterTests : UmbracoApplicationContextTestBase
+    public class MapperRegisterTests : UmbracoRuntimeTestBase
     {
         protected IMapperRegister Register;
 

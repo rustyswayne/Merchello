@@ -47,6 +47,7 @@
     <Compile Include="Adapters\Cache\RuntimeCacheProviderAdapterTests.cs" />
     <Compile Include="Adapters\Cache\StaticCacheProviderAdapterTests.cs" />
     <Compile Include="Contexts\MerchelloContextTests.cs" />
+    <Compile Include="EntityCollections\EntityCollectionRegisterTests.cs" />
     <Compile Include="Migrations\InitialMigrationTests.cs" />
     <Compile Include="Migrations\MigrationTestBase.cs" />
     <Compile Include="Migrations\V2Dtos\CustomerIndexDto.cs" />

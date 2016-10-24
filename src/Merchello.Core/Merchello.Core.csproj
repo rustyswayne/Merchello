@@ -67,7 +67,9 @@
     <Compile Include="DI\Register.cs" />
     <Compile Include="EntityCollections\EntityCollectionProviderRegister.cs" />
     <Compile Include="EntityCollections\EntityCollectionProviderRegisterBuilder.cs" />
+    <Compile Include="EntityCollections\ICustomerCollectionProvider.cs" />
     <Compile Include="EntityCollections\IEntityCollectionProviderRegister.cs" />
+    <Compile Include="EntityCollections\IInvoiceCollectionProvider.cs" />
     <Compile Include="EntityCollections\IProductCollectionProvider.cs" />
     <Compile Include="EntityCollections\IProductFilterGroupProvider.cs" />
     <Compile Include="EntityCollections\ProductFilterGroupProviderBase.cs" />

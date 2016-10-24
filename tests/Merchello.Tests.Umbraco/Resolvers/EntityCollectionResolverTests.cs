@@ -5,7 +5,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class EntityCollectionResolverTests : UmbracoApplicationContextTestBase
+    public class EntityCollectionResolverTests : UmbracoRuntimeTestBase
     {
         public void Can_Resolve_IEntityCollectionProvider_Types()
         {

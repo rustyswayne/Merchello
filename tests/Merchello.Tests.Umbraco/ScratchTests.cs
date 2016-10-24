@@ -17,7 +17,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class ScratchTests : UmbracoApplicationContextTestBase
+    public class ScratchTests : UmbracoRuntimeTestBase
     {
         [Test]
         public void LogTest()

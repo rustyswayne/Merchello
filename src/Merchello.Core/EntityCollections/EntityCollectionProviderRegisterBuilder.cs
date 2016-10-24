@@ -14,6 +14,9 @@
     /// </summary>
     internal class EntityCollectionProviderRegisterBuilder : IRegisterBuilder<EntityCollectionProviderRegister, Type>
     {
+        /// <summary>
+        /// The _container.
+        /// </summary>
         private readonly IServiceContainer _container;
 
         private readonly List<Type> _types = new List<Type>();
@@ -25,27 +28,11 @@
         /// <param name="container">
         /// The <see cref="IServiceContainer"/>.
         /// </param>
-        /// <param name="instanceTypes">
-        /// The resolved types.
-        /// </param>
-        public EntityCollectionProviderRegisterBuilder(IServiceContainer container)
+        public EntityCollectionProviderRegisterBuilder(IServiceContainer container, IEnumerable<Type> instanceTypes)
         {
             Core.Ensure.ParameterNotNull(container, nameof(container));
             _container = container;
-
-            this.Initialize();
-        }
-
-        /// <summary>
-        /// Adds a types producer to the collection.
-        /// </summary>
-        /// <param name="producer">The types producer.</param>
-        /// <returns>The register.</returns>
-        public EntityCollectionProviderRegisterBuilder Add(IEnumerable<Type> types)
-        {
-            this._types.AddRange(types);
-
-            return this;
+            this.Initialize(instanceTypes);
         }
 
         /// <summary>
@@ -60,9 +47,15 @@
             return new EntityCollectionProviderRegister(_container, _types);
         }
 
+
         /// <inheritdoc/>
-        protected void Initialize()
+        protected void Initialize(IEnumerable<Type> types)
         {
+            lock (_locker)
+            {
+                _types.AddRange(types);
+            }
+
             // register the collection
             _container.Register(_ => this.CreateRegister(), this.CollectionLifetime);
             _container.Register<IEntityCollectionProviderRegister>(factory => factory.GetInstance<EntityCollectionProviderRegister>());

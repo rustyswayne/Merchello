@@ -23,6 +23,11 @@
             // boot manager when running in a web context
             container.Register<IEventMessagesFactory, TransientMessageFactory>();
 
+            // Registers the ActivatorServiceProvider
+            // TODO - we need to work toward getting rid of services that require this since
+            // all services should be registered in the container directly.
+            container.RegisterSingleton<ActivatorServiceProvider>();
+
             // The service context
             container.RegisterSingleton<IServiceContext, ServiceContext>();
 

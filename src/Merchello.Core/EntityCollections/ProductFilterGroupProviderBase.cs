@@ -38,24 +38,12 @@
         /// <summary>
         /// Gets the attribute provider type.
         /// </summary>
-        public virtual Type FilterProviderType
-        {
-            get
-            {
-                return typeof(StaticProductCollectionProvider);
-            }
-        }
+        public virtual Type FilterProviderType => typeof(StaticProductCollectionProvider);
 
         /// <summary>
         /// Gets the <see cref="IEntityFilterGroup"/>.
         /// </summary>
-        public virtual IEntityFilterGroup EntityGroup
-        {
-            get
-            {
-                return (IEntityFilterGroup)this.EntityCollection;
-            }
-        }
+        public virtual IEntityFilterGroup EntityGroup => (IEntityFilterGroup)this.EntityCollection;
 
         /// <summary>
         /// Gets the collection of child collection keys.

@@ -1,16 +1,11 @@
 ﻿namespace Merchello.Tests.Base
 {
-    using global::Umbraco.Core;
-    using global::Umbraco.Core.Logging;
-    using global::Umbraco.Core.Services;
-
     using LightInject;
 
-    using Merchello.Core.Boot;
     using Merchello.Core.DI;
     using Merchello.Tests.Base.Boot;
 
-    public abstract class UmbracoApplicationContextTestBase : UmbracoPluginManagerTestBase
+    public abstract class UmbracoRuntimeTestBase : UmbracoPluginManagerTestBase
     {
 
         public override void Initialize()

@@ -14,7 +14,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class ScratchSqlTests : UmbracoApplicationContextTestBase
+    public class ScratchSqlTests : UmbracoRuntimeTestBase
     {
         private IDatabaseSchemaManager _manager;
 

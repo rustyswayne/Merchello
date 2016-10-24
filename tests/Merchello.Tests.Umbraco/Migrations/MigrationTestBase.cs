@@ -17,7 +17,7 @@
     using StoreSettingDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.StoreSettingDto;
     using WarehouseDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.WarehouseDto;
 
-    public abstract class MigrationTestBase : UmbracoApplicationContextTestBase
+    public abstract class MigrationTestBase : UmbracoRuntimeTestBase
     {
         /// <summary>
         /// The ordered tables.
