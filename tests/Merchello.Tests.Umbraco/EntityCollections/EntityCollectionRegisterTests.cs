@@ -163,7 +163,6 @@
         [Test]
         public void GetProvidGetProviderForCollection()
         {
-
             //// Arrange
             var register = MC.EntityCollectionProviderRegister;
             var service = MC.Services.EntityCollectionService;
@@ -175,6 +174,8 @@
 
             //// Assert
             Assert.NotNull(provider);
+            Assert.NotNull(provider.EntityCollection);
+            Assert.AreEqual(provider.EntityCollection.Key, collection.Key);
         }
 
         [Test]

@@ -42,36 +42,17 @@
         {
             Core.Ensure.ParameterNotNull(container, nameof(container));
             _container = container;
+            this.Initialize();
         }
 
         /// <inheritdoc/>
-        public IEntityCollectionProvider this[Guid providerKey]
+        public Type this[Guid providerKey]
         {
             get
             {
-                var type = _index.GetOrAdd(
-                    providerKey, // <= this is the collection key
-                    p =>
-                        {
-                            var found =
-                                this.FirstOrDefault(
-                                    x =>
-                                    x.GetCustomAttribute<EntityCollectionProviderAttribute>(false).Key == providerKey);
-
-                            if (found != null)
-                            {
-                                // Ensure the registration
-                                if (_container.GetAvailableService<IEntityCollectionProvider>(found.Name) != null) return found;
-
-                                // register the service
-                                RegisterServiceForType(found);
-                                return found;
-                            }
-
-                            throw new NullReferenceException($"Could not find type for key");
-                        });
-
-                return _container.GetInstance<Guid, IEntityCollectionProvider>(providerKey, type.Name);
+                var type = _index[providerKey];
+                if (type == null) throw new NullReferenceException($"Could not find type for key");
+                return type;
             }
         }
 
@@ -146,32 +127,50 @@
         /// <inheritdoc/>
         public IEntityCollectionProviderMeta GetProviderMetaForFilter(IEntityCollection collection)
         {
-            var provider = this[collection.ProviderKey] as IEntityFilterGroupProvider;
-            if (provider == null)
+            var filterGroupProvider = GetService(this[collection.ProviderKey], collection.Key) as IEntityFilterGroupProvider;
+            if (filterGroupProvider == null)
             {
                 var nullRef = new NullReferenceException("Provider found did not implement IEntityFilterProvider");
                 MultiLogHelper.WarnWithException<EntityCollectionProviderRegister>("Invalid type", nullRef);
                 return null;
             }
 
-            return GetProviderAttribute(provider.FilterProviderType).FirstOrDefault();
+            return GetProviderAttribute(filterGroupProvider.FilterProviderType).FirstOrDefault();
         }
 
         /// <inheritdoc/>
         public IEntityCollectionProvider GetProviderForCollection(IEntityCollection collection)
         {
-            return this[collection.ProviderKey];
+            return GetService(this[collection.ProviderKey], collection.Key);
         }
 
         /// <inheritdoc/>
         public T GetProviderForCollection<T>(IEntityCollection collection) where T : IEntityCollectionProvider
         {
-            var provider = this[collection.ProviderKey];
+            var provider = GetService(this[collection.ProviderKey], collection.Key);
 
             if (provider is T) return (T)provider;
 
             throw new Exception("Provider was resolved but was not of expected type.");
         }
+
+        /// <summary>
+        /// Gets the actual EntityCollectionProvider service instance from the provider type for the respective collection.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="collectionKey">
+        /// The collection key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEntityCollectionProvider"/>.
+        /// </returns>
+        protected IEntityCollectionProvider GetService(Type type, Guid collectionKey)
+        {
+            return _container.GetInstance<Guid, IEntityCollectionProvider>(collectionKey, type.Name);
+        }
+
 
         /// <summary>
         /// Gets the provider attributes of providers with matching types
@@ -222,6 +221,19 @@
                         return provider;
                     },
                 type.Name);
+        }
+
+        /// <summary>
+        /// Initializes the register.
+        /// </summary>
+        private void Initialize()
+        {
+            foreach (var t in this)
+            {
+                var key = t.GetCustomAttribute<EntityCollectionProviderAttribute>(false).Key;
+                _index.AddOrUpdate(key, t, (x, y) => t);
+                RegisterServiceForType(t);
+            }
         }
     }
 }

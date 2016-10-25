@@ -143,7 +143,7 @@
         {
             try
             {
-                var provider = MC.EntityCollectionProviderRegister[collection.Key];
+                var provider = MC.EntityCollectionProviderRegister.GetProviderForCollection(collection);
                 return provider as EntityCollectionProviderBase;
             }
             catch (Exception ex)

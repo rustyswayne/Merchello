@@ -14,7 +14,7 @@
     internal interface IEntityCollectionProviderRegister : IRegister<Type>
     {
         /// <summary>
-        /// Indexed property for getting a <see cref="IEntityCollectionProvider"/> by it's key.
+        /// Indexed property for getting a <see cref="Type"/> by it's key.
         /// </summary>
         /// <param name="providerKey">
         /// The key.
@@ -22,7 +22,7 @@
         /// <returns>
         /// The <see cref="IEntityCollectionProvider"/>.
         /// </returns>
-        IEntityCollectionProvider this[Guid providerKey] { get; }
+        Type this[Guid providerKey] { get; }
 
         /// <summary>
         /// Gets the provider key for a particular type.
@@ -111,7 +111,7 @@
         IEnumerable<IEntityCollectionProviderMeta> GetProviderMetas();
 
         /// <summary>
-        /// Gets the provider attiributes for all self managed providers.
+        /// Gets the provider attributes for all self managed providers.
         /// </summary>
         /// <returns>
         /// The <see cref="IEnumerable{IEntityCollectionProviderMeta}"/>.
