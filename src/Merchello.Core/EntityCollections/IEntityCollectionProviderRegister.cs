@@ -1,10 +1,8 @@
 ﻿namespace Merchello.Core.EntityCollections
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
 
-    using Merchello.Core.Acquired;
     using Merchello.Core.DI;
     using Merchello.Core.Models;
 
@@ -97,7 +95,7 @@
         /// The type of the provider
         /// </typeparam>
         /// <returns>
-        /// The <see cref="IEnumerable"/>.
+        /// The <see cref="IEnumerable{IEntityCollectionProviderMeta}"/>.
         /// </returns>
         IEnumerable<IEntityCollectionProviderMeta> GetProviderMetas<T>();
 
@@ -125,7 +123,7 @@
         /// The entity type.
         /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable"/>.
+        /// The <see cref="IEnumerable{Type}"/>.
         /// </returns>
         IEnumerable<Type> GetProviderTypesForEntityType(EntityType entityType);
 
