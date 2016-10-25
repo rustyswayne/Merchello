@@ -12,6 +12,7 @@
     using Merchello.Umbraco.Adapters.Logging;
     using Merchello.Umbraco.Adapters.Persistence;
     using Merchello.Umbraco.Mapping;
+    using Merchello.Umbraco.Migrations;
 
     using global::Umbraco.Core;
 
@@ -31,15 +32,16 @@
             container.Register<global::Umbraco.Core.Persistence.UmbracoDatabase>(factory => factory.GetInstance<DatabaseContext>().Database);
             container.Register<global::Umbraco.Core.Persistence.DatabaseSchemaHelper>();
 
+            container.Register<global::Umbraco.Core.Persistence.Migrations.IMigrationContext, MigrationContext>();
+
             // Adapters
             container.Register<IDatabaseAdapter, UmbracoDatabaseAdapter>();
             container.Register<IDatabaseSchemaManager, DatabaseSchemaHelperAdapter>();
             container.RegisterSingleton<IPluginManager, PluginManagerAdapter>();
             container.RegisterSingleton<ISqlSyntaxProviderAdapter, SqlSyntaxProviderAdapter>();
-            container.RegisterSingleton<ICacheHelper, CacheHelperAdapter>();
             container.RegisterSingleton<IProfilingLogger, ProfilingLoggerAdapter>();
             container.RegisterSingleton<ILogger, LoggerAdapter>();
-
+            container.RegisterSingleton<ICacheHelper, CacheHelperAdapter>();
             container.RegisterSingleton<ICacheHelper>(factory => new CacheHelperAdapter(CacheHelper.CreateDisabledCacheHelper()), Core.Constants.Repository.DisabledCache);
         }
     }

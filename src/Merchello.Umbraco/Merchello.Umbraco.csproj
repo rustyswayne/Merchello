@@ -47,6 +47,8 @@
     <Compile Include="Adapters\Persistence\DatabaseSchemaHelperAdapter.cs" />
     <Compile Include="Adapters\DisposableTimerAdapter.cs" />
     <Compile Include="Adapters\Cache\IsolatedCacheProviderAdapter.cs" />
+    <Compile Include="Adapters\Persistence\Migrations\MigrationExpressionAdapter.cs" />
+    <Compile Include="Migrations\MigrationContext.cs" />
     <Compile Include="Adapters\PluginManagerAdapter.cs" />
     <Compile Include="Adapters\Logging\ProfilingLoggerAdapter.cs" />
     <Compile Include="Adapters\Persistence\UmbracoDatabaseAdapter.cs" />

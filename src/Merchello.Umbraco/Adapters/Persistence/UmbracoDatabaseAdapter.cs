@@ -39,21 +39,9 @@
         }
 
         /// <inheritdoc/>
-        public Database Database
-        {
-            get
-            {
-                return this._db;
-            }
-        }
+        public Database Database => this._db;
 
         /// <inheritdoc/>
-        public ISqlSyntaxProviderAdapter SqlSyntax
-        {
-            get
-            {
-                return this._sqlSyntax.Value;
-            }
-        }
+        public ISqlSyntaxProviderAdapter SqlSyntax => this._sqlSyntax.Value;
     }
 }

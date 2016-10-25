@@ -5,5 +5,7 @@
     /// </summary>
     internal interface IMerchelloMigration
     {
+        void Up();
+        void Down();
     }
 }

@@ -5,10 +5,13 @@
 
     using global::Umbraco.Core.Persistence.Migrations;
 
+    using IMigrationContext = global::Umbraco.Core.Persistence.Migrations.IMigrationContext;
+    using MigrationAttribute = Core.Persistence.Migrations.MigrationAttribute;
+
     /// <summary>
     /// Drops old examine index id tables.
     /// </summary>
-    [global::Umbraco.Core.Persistence.Migrations.MigrationAttribute("2.3.1", "3.0.0", 0, Constants.MerchelloMigrationName)]
+    [Migration("2.3.1", "3.0.0", 0, Constants.MerchelloMigrationName)]
     public class DropIndexTables : MigrationBase, IMerchelloMigration
     {
         public DropIndexTables(IMigrationContext context)

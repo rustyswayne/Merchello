@@ -49,24 +49,12 @@
         /// <summary>
         /// Gets a value indicating whether the database is configured.
         /// </summary>
-        public override bool Configured
-        {
-            get
-            {
-                return this._dbContext.IsDatabaseConfigured;
-            }
-        }
+        public override bool Configured => this._dbContext.IsDatabaseConfigured;
 
         /// <summary>
         /// Gets a value indicating whether can a connection can be made to the database.
         /// </summary>
-        public override bool CanConnect
-        {
-            get
-            {
-                return this._dbContext.CanConnect;
-            }
-        }
+        public override bool CanConnect => this._dbContext.CanConnect;
 
         /// <summary>
         /// Gets the database from Umbraco's DatabaseContext.

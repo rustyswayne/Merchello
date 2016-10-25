@@ -41,249 +41,111 @@
         /// <summary>
         /// Gets the create table string.
         /// </summary>
-        public string CreateTable
-        {
-            get
-            {
-                return this._provider.CreateTable;
-            }
-        }
+        public string CreateTable => this._provider.CreateTable;
 
         /// <summary>
         /// Gets the drop table string.
         /// </summary>
-        public string DropTable
-        {
-            get
-            {
-                return this._provider.DropTable;
-            }
-        }
+        public string DropTable => this._provider.DropTable;
 
         /// <summary>
         /// Gets the add column string.
         /// </summary>
-        public string AddColumn
-        {
-            get
-            {
-                return this._provider.AddColumn;
-            }
-        }
+        public string AddColumn => this._provider.AddColumn;
 
         /// <summary>
         /// Gets the drop column string.
         /// </summary>
-        public string DropColumn
-        {
-            get
-            {
-                return this._provider.DropColumn;
-            }
-        }
+        public string DropColumn => this._provider.DropColumn;
 
         /// <summary>
         /// Gets the alter column string.
         /// </summary>
-        public string AlterColumn
-        {
-            get
-            {
-                return this._provider.AlterColumn;
-            }
-        }
+        public string AlterColumn => this._provider.AlterColumn;
 
         /// <summary>
         /// Gets the rename column string.
         /// </summary>
-        public string RenameColumn
-        {
-            get
-            {
-                return this._provider.RenameColumn;
-            }
-        }
+        public string RenameColumn => this._provider.RenameColumn;
 
         /// <summary>
         /// Gets the rename table.
         /// </summary>
-        public string RenameTable
-        {
-            get
-            {
-                return this._provider.RenameTable;
-            }
-        }
+        public string RenameTable => this._provider.RenameTable;
 
         /// <summary>
         /// Gets the create schema string.
         /// </summary>
-        public string CreateSchema
-        {
-            get
-            {
-                return this._provider.CreateSchema;
-            }
-        }
+        public string CreateSchema => this._provider.CreateSchema;
 
         /// <summary>
         /// Gets the alter schema string.
         /// </summary>
-        public string AlterSchema
-        {
-            get
-            {
-                return this._provider.AlterSchema;
-            }
-        }
+        public string AlterSchema => this._provider.AlterSchema;
 
         /// <summary>
         /// Gets the drop schema string.
         /// </summary>
-        public string DropSchema
-        {
-            get
-            {
-                return this._provider.DropSchema;
-            }
-        }
+        public string DropSchema => this._provider.DropSchema;
 
         /// <summary>
         /// Gets the create index string.
         /// </summary>
-        public string CreateIndex
-        {
-            get
-            {
-                return this._provider.CreateIndex;
-            }
-        }
+        public string CreateIndex => this._provider.CreateIndex;
 
         /// <summary>
         /// Gets the drop index string.
         /// </summary>
-        public string DropIndex
-        {
-            get
-            {
-                return this._provider.DropIndex;
-            }
-        }
+        public string DropIndex => this._provider.DropIndex;
 
         /// <summary>
         /// Gets the insert data string.
         /// </summary>
-        public string InsertData
-        {
-            get
-            {
-                return this._provider.InsertData;
-            }
-        }
+        public string InsertData => this._provider.InsertData;
 
         /// <summary>
         /// Gets the update data string.
         /// </summary>
-        public string UpdateData
-        {
-            get
-            {
-                return this._provider.UpdateData;
-            }
-        }
+        public string UpdateData => this._provider.UpdateData;
 
         /// <summary>
         /// Gets the delete data string.
         /// </summary>
-        public string DeleteData
-        {
-            get
-            {
-                return this._provider.DeleteData;
-            }
-        }
+        public string DeleteData => this._provider.DeleteData;
 
         /// <summary>
         /// Gets the truncate table string.
         /// </summary>
-        public string TruncateTable
-        {
-            get
-            {
-                return this._provider.TruncateTable;
-            }
-        }
+        public string TruncateTable => this._provider.TruncateTable;
 
         /// <summary>
         /// Gets the create constraint string.
         /// </summary>
-        public string CreateConstraint
-        {
-            get
-            {
-                return this._provider.CreateConstraint;
-            }
-        }
+        public string CreateConstraint => this._provider.CreateConstraint;
 
         /// <summary>
         /// Gets the delete constraint string.
         /// </summary>
-        public string DeleteConstraint
-        {
-            get
-            {
-                return this._provider.DeleteConstraint;
-            }
-        }
+        public string DeleteConstraint => this._provider.DeleteConstraint;
 
         /// <summary>
         /// Gets the create foreign key constraint.
         /// </summary>
-        public string CreateForeignKeyConstraint
-        {
-            get
-            {
-                return this._provider.CreateForeignKeyConstraint;
-            }
-        }
+        public string CreateForeignKeyConstraint => this._provider.CreateForeignKeyConstraint;
 
         /// <summary>
         /// Gets the delete default constraint string.
         /// </summary>
-        public string DeleteDefaultConstraint
-        {
-            get
-            {
-                return this._provider.DeleteDefaultConstraint;
-            }
-        }
+        public string DeleteDefaultConstraint => this._provider.DeleteDefaultConstraint;
 
         /// <inheritdoc/>
-        public string ConvertIntegerToOrderableString
-        {
-            get
-            {
-                return this._provider.ConvertIntegerToOrderableString;
-            }
-        }
+        public string ConvertIntegerToOrderableString => this._provider.ConvertIntegerToOrderableString;
 
         /// <inheritdoc/>
-        public string ConvertDateToOrderableString
-        {
-            get
-            {
-                return this._provider.ConvertDateToOrderableString;
-            }
-        }
+        public string ConvertDateToOrderableString => this._provider.ConvertDateToOrderableString;
 
         /// <inheritdoc/>
-        public string ConvertDecimalToOrderableString
-        {
-            get
-            {
-                return this._provider.ConvertDecimalToOrderableString;
-            }
-        }
+        public string ConvertDecimalToOrderableString => this._provider.ConvertDecimalToOrderableString;
 
         /// <summary>
         /// Escapes a string value.

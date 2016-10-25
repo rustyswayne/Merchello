@@ -5,6 +5,7 @@
 
     using Merchello.Core.EntityCollections;
     using Merchello.Core.Persistence.Mappers;
+    using Merchello.Core.Persistence.Migrations;
     using Merchello.Core.Plugins;
 
     /// <summary>
@@ -24,6 +25,20 @@
         internal static IEnumerable<Type> ResolveBaseMappers(this IPluginManager pluginManager)
         {
             return pluginManager.ResolveTypesWithAttribute<BaseMapper, MapperForAttribute>();
+        }
+
+        /// <summary>
+        /// Resolves the <see cref="IMerchelloMigration"/> types for Merchello upgrades.
+        /// </summary>
+        /// <param name="pluginManager">
+        /// The plugin manager.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{Type}"/>.
+        /// </returns>
+        internal static IEnumerable<Type> ResolveMigrations(this IPluginManager pluginManager)
+        {
+            return pluginManager.ResolveTypesWithAttribute<IMerchelloMigration, MigrationAttribute>();
         }
 
         /// <summary>

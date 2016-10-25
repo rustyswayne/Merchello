@@ -25,6 +25,9 @@
         /// </summary>
         IMigrationStatusService MigrationStatusService { get; }
 
+        /// <summary>
+        /// Gets the <see cref="IStoreSettingService"/>
+        /// </summary>
         IStoreSettingService StoreSettingService { get; }
     }
 }

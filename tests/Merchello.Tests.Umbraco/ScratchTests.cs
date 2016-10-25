@@ -48,11 +48,17 @@
             //manager.InstallDatabaseSchema();
             Assert.NotNull(manager);
 
+            var builder = MC.Container.GetInstance<MigrationRegisterBuilder>();
+            Assert.NotNull(builder);
+            var register = builder.CreateRegister();
+            var migrationCount = register.Count;
+            Console.WriteLine(migrationCount);
+
             //var manager = IoC.Container.GetInstance<IMigrationManager>();
             //Assert.NotNull(manager);
             //var version = new Version("0.0.0");
             //Assert.That(manager.DbVersion, Is.EqualTo(version));
-            
+
             var cacheFactory = MC.Container.GetInstance<ICloneableCacheEntityFactory>();
 
             var ecRegister = MC.EntityCollectionProviderRegister;
