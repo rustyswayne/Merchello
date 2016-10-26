@@ -1,12 +1,9 @@
 ﻿namespace Merchello.Core.Configuration.Sections
 {
-    using System;
-    using System.Collections.Generic;
     using System.Configuration;
 
     using Merchello.Core.Acquired.Configuration;
     using Merchello.Core.Configuration.Elements;
-    using Merchello.Core.Models.Interfaces;
 
     using Semver;
 
@@ -101,14 +98,14 @@
             }
         }
 
-        /// <inheritdoc/>
-        IEnumerable<ICurrencyFormat> IMerchelloSettingsSection.CurrencyFormats
-        {
-            get
-            {
-                return this.CurrencyFormats.GetCurrencyFormats();
-            }
-        }
+        ///// <inheritdoc/>
+        //IEnumerable<ICurrencyFormat> IMerchelloSettingsSection.CurrencyFormats
+        //{
+        //    get
+        //    {
+        //        return this.CurrencyFormats.GetCurrencyFormats();
+        //    }
+        //}
 
 
         /// <inheritdoc/>
@@ -182,14 +179,14 @@
             }
         }
 
-        /// <inheritdoc/>
-        [ConfigurationProperty("currencyFormats", IsRequired = true)]
-        internal CurrencyFormatsElement CurrencyFormats
-        {
-            get
-            {
-                return (CurrencyFormatsElement)this["currencyFormats"];
-            }
-        }
+        ///// <inheritdoc/>
+        //[ConfigurationProperty("currencyFormats", IsRequired = true)]
+        //internal CurrencyFormatsElement CurrencyFormats
+        //{
+        //    get
+        //    {
+        //        return (CurrencyFormatsElement)this["currencyFormats"];
+        //    }
+        //}
     }
 }

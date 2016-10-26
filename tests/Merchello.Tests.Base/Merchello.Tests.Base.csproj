@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Adapter\LogProfilerAdapter.cs" />
     <Compile Include="MerchelloDatabaseTestBase.cs" />
+    <Compile Include="MerchelloRepositoryTestBase.cs" />
     <Compile Include="Mocks\MockAnonymousCustomer.cs" />
     <Compile Include="Mocks\MockCustomer.cs" />
     <Compile Include="Properties\AssemblyVisibility.cs" />

@@ -36,6 +36,7 @@
             container.RegisterSingleton<IEntityCollectionService, EntityCollectionService>();
             container.RegisterSingleton<IMigrationStatusService, MigrationStatusService>();
             container.RegisterSingleton<IProductService, ProductService>();
+            container.RegisterSingleton<IStoreSettingService, StoreSettingService>();
         }
     }
 }

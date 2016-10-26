@@ -1,5 +1,6 @@
 ﻿namespace Merchello.Core.Models
 {
+    using System;
     using System.Runtime.Serialization;
 
     using Merchello.Core.Models.EntityBase;

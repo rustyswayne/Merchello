@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a repository responsible for <see cref="IInvoice"/> entities.
     /// </summary>
-    public interface IInvoiceRepository : ISearchTermRepository<IInvoice>, IEntityCollectionEntityRepository<IInvoice>, IEnsureDocumentNumberRepository
+    public interface IInvoiceRepository : ISearchTermRepository<IInvoice>, IEntityCollectionEntityRepository<IInvoice>, IEnsureDocumentNumberRepository, IRepository
     {
         /// <summary>
         /// Gets distinct currency codes used in invoices.

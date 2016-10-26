@@ -61,12 +61,14 @@
     <Compile Include="Persistence\BaseDataCreationTests.cs" />
     <Compile Include="Persistence\DatabaseCreationTests.cs" />
     <Compile Include="Persistence\Mappers\MapperRegisterTests.cs" />
+    <Compile Include="Persistence\Repositories\StoreSettingRepositoryTests.cs" />
     <Compile Include="Persistence\Sql\ProductSqlTests.cs" />
     <Compile Include="Persistence\Sql\ScratchSqlTests.cs" />
     <Compile Include="Persistence\Sql\EntityCollectionSqlTests.cs" />
     <Compile Include="Persistence\Sql\InvoiceSqlTests.cs" />
     <Compile Include="Persistence\Sql\ItemCacheSqlTests.cs" />
     <Compile Include="Persistence\Repositories\MigrationStatusRepositoryTests.cs" />
+    <Compile Include="Persistence\Sql\SettingsSqlTests.cs" />
     <Compile Include="Resolvers\EntityCollectionResolverTests.cs" />
     <Compile Include="ServiceContainer\AdapterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +83,7 @@
     </Compile>
     <Compile Include="Services\EntityCollectionServiceTests.cs" />
     <Compile Include="Services\EventServiceTestBase.cs" />
+    <Compile Include="Services\StoreSettingServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

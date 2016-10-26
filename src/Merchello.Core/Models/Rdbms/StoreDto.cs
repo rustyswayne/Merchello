@@ -1,6 +1,7 @@
 ﻿namespace Merchello.Core.Models.Rdbms
 {
     using System;
+    using System.Collections.Generic;
 
     using Merchello.Core.Acquired.Persistence.DatabaseAnnotations;
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;

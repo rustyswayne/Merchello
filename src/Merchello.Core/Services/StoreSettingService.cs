@@ -1,10 +1,12 @@
 ﻿namespace Merchello.Core.Services
 {
     using System;
+    using System.Collections.Generic;
 
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <inheritdoc/>
@@ -30,7 +32,40 @@
         /// <inheritdoc/>
         public IStoreSetting GetByKey(Guid key)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IStoreSettingRepository>();
+                var setting = repo.Get(key);
+                uow.Complete();
+                return setting;
+            }
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<IStoreSetting> GetAll(params Guid[] keys)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IStoreSettingRepository>();
+                var settings = repo.GetAll(keys);
+                uow.Complete();
+                return settings;
+            }
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<IStoreSetting> GetByStoreKey(Guid storeKey, bool excludeGlobal = false)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IStoreSettingRepository>();
+                var settings = repo.GetByStoreKey(storeKey, excludeGlobal);
+                uow.Complete();
+                return settings;
+            }
         }
     }
 }

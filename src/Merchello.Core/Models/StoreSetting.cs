@@ -35,7 +35,7 @@
         /// <summary>
         /// A value indicating whether or not the setting is global.
         /// </summary>
-        private bool isGlobal;
+        private bool _isGlobal;
 
         /// <inheritdoc/>
         [DataMember]
@@ -88,12 +88,12 @@
         {
             get
             {
-                return this.isGlobal;
+                return this._isGlobal;
             }
 
             internal set
             {
-                SetPropertyValueAndDetectChanges(value, ref this.isGlobal, _ps.Value.GlobalSelector);
+                SetPropertyValueAndDetectChanges(value, ref this._isGlobal, _ps.Value.GlobalSelector);
             }
         }
 

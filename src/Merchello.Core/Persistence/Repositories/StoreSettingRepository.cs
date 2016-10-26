@@ -5,8 +5,10 @@
     using System.Globalization;
     using System.Linq;
 
+    using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
+    using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Models.TypeFields;
     using Merchello.Core.Persistence.Factories;
@@ -34,6 +36,30 @@
         public StoreSettingRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers)
             : base(work, cache, logger, mappers)
         {
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<IStoreSetting> GetByStoreKey(Guid storeKey, bool excludeGlobal = false)
+        {
+            //// TODO ADD to runtime cache
+            //// The SQL here also needs to be reviewed, but this was the seemingly quickest way to 
+            //// perform the query via NPoco (but there has to be a better way). 
+            
+            var innerSql = Sql()
+                    .SelectDistinct<StoreSettingDto>(x => x.Key)
+                    .From<StoreSettingDto>()
+                    .LeftJoin<Store2StoreSettingDto>()
+                    .On<StoreSettingDto, Store2StoreSettingDto>(left => left.Key, right => right.SettingKey)
+                    .Where<Store2StoreSettingDto>(x => x.StoreKey == storeKey);
+
+            if (!excludeGlobal) innerSql = innerSql.Or<StoreSettingDto>(x => x.IsGlobal);
+
+            var sql = GetBaseQuery(false)
+                .SingleWhereIn<StoreSettingDto>(x => x.Key, innerSql);
+
+            var factory = GetFactoryInstance();
+            var dtos = Database.Fetch<StoreSettingDto>(sql);
+            return dtos.Select(factory.BuildEntity);
         }
 
         /// <inheritdoc/>

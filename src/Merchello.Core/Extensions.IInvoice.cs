@@ -951,12 +951,11 @@
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        private static string GetCurrencyJson(ICurrency currency)
+        private static string GetCurrencyJson(Currency currency)
         {
-            if (currency == null) return string.Empty;
 
             return JsonConvert.SerializeObject(
-                new { currency.Name, currency.CurrencyCode, currency.Symbol },
+                new { currency.EnglishName, currency.Code, currency.Symbol },
                 Formatting.None);
         }
 

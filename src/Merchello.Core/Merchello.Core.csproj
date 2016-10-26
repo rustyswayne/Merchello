@@ -310,7 +310,6 @@
     <Compile Include="Models\Cache\ICloneableCacheEntity.cs" />
     <Compile Include="Models\CatalogInventory.cs" />
     <Compile Include="Models\CatalogInventoryCollection.cs" />
-    <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomerAddress.cs" />
     <Compile Include="Models\CustomerBase.cs" />
@@ -765,7 +764,6 @@
     <Compile Include="Configuration\Elements\BackOfficeElement.cs" />
     <Compile Include="Configuration\Elements\BackOfficeTreesElement.cs" />
     <Compile Include="Configuration\Elements\CheckoutElement.cs" />
-    <Compile Include="Configuration\Elements\CurrencyFormatsElement.cs" />
     <Compile Include="Configuration\Elements\CustomersElement.cs" />
     <Compile Include="Configuration\Elements\GenericTypeDictionaryElement.cs" />
     <Compile Include="Configuration\Elements\MigrationsElement.cs" />
@@ -866,7 +864,6 @@
     <Compile Include="Models\Counting\ProductOptionUseCount.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CountryBase.cs" />
-    <Compile Include="Models\CurrencyFormat.cs" />
     <Compile Include="Models\DetachedContent\DetachedContentCollection.cs" />
     <Compile Include="Models\DetachedContent\DetachedDataValuesCollection.cs" />
     <Compile Include="Models\DetachedContent\IDetachedContent.cs" />
@@ -886,8 +883,6 @@
     <Compile Include="Models\Interfaces\ICatalogInventory.cs" />
     <Compile Include="Models\Interfaces\ICountry.cs" />
     <Compile Include="Models\Interfaces\ICountryBase.cs" />
-    <Compile Include="Models\Interfaces\ICurrency.cs" />
-    <Compile Include="Models\Interfaces\ICurrencyFormat.cs" />
     <Compile Include="Models\Interfaces\ICustomer.cs" />
     <Compile Include="Models\Interfaces\ICustomerAddress.cs" />
     <Compile Include="Models\Interfaces\ICustomerBase.cs" />
@@ -984,11 +979,23 @@
     <Compile Include="Services\Interfaces\IEntityCollectionEntityService.cs" />
     <Compile Include="Services\Interfaces\ICustomerService.cs" />
     <Compile Include="Services\Interfaces\IEntityCollectionService.cs" />
+    <Compile Include="Services\Interfaces\IGatewayProviderService.cs" />
     <Compile Include="Services\Interfaces\IInvoiceService.cs" />
+    <Compile Include="Services\Interfaces\IItemCacheService.cs" />
+    <Compile Include="Services\Interfaces\IOfferSettingsService.cs" />
+    <Compile Include="Services\Interfaces\IOrderService.cs" />
+    <Compile Include="Services\Interfaces\IPaymentService.cs" />
     <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
+    <Compile Include="Services\Interfaces\IProductOptionService.cs" />
+    <Compile Include="Services\Interfaces\IShipmentService.cs" />
+    <Compile Include="Services\Interfaces\IStoreService.cs" />
     <Compile Include="Services\Interfaces\IStoreSettingService.cs" />
+    <Compile Include="Services\Interfaces\IWarehouseService.cs" />
     <Compile Include="Services\ProductService.persist.cs">
+      <DependentUpon>ProductService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ProductService.variant.cs">
       <DependentUpon>ProductService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ServiceBase.cs" />
@@ -996,8 +1003,25 @@
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\RepositoryServiceBase.cs" />
     <Compile Include="Services\ServiceContext.cs" />
+    <Compile Include="Services\StoreSettingService.country.cs">
+      <DependentUpon>StoreSettingService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\StoreSettingService.cs" />
-    <Compile Include="Services\StoreSettingService.persist.cs" />
+    <Compile Include="Services\StoreSettingService.currency.cs">
+      <DependentUpon>StoreSettingService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\StoreSettingService.docnum.cs">
+      <DependentUpon>StoreSettingService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\StoreSettingService.events.cs">
+      <DependentUpon>StoreSettingService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\StoreSettingService.persist.cs">
+      <DependentUpon>StoreSettingService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\StoreSettingService.typefields.cs">
+      <DependentUpon>StoreSettingService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vistors\IVisitor{T}.cs" />
     <Compile Include="Models\Interfaces\IWarehouse.cs" />
     <Compile Include="Models\Interfaces\IWarehouseCatalog.cs" />

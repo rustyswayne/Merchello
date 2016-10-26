@@ -45,11 +45,5 @@
         [Constraint(Default = SystemMethods.CurrentDateTime)]
         public DateTime CreateDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets the product attribute DTO.
-        /// </summary>
-        [ResultColumn]
-        [Reference(ReferenceType.Many, ReferenceMemberName = "Key")]
-        public List<StoreSettingDto> StoreSettingDtos { get; set; }
     }
 }

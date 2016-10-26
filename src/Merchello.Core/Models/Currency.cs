@@ -8,7 +8,6 @@
     /// </summary>
     [Serializable]
     [DataContract(IsReference = true)]
-    [Obsolete("Moving to NodaMoney")]
     internal class Currency : ICurrency
     {
         /// <summary>

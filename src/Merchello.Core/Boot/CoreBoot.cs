@@ -20,7 +20,7 @@
     /// Application boot strap for the Merchello Plugin which initializes all objects to be used in the Merchello Core
     /// </summary>
     /// <remarks>
-    /// We needed our own boot strap to setup Merchello specific singletons
+    /// We needed our own boot strap to setup Merchello specific singletons.
     /// </remarks>
     internal class CoreBoot : IBoot
     {

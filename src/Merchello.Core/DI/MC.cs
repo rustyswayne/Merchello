@@ -40,8 +40,6 @@
         /// </summary>
         public static IServiceContext Services => Container.GetInstance<IServiceContext>();
 
-
-
         /// <summary>
         /// Gets the <see cref="IEntityCollectionProviderRegister"/>.
         /// </summary>

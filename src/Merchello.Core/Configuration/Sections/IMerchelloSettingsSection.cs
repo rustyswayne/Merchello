@@ -52,9 +52,9 @@
         /// <inheritdoc/>
         IMigrationsSection Migrations { get; }
 
-        /// <summary>
-        /// Gets the custom currency formats.
-        /// </summary>
-        IEnumerable<ICurrencyFormat> CurrencyFormats { get; }
+        ///// <summary>
+        ///// Gets the custom currency formats.
+        ///// </summary>
+        //IEnumerable<ICurrencyFormat> CurrencyFormats { get; }
     }
 }

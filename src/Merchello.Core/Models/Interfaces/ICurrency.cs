@@ -3,10 +3,10 @@
     using System;
     using System.Runtime.Serialization;
 
+
     /// <summary>
     /// Represents currency.
     /// </summary>
-    [Obsolete("Moving to NodaMoney")]
     public interface ICurrency
     {
         /// <summary>

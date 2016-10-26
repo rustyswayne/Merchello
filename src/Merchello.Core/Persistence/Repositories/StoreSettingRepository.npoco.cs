@@ -15,8 +15,7 @@
         /// <inheritdoc/>
         protected override Sql<SqlContext> GetBaseQuery(bool isCount)
         {
-            return Sql().Select(isCount ? "COUNT(*)" : "*")
-                .From<StoreSettingDto>();
+            return Sql().Select(isCount ? "COUNT(*)" : "*").From<StoreSettingDto>();
         }
 
         /// <inheritdoc/>

@@ -12,6 +12,20 @@
     public interface IStoreSettingRepository : INPocoEntityRepository<IStoreSetting>
     {
         /// <summary>
+        /// Gets a collection of settings for a particular store.
+        /// </summary>
+        /// <param name="storeKey">
+        /// The store key.
+        /// </param>
+        /// <param name="excludeGlobal">
+        /// Exclude global settings.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IStoreSetting}"/>.
+        /// </returns>
+        IEnumerable<IStoreSetting> GetByStoreKey(Guid storeKey, bool excludeGlobal = false);
+
+        /// <summary>
         /// Gets the next invoice number
         /// </summary>
         /// <param name="storeSettingKey">Constant GUID Key of the NextInvoiceNumber store setting</param>
