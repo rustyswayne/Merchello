@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a country
     /// </summary>
-    public interface ICountry : IEntity
+    public interface ICountry 
     {
         /// <summary>
         /// Gets the two letter ISO Region code

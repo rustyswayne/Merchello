@@ -7,16 +7,19 @@
     using System.Runtime.Serialization;
 
     using Merchello.Core.Acquired;
+    using Merchello.Core.Models.EntityBase;
 
     /// <summary>
     /// Represents a country associated with a warehouse
     /// </summary>
-    public class ShipCountry : CountryBase, IShipCountry
+    public class ShipCountry : Entity, IShipCountry
     {
         /// <summary>
         /// The property selectors.
         /// </summary>
         private static readonly Lazy<PropertySelectors> _ps = new Lazy<PropertySelectors>();
+
+        private readonly ICountry _country;
 
         /// <summary>
         /// The warehouse catalog key.
@@ -33,29 +36,13 @@
         /// The country.
         /// </param>
         public ShipCountry(Guid catalogKey, ICountry country)
-            : this(catalogKey, country.CountryCode, country.Provinces)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ShipCountry"/> class.
-        /// </summary>
-        /// <param name="catalogKey">
-        /// The catalog key.
-        /// </param>
-        /// <param name="countryCode">
-        /// The country code.
-        /// </param>
-        /// <param name="provinces">
-        /// The provinces.
-        /// </param>
-        internal ShipCountry(Guid catalogKey, string countryCode, IEnumerable<IProvince> provinces)
-            : base(countryCode, provinces)
         {
             Ensure.ParameterCondition(catalogKey != Guid.Empty, "catalogKey");
-
+            Ensure.ParameterNotNull(country, nameof(country));
+            _country = country;
             _catalogKey = catalogKey;
         }
+
 
         /// <inheritdoc/>
         [DataMember]
@@ -71,6 +58,21 @@
                 SetPropertyValueAndDetectChanges(value, ref _catalogKey, _ps.Value.CatalogKeySelector); 
             }
         }
+
+        /// <inheritdoc/>
+        public string CountryCode => _country.CountryCode;
+
+        /// <inheritdoc/>
+        public string Name => _country.Name;
+
+        /// <inheritdoc/>
+        public int Iso => _country.Iso;
+
+        /// <inheritdoc/>
+        public string ProvinceLabel => _country.ProvinceLabel;
+
+        /// <inheritdoc/>
+        public IEnumerable<IProvince> Provinces => _country.Provinces;
 
         /// <inheritdoc/>
         [DataMember]

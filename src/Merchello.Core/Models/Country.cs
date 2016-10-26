@@ -33,7 +33,7 @@
         /// The provinces.
         /// </param>
         internal Country(string countryCode, IEnumerable<IProvince> provinces)
-            : base(countryCode, provinces)
+            : base (countryCode, provinces)
         {
         }
 

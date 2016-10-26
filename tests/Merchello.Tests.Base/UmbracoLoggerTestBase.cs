@@ -9,16 +9,17 @@
 
     using NUnit.Framework;
 
-    public abstract class UmbracoLoggerTestBase
+    public abstract class UmbracoLoggerTestBase : WebConfigTestBase
     {
 
         protected ILogger Logger { get; private set; }
 
         protected ProfilingLogger ProfileLogger { get; private set; }
 
-        [OneTimeSetUp]
-        public virtual void Initialize()
+        public override void Initialize()
         {
+            base.Initialize();
+
             this.Logger = new Logger(new FileInfo(TestHelper.MapPathForTest("~/Config/log4net.config")));
 
             // Goofy way to get around internals

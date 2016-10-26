@@ -862,7 +862,6 @@
     <Compile Include="Models\Counting\EntityUseCount.cs" />
     <Compile Include="Models\Counting\IProductOptionUseCount.cs" />
     <Compile Include="Models\Counting\ProductOptionUseCount.cs" />
-    <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CountryBase.cs" />
     <Compile Include="Models\DetachedContent\DetachedContentCollection.cs" />
     <Compile Include="Models\DetachedContent\DetachedDataValuesCollection.cs" />
@@ -882,7 +881,6 @@
     <Compile Include="Models\Interfaces\IAuditLog.cs" />
     <Compile Include="Models\Interfaces\ICatalogInventory.cs" />
     <Compile Include="Models\Interfaces\ICountry.cs" />
-    <Compile Include="Models\Interfaces\ICountryBase.cs" />
     <Compile Include="Models\Interfaces\ICustomer.cs" />
     <Compile Include="Models\Interfaces\ICustomerAddress.cs" />
     <Compile Include="Models\Interfaces\ICustomerBase.cs" />

@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
+    using Merchello.Core.Configuration;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
     using Merchello.Core.Services;
@@ -12,13 +14,6 @@
     /// </summary>
     internal class ShipCountryFactory : IEntityFactory<IShipCountry, ShipCountryDto>
     {
-        //private readonly IStoreSettingService _storeSettingService;
-
-        //public ShipCountryFactory(IStoreSettingService storeSettingService)
-        //{
-        //    _storeSettingService = storeSettingService;
-        //}
-
         /// <summary>
         /// Builds <see cref="IShipCountry"/>.
         /// </summary>
@@ -30,22 +25,22 @@
         /// </returns>
         public IShipCountry BuildEntity(ShipCountryDto dto)
         {
-            throw new NotImplementedException();
+            var country = dto.CountryCode.Equals(Constants.CountryCodes.EverywhereElse) ?
+                new Country(Constants.CountryCodes.EverywhereElse, "Everywhere Else") :
+                MerchelloConfig.For.MerchelloCountries()
+                    .Countries
+                    .FirstOrDefault(x => x.CountryCode.Equals(dto.CountryCode, StringComparison.InvariantCultureIgnoreCase));
 
-            //var country = dto.CountryCode.Equals(Constants.CountryCodes.EverywhereElse) ?
-            //    new Country(Constants.CountryCodes.EverywhereElse, new List<IProvince>()) : 
-            //    _storeSettingService.GetCountryByCode(dto.CountryCode);
+            var shipCountry = new ShipCountry(dto.CatalogKey, country)
+            {
+                Key = dto.Key,
+                UpdateDate = dto.UpdateDate,
+                CreateDate = dto.CreateDate
+            };
 
-            //var shipCountry = new ShipCountry(dto.CatalogKey, country)
-            //{
-            //    Key = dto.Key,
-            //    UpdateDate = dto.UpdateDate,
-            //    CreateDate = dto.CreateDate
-            //};
+            shipCountry.ResetDirtyProperties();
 
-            //shipCountry.ResetDirtyProperties();
-
-            //return shipCountry;
+            return shipCountry;
         }
 
         /// <summary>

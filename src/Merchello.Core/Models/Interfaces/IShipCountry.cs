@@ -3,10 +3,12 @@
     using System;
     using System.Runtime.Serialization;
 
+    using Merchello.Core.Models.EntityBase;
+
     /// <summary>
     /// Represents a shipping country.
     /// </summary>
-    public interface IShipCountry : ICountryBase
+    public interface IShipCountry : ICountry, IEntity
     {
         /// <summary>
         /// Gets the unique warehouse catalog key

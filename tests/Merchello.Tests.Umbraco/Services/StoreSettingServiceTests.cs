@@ -19,6 +19,8 @@
 
         protected override bool EnableCache => false;
 
+        protected override bool RequiresMerchelloConfig => true;
+
         public override void Initialize()
         {
             base.Initialize();
@@ -97,11 +99,10 @@
         }
 
         [TestCase("US")]
-        [TestCase("UK")]
+        [TestCase("GB")]
         [TestCase("JP")]
         [TestCase("DK")]
         [Test]
-        [Ignore("TODO Have to wire up the config file")]
         public void GetCountryByCode(string code)
         {
             var country = Service.GetCountryByCode(code);
@@ -109,6 +110,19 @@
             Assert.NotNull(country);
             Assert.That(country.CountryCode, Is.EqualTo(code));
         }
+
+        [Test]
+        public void GetAllCountries()
+        {
+            var countries = Service.GetAllCountries();
+
+            Assert.NotNull(countries);
+            foreach (var country in countries)
+            {
+                Console.WriteLine(country.Name);
+            }
+        }
+
 
         [Test]
         public void GetAllCurrencies()

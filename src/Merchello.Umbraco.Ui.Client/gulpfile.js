@@ -66,23 +66,6 @@ gulp.task('copy:tests', function() {
     // merchelloSettings.config
 
     var version;
-/*
-    .pipe(fs.readFile(versionText, "utf-8", function(err, data) {
-        // parse the file contents
-        var lines = data.split('\n');
-        version = clean(lines[1]);
-        if (lines.length > 2) {
-            version += '-' + clean(lines[2]);
-        }
-
-        console.info(version);
-
-        // remove the carage returns
-        function clean(item) {
-            return item.replace(/(\r\n|\n|\r)/gm,"");
-        }
-    }))
-    */
 
     gulp.src(configs + 'merchelloSettings.config')
         // set the version to the build version
@@ -109,7 +92,9 @@ gulp.task('copy:tests', function() {
                 }]
             }))
         .pipe(gulp.dest(tdebug + paths.settings))
-        .pipe(gulp.dest(trelease + paths.settings));
+        .pipe(gulp.dest(trelease + paths.settings))
+        .pipe(gulp.dest(utdebug + paths.umbraco))
+        .pipe(gulp.dest(utrelease + paths.umbraco));
 
 
 
@@ -124,7 +109,9 @@ gulp.task('copy:tests', function() {
     // -------------------
     gulp.src(configs + 'merchelloExtensibility.config')
         .pipe(gulp.dest(tdebug + 'Configurations/MerchelloExtensibility/'))
-        .pipe(gulp.dest(trelease + 'Configurations/MerchelloExtensibility/'));
+        .pipe(gulp.dest(trelease + 'Configurations/MerchelloExtensibility/'))
+        .pipe(gulp.dest(utdebug + paths.umbraco))
+        .pipe(gulp.dest(utrelease + paths.umbraco));
 
     // web.config
     gulp.src(configs + 'tests/web.extensibility.config')
@@ -137,13 +124,23 @@ gulp.task('copy:tests', function() {
     // -------------------
     gulp.src(configs + 'merchelloCountries.config')
         .pipe(gulp.dest(tdebug + 'Configurations/MerchelloCountries/'))
-        .pipe(gulp.dest(trelease + 'Configurations/MerchelloCountries/'));
+        .pipe(gulp.dest(trelease + 'Configurations/MerchelloCountries/'))
+        .pipe(gulp.dest(utdebug + paths.umbraco))
+        .pipe(gulp.dest(utrelease + paths.umbraco));
 
     // web.config
     gulp.src(configs + 'tests/web.countries.config')
         .pipe(rename('web.config'))
         .pipe(gulp.dest(tdebug + 'Configurations/MerchelloCountries/'))
         .pipe(gulp.dest(trelease + 'Configurations/MerchelloCountries/'));
+
+    /// -------------------
+    /// Umbraco
+    /// -------------------
+    gulp.src(configs + 'tests/web.full.config')
+        .pipe(rename('web.config'))
+        .pipe(gulp.dest(utdebug + 'Config/'))
+        .pipe(gulp.dest(trelease + 'Config/'));
 });
 
 

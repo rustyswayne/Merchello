@@ -2,20 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Runtime.Serialization;
-
-    using Merchello.Core.Models.EntityBase;
 
     using Constants = Merchello.Core.Constants;
 
     /// <summary>
-    /// Represents a shipping or tax region (country)
+    /// Represents a country
     /// </summary>
     [Serializable]
     [DataContract(IsReference = true)]
-    public abstract class CountryBase : Entity, ICountryBase
+    public class Country : ICountry
     {
         /// <summary>
         /// The country code.
@@ -34,27 +31,21 @@
         private readonly IEnumerable<IProvince> _provinces;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CountryBase"/> class.
+        /// Initializes a new instance of the <see cref="Country"/> class.
         /// </summary>
         /// <param name="countryCode">
         /// The country code.
         /// </param>
-        /// <param name="provinces">
-        /// The provinces.
+        /// <param name="name">
+        /// The name.
         /// </param>
-        [Obsolete]
-        //// TODO country is internal so this can be removed - but wait for ShipCountry to be ported to 
-        //// to work out all the kinks at the same time
-        protected CountryBase(string countryCode, IEnumerable<IProvince> provinces)
-            : this(
-                countryCode,
-                countryCode.Equals(Constants.CountryCodes.EverywhereElse) ? null : new RegionInfo(countryCode).EnglishName,
-                provinces)
+        public Country(string countryCode, string name)
+            : this(countryCode, name, Enumerable.Empty<IProvince>())
         {
         }
-
+    
         /// <summary>
-        /// Initializes a new instance of the <see cref="CountryBase"/> class.
+        /// Initializes a new instance of the <see cref="Country"/> class.
         /// </summary>
         /// <param name="countryCode">
         /// The country code.
@@ -65,7 +56,7 @@
         /// <param name="provinces">
         /// The provinces.
         /// </param>
-        protected CountryBase(string countryCode, string name, IEnumerable<IProvince> provinces)
+        public Country(string countryCode, string name, IEnumerable<IProvince> provinces)
         {   
             var proviceArray = provinces as IProvince[] ?? provinces.ToArray();
 
@@ -80,25 +71,16 @@
         /// Gets the two letter ISO Region code
         /// </summary>
         [DataMember]
-        public string CountryCode 
-        {
-            get { return _countryCode; }
-        }
+        public string CountryCode => this._countryCode;
 
         /// <summary>
         /// Gets the English name associated with the region
         /// </summary>
         [DataMember]
-        public string Name 
-        {
-            get
-            {
-                return _countryCode.Equals(Constants.CountryCodes.EverywhereElse) ? "Everywhere Else" : _name;
-            }
-        }
+        public string Name => this._countryCode.Equals(Constants.CountryCodes.EverywhereElse) ? "Everywhere Else" : this._name;
 
         /// <summary>
-        /// Gets the English name associated with the region
+        /// Gets or sets the ISO code associated with the region
         /// </summary>
         [DataMember]
         public int Iso { get; set; }
@@ -114,9 +96,6 @@
         /// Gets the Provinces (if any) associated with the country
         /// </summary>
         [IgnoreDataMember]
-        public IEnumerable<IProvince> Provinces 
-        {
-            get { return _provinces; }
-        }
+        public IEnumerable<IProvince> Provinces => this._provinces;
     }
 }
