@@ -34,10 +34,7 @@
         /// <summary>
         /// Gets the line items identified as taxable line items
         /// </summary>
-        public IEnumerable<ILineItem> TaxableLineItems
-        {
-            get { return _lineItems; }
-        }
+        public IEnumerable<ILineItem> TaxableLineItems => this._lineItems;
 
         /// <summary>
         /// The visit.
@@ -48,6 +45,8 @@
         public void Visit(ILineItem lineItem)
         {
             if (!lineItem.ExtendedData.GetTaxableValue()) return;
+
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (lineItem.LineItemType == LineItemType.Discount)
             {
                 lineItem.ExtendedData.SetValue(Constants.ExtendedDataKeys.LineItemTaxAmount, (-lineItem.TotalPrice * this._taxRate).ToString(CultureInfo.InvariantCulture));
@@ -56,7 +55,8 @@
             {
                 lineItem.ExtendedData.SetValue(Constants.ExtendedDataKeys.LineItemTaxAmount, (lineItem.TotalPrice * this._taxRate).ToString(CultureInfo.InvariantCulture));
             }
-            lineItem.ExtendedData.SetValue(Constants.ExtendedDataKeys.BaseTaxRate, this._taxRate.ToString());
+
+            lineItem.ExtendedData.SetValue(Constants.ExtendedDataKeys.BaseTaxRate, this._taxRate.ToString(CultureInfo.InvariantCulture));
             _lineItems.Add(lineItem);
         }
     }

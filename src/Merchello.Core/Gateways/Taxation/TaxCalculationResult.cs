@@ -2,7 +2,7 @@
 {
     using Merchello.Core.Models;
 
-    using Umbraco.Core;
+    using NodaMoney;
 
     /// <summary>
     /// Represents an invoice tax calculation result
@@ -18,7 +18,7 @@
         /// <param name="taxAmount">
         /// The tax amount.
         /// </param>
-        public TaxCalculationResult(decimal taxRate, decimal taxAmount)
+        public TaxCalculationResult(decimal taxRate, Money taxAmount)
             : this(string.Empty, taxRate, taxAmount)
         {            
         }
@@ -35,7 +35,7 @@
         /// <param name="taxAmount">
         /// The tax amount.
         /// </param>
-        public TaxCalculationResult(string name, decimal taxRate, decimal taxAmount)
+        public TaxCalculationResult(string name, decimal taxRate, Money taxAmount)
             : this(name, taxRate, taxAmount, new ExtendedDataCollection())
         {            
         }
@@ -55,9 +55,9 @@
         /// <param name="extendedData">
         /// The extended data.
         /// </param>
-        public TaxCalculationResult(string name, decimal taxRate, decimal taxAmount, ExtendedDataCollection extendedData)
+        public TaxCalculationResult(string name, decimal taxRate, Money taxAmount, ExtendedDataCollection extendedData)
         {
-            Mandate.ParameterNotNull(extendedData, "extendedData");
+            Ensure.ParameterNotNull(extendedData, "extendedData");
 
             Name = string.IsNullOrEmpty(name) ? "Tax" : name;
             TaxRate = taxRate;
@@ -78,7 +78,7 @@
         /// <summary>
         /// Gets or sets the tax amount.
         /// </summary>
-        public decimal TaxAmount { get; set; }
+        public Money TaxAmount { get; set; }
 
         /// <summary>
         /// Gets the extended data.

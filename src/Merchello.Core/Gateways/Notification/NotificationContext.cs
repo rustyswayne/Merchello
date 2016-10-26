@@ -3,9 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Formatters;
+
+    using Merchello.Core.Observation;
+
     using Models;
-    using Observation;
+
     using Services;
 
     /// <summary>
@@ -19,11 +21,11 @@
         /// <param name="gatewayProviderService">
         /// The gateway provider service.
         /// </param>
-        /// <param name="resolver">
-        /// The resolver.
+        /// <param name="register">
+        /// The <see cref="IGatewayProviderRegister"/>.
         /// </param>
-        public NotificationContext(IGatewayProviderService gatewayProviderService, IGatewayProviderResolver resolver)
-            : base(gatewayProviderService, resolver)
+        public NotificationContext(Lazy<IGatewayProviderService> gatewayProviderService, IGatewayProviderRegister register)
+            : base(gatewayProviderService, register)
         {
         }
 
@@ -35,7 +37,7 @@
         public override NotificationGatewayProviderBase GetProviderByMethodKey(Guid gatewayMethodKey)
         {
             return GetAllActivatedProviders()
-                .FirstOrDefault(x => ((NotificationGatewayProviderBase)x)
+                .FirstOrDefault(x => ((INotificationGatewayProvider)x)
                     .NotificationMethods.Any(y => y.Key == gatewayMethodKey)) as NotificationGatewayProviderBase;
         }
 
@@ -62,12 +64,12 @@
         /// Sends a <see cref="INotificationMessage"/>
         /// </summary>
         /// <param name="message">The <see cref="INotificationMessage"/> to be sent</param>
-        /// <param name="formatter">The <see cref="IFormatter"/> to use when formatting the message</param>
-        public void Send(INotificationMessage message, IFormatter formatter)
+        /// <param name="formatter">The <see cref="IMessageFormatter"/> to use when formatting the message</param>
+        public void Send(INotificationMessage message, IMessageFormatter formatter)
         {
             var activeProviders = GetAllActivatedProviders();
 
-            var provider = activeProviders.FirstOrDefault(x => ((NotificationGatewayProviderBase)x).NotificationMethods.Any(y => y.Key == message.MethodKey)) as NotificationGatewayProviderBase;
+            var provider = activeProviders.FirstOrDefault(x => ((INotificationGatewayProvider)x).NotificationMethods.Any(y => y.Key == message.MethodKey)) as NotificationGatewayProviderBase;
 
             if (provider == null) return;
 

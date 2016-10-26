@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Merchello.Core.Formatters;
-using Merchello.Core.Models;
-
-namespace Merchello.Core.Gateways.Notification
+﻿namespace Merchello.Core.Gateways.Notification
 {
+    using System;
+    using System.Collections.Generic;
+    using Merchello.Core.Models;
+
     /// <summary>
     /// Defines the NotificationContext
     /// </summary>
@@ -27,8 +26,8 @@ namespace Merchello.Core.Gateways.Notification
         /// Sends a <see cref="INotificationMessage"/>
         /// </summary>
         /// <param name="message">The <see cref="INotificationMessage"/> to be sent</param>
-        /// <param name="formatter">The <see cref="IFormatter"/> to use when formatting the message</param>
-        void Send(INotificationMessage message, IFormatter formatter);
+        /// <param name="formatter">The <see cref="IMessageFormatter"/> to use when formatting the message</param>
+        void Send(INotificationMessage message, IMessageFormatter formatter);
 
     }
 }

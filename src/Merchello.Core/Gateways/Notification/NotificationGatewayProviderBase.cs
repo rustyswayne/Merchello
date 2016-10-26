@@ -3,19 +3,36 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using Merchello.Core.Cache;
+
     using Models;
     using Services;
-    using Umbraco.Core.Cache;
 
     /// <summary>
     /// Defines the base NotificationGatewayProvider
     /// </summary>
     public abstract class NotificationGatewayProviderBase : GatewayProviderBase, INotificationGatewayProvider
     {
+        /// <summary>
+        /// The <see cref="INotificationMessage"/>.
+        /// </summary>
         private IEnumerable<INotificationMethod> _notificationMethods;
 
-        protected NotificationGatewayProviderBase(IGatewayProviderService gatewayProviderService, IGatewayProviderSettings gatewayProviderSettings, IRuntimeCacheProvider runtimeCacheProvider)
-            : base(gatewayProviderService, gatewayProviderSettings, runtimeCacheProvider)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationGatewayProviderBase"/> class.
+        /// </summary>
+        /// <param name="gatewayProviderService">
+        /// The <see cref="IGatewayProviderService"/>.
+        /// </param>
+        /// <param name="runtimeCacheProvider">
+        /// The <see cref="IRuntimeCacheProviderAdapter"/>.
+        /// </param>
+        /// <param name="gatewayProviderSettings">
+        /// The <see cref="IGatewayProviderSettings"/>.
+        /// </param>
+        protected NotificationGatewayProviderBase(IGatewayProviderService gatewayProviderService, IRuntimeCacheProviderAdapter runtimeCacheProvider, IGatewayProviderSettings gatewayProviderSettings)
+            : base(gatewayProviderService, runtimeCacheProvider, gatewayProviderSettings)
         {            
         }
 

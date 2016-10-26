@@ -2,6 +2,8 @@
 {
     using Merchello.Core.Models;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents an invoice tax calculation result
     /// </summary>
@@ -20,7 +22,7 @@
         /// <summary>
         /// Gets or sets the calculated tax amount
         /// </summary>
-        decimal TaxAmount { get; set; }
+        Money TaxAmount { get; set; }
 
         /// <summary>
         /// Gets the extended data collection to store any additional information returned by the Tax Provider.

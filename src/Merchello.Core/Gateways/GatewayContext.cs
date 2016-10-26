@@ -9,22 +9,15 @@
     using Merchello.Core.Models;
     using Merchello.Core.Services;
 
-    using Umbraco.Core;
-
     /// <summary>
     /// Represents the GatewayContext.  Provides access to <see cref="IGatewayProviderSettings"/>s
     /// </summary>
     internal class GatewayContext : IGatewayContext
     {
         /// <summary>
-        /// The gateway provider service.
-        /// </summary>
-        private readonly IGatewayProviderService _gatewayProviderService;
-
-        /// <summary>
         /// The gateway provider resolver.
         /// </summary>
-        private readonly IGatewayProviderResolver _resolver;
+        private readonly IGatewayProviderRegister _register;
 
         /// <summary>
         /// The notification context.
@@ -156,28 +149,28 @@
             GatewayProviderResolver.Current.RefreshCache();
         }
 
-        /// <summary>
-        /// The build gateway context.
-        /// </summary>
-        /// <param name="gatewayProviderService">
-        /// The gateway provider service.
-        /// </param>
-        /// <param name="storeSettingService">
-        /// The store setting service.
-        /// </param>
-        private void BuildGatewayContext(IGatewayProviderService gatewayProviderService, IStoreSettingService storeSettingService)
-        {
-            if (_notification == null)
-                _notification = new Lazy<INotificationContext>(() => new NotificationContext(gatewayProviderService, _resolver));
+        ///// <summary>
+        ///// The build gateway context.
+        ///// </summary>
+        ///// <param name="gatewayProviderService">
+        ///// The gateway provider service.
+        ///// </param>
+        ///// <param name="storeSettingService">
+        ///// The store setting service.
+        ///// </param>
+        //private void BuildGatewayContext(IGatewayProviderService gatewayProviderService, IStoreSettingService storeSettingService)
+        //{
+        //    if (_notification == null)
+        //        _notification = new Lazy<INotificationContext>(() => new NotificationContext(gatewayProviderService, _resolver));
 
-            if (_payment == null)
-                _payment = new Lazy<IPaymentContext>(() => new PaymentContext(gatewayProviderService, _resolver));
+        //    if (_payment == null)
+        //        _payment = new Lazy<IPaymentContext>(() => new PaymentContext(gatewayProviderService, _resolver));
 
-            if (_shipping == null)
-                _shipping = new Lazy<IShippingContext>(() => new ShippingContext(gatewayProviderService, storeSettingService, _resolver));
+        //    if (_shipping == null)
+        //        _shipping = new Lazy<IShippingContext>(() => new ShippingContext(gatewayProviderService, storeSettingService, _resolver));
 
-            if (_taxation == null)
-                _taxation = new Lazy<ITaxationContext>(() => new TaxationContext(gatewayProviderService, storeSettingService, _resolver));
-        }
+        //    if (_taxation == null)
+        //        _taxation = new Lazy<ITaxationContext>(() => new TaxationContext(gatewayProviderService, storeSettingService, _resolver));
+        //}
     }
 }

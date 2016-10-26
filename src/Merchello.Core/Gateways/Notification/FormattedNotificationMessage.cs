@@ -2,14 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using Formatters;
-    using Models;
 
-    using Umbraco.Core;
-    using Umbraco.Core.IO;
-    using Umbraco.Core.Logging;
+    using Models;
 
     /// <summary>
     /// Defines the base notification
@@ -24,7 +19,7 @@
         /// <summary>
         /// The formatter.
         /// </summary>
-        private readonly IFormatter _formatter;
+        private readonly IMessageFormatter _formatter;
 
         /// <summary>
         /// The recipients.
@@ -46,10 +41,10 @@
         /// <param name="formatter">
         /// The formatter.
         /// </param>
-        public FormattedNotificationMessage(INotificationMessage notificationMessage, IFormatter formatter)
+        public FormattedNotificationMessage(INotificationMessage notificationMessage, IMessageFormatter formatter)
         {
-            Mandate.ParameterNotNull(formatter, "formatter");
-            Mandate.ParameterNotNull(notificationMessage, "message");
+            Ensure.ParameterNotNull(formatter, "formatter");
+            Ensure.ParameterNotNull(notificationMessage, "message");
 
             _notificationMessage = notificationMessage;
             _formatter = formatter;
@@ -60,18 +55,12 @@
         /// <summary>
         /// Gets the sender's From address
         /// </summary>
-        public string From 
-        {
-            get { return _notificationMessage.FromAddress; }
-        }
+        public string From => this._notificationMessage.FromAddress;
 
         /// <summary>
         /// Gets the optional ReplyTo address
         /// </summary>
-        public string ReplyTo 
-        {
-            get { return _notificationMessage.ReplyTo; }
-        }
+        public string ReplyTo => this._notificationMessage.ReplyTo;
 
         /// <summary>
         /// Gets or sets the name.
@@ -85,53 +74,31 @@
         /// <remarks>
         /// This could be email addresses, mailing addresses, mobile numbers
         /// </remarks>
-        public IEnumerable<string> Recipients 
-        {
-            get { return _recipients; }
-        }
+        public IEnumerable<string> Recipients => this._recipients;
 
         /// <summary>
         /// Gets a value indicating whether the notification should also be sent to the customer
         /// </summary>
-        public bool SendToCustomer 
-        {
-            get { return _notificationMessage.SendToCustomer; }
-        }
-
+        public bool SendToCustomer => this._notificationMessage.SendToCustomer;
 
         /// <summary>
         /// Gets notification message body text
         /// </summary>
-        public virtual string BodyText
-        {
-            get
-            {
-                return FormatStatus == FormatStatus.Ok
-                           ? _formattedMessage.Value
-                           : _formattedMessage.Value.Substring(0, _notificationMessage.MaxLength - 1);
-            }
-        }
+        public virtual string BodyText => this.FormatStatus == FormatStatus.Ok
+                                              ? this._formattedMessage.Value
+                                              : this._formattedMessage.Value.Substring(0, this._notificationMessage.MaxLength - 1);
 
         /// <summary>
         /// Gets status of the formatted message
         /// </summary>
-        public virtual FormatStatus FormatStatus 
-        {
-            get
-            {
-                return _formattedMessage.Value.Length > _notificationMessage.MaxLength
-                           ? FormatStatus.Truncated
-                           : FormatStatus.Ok;
-            }
-        }
+        public virtual FormatStatus FormatStatus => this._formattedMessage.Value.Length > this._notificationMessage.MaxLength
+                                                        ? FormatStatus.Truncated
+                                                        : FormatStatus.Ok;
 
         /// <summary>
         /// Gets the <see cref="INotificationMessage"/>
         /// </summary>
-        internal INotificationMessage NotificationMessage
-        {
-            get { return _notificationMessage; }
-        }
+        internal INotificationMessage NotificationMessage => this._notificationMessage;
 
         /// <summary>
         /// Adds a recipient to the send to list
@@ -162,8 +129,9 @@
         /// </returns>
         private string GetMessage()
         {
-            if (string.IsNullOrEmpty(_notificationMessage.BodyText)) return string.Empty;
-            return _notificationMessage.BodyText;
+            return string.IsNullOrEmpty(this._notificationMessage.BodyText) ? 
+                string.Empty : 
+                this._notificationMessage.BodyText;
         }
 
         /// <summary>

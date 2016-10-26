@@ -98,6 +98,9 @@
     <Compile Include="Extensions.Money.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.Observable.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.PluginManager.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
@@ -110,21 +113,34 @@
     <Compile Include="Gateways\GatewayProviderBase.cs" />
     <Compile Include="Gateways\GatewayProviderEditorAttribute.cs" />
     <Compile Include="Gateways\GatewayProviderRegister.cs" />
+    <Compile Include="Gateways\GatewayProviderTypedContextBase.cs" />
     <Compile Include="Gateways\IGatewayMethod.cs" />
     <Compile Include="Gateways\IGatewayProviderRegister.cs" />
     <Compile Include="Gateways\IGatewayProviderTypedContextBase.cs" />
     <Compile Include="Gateways\IGatewayResource.cs" />
     <Compile Include="Gateways\IGatewayProvider.cs" />
+    <Compile Include="Gateways\Notification\DefaultFormatter.cs" />
     <Compile Include="Gateways\Notification\FormatStatus.cs" />
+    <Compile Include="Gateways\Notification\FormattedNotificationMessage.cs" />
     <Compile Include="Gateways\Notification\IFormattedNotificationMessage.cs" />
     <Compile Include="Gateways\Notification\IMessageFormatter.cs" />
+    <Compile Include="Gateways\Notification\INotificationContext.cs" />
     <Compile Include="Gateways\Notification\INotificationGatewayMethod.cs" />
     <Compile Include="Gateways\Notification\INotificationGatewayProvider.cs" />
+    <Compile Include="Gateways\Notification\Monitors\INotificationMonitorBase.cs" />
+    <Compile Include="Gateways\Notification\Monitors\MonitorModelAttribute.cs" />
+    <Compile Include="Gateways\Notification\Monitors\NotificationMonitorBase.cs" />
+    <Compile Include="Gateways\Notification\NotificationContext.cs" />
+    <Compile Include="Gateways\Notification\NotificationGatewayMethodBase.cs" />
+    <Compile Include="Gateways\Notification\NotificationGatewayProviderBase.cs" />
+    <Compile Include="Gateways\Notification\Triggering\INotificationTrigger.cs" />
+    <Compile Include="Gateways\Notification\Triggering\NotificationTriggerBase.cs" />
     <Compile Include="Gateways\Payment\AuthorizeOperationData.cs" />
     <Compile Include="Gateways\Payment\IPaymentContext.cs" />
     <Compile Include="Gateways\Payment\IPaymentGatewayMethod.cs" />
     <Compile Include="Gateways\Payment\IPaymentGatewayProvider.cs" />
     <Compile Include="Gateways\Payment\IPaymentResult.cs" />
+    <Compile Include="Gateways\Payment\PaymentContext.cs" />
     <Compile Include="Gateways\Payment\PaymentGatewayMethodAttribute.cs" />
     <Compile Include="Gateways\Payment\PaymentGatewayMethodBase.cs" />
     <Compile Include="Gateways\Payment\PaymentGatewayProviderBase.cs" />
@@ -134,17 +150,32 @@
     <Compile Include="Gateways\Shipping\DefaultShipmentRateQuoteStrategy.cs" />
     <Compile Include="Gateways\Shipping\IShipmentRateQuote.cs" />
     <Compile Include="Gateways\Shipping\IShipmentRateQuoteStrategy.cs" />
+    <Compile Include="Gateways\Shipping\IShippingContext.cs" />
     <Compile Include="Gateways\Shipping\IShippingGatewayMethod.cs" />
     <Compile Include="Gateways\Shipping\IShippingGatewayProvider.cs" />
     <Compile Include="Gateways\Shipping\ShipmentRateQuote.cs" />
     <Compile Include="Gateways\Shipping\ShipmentRateQuoteStrategyBase.cs" />
+    <Compile Include="Gateways\Shipping\ShippingContext.cs" />
     <Compile Include="Gateways\Shipping\ShippingGatewayMethodBase.cs" />
     <Compile Include="Gateways\Shipping\ShippingGatewayProviderBase.cs" />
     <Compile Include="Gateways\Shipping\WarehouseCatalogValidationVisitor.cs" />
+    <Compile Include="Gateways\Taxation\DefaultTaxCalculationStrategy.cs" />
+    <Compile Include="Gateways\Taxation\IProductTaxCalculationResult.cs" />
+    <Compile Include="Gateways\Taxation\ITaxationByProductMethod.cs" />
+    <Compile Include="Gateways\Taxation\ITaxationByProductProvider.cs" />
+    <Compile Include="Gateways\Taxation\ITaxationContext.cs" />
     <Compile Include="Gateways\Taxation\ITaxationGatewayMethod.cs" />
     <Compile Include="Gateways\Taxation\ITaxationGatewayProvider.cs" />
     <Compile Include="Gateways\Taxation\ITaxCalculationResult.cs" />
     <Compile Include="Gateways\Taxation\ITaxCalculationStrategy.cs" />
+    <Compile Include="Gateways\Taxation\ProductTaxCalculationResult.cs" />
+    <Compile Include="Gateways\Taxation\TaxableLineItemVisitor.cs" />
+    <Compile Include="Gateways\Taxation\TaxationApplication.cs" />
+    <Compile Include="Gateways\Taxation\TaxationContext.cs" />
+    <Compile Include="Gateways\Taxation\TaxationGatewayMethodBase.cs" />
+    <Compile Include="Gateways\Taxation\TaxationGatewayProviderBase.cs" />
+    <Compile Include="Gateways\Taxation\TaxCalculationResult.cs" />
+    <Compile Include="Gateways\Taxation\TaxCalculationStrategyBase.cs" />
     <Compile Include="IActivatorServiceProvider.cs" />
     <Compile Include="Logging\DefaultEmptyRemoteLogger.cs" />
     <Compile Include="Logging\RemoteLoggerBase.cs" />
@@ -158,6 +189,17 @@
     <Compile Include="Models\Rdbms\Store2StoreEntityCollection.cs" />
     <Compile Include="Models\Rdbms\Store2StoreSettingDto.cs" />
     <Compile Include="Models\StoreSettingsCollection.cs" />
+    <Compile Include="Observation\IMonitor.cs" />
+    <Compile Include="Observation\IMonitorRegister.cs" />
+    <Compile Include="Observation\IObservableTrigger.cs" />
+    <Compile Include="Observation\ITrigger.cs" />
+    <Compile Include="Observation\ITriggerRegister.cs" />
+    <Compile Include="Observation\MonitorBase.cs" />
+    <Compile Include="Observation\MonitorForAttribute.cs" />
+    <Compile Include="Observation\Topic.cs" />
+    <Compile Include="Observation\TriggerBase.cs" />
+    <Compile Include="Observation\TriggerForAttribute.cs" />
+    <Compile Include="Observation\Unsubscriber.cs" />
     <Compile Include="Persistence\Factories\InvoiceFactory.cs" />
     <Compile Include="Persistence\Mappers\IMapperRegister.cs" />
     <Compile Include="Persistence\Mappers\MapperRegister.cs" />

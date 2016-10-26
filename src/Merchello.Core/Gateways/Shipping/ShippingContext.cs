@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using Merchello.Core.Configuration;
     using Merchello.Core.Models;
     using Merchello.Core.Services;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Represents the ShippingContext
@@ -14,28 +14,17 @@
     internal class ShippingContext : GatewayProviderTypedContextBase<ShippingGatewayProviderBase>, IShippingContext
     {
         /// <summary>
-        /// The store setting service.
-        /// </summary>
-        private readonly IStoreSettingService _storeSettingService;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ShippingContext"/> class.
         /// </summary>
         /// <param name="gatewayProviderService">
-        /// The gateway provider service.
+        /// The <see cref="IGatewayProviderService"/>.
         /// </param>
-        /// <param name="storeSettingService">
-        /// The store setting service.
+        /// <param name="register">
+        /// The <see cref="IGatewayProviderRegister"/>.
         /// </param>
-        /// <param name="resolver">
-        /// The resolver.
-        /// </param>
-        public ShippingContext(IGatewayProviderService gatewayProviderService, IStoreSettingService storeSettingService, IGatewayProviderResolver resolver)
-            : base(gatewayProviderService, resolver)
+        public ShippingContext(Lazy<IGatewayProviderService> gatewayProviderService, IGatewayProviderRegister register)
+            : base(gatewayProviderService, register)
         {
-            Mandate.ParameterNotNull(storeSettingService, "storeSettingService");
-
-            _storeSettingService = storeSettingService;
         }
 
         /// <summary>
@@ -60,7 +49,7 @@
         /// <returns>A collection of <see cref="IShipmentRateQuote"/></returns>
         public IEnumerable<IShipmentRateQuote> GetShipRateQuotesForShipment(IShipment shipment, bool tryGetCached = true)
         {
-            var providers = GatewayProviderResolver.GetActivatedProviders<ShippingGatewayProviderBase>() as IEnumerable<ShippingGatewayProviderBase>;
+            var providers = GatewayProviderRegister.GetActivatedProviders<IShippingGatewayProvider>() as IEnumerable<ShippingGatewayProviderBase>;
             var quotes = new List<IShipmentRateQuote>();
 
             if (providers == null) return quotes;
@@ -93,11 +82,11 @@
 
                 if (providers.Any(x => x.ShipMethods.Any()))
                 {
-                    return _storeSettingService.GetAllCountries();
+                    return MerchelloConfig.For.MerchelloCountries().Countries;
                 }    
             }
 
-            var countries = GatewayProviderService.GetAllShipCountries().Where(x => x.CountryCode != "ELSE").Select(x => new Country(x.CountryCode, x.Provinces));
+            var countries = GatewayProviderService.GetAllShipCountries().Where(x => x.CountryCode != "ELSE").Select(x => new Country(x.CountryCode, x.Name, x.Provinces));
 
             return countries.Distinct();
         }
@@ -117,7 +106,7 @@
 
             return
                 gatewayProviders.Select(
-                    provider => GatewayProviderResolver.GetProviderByKey<ShippingGatewayProviderBase>(provider.Key));
+                    provider => GatewayProviderRegister.GetProviderByKey<ShippingGatewayProviderBase>(provider.Key));
         }
     }
 }

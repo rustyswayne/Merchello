@@ -15,13 +15,13 @@
         /// Lists all available <see cref="IGatewayProviderSettings"/>
         /// </summary>
         /// <returns>A collection of all GatewayProvider of the particular type T</returns>
-        IEnumerable<GatewayProviderBase> GetAllActivatedProviders();
+        IEnumerable<IGatewayProvider> GetAllActivatedProviders();
 
         /// <summary>
         /// Lists all available providers.  This list includes providers that are just resolved and not configured
         /// </summary>
         /// <returns>A collection of all gateway providers</returns>
-        IEnumerable<GatewayProviderBase> GetAllProviders();
+        IEnumerable<IGatewayProvider> GetAllProviders();
 
         /// <summary>
         /// Instantiates a GatewayProvider given its registered Key
@@ -48,7 +48,7 @@
         /// Activates a GatewayProvider
         /// </summary>
         /// <param name="provider">The GatewayProvider</param>
-        void ActivateProvider(GatewayProviderBase provider);
+        void ActivateProvider(IGatewayProvider provider);
 
         /// <summary>
         /// Activates a <see cref="IGatewayProviderSettings"/>
@@ -60,7 +60,7 @@
         /// Activates a GatewayProvider
         /// </summary>
         /// <param name="provider">The GatewayProvider</param>
-        void DeactivateProvider(GatewayProviderBase provider);
+        void DeactivateProvider(IGatewayProvider provider);
 
         /// <summary>
         /// Deactivates a <see cref="IGatewayProviderSettings"/>

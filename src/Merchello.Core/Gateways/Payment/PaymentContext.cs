@@ -15,13 +15,13 @@
         /// Initializes a new instance of the <see cref="PaymentContext"/> class.
         /// </summary>
         /// <param name="gatewayProviderService">
-        /// The gateway provider service.
+        /// The <see cref="IGatewayProviderService"/>.
         /// </param>
-        /// <param name="resolver">
-        /// The resolver.
+        /// <param name="register">
+        /// The <see cref="IGatewayProviderRegister"/>.
         /// </param>
-        public PaymentContext(IGatewayProviderService gatewayProviderService, IGatewayProviderResolver resolver)
-            : base(gatewayProviderService, resolver)
+        public PaymentContext(Lazy<IGatewayProviderService> gatewayProviderService, IGatewayProviderRegister register)
+            : base(gatewayProviderService, register)
         {
         }
 
@@ -43,7 +43,7 @@
         /// <returns>A collection of <see cref="IPaymentGatewayMethod"/>s</returns>
         public IEnumerable<IPaymentGatewayMethod> GetPaymentGatewayMethods()
         {
-            var paymentProviders = GatewayProviderResolver.GetActivatedProviders<PaymentGatewayProviderBase>() as IEnumerable<PaymentGatewayProviderBase>;
+            var paymentProviders = GatewayProviderRegister.GetActivatedProviders<IPaymentGatewayProvider>() as IEnumerable<PaymentGatewayProviderBase>;
             
             var methods = new List<IPaymentGatewayMethod>();
             if (paymentProviders == null) return methods;

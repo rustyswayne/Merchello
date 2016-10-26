@@ -3,21 +3,16 @@
     using System;
     using System.Linq;
 
+    using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Services;
-
-    using Umbraco.Core;
-    using Umbraco.Core.Logging;
 
     /// <summary>
     /// Represents the TaxationContext
     /// </summary>
     internal class TaxationContext : GatewayProviderTypedContextBase<TaxationGatewayProviderBase>, ITaxationContext
     {
-        /// <summary>
-        /// The store setting service.
-        /// </summary>
-        private readonly IStoreSettingService _storeSettingService;
+        private readonly Lazy<IStoreSettingService> _storeSettingService;
 
         /// <summary>
         /// The _tax by product method.
@@ -38,18 +33,18 @@
         /// Initializes a new instance of the <see cref="TaxationContext"/> class.
         /// </summary>
         /// <param name="gatewayProviderService">
-        /// The gateway provider service.
+        /// The <see cref="IGatewayProviderService"/>.
         /// </param>
         /// <param name="storeSettingService">
-        /// The <see cref="IStoreSettingService"/>
+        /// The <see cref="IStoreSettingService"/>.
         /// </param>
-        /// <param name="resolver">
+        /// <param name="register">
         /// The resolver.
         /// </param>
-        public TaxationContext(IGatewayProviderService gatewayProviderService, IStoreSettingService storeSettingService, IGatewayProviderResolver resolver)
-            : base(gatewayProviderService, resolver)
+        public TaxationContext(Lazy<IGatewayProviderService> gatewayProviderService, Lazy<IStoreSettingService> storeSettingService, IGatewayProviderRegister register)
+            : base(gatewayProviderService, register)
         {
-            Mandate.ParameterNotNull(storeSettingService, "storeSettingService");
+            Ensure.ParameterNotNull(storeSettingService, nameof(storeSettingService));
             _storeSettingService = storeSettingService;
             TaxApplicationInitialized = false;
         }
@@ -57,13 +52,7 @@
         /// <summary>
         /// Gets a value indicating whether product pricing enabled.
         /// </summary>
-        public bool ProductPricingEnabled
-        {
-            get
-            {
-                return TaxationApplication == TaxationApplication.Product && ProductPricingTaxMethod != null;
-            }         
-        }
+        public bool ProductPricingEnabled => this.TaxationApplication == TaxationApplication.Product && this.ProductPricingTaxMethod != null;
 
         /// <summary>
         /// Gets or sets the taxation application.
@@ -163,7 +152,7 @@
 
             if (Guid.Empty.Equals(providersKey)) return new TaxCalculationResult(0, 0);
 
-            var provider = GatewayProviderResolver.GetProviderByKey<TaxationGatewayProviderBase>(providersKey);
+            var provider = GatewayProviderRegister.GetProviderByKey<ITaxationGatewayProvider>(providersKey);
 
             var gatewayTaxMethod = provider.GetGatewayTaxMethodByCountryCode(taxAddress.CountryCode);
 
@@ -244,17 +233,17 @@
             var taxMethod = GatewayProviderService.GetTaxMethodForProductPricing();
             if (taxMethod == null)
             {
-                LogHelper.Debug<TaxationContext>("Product based pricing is set in settings, but a TaxMethod has not been assigned.");
+                MultiLogHelper.Debug<TaxationContext>("Product based pricing is set in settings, but a TaxMethod has not been assigned.");
                 this._taxMethodNotQueried = true;
                 return null;
             }
 
-            var provider = GatewayProviderResolver.GetProviderByKey<TaxationGatewayProviderBase>(taxMethod.ProviderKey);
+            var provider = GatewayProviderRegister.GetProviderByKey<ITaxationGatewayProvider>(taxMethod.ProviderKey);
 
             if (provider == null)
             {
-                var error = new NullReferenceException("Could not reTaxationGatewayProvider for CalculateTaxForProduct could not be resolved");
-                LogHelper.Error<TaxationContext>("Resolution failure", error);
+                var error = new NullReferenceException("Could not reTaxationGatewayProvider for CalculateTaxForProduct was not be registered");
+                MultiLogHelper.Error<TaxationContext>("Gateway Provider Register failure", error);
                 throw error;
             }
 
@@ -266,7 +255,7 @@
                 return productProvider.GetTaxationByProductMethod(taxMethod.Key);
             }
 
-            LogHelper.Debug<TaxationContext>("Resolved provider did not Implement ITaxationByProductProvider returning no tax");
+            MultiLogHelper.Debug<TaxationContext>("Registered provider did not Implement ITaxationByProductProvider returning no tax");
             return null;
         }
 
@@ -275,7 +264,7 @@
         /// </summary>
         private void SetTaxApplicationSetting()
         {
-            var setting = _storeSettingService.GetByKey(Core.Constants.StoreSettingKeys.GlobalTaxationApplicationKey);
+            var setting = _storeSettingService.Value.GetByKey(Core.Constants.StoreSetting.GlobalTaxationApplicationKey);
             if (setting == null)
             {
                 TaxationApplication = TaxationApplication.Invoice;

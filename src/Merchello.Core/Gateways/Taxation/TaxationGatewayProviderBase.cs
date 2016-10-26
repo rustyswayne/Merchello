@@ -3,9 +3,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Merchello.Core.Cache;
+
     using Models;
     using Services;
-    using Umbraco.Core.Cache;
 
     /// <summary>
     /// Defines a base taxation gateway provider
@@ -23,17 +24,17 @@
         /// <param name="gatewayProviderService">
         /// The gateway provider service.
         /// </param>
-        /// <param name="gatewayProviderSettings">
-        /// The gateway provider settings.
-        /// </param>
         /// <param name="runtimeCacheProvider">
         /// The runtime cache provider.
         /// </param>
+        /// <param name="gatewayProviderSettings">
+        /// The gateway provider settings.
+        /// </param>
         protected TaxationGatewayProviderBase(
             IGatewayProviderService gatewayProviderService,
-            IGatewayProviderSettings gatewayProviderSettings, 
-            IRuntimeCacheProvider runtimeCacheProvider)
-            : base(gatewayProviderService, gatewayProviderSettings, runtimeCacheProvider)
+            IRuntimeCacheProviderAdapter runtimeCacheProvider,
+            IGatewayProviderSettings gatewayProviderSettings)
+            : base(gatewayProviderService, runtimeCacheProvider, gatewayProviderSettings)
         {            
         }
 
@@ -109,6 +110,16 @@
         /// <returns>A collection of <see cref="ITaxationGatewayMethod"/> </returns>
         public abstract IEnumerable<ITaxationGatewayMethod> GetAllGatewayTaxMethods();
 
+
+        /// <summary>
+        /// Deletes all <see cref="ITaxMethod"/>s associated with the provider
+        /// </summary>
+        internal void DeleteAllTaxMethods()
+        {
+            foreach (var taxMethod in TaxMethods) GatewayProviderService.Delete(taxMethod);
+            TaxMethods = null;
+        }
+
         /// <summary>
         /// The find tax method for country code.
         /// </summary>
@@ -131,15 +142,6 @@
             }
 
             return taxMethod;
-        }
-
-        /// <summary>
-        /// Deletes all <see cref="ITaxMethod"/>s associated with the provider
-        /// </summary>
-        internal void DeleteAllTaxMethods()
-        {
-            foreach (var taxMethod in TaxMethods) GatewayProviderService.Delete(taxMethod);
-            TaxMethods = null;
-        }        
+        }     
     }
 }

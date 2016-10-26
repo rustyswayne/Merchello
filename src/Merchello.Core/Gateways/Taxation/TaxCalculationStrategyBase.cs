@@ -1,24 +1,13 @@
 ﻿namespace Merchello.Core.Gateways.Taxation
 {
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Defines an invoice taxation strategy base class
     /// </summary>
     public abstract class TaxCalculationStrategyBase : ITaxCalculationStrategy
     {
-        /// <summary>
-        /// The invoice.
-        /// </summary>
-        private readonly IInvoice _invoice;
-
-        /// <summary>
-        /// The tax address.
-        /// </summary>
-        private readonly IAddress _taxAddress;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TaxCalculationStrategyBase"/> class.
         /// </summary>
@@ -30,28 +19,22 @@
         /// </param>
         protected TaxCalculationStrategyBase(IInvoice invoice, IAddress taxAddress)
         {
-            Mandate.ParameterNotNull(invoice, "invoice");
-            Mandate.ParameterNotNull(taxAddress, "taxAddress");
+            Ensure.ParameterNotNull(invoice, "invoice");
+            Ensure.ParameterNotNull(taxAddress, "taxAddress");
 
-            _invoice = invoice;
-            _taxAddress = taxAddress;
+            this.Invoice = invoice;
+            this.TaxAddress = taxAddress;
         }
 
         /// <summary>
         /// Gets the <see cref="IInvoice"/>
         /// </summary>
-        protected IInvoice Invoice
-        {
-            get { return _invoice; }
-        }
+        protected IInvoice Invoice { get; }
 
         /// <summary>
         /// Gets the tax address
         /// </summary>
-        protected IAddress TaxAddress
-        {
-            get { return _taxAddress; }
-        }
+        protected IAddress TaxAddress { get; }
 
         /// <summary>
         /// Computes the invoice tax result

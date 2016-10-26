@@ -1,25 +1,15 @@
 ﻿namespace Merchello.Core.Gateways.Notification
 {
     using System.Collections.Generic;
-    using System.Linq;
 
-    using Formatters;
     using Models;
     using Services;
-
-    using Umbraco.Core;
-    using Umbraco.Core.Logging;
 
     /// <summary>
     /// Represents a NotificationGatewayMethodBase object
     /// </summary>
     public abstract class NotificationGatewayMethodBase : INotificationGatewayMethod
     {
-        /// <summary>
-        /// The _gateway provider service.
-        /// </summary>
-        private readonly IGatewayProviderService _gatewayProviderService;
-
         /// <summary>
         /// The <see cref="INotificationMethod"/>.
         /// </summary>
@@ -41,42 +31,29 @@
         /// </param>
         protected NotificationGatewayMethodBase(IGatewayProviderService gatewayProviderService, INotificationMethod notificationMethod)
         {
-            Mandate.ParameterNotNull(gatewayProviderService, "gatewayProviderService");
-            Mandate.ParameterNotNull(notificationMethod, "notificationMethod");
+            Ensure.ParameterNotNull(gatewayProviderService, "gatewayProviderService");
+            Ensure.ParameterNotNull(notificationMethod, "notificationMethod");
 
             _notificationMethod = notificationMethod;
-            _gatewayProviderService = gatewayProviderService;
+            this.GatewayProviderService = gatewayProviderService;
         }
 
         /// <summary>
         /// Gets the <see cref="INotificationMethod"/>
         /// </summary>
-        public INotificationMethod NotificationMethod
-        {
-            get { return _notificationMethod; }
-        }
-       
+        public INotificationMethod NotificationMethod => this._notificationMethod;
+
         /// <summary>
         /// Gets a collection of <see cref="INotificationMessage"/>s associated with this NotificationMethod
         /// </summary>
-        public IEnumerable<INotificationMessage> NotificationMessages
-        {
-            get
-            {
-                return _notificationMessages ??
-                       (_notificationMessages =
-                           GatewayProviderService.GetNotificationMessagesByMethodKey(_notificationMethod.Key));
-                           //.Select(x => x.ShallowCopy());
-            }
-        }
+        public IEnumerable<INotificationMessage> NotificationMessages => this._notificationMessages ??
+                                                                         (this._notificationMessages =
+                                                                          this.GatewayProviderService.GetNotificationMessagesByMethodKey(this._notificationMethod.Key));
 
         /// <summary>
         /// Gets the <see cref="IGatewayProviderService"/>
         /// </summary>
-        protected IGatewayProviderService GatewayProviderService
-        {
-            get { return _gatewayProviderService; }
-        }
+        protected IGatewayProviderService GatewayProviderService { get; }
 
         /// <summary>
         /// Creates a <see cref="INotificationMessage"/>
@@ -89,18 +66,7 @@
         /// <returns>A <see cref="INotificationMessage"/></returns>
         public INotificationMessage CreateNotificationMessage(string name, string description, string fromAddress, IEnumerable<string> recipients, string bodyText)
         {
-            var attempt = GatewayProviderService.CreateNotificationMessageWithKey(_notificationMethod.Key, name,description, fromAddress, recipients, bodyText);
-
-            if (attempt.Success)
-            {
-                _notificationMessages = null;
-
-                return attempt.Result;
-            }
-            
-            LogHelper.Error<NotificationGatewayMethodBase>("Failed to create and save a notification message", attempt.Exception);
-
-            throw attempt.Exception;
+            return GatewayProviderService.CreateNotificationMessageWithKey(_notificationMethod.Key, name, description, fromAddress, recipients, bodyText);
         }
 
         /// <summary>
@@ -138,8 +104,8 @@
         /// Sends a <see cref="IFormattedNotificationMessage"/>
         /// </summary>
         /// <param name="notificationMessage">The <see cref="IFormattedNotificationMessage"/> to be sent</param>
-        /// <param name="formatter">The <see cref="IFormatter"/> to use to format the message</param>
-        public virtual void Send(INotificationMessage notificationMessage, IFormatter formatter)
+        /// <param name="formatter">The <see cref="IMessageFormatter"/> to use to format the message</param>
+        public virtual void Send(INotificationMessage notificationMessage, IMessageFormatter formatter)
         {
             PerformSend(new FormattedNotificationMessage(notificationMessage, formatter)); 
         }

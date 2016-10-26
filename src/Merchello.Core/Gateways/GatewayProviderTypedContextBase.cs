@@ -15,14 +15,14 @@
         where T : GatewayProviderBase
     {
         /// <summary>
-        /// The gateway provider service.
-        /// </summary>
-        private readonly IGatewayProviderService _gatewayProviderService;
-
-        /// <summary>
         /// The resolver.
         /// </summary>
-        private readonly IGatewayProviderResolver _resolver;
+        private readonly IGatewayProviderRegister register;
+
+        /// <summary>
+        /// The <see cref="IGatewayProviderService"/>.
+        /// </summary>
+        private readonly Lazy<IGatewayProviderService> _gatewayProviderService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GatewayProviderTypedContextBase{T}"/> class.
@@ -30,54 +30,50 @@
         /// <param name="gatewayProviderService">
         /// The gateway provider service.
         /// </param>
-        /// <param name="resolver">
+        /// <param name="register">
         /// The resolver.
         /// </param>
-        protected GatewayProviderTypedContextBase(IGatewayProviderService gatewayProviderService, IGatewayProviderResolver resolver)
+        protected GatewayProviderTypedContextBase(Lazy<IGatewayProviderService> gatewayProviderService, IGatewayProviderRegister register)
         {
             Ensure.ParameterNotNull(gatewayProviderService, "gatewayProviderService");            
-            Ensure.ParameterNotNull(resolver, "resolver");
-
-            _gatewayProviderService = gatewayProviderService;            
-            _resolver = resolver;
+            Ensure.ParameterNotNull(register, "resolver");
+            _gatewayProviderService = gatewayProviderService;
+            this.register = register;
         }
 
         /// <summary>
-        /// Gets the <see cref="IGatewayProviderResolver"/>
+        /// Gets the <see cref="IGatewayProviderRegister"/>
         /// </summary>
-        protected IGatewayProviderResolver GatewayProviderResolver
+        protected IGatewayProviderRegister GatewayProviderRegister
         {
             get
             {
-                if (_resolver == null) throw new InvalidOperationException("GatewayProviderResolver has not been instantiated.");
-                return _resolver;
+                if (this.register == null) throw new InvalidOperationException("GatewayProviderResolver has not been instantiated.");
+                return this.register;
             }
         }
 
         /// <summary>
         /// Gets the GatewayProviderService
         /// </summary>
-        protected IGatewayProviderService GatewayProviderService
-        {
-            get { return _gatewayProviderService; }
-        }
+        protected IGatewayProviderService GatewayProviderService => _gatewayProviderService.Value;
 
         /// <summary>
         /// Lists all activated <see cref="IGatewayProviderSettings"/>
         /// </summary>
         /// <returns>A collection of all "activated" GatewayProvider of the particular type T</returns>
-        public IEnumerable<GatewayProviderBase> GetAllActivatedProviders()
+        public IEnumerable<IGatewayProvider> GetAllActivatedProviders()
         {
-            return GatewayProviderResolver.GetActivatedProviders<T>();
+            return this.GatewayProviderRegister.GetActivatedProviders<T>();
         }
 
         /// <summary>
         /// Lists all available providers.  This list includes providers that are just resolved and not configured
         /// </summary>
         /// <returns>A collection of all GatewayProviders</returns>
-        public IEnumerable<GatewayProviderBase> GetAllProviders()
+        public IEnumerable<IGatewayProvider> GetAllProviders()
         {
-            return GatewayProviderResolver.GetAllProviders<T>();
+            return this.GatewayProviderRegister.GetAllProviders<T>();
         }
 
         /// <summary>
@@ -94,7 +90,7 @@
         /// </returns>
         public T GetProviderByKey(Guid gatewayProviderKey, bool activatedOnly = true)
         {
-            return GatewayProviderResolver.GetProviderByKey<T>(gatewayProviderKey, activatedOnly);
+            return this.GatewayProviderRegister.GetProviderByKey<T>(gatewayProviderKey, activatedOnly);
         }
 
         /// <summary>
@@ -123,7 +119,7 @@
         /// Activates a <see cref="IGatewayProviderSettings"/>
         /// </summary>
         /// <param name="provider">The GatewayProvider to be activated</param>
-        public void ActivateProvider(GatewayProviderBase provider)
+        public void ActivateProvider(IGatewayProvider provider)
         {
             ActivateProvider(provider.GatewayProviderSettings);
         }
@@ -136,14 +132,14 @@
         {
             if (gatewayProviderSettings.Activated) return;
             GatewayProviderService.Save(gatewayProviderSettings);
-            GatewayProviderResolver.RefreshCache();
+            this.GatewayProviderRegister.RefreshCache();
         }
 
         /// <summary>
         /// Deactivates a <see cref="IGatewayProviderSettings"/>
         /// </summary>
         /// <param name="provider">The GatewayProvider to be deactivated</param>
-        public void DeactivateProvider(GatewayProviderBase provider)
+        public void DeactivateProvider(IGatewayProvider provider)
         {
             DeactivateProvider(provider.GatewayProviderSettings);
         }
@@ -156,7 +152,7 @@
         {
             if (!gatewayProviderSettings.Activated) return;
             GatewayProviderService.Delete(gatewayProviderSettings);
-            GatewayProviderResolver.RefreshCache();
+            this.GatewayProviderRegister.RefreshCache();
         }
     }
 }

@@ -2,18 +2,11 @@
 {
     using Merchello.Core.Models;
 
-    using Umbraco.Core;
-
     /// <summary>
     /// Represents the abstract GatewayTaxMethod
     /// </summary>
     public abstract class TaxationGatewayMethodBase
     {
-        /// <summary>
-        /// The tax method.
-        /// </summary>
-        private readonly ITaxMethod _taxMethod;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TaxationGatewayMethodBase"/> class.
         /// </summary>
@@ -22,18 +15,15 @@
         /// </param>
         protected TaxationGatewayMethodBase(ITaxMethod taxMethod)
         {
-            Mandate.ParameterNotNull(taxMethod, "taxMethod");
+            Ensure.ParameterNotNull(taxMethod, "taxMethod");
 
-            _taxMethod = taxMethod;
+            this.TaxMethod = taxMethod;
         }
 
         /// <summary>
         /// Gets the <see cref="ITaxMethod"/>
         /// </summary>
-        public ITaxMethod TaxMethod
-        {
-            get { return _taxMethod; }
-        }
+        public ITaxMethod TaxMethod { get; }
 
         /// <summary>
         /// Calculates the tax amount for an invoice

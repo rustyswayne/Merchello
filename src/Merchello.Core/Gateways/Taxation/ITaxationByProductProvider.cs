@@ -3,10 +3,19 @@
     using System;
 
     /// <summary>
-    /// Marker interface for a TaxationProvider that can tax by product
+    /// Represents a provider for product base taxation calculations.
     /// </summary>
-    public interface ITaxationByProductProvider
+    public interface ITaxationByProductProvider : ITaxationGatewayProvider
     {
+        /// <summary>
+        /// Gets the tax method configured to use when Merchello is configured to include tax in product pricing.
+        /// </summary>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ITaxationByProductMethod"/>.
+        /// </returns>
         ITaxationByProductMethod GetTaxationByProductMethod(Guid key);
     }
 }

@@ -1,35 +1,27 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace Merchello.Core.Gateways
+﻿namespace Merchello.Core.Gateways
 {
-    using Umbraco.Core;
+    using System;
+    using System.Runtime.Serialization;
 
-    /// <summary>
-    /// Defines a GatewayMethod 
-    /// </summary>
+    /// <inheritdoc/>
     [Serializable]
     [DataContract(IsReference = true)]
     public class GatewayResource : IGatewayResource
     {
         public GatewayResource(string serviceCode, string name)
         {
-            Mandate.ParameterNotNullOrEmpty(serviceCode, "serviceCode");
-            Mandate.ParameterNotNullOrEmpty(name, "name");
+            Ensure.ParameterNotNullOrEmpty(serviceCode, "serviceCode");
+            Ensure.ParameterNotNullOrEmpty(name, "name");
 
             ServiceCode = serviceCode;
             Name = name;
         }
 
-        /// <summary>
-        /// The unique provider service code or 'alias' for the gateway method.
-        /// </summary>
+        /// <inheritdoc/>
         [DataMember]
         public string ServiceCode { get; private set; }
 
-        /// <summary>
-        /// The descriptive name of the Gateway Method
-        /// </summary>
+        /// <inheritdoc/>
         [DataMember]
         public string Name { get; internal set; }
     }
