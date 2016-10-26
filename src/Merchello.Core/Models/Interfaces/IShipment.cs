@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a shipment.
     /// </summary>
-    public interface IShipment : ILineItemContainer
+    public interface IShipment : ILineItemContainer, IDeepCloneable
     {
         /// <summary>
         /// Gets or sets the shipment number prefix.

@@ -110,6 +110,9 @@
 
             // Registers
             container.RegisterFrom<RegistersComposition>();
+
+            // Strategies
+            container.RegisterFrom<StrategiesComposition>();
         }
 
         /// <summary>

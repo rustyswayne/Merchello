@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a standard address
     /// </summary>
-    public interface IAddress
+    public interface IAddress : IShallowClone
     {
         /// <summary>
         /// Gets or sets the name for the address

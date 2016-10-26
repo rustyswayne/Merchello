@@ -8,6 +8,8 @@
     using System.Xml;
     using System.Xml.Linq;
 
+    using Merchello.Core.DI;
+    using Merchello.Core.Gateways.Payment;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Interfaces;
@@ -33,7 +35,7 @@
         {
             return string.IsNullOrEmpty(invoice.InvoiceNumberPrefix)
                 ? invoice.InvoiceNumber.ToString(CultureInfo.InvariantCulture)
-                : string.Format("{0}-{1}", invoice.InvoiceNumberPrefix, invoice.InvoiceNumber);
+                : $"{invoice.InvoiceNumberPrefix}-{invoice.InvoiceNumber}";
         }
 
         /// <summary>
@@ -49,39 +51,22 @@
             return allCurrencyCodes.Any() ? allCurrencyCodes.First() : string.Empty;
         }
 
-        ///// <summary>
-        ///// The currency.
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The invoice.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="ICurrency"/>.
-        ///// </returns>
-        //public static ICurrency Currency(this IInvoice invoice)
-        //{
-        //    return invoice.Currency(MerchelloContext.Current);
-        //}
-
-        ///// <summary>
-        ///// The currency.
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The invoice.
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The merchello context.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="ICurrency"/>.
-        ///// </returns>
-        //internal static ICurrency Currency(this IInvoice invoice, IMerchelloContext merchelloContext)
-        //{
-        //    var currencyCode = invoice.CurrencyCode();
-        //    return !string.IsNullOrEmpty(currencyCode)
-        //               ? merchelloContext.Services.StoreSettingService.GetCurrencyByCode(currencyCode)
-        //               : null;
-        //}
+        /// <summary>
+        /// The currency.
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Currency"/>.
+        /// </returns>
+        public static Currency Currency(this IInvoice invoice)
+        {
+            var currencyCode = invoice.CurrencyCode();
+            return !string.IsNullOrWhiteSpace(currencyCode) ?
+                    NodaMoney.Currency.FromCode(currencyCode) :
+                    default(Currency);
+        }
 
         #region Address
 
@@ -129,24 +114,24 @@
             };
         }
 
-        ///// <summary>
-        ///// Gets the collection of shipping addresses.
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The invoice.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IEnumerable{IAddress}"/>.
-        ///// </returns>
-        //public static IEnumerable<IAddress> GetShippingAddresses(this IInvoice invoice)
-        //{
-        //    var shippingLineItems = invoice.ShippingLineItems().ToArray();
-        //    if (!shippingLineItems.Any()) return Enumerable.Empty<IAddress>();
+        /// <summary>
+        /// Gets the collection of shipping addresses.
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IAddress}"/>.
+        /// </returns>
+        public static IEnumerable<IAddress> GetShippingAddresses(this IInvoice invoice)
+        {
+            var shippingLineItems = invoice.ShippingLineItems().ToArray();
+            if (!shippingLineItems.Any()) return Enumerable.Empty<IAddress>();
 
-        //    var addresses = shippingLineItems.Select(item => item.ExtendedData.GetShipment<InvoiceLineItem>().GetDestinationAddress()).ToList();
+            var addresses = shippingLineItems.Select(item => item.ExtendedData.GetShipment<InvoiceLineItem>().GetDestinationAddress()).ToList();
 
-        //    return addresses;
-        //}
+            return addresses;
+        }
 
         #endregion
 
@@ -222,61 +207,39 @@
         //}
 
 
-        ///// <summary>
-        ///// Returns static collections containing the invoice.
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The invoice.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IEnumerable{IEntityCollection}"/>.
-        ///// </returns>
-        //internal static IEnumerable<IEntityCollection> GetCollectionsContaining(this IInvoice invoice)
-        //{
-        //    if (!MerchelloContext.HasCurrent) return Enumerable.Empty<IEntityCollection>();
+        /// <summary>
+        /// Returns static collections containing the invoice.
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityCollection}"/>.
+        /// </returns>
+        public static IEnumerable<IEntityCollection> GetCollectionsContaining(this IInvoice invoice)
+        {
 
-
-        //    return
-        //        ((EntityCollectionService)MerchelloContext.Current.Services.EntityCollectionService)
-        //            .GetEntityCollectionsByInvoiceKey(invoice.Key);
-        //}
+            return MC.Services.EntityCollectionService.GetByInvoiceKey(invoice.Key);
+        }
 
         #endregion
 
         #region Customer
 
-        ///// <summary>
-        ///// Gets the customer from an invoice (if applicable)
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The invoice.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="ICustomer"/>.
-        ///// </returns>
-        //public static ICustomer Customer(this IInvoice invoice)
-        //{
-        //    return invoice.Customer(MerchelloContext.Current);
-        //}
-
-        ///// <summary>
-        ///// The customer.
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The invoice.
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The merchello context.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="ICustomer"/>.
-        ///// </returns>
-        //public static ICustomer Customer(this IInvoice invoice, IMerchelloContext merchelloContext)
-        //{
-        //    if (invoice.CustomerKey == null) return null;
-
-        //    return merchelloContext.Services.CustomerService.GetByKey(invoice.CustomerKey.Value);
-        //}
+        /// <summary>
+        /// Gets the customer from an invoice (if applicable)
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ICustomer"/>.
+        /// </returns>
+        public static ICustomer Customer(this IInvoice invoice)
+        {
+            if (invoice.CustomerKey == null) return null;
+            return MC.Services.CustomerService.GetByKey(invoice.CustomerKey.Value);
+        }
 
         #endregion
 
@@ -340,107 +303,60 @@
 
         #region AppliedPayments
 
-        ///// <summary>
-        ///// Returns a collection of <see cref="IAppliedPayment"/> for the invoice
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <returns>A collection of <see cref="IAppliedPayment"/></returns>
-        //public static IEnumerable<IAppliedPayment> AppliedPayments(this IInvoice invoice)
-        //{
-        //    return invoice.AppliedPayments(MerchelloContext.Current);
-        //}
-
-        ///// <summary>
-        ///// Returns a collection of <see cref="IAppliedPayment"/> for this <see cref="IInvoice"/>
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <param name="merchelloContext">The <see cref="IMerchelloContext"/></param>
-        ///// <returns>A collection of <see cref="IAppliedPayment"/></returns>
-        //internal static IEnumerable<IAppliedPayment> AppliedPayments(
-        //    this IInvoice invoice,
-        //    IMerchelloContext merchelloContext)
-        //{
-        //    return invoice.AppliedPayments(merchelloContext.Services.GatewayProviderService);
-        //}
-
-        ///// <summary>
-        ///// Returns a collection of <see cref="IAppliedPayment"/> for this <see cref="IInvoice"/>
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <param name="gatewayProviderService">The <see cref="IGatewayProviderService"/></param>
-        ///// <returns>A collection of <see cref="IAppliedPayment"/></returns>
-        //public static IEnumerable<IAppliedPayment> AppliedPayments(
-        //    this IInvoice invoice,
-        //    IGatewayProviderService gatewayProviderService)
-        //{
-        //    return gatewayProviderService.GetAppliedPaymentsByInvoiceKey(invoice.Key);
-        //}
-
-        //#endregion
-
-        //#region Payments
-
-        ///// <summary>
-        ///// Gets a collection of <see cref="IPayment"/> applied to the invoice
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <returns>A collection of <see cref="IPayment"/></returns>
-        //public static IEnumerable<IPayment> Payments(this IInvoice invoice)
-        //{
-        //    return invoice.Payments(MerchelloContext.Current);
-        //}
-
-        ///// <summary>
-        ///// Gets a collection of <see cref="IPayment"/> applied to the invoice
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <param name="merchelloContext">The <see cref="IMerchelloContext"/></param>
-        ///// <returns>A collection of <see cref="IPayment"/></returns>
-        //internal static IEnumerable<IPayment> Payments(this IInvoice invoice, IMerchelloContext merchelloContext)
-        //{
-        //    return merchelloContext.Services.PaymentService.GetPaymentsByInvoiceKey(invoice.Key);
-        //}
-
-        ///// <summary>
-        ///// Attempts to process a payment
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <param name="paymentGatewayMethod">The <see cref="IPaymentGatewayMethod"/> to use in processing the payment</param>
-        ///// <param name="args">Additional arguments required by the payment processor</param>
-        ///// <returns>The <see cref="IPaymentResult"/></returns>
-        //public static IPaymentResult AuthorizePayment(this IInvoice invoice, IPaymentGatewayMethod paymentGatewayMethod, ProcessorArgumentCollection args)
-        //{
-        //    Ensure.ParameterNotNull(paymentGatewayMethod, "paymentGatewayMethod");
-
-        //    return paymentGatewayMethod.AuthorizePayment(invoice, args);
-        //}
-
-        ///// <summary>
-        ///// Attempts to process a payment
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <param name="paymentGatewayMethod">The <see cref="IPaymentGatewayMethod"/> to use in processing the payment</param>
-        ///// <returns>The <see cref="IPaymentResult"/></returns>
-        //public static IPaymentResult AuthorizePayment(this IInvoice invoice, IPaymentGatewayMethod paymentGatewayMethod)
-        //{
-        //    Ensure.ParameterCondition(invoice.HasIdentity, "The invoice must be saved before a payment can be authorized.");
-        //    Ensure.ParameterNotNull(paymentGatewayMethod, "paymentGatewayMethod");
-
-        //    return invoice.AuthorizePayment(paymentGatewayMethod, new ProcessorArgumentCollection());
-        //}
+        /// <summary>
+        /// Returns a collection of <see cref="IAppliedPayment"/> for the invoice
+        /// </summary>
+        /// <param name="invoice">The <see cref="IInvoice"/></param>
+        /// <returns>A collection of <see cref="IAppliedPayment"/></returns>
+        public static IEnumerable<IAppliedPayment> AppliedPayments(this IInvoice invoice)
+        {
+            return MC.Services.PaymentService.GetAppliedPaymentsByInvoiceKey(invoice.Key);
+        }
 
 
-        ///// <summary>
-        ///// Attempts to process a payment
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <param name="paymentMethodKey">The <see cref="IPaymentMethod"/> key</param>
-        ///// <param name="args">Additional arguments required by the payment processor</param>
-        ///// <returns>The <see cref="IPaymentResult"/></returns>
-        //public static IPaymentResult AuthorizePayment(this IInvoice invoice, Guid paymentMethodKey, ProcessorArgumentCollection args)
-        //{
-        //    return invoice.AuthorizePayment(MerchelloContext.Current, paymentMethodKey, args);
-        //}
+        #endregion
+
+        #region Payments
+
+        /// <summary>
+        /// Gets a collection of <see cref="IPayment"/> applied to the invoice
+        /// </summary>
+        /// <param name="invoice">The <see cref="IInvoice"/></param>
+        /// <returns>A collection of <see cref="IPayment"/></returns>
+        public static IEnumerable<IPayment> Payments(this IInvoice invoice)
+        {
+            return MC.Services.PaymentService.GetByInvoiceKey(invoice.Key);
+        }
+
+
+        /// <summary>
+        /// Attempts to process a payment
+        /// </summary>
+        /// <param name="invoice">The <see cref="IInvoice"/></param>
+        /// <param name="paymentGatewayMethod">The <see cref="IPaymentGatewayMethod"/> to use in processing the payment</param>
+        /// <param name="args">Additional arguments required by the payment processor</param>
+        /// <returns>The <see cref="IPaymentResult"/></returns>
+        public static IPaymentResult AuthorizePayment(this IInvoice invoice, IPaymentGatewayMethod paymentGatewayMethod, ProcessorArgumentCollection args)
+        {
+            Ensure.ParameterNotNull(paymentGatewayMethod, "paymentGatewayMethod");
+
+            return paymentGatewayMethod.AuthorizePayment(invoice, args);
+        }
+
+        /// <summary>
+        /// Attempts to process a payment
+        /// </summary>
+        /// <param name="invoice">The <see cref="IInvoice"/></param>
+        /// <param name="paymentGatewayMethod">The <see cref="IPaymentGatewayMethod"/> to use in processing the payment</param>
+        /// <returns>The <see cref="IPaymentResult"/></returns>
+        public static IPaymentResult AuthorizePayment(this IInvoice invoice, IPaymentGatewayMethod paymentGatewayMethod)
+        {
+            Ensure.ParameterCondition(invoice.HasIdentity, "The invoice must be saved before a payment can be authorized.");
+            Ensure.ParameterNotNull(paymentGatewayMethod, "paymentGatewayMethod");
+
+            return invoice.AuthorizePayment(paymentGatewayMethod, new ProcessorArgumentCollection());
+        }
+
 
         ///// <summary>
         ///// Attempts to process a payment
@@ -795,7 +711,7 @@
         /// </returns>
         public static Money TotalItemPrice(this IInvoice invoice)
         {
-            return new Money(invoice.Items.Where(x => x.LineItemType == LineItemType.Product).Sum(x => x.TotalPrice.Amount), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Product), invoice.CurrencyCode);
         }
 
         /// <summary>
@@ -809,7 +725,7 @@
         /// </returns>
         public static Money TotalCustomItemPrice(this IInvoice invoice)
         {
-            return new Money(invoice.Items.Where(x => x.LineItemType == LineItemType.Custom).Sum(x => x.TotalPrice.Amount), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Custom), invoice.CurrencyCode);
         }
 
         /// <summary>
@@ -823,7 +739,7 @@
         /// </returns>
         public static Money TotalAdjustmentItemPrice(this IInvoice invoice)
         {
-            return new Money(invoice.Items.Where(x => x.LineItemType == LineItemType.Adjustment).Sum(x => x.TotalPrice.Amount), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Adjustment), invoice.CurrencyCode);
         }
 
         /// <summary>
@@ -837,7 +753,7 @@
         /// </returns>
         public static Money TotalShipping(this IInvoice invoice)
         {
-            return new Money(invoice.Items.Where(x => x.LineItemType == LineItemType.Shipping).Sum(x => x.TotalPrice.Amount), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Shipping), invoice.CurrencyCode);
         }
 
         /// <summary>
@@ -851,7 +767,7 @@
         /// </returns>
         public static Money TotalTax(this IInvoice invoice)
         {
-            return invoice.Items.Where(x => x.LineItemType == LineItemType.Tax).Sum(x => x.TotalPrice.Amount);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Tax), invoice.CurrencyCode);
         }
 
         /// <summary>
@@ -865,58 +781,81 @@
         /// </returns>
         public static Money TotalDiscounts(this IInvoice invoice)
         {
-            return new Money(invoice.Items.Where(x => x.LineItemType == LineItemType.Discount).Sum(x => x.TotalPrice.Amount), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Discount), invoice.CurrencyCode);
+        }
+
+        /// <summary>
+        /// Totals a collection of items.
+        /// </summary>
+        /// <param name="items">
+        /// The items.
+        /// </param>
+        /// <param name="currencyCode">
+        /// The currency code.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Money"/>.
+        /// </returns>
+        public static Money TotalItems(IEnumerable<ILineItem> items, string currencyCode)
+        {
+            var lineItems = items as ILineItem[] ?? items.ToArray();
+            var total = new Money(0, currencyCode);
+            if (!lineItems.Any()) return new Money(0, currencyCode);
+            total = lineItems.Aggregate(total, (current, li) => current + li.TotalPrice);
+            return total;
         }
 
         #endregion
 
-        ///// <summary>
-        ///// Ensures the invoice status.
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The invoice.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IInvoiceStatus"/>.
-        ///// </returns>
-        //public static IInvoiceStatus EnsureInvoiceStatus(this IInvoice invoice)
-        //{
-        //    return invoice.EnsureInvoiceStatus(MerchelloContext.Current.Services.GatewayProviderService);
-        //}
 
-        ///// <summary>
-        ///// Ensures the invoice status.
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The invoice.
-        ///// </param>
-        ///// <param name="gatewayProviderService">
-        ///// The gateway provider service.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IInvoiceStatus"/>.
-        ///// </returns>
-        //internal static IInvoiceStatus EnsureInvoiceStatus(this IInvoice invoice, IGatewayProviderService gatewayProviderService)
-        //{
-        //    var appliedPayments = gatewayProviderService.GetAppliedPaymentsByInvoiceKey(invoice.Key).ToArray();
+        /// <summary>
+        /// Ensures the invoice status.
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IInvoiceStatus"/>.
+        /// </returns>
+        public static IInvoiceStatus EnsureInvoiceStatus(this IInvoice invoice)
+        {
+            var invoiceService = MC.Services.InvoiceService;
 
-        //    var appliedTotal =
-        //        appliedPayments.Where(x => x.TransactionType == AppliedPaymentType.Debit).Sum(x => x.Amount) -
-        //        appliedPayments.Where(x => x.TransactionType == AppliedPaymentType.Credit).Sum(x => x.Amount);
+            var appliedTotal = invoice.AppliedPaymentsTotal();
 
-        //    var statuses = gatewayProviderService.GetAllInvoiceStatuses().ToArray();
+            var statuses = invoiceService.GetAllInvoiceStatuses().ToArray();
 
-        //    if (invoice.Total > appliedTotal && invoice.InvoiceStatusKey != Core.Constants.DefaultKeys.InvoiceStatus.Partial)
-        //        invoice.InvoiceStatus = statuses.First(x => x.Key == Core.Constants.DefaultKeys.InvoiceStatus.Partial);
-        //    if (appliedTotal == 0 && invoice.InvoiceStatusKey != Core.Constants.DefaultKeys.InvoiceStatus.Unpaid)
-        //        invoice.InvoiceStatus = statuses.First(x => x.Key == Core.Constants.DefaultKeys.InvoiceStatus.Unpaid);
-        //    if (invoice.Total <= appliedTotal && invoice.InvoiceStatusKey != Core.Constants.DefaultKeys.InvoiceStatus.Paid)
-        //        invoice.InvoiceStatus = statuses.First(x => x.Key == Core.Constants.DefaultKeys.InvoiceStatus.Paid);
+            if (invoice.Total > appliedTotal && invoice.InvoiceStatusKey != Constants.InvoiceStatus.Partial)
+                invoice.InvoiceStatus = statuses.First(x => x.Key == Constants.InvoiceStatus.Partial);
+            if (appliedTotal == 0 && invoice.InvoiceStatusKey != Constants.InvoiceStatus.Unpaid)
+                invoice.InvoiceStatus = statuses.First(x => x.Key == Constants.InvoiceStatus.Unpaid);
+            if (invoice.Total <= appliedTotal && invoice.InvoiceStatusKey != Constants.InvoiceStatus.Paid)
+                invoice.InvoiceStatus = statuses.First(x => x.Key == Constants.InvoiceStatus.Paid);
 
-        //    if (invoice.IsDirty()) gatewayProviderService.Save(invoice);
+            if (invoice.IsDirty()) invoiceService.Save(invoice);
 
-        //    return invoice.InvoiceStatus;
-        //}
+            return invoice.InvoiceStatus;
+        }
+
+        /// <summary>
+        /// Totals the payments applied to an invoice.
+        /// </summary>
+        /// <param name="invoice">
+        /// The invoice.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Money"/>.
+        /// </returns>
+        public static Money AppliedPaymentsTotal(this IInvoice invoice)
+        {
+            var appliedPayments = invoice.AppliedPayments().ToArray();
+
+            var total = new Money(0, invoice.CurrencyCode);
+            total = appliedPayments.Where(x => x.TransactionType == AppliedPaymentType.Debit).Aggregate(total, (current, debit) => current + debit.Amount);
+            total = appliedPayments.Where(x => x.TransactionType == AppliedPaymentType.Credit).Aggregate(total, (current, credit) => current - credit.Amount);
+
+            return total;
+        }
 
         /// <summary>
         /// The get invoice status JSON.

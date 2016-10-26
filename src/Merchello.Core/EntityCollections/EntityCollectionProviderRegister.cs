@@ -208,7 +208,7 @@
             _container.Register<Guid, IEntityCollectionProvider>(
                 (factory, value) =>
                     {
-                        var activator = factory.GetInstance<ActivatorServiceProvider>();
+                        var activator = factory.GetInstance<IActivatorServiceProvider>();
 
                         var provider = activator.GetService<IEntityCollectionProvider>(
                             type,

@@ -7,6 +7,7 @@
     using Merchello.Core;
     using Merchello.Core.Cache;
     using Merchello.Core.DI;
+    using Merchello.Core.Gateways.Shipping;
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.Migrations;
@@ -19,6 +20,8 @@
     [TestFixture]
     public class ScratchTests : UmbracoRuntimeTestBase
     {
+        protected override bool RequiresMerchelloConfig => true;
+
         [Test]
         public void LogTest()
         { 
@@ -62,6 +65,8 @@
             var cacheFactory = MC.Container.GetInstance<ICloneableCacheEntityFactory>();
 
             var ecRegister = MC.EntityCollectionProviderRegister;
+
+            Assert.IsFalse(MC.Container.GetAvailableService<IShipmentRateQuoteStrategy>() != null);
 
             Console.WriteLine(ecRegister.Count);
         }

@@ -83,13 +83,14 @@
         /// <summary>
         /// Gets the <see cref="MerchelloConfig"/>.
         /// </summary>
-        public static MerchelloConfig For
-        {
-            get
-            {
-                return config.Value;
-            }
-        }
+        public static MerchelloConfig For => config.Value;
+
+        /// <summary>
+        /// Used for testing - determines if the configurations have been setup.
+        /// </summary>
+        internal static bool IsReady => config.Value._merchelloExtensibility != null && 
+                                        config.Value._merchelloSettings != null && 
+                                        config.Value._merchelloCountries != null;
 
         /// <summary>
         /// Gets the Merchello Settings configuration section.
@@ -209,7 +210,7 @@
         {
             if (fileName.IsNullOrWhiteSpace())
             {
-                fileName = IOHelper.MapPath(string.Format("{0}/merchelloSettings.config", Constants.ConfigPath));
+                fileName = IOHelper.MapPath($"{Constants.ConfigPath}/merchelloSettings.config");
             }
 
             var xml = XDocument.Load(fileName, LoadOptions.PreserveWhitespace);

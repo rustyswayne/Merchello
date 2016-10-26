@@ -45,9 +45,11 @@
   <ItemGroup>
     <Compile Include="Acquired\DisposableTimer.cs" />
     <Compile Include="Boot\IBoot.cs" />
+    <Compile Include="Cache\CacheKeys.cs" />
     <Compile Include="Compositions\CacheComposition.cs" />
     <Compile Include="Compositions\LoggerComposition.cs" />
     <Compile Include="Compositions\RegistersComposition.cs" />
+    <Compile Include="Compositions\StrategiesComposition.cs" />
     <Compile Include="DI\RegisterBuilderBase.cs" />
     <Compile Include="DI\IRegisterBuilder.cs" />
     <Compile Include="DI\LazyRegisterBuilderBase.cs" />
@@ -83,6 +85,10 @@
     <Compile Include="EntityCollections\IEntityCollectionProvider{T}.cs" />
     <Compile Include="EntityCollections\IEntityFilterGroupProvider.cs" />
     <Compile Include="EntityCollections\IQueryableEntityCollectionProvider.cs" />
+    <Compile Include="EventHandlers.cs" />
+    <Compile Include="EventHandlers.gateways.cs">
+      <DependentUpon>EventHandlers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Events\DeleteEventArgs.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\SaveEventArgs.cs" />
@@ -95,7 +101,51 @@
     <Compile Include="Extensions.PluginManager.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions.Version.cs" />
+    <Compile Include="Extensions.Version.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gateways\GatewayMethodEditorAttribute.cs" />
+    <Compile Include="Gateways\GatewayMethodUiAttribute.cs" />
+    <Compile Include="Gateways\GatewayProviderActivationAttribute.cs" />
+    <Compile Include="Gateways\GatewayProviderBase.cs" />
+    <Compile Include="Gateways\GatewayProviderEditorAttribute.cs" />
+    <Compile Include="Gateways\GatewayProviderRegister.cs" />
+    <Compile Include="Gateways\IGatewayMethod.cs" />
+    <Compile Include="Gateways\IGatewayProviderRegister.cs" />
+    <Compile Include="Gateways\IGatewayProviderTypedContextBase.cs" />
+    <Compile Include="Gateways\IGatewayResource.cs" />
+    <Compile Include="Gateways\IGatewayProvider.cs" />
+    <Compile Include="Gateways\Notification\FormatStatus.cs" />
+    <Compile Include="Gateways\Notification\IFormattedNotificationMessage.cs" />
+    <Compile Include="Gateways\Notification\IMessageFormatter.cs" />
+    <Compile Include="Gateways\Notification\INotificationGatewayMethod.cs" />
+    <Compile Include="Gateways\Notification\INotificationGatewayProvider.cs" />
+    <Compile Include="Gateways\Payment\AuthorizeOperationData.cs" />
+    <Compile Include="Gateways\Payment\IPaymentContext.cs" />
+    <Compile Include="Gateways\Payment\IPaymentGatewayMethod.cs" />
+    <Compile Include="Gateways\Payment\IPaymentGatewayProvider.cs" />
+    <Compile Include="Gateways\Payment\IPaymentResult.cs" />
+    <Compile Include="Gateways\Payment\PaymentGatewayMethodAttribute.cs" />
+    <Compile Include="Gateways\Payment\PaymentGatewayMethodBase.cs" />
+    <Compile Include="Gateways\Payment\PaymentGatewayProviderBase.cs" />
+    <Compile Include="Gateways\Payment\PaymentOperationData.cs" />
+    <Compile Include="Gateways\Payment\PaymentResult.cs" />
+    <Compile Include="Gateways\Payment\ProcessorArgumentCollection.cs" />
+    <Compile Include="Gateways\Shipping\DefaultShipmentRateQuoteStrategy.cs" />
+    <Compile Include="Gateways\Shipping\IShipmentRateQuote.cs" />
+    <Compile Include="Gateways\Shipping\IShipmentRateQuoteStrategy.cs" />
+    <Compile Include="Gateways\Shipping\IShippingGatewayMethod.cs" />
+    <Compile Include="Gateways\Shipping\IShippingGatewayProvider.cs" />
+    <Compile Include="Gateways\Shipping\ShipmentRateQuote.cs" />
+    <Compile Include="Gateways\Shipping\ShipmentRateQuoteStrategyBase.cs" />
+    <Compile Include="Gateways\Shipping\ShippingGatewayMethodBase.cs" />
+    <Compile Include="Gateways\Shipping\ShippingGatewayProviderBase.cs" />
+    <Compile Include="Gateways\Shipping\WarehouseCatalogValidationVisitor.cs" />
+    <Compile Include="Gateways\Taxation\ITaxationGatewayMethod.cs" />
+    <Compile Include="Gateways\Taxation\ITaxationGatewayProvider.cs" />
+    <Compile Include="Gateways\Taxation\ITaxCalculationResult.cs" />
+    <Compile Include="Gateways\Taxation\ITaxCalculationStrategy.cs" />
+    <Compile Include="IActivatorServiceProvider.cs" />
     <Compile Include="Logging\DefaultEmptyRemoteLogger.cs" />
     <Compile Include="Logging\RemoteLoggerBase.cs" />
     <Compile Include="Models\Cache\DefaultCloneableCacheEntry.cs" />
@@ -964,6 +1014,9 @@
     </Compile>
     <Compile Include="Services\EntityCollectionEntityServiceBase{T}.cs" />
     <Compile Include="Services\EntityCollectionService.cs" />
+    <Compile Include="Services\EntityCollectionService.entityspecific.cs">
+      <DependentUpon>EntityCollectionService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\EntityCollectionService.events.cs">
       <DependentUpon>EntityCollectionService.cs</DependentUpon>
     </Compile>
@@ -990,6 +1043,16 @@
     <Compile Include="Services\Interfaces\IStoreService.cs" />
     <Compile Include="Services\Interfaces\IStoreSettingService.cs" />
     <Compile Include="Services\Interfaces\IWarehouseService.cs" />
+    <Compile Include="Services\PaymentService.appliedpayment.cs">
+      <DependentUpon>PaymentService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\PaymentService.cs" />
+    <Compile Include="Services\PaymentService.events.cs">
+      <DependentUpon>PaymentService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\PaymentService.persist.cs">
+      <DependentUpon>PaymentService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ProductService.persist.cs">
       <DependentUpon>ProductService.cs</DependentUpon>
     </Compile>
@@ -1020,6 +1083,7 @@
     <Compile Include="Services\StoreSettingService.typefields.cs">
       <DependentUpon>StoreSettingService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Strategies\IStrategy.cs" />
     <Compile Include="Vistors\IVisitor{T}.cs" />
     <Compile Include="Models\Interfaces\IWarehouse.cs" />
     <Compile Include="Models\Interfaces\IWarehouseCatalog.cs" />

@@ -371,6 +371,16 @@
             vistor.Visit(this);
         }
 
+        /// <inheritdoc/>
+        public virtual object DeepClone()
+        {
+            var ed = (ExtendedDataCollection)this.ExtendedData.ShallowClone();
+            var item = (LineItemBase)this.MemberwiseClone();
+            item.ExtendedData = ed;
+            item.ResetDirtyProperties();
+            return item;
+        }
+
         /// <summary>
         /// Serializes the current instance to an Xml representation - intended to be persisted in an <see cref="ExtendedDataCollection"/>  
         /// </summary>

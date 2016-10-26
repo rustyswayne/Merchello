@@ -1,6 +1,7 @@
 ﻿namespace Merchello.Core.Services
 {
     using System;
+    using System.Collections.Generic;
 
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
@@ -30,6 +31,12 @@
 
         /// <inheritdoc/>
         public IProduct GetByKey(Guid key)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<IProduct> GetAll(params Guid[] keys)
         {
             throw new NotImplementedException();
         }

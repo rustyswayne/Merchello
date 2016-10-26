@@ -46,6 +46,11 @@
         internal static IEntityCollectionProviderRegister EntityCollectionProviderRegister => Container.GetInstance<IEntityCollectionProviderRegister>();
 
         /// <summary>
+        /// The <see cref="IActivatorServiceProvider"/>.
+        /// </summary>
+        internal static IActivatorServiceProvider ActivatorServiceProvider => Container.GetInstance<IActivatorServiceProvider>();
+
+        /// <summary>
         /// Gets or sets the <see cref="IServiceContainer"/>.
         /// </summary>
         /// <exception cref="NullReferenceException">

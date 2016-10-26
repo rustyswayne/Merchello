@@ -6,41 +6,43 @@
     using System.Linq;
 
     using Merchello.Core.Acquired;
+    using Merchello.Core.Gateways.Shipping;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
+    using Merchello.Core.Services;
 
     /// <summary>
     /// Extension methods for <see cref="IShipment"/>.
     /// </summary>
     public static partial class Extensions
     {
-        ///// <summary>
-        ///// Utility extension to return a validated <see cref="IShipCountry"/> from a shipment.
-        ///// 
-        ///// For inventory and ship method selection purposes, <see cref="IShipment"/>s must be mapped to a single WarehouseCatalog (otherwise it should have been split into multiple shipments).
-        ///// 
-        ///// </summary>
-        ///// <param name="shipment">The <see cref="IShipment"/></param>
-        ///// <param name="gatewayProviderService">The <see cref="IGatewayProviderService"/></param>
-        ///// <returns>An <see cref="Attempt"/> where success result is the matching <see cref="IShipCountry"/></returns>
-        //public static Attempt<IShipCountry> GetValidatedShipCountry(this IShipment shipment, IGatewayProviderService gatewayProviderService)
-        //{
-        //    var visitor = new WarehouseCatalogValidationVisitor();
-        //    shipment.Items.Accept(visitor);
+        /// <summary>
+        /// Utility extension to return a validated <see cref="IShipCountry"/> from a shipment.
+        /// 
+        /// For inventory and ship method selection purposes, <see cref="IShipment"/>s must be mapped to a single WarehouseCatalog (otherwise it should have been split into multiple shipments).
+        /// 
+        /// </summary>
+        /// <param name="shipment">The <see cref="IShipment"/></param>
+        /// <param name="gatewayProviderService">The <see cref="IGatewayProviderService"/></param>
+        /// <returns>An <see cref="Attempt"/> where success result is the matching <see cref="IShipCountry"/></returns>
+        public static Attempt<IShipCountry> GetValidatedShipCountry(this IShipment shipment, IGatewayProviderService gatewayProviderService)
+        {
+            var visitor = new WarehouseCatalogValidationVisitor();
+            shipment.Items.Accept(visitor);
 
-        //    // quick validation of shipment
-        //    if (visitor.CatalogCatalogValidationStatus != WarehouseCatalogValidationVisitor.CatalogValidationStatus.Ok)
-        //    {
-        //        MultiLogHelper.Error<ShippingGatewayProviderBase>("ShipMethods could not be determined for Shipment passed to GetAvailableShipMethodsForDestination method. Validator returned: " + visitor.CatalogCatalogValidationStatus, new ArgumentException("merchWarehouseCatalogKey"));
-        //        return visitor.CatalogCatalogValidationStatus ==
-        //               WarehouseCatalogValidationVisitor.CatalogValidationStatus.ErrorMultipleCatalogs
-        //                   ? Attempt<IShipCountry>.Fail(
-        //                       new InvalidDataException("Multiple CatalogKeys found in Shipment Items"))
-        //                   : Attempt<IShipCountry>.Fail(new InvalidDataException("No CatalogKeys found in Shipment Items"));
-        //    }
+            // quick validation of shipment
+            if (visitor.CatalogCatalogValidationStatus != WarehouseCatalogValidationVisitor.CatalogValidationStatus.Ok)
+            {
+                MultiLogHelper.Error<ShippingGatewayProviderBase>("ShipMethods could not be determined for Shipment passed to GetAvailableShipMethodsForDestination method. Validator returned: " + visitor.CatalogCatalogValidationStatus, new ArgumentException("merchWarehouseCatalogKey"));
+                return visitor.CatalogCatalogValidationStatus ==
+                       WarehouseCatalogValidationVisitor.CatalogValidationStatus.ErrorMultipleCatalogs
+                           ? Attempt<IShipCountry>.Fail(
+                               new InvalidDataException("Multiple CatalogKeys found in Shipment Items"))
+                           : Attempt<IShipCountry>.Fail(new InvalidDataException("No CatalogKeys found in Shipment Items"));
+            }
 
-        //    return Attempt<IShipCountry>.Succeed(gatewayProviderService.GetShipCountry(visitor.WarehouseCatalogKey, shipment.ToCountryCode));
-        //}
+            return Attempt<IShipCountry>.Succeed(gatewayProviderService.GetShipCountry(visitor.WarehouseCatalogKey, shipment.ToCountryCode));
+        }
 
         /// <summary>
         /// Gets an <see cref="IAddress"/> representing the origin address of the <see cref="IShipment"/>
@@ -247,39 +249,5 @@
 
         //    return gatewayShipMethod == null ? null : provider.QuoteShipMethodForShipment(shipment, gatewayShipMethod, tryGetCached);
         //}
-
-        /// <summary>
-        /// Clones a shipment
-        /// </summary>
-        /// <param name="org">
-        /// The org.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IShipment"/>.
-        /// </returns>
-        /// <remarks>
-        /// http://issues.merchello.com/youtrack/issue/M-458
-        /// </remarks>
-        internal static IShipment Clone(this IShipment org)
-        {
-            var lineItemCollection = new LineItemCollection();
-
-            foreach (var li in org.Items)
-            {
-                lineItemCollection.Add(li.AsLineItemOf<OrderLineItem>());
-            }
-
-            return new Shipment(org.ShipmentStatus, org.GetOriginAddress(), org.GetDestinationAddress(), lineItemCollection)
-            {
-                ShipmentNumberPrefix = org.ShipmentNumberPrefix,
-                ShipmentNumber = org.ShipmentNumber,
-                ShippedDate = org.ShippedDate,
-                TrackingCode = org.TrackingCode,
-                Carrier = org.Carrier,
-                ShipMethodKey = org.ShipMethodKey,
-                Phone = org.Phone,
-                Email = org.Email
-            };
-        }
     }
 }

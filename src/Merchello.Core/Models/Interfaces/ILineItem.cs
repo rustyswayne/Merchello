@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a line Item
     /// </summary>
-    public interface ILineItem : IHasExtendedData, IEntity
+    public interface ILineItem : IEntity, IHasExtendedData, IDeepCloneable
     {
         /// <summary>
         /// Gets or sets the key of the container collection

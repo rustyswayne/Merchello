@@ -64,4 +64,25 @@
         /// </param>
         void Delete(IEnumerable<TEntity> entities);
     }
+
+    /// <summary>
+    /// Represents an entity service.
+    /// </summary>
+    /// <typeparam name="TEntity">
+    /// The type of entity.
+    /// </typeparam>
+    public interface IGetAllService<TEntity> : IService<TEntity>
+        where TEntity : IEntity
+    {
+        /// <summary>
+        /// Gets all <see cref="TEntity"/>s.
+        /// </summary>
+        /// <param name="keys">
+        /// Optional keys parameter to limit results.
+        /// </param>
+        /// <returns>
+        /// The collection of <see cref="TEntity"/>.
+        /// </returns>
+        IEnumerable<TEntity> GetAll(params Guid[] keys);
+    }
 }

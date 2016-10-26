@@ -9,6 +9,7 @@
     /// <summary>
     /// Helper methods for Activation
     /// </summary>
+    [Obsolete]
 	internal static class ActivatorHelper
 	{
 		/// <summary>
@@ -20,25 +21,6 @@
 		{
 			return Activator.CreateInstance(typeof(T)) as T;
 		}
-
-        /// <summary>
-        /// Creates an instance of a type using a constructor with specific arguments
-        /// </summary>
-        /// <typeparam name="T">The <see cref="Type"/> or base class</typeparam>
-        /// <param name="type">The <see cref="Type"/> to be instantiated</param>
-        /// <param name="ctrArgs">The constructor arguments</param>
-        /// <param name="ctrValues">The constructor argument values</param>
-        /// <returns>An instantiated type of T</returns>
-        public static T CreateInstance<T>(Type type, Type[] ctrArgs, object[] ctrValues)
-        {
-            Ensure.ParameterNotNull(type, "type");
-            Ensure.ParameterNotNull(ctrArgs, "ctrArgs");
-            Ensure.ParameterNotNull(ctrValues, "ctrValues");
-            
-            var constructor = type.GetConstructor(ctrArgs);
-            if (constructor == null) return default(T);
-            return (T)constructor.Invoke(ctrValues);
-        }
 
         /// <summary>
         /// Creates an instance of a type using a constructor with specific arguments

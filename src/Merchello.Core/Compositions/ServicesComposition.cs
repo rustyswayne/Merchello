@@ -26,7 +26,7 @@
             // Registers the ActivatorServiceProvider
             // TODO - we need to work toward getting rid of services that require this since
             // all services should be registered in the container directly.
-            container.RegisterSingleton<ActivatorServiceProvider>();
+            container.RegisterSingleton<IActivatorServiceProvider, ActivatorServiceProvider>();
 
             // The service context
             container.RegisterSingleton<IServiceContext, ServiceContext>();

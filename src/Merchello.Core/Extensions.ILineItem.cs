@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.TypeFields;
@@ -64,21 +65,14 @@
                     lineItem.Sku,
                     lineItem.Quantity,
                     lineItem.Price,
-                    lineItem.ExtendedData
+                    lineItem.ExtendedData.ShallowClone()
                 };
 
+            var newItem = MC.ActivatorServiceProvider.GetService<LineItemBase>(typeof(T), ctrValues);
 
-            var attempt = ActivatorHelper.CreateInstance<LineItemBase>(typeof(T), ctrValues);
+            newItem.Exported = lineItem.Exported;
 
-            if (!attempt.Success)
-            {
-                MultiLogHelper.Error<ILineItem>("Failed to convertion ILineItem", attempt.Exception);
-                throw attempt.Exception;
-            }
-
-            attempt.Result.Exported = lineItem.Exported;
-
-            return attempt.Result as T;
+            return newItem as T;
         }
 
 

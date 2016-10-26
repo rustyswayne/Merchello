@@ -15,7 +15,7 @@
     /// </summary>
     [Serializable]
     [CollectionDataContract(IsReference = true)]
-    public class LineItemCollection : NotifiyCollectionBase<string, ILineItem>
+    public class LineItemCollection : NotifiyCollectionBase<string, ILineItem>, IDeepCloneable
     {
         /// <summary>
         /// The add locker.
@@ -127,6 +127,18 @@
             {
                 visitor.Visit(item);
             }
+        }
+
+        /// <inheritdoc/>
+        public object DeepClone()
+        {
+            var items = this.Select(x => (ILineItem)x.DeepClone());
+            var collection = new LineItemCollection();
+            foreach (var item in items)
+            {
+                collection.Add(item);
+            }
+            return collection;
         }
 
         /// <summary>

@@ -68,8 +68,7 @@ namespace Merchello.Core.Cache.Policies
         /// </returns>
         protected string GetEntityCacheKey<T>(Guid key)
         {
-            if (key == null || key.Equals(Guid.Empty)) throw new ArgumentNullException(nameof(key));
-            return this.GetEntityTypeCacheKey<T>() + key;
+            return CacheKeys.GetEntityCacheKey<T>(key);
         }
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace Merchello.Core.Cache.Policies
         /// </returns>
         protected virtual string GetEntityTypeCacheKey<T>()
         {
-            return $"mRepo_{typeof(T).Name}_";
+            return CacheKeys.GetEntityTypeCacheKey<T>();
         }
     }
 }

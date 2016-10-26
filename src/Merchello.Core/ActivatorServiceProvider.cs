@@ -7,7 +7,7 @@ namespace Merchello.Core
     /// <summary>
     /// Represents a provider that instantiates services.
     /// </summary>
-    internal class ActivatorServiceProvider : IServiceProvider
+    internal class ActivatorServiceProvider : IActivatorServiceProvider
     {
         /// <summary>
         /// Gets an instance of a service.

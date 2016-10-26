@@ -89,5 +89,10 @@
                    CountryCode == other.CountryCode &&
                    IsCommercial == other.IsCommercial;
         }
+
+        public virtual object ShallowClone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

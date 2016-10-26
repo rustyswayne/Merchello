@@ -684,6 +684,25 @@
         }
 
         /// <inheritdoc/>
+        public object DeepClone()
+        {
+            var origin = this.GetOriginAddress();
+            var destination = this.GetDestinationAddress();
+            var shipment = new Shipment(this.ShipmentStatus, origin, destination, (LineItemCollection)this.Items.DeepClone())
+                    {
+                        TrackingCode = this.TrackingCode,
+                        Carrier = this.Carrier,
+                        ToIsCommercial = this.ToIsCommercial,
+                        FromIsCommercial = this.FromIsCommercial,
+                        ShipmentNumber = this.ShipmentNumber,
+                        ShipmentNumberPrefix = this.ShipmentNumberPrefix
+                    };
+
+            shipment.ResetDirtyProperties();
+            return shipment;
+        }
+
+        /// <inheritdoc/>
         public void Accept(ILineItemVisitor visitor)
         {
             Items.Accept(visitor);
@@ -831,5 +850,4 @@
 
         }
     }
-
 }

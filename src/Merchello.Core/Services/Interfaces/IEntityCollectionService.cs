@@ -8,19 +8,8 @@
     /// <summary>
     /// Represents a data service for <see cref="IEntityCollection"/>.
     /// </summary>
-    public interface IEntityCollectionService : IService<IEntityCollection>
+    public interface IEntityCollectionService : IGetAllService<IEntityCollection>
     {
-        /// <summary>
-        /// Gets all <see cref="IEntityCollection"/>s.
-        /// </summary>
-        /// <param name="keys">
-        /// Optional keys parameter to limit results.
-        /// </param>
-        /// <returns>
-        /// The collection of <see cref="IEntityCollection"/>.
-        /// </returns>
-        IEnumerable<IEntityCollection> GetAll(params Guid[] keys);
-
         /// <summary>
         /// Gets a collection of providers associated with a specific entity type.
         /// </summary>
@@ -64,6 +53,84 @@
         /// The collection of <see cref="IEntityCollection"/>.
         /// </returns>
         IEnumerable<IEntityCollection> GetChildren(Guid collectionKey);
+
+        /// <summary>
+        /// The get entity collections by product key.
+        /// </summary>
+        /// <param name="productKey">
+        /// The product key.
+        /// </param>
+        /// <param name="isFilter">
+        /// A value indicating whether the query should be for filter collections or standard "static" collections
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityCollection}"/>.
+        /// </returns>
+        IEnumerable<IEntityCollection> GetByProductKey(Guid productKey, bool isFilter = false);
+
+        /// <summary>
+        /// The get entity collections by invoice key.
+        /// </summary>
+        /// <param name="invoiceKey">
+        /// The invoice key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityCollection}"/>.
+        /// </returns>
+        IEnumerable<IEntityCollection> GetByInvoiceKey(Guid invoiceKey);
+
+        /// <summary>
+        /// The get entity collections by customer key.
+        /// </summary>
+        /// <param name="customerKey">
+        /// The customer key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityCollection}"/>.
+        /// </returns>
+        IEnumerable<IEntityCollection> GetByCustomerKey(Guid customerKey);
+
+        /// <summary>
+        /// Gets a collection of <see cref="IEntityFilterGroup"/> by a collection of keys.
+        /// </summary>
+        /// <param name="keys">
+        /// The keys.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityFilterGroup}"/>.
+        /// </returns>
+        IEnumerable<IEntityFilterGroup> GetFilterGroupsByProviderKeys(IEnumerable<Guid> keys);
+
+        /// <summary>
+        /// Gets a collection of <see cref="IEntityFilterGroup"/> by a collection of keys that are not associated
+        /// with a product
+        /// </summary>
+        /// <param name="keys">
+        /// The keys.
+        /// </param>
+        /// <param name="productKey">
+        /// The product key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityFilterGroup}"/>.
+        /// </returns>
+        IEnumerable<IEntityFilterGroup> GetFilterGroupsContainingProduct(IEnumerable<Guid> keys, Guid productKey);
+
+        /// <summary>
+        /// Gets a collection of <see cref="IEntityFilterGroup"/> by a collection of keys that are not associated
+        /// with a product
+        /// </summary>
+        /// <param name="keys">
+        /// The keys.
+        /// </param>
+        /// <param name="productKey">
+        /// The product key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IEntityFilterGroup}"/>.
+        /// </returns>
+        IEnumerable<IEntityFilterGroup> GetFilterGroupsNotContainingProduct(IEnumerable<Guid> keys, Guid productKey);
+
 
         /// <summary>
         /// Returns a value indicating if a collection contains a child collection with key passed.

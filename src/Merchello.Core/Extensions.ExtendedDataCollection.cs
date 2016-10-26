@@ -8,6 +8,7 @@
     using System.Xml;
     using System.Xml.Linq;
 
+    using Merchello.Core.DI;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
 
@@ -199,10 +200,7 @@
             var lineItemCollection = new LineItemCollection();
             foreach (var element in xdoc.Descendants(Constants.ExtendedDataKeys.LineItem))
             {
-
                 var dictionary = GetLineItemXmlValues(element.ToString());
-
-                var extendData = new ExtendedDataCollection(dictionary[Constants.ExtendedDataKeys.ExtendedData]);
 
                 var ctrValues = new object[]
                     {
@@ -214,17 +212,10 @@
                         new ExtendedDataCollection(dictionary[Constants.ExtendedDataKeys.ExtendedData])
                     };
 
-                var attempt = ActivatorHelper.CreateInstance<LineItemBase>(typeof(T).FullName, ctrValues);
+                var lineItem = MC.ActivatorServiceProvider.GetService<LineItemBase>(typeof(T), ctrValues);
+                lineItem.ContainerKey = new Guid(dictionary[Constants.ExtendedDataKeys.ContainerKey]);
 
-                if (!attempt.Success)
-                {
-                    MultiLogHelper.Error<LineItemCollection>("Failed to instantiate a LineItemCollection from ExtendedData", attempt.Exception);
-                    throw attempt.Exception;
-                }
-
-                attempt.Result.ContainerKey = new Guid(dictionary[Constants.ExtendedDataKeys.ContainerKey]);
-
-                lineItemCollection.Add(attempt.Result);
+                lineItemCollection.Add(lineItem);
             }
 
             return lineItemCollection;
@@ -763,7 +754,6 @@
             var attempt = SerializationHelper.DeserializeXml<Address>(extendedData.GetValue(dictionaryKey));
 
             return attempt.Success ? attempt.Result : null;
-            ////return JsonConvert.DeserializeObject<IAddress>(extendedData.GetValue(dictionaryKey));
         }
 
         #endregion

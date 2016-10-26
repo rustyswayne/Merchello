@@ -16,7 +16,7 @@
     /// </summary>
     [Serializable]
     [CollectionDataContract(IsReference = true)]
-    public class ExtendedDataCollection : ConcurrentDictionary<string, string>, INotifyCollectionChanged
+    public class ExtendedDataCollection : ConcurrentDictionary<string, string>, INotifyCollectionChanged, IShallowClone
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtendedDataCollection"/> class.
@@ -102,6 +102,17 @@
         {
             var validKey = AssertValidKey(key);
             return ContainsKey(validKey) ? this[validKey] : string.Empty;
+        }
+
+        /// <summary>
+        /// The shallow clone.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
+        public object ShallowClone()
+        {
+            return this.MemberwiseClone();
         }
 
         /// <summary>

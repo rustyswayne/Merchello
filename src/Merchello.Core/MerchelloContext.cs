@@ -1,10 +1,13 @@
 ﻿namespace Merchello.Core
 {
+    using System;
+
     using Merchello.Core.Cache;
     using Merchello.Core.DI;
     using Merchello.Core.Services;
 
     /// <inheritdoc/>
+    [Obsolete("Use MC")]
     public class MerchelloContext : IMerchelloContext
     {
         /// <summary>
