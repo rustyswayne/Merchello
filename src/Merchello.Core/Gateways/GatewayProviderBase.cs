@@ -30,13 +30,13 @@
         /// <param name="gatewayProviderService">
         /// The <see cref="IGatewayProviderService"/>
         /// </param>
-        /// <param name="runtimeCacheProvider">
-        /// The <see cref="IRuntimeCacheProviderAdapter"/>
-        /// </param>
         /// <param name="gatewayProviderSettings">
         /// The <see cref="IGatewayProviderSettings"/>
         /// </param>
-        protected GatewayProviderBase(IGatewayProviderService gatewayProviderService, IRuntimeCacheProviderAdapter runtimeCacheProvider, IGatewayProviderSettings gatewayProviderSettings)
+        /// <param name="runtimeCacheProvider">
+        /// The <see cref="IRuntimeCacheProviderAdapter"/>
+        /// </param>
+        protected GatewayProviderBase(IGatewayProviderService gatewayProviderService, IGatewayProviderSettings gatewayProviderSettings, IRuntimeCacheProviderAdapter runtimeCacheProvider)
         {
             Ensure.ParameterNotNull(gatewayProviderService, "gatewayProviderService");
             Ensure.ParameterNotNull(gatewayProviderSettings, "gatewayProvider");

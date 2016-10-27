@@ -40,6 +40,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.authorizenet.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Constants.braintree.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Constants.paypal.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Constants.purchaseorder.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Models\IPaymentProviderSettings.cs" />
+    <Compile Include="Models\PaymentRedirectingUrl.cs" />
+    <Compile Include="Models\ProviderSettingsExtensions.cs" />
+    <Compile Include="Models\ProviderSettingsMapperAttribute.cs" />
+    <Compile Include="Payment\Braintree\EnvironmentType.cs" />
+    <Compile Include="Payment\Braintree\Models\BillingAddress.cs" />
+    <Compile Include="Payment\Braintree\Models\BraintreeProviderSettings.cs" />
+    <Compile Include="Payment\Braintree\Models\MerchantDescriptor.cs" />
+    <Compile Include="Payment\Braintree\Models\TransactionOption.cs" />
+    <Compile Include="Payment\Braintree\Models\TransactionReference.cs" />
+    <Compile Include="Payment\Cash\CashPaymentGatewayMethod.cs" />
+    <Compile Include="Payment\Cash\CashPaymentGatewayProvider.cs" />
+    <Compile Include="Payment\Cash\ICashPaymentGatewayMethod.cs" />
+    <Compile Include="Payment\Cash\ICashPaymentGatewayProvider.cs" />
+    <Compile Include="Payment\PayPal\Factories\PayPalFactorySettings.cs" />
+    <Compile Include="Payment\PayPal\Models\CurrencyCodeTypeDecimal.cs" />
+    <Compile Include="Payment\PayPal\Models\ExpressCheckoutResponse.cs" />
+    <Compile Include="Payment\PayPal\Models\PayPalExpressCheckoutRequestDetailsOverride.cs" />
+    <Compile Include="Payment\PayPal\Models\PayPalExpressCheckoutUrls.cs" />
+    <Compile Include="Payment\PayPal\Models\PayPalExpressTransaction.cs" />
+    <Compile Include="Payment\PayPal\Models\PayPalExpressTransactionRecord.cs" />
+    <Compile Include="Payment\PayPal\Models\PayPalProviderSettings.cs" />
+    <Compile Include="Payment\PayPal\PayPalMode.cs" />
+    <Compile Include="Payment\PurchaseOrder\Provider\IPurchaseOrderPaymentGatewayMethod.cs" />
+    <Compile Include="Payment\PurchaseOrder\Provider\IPurchaseOrderPaymentGatewayProvider.cs" />
+    <Compile Include="Payment\PurchaseOrder\Provider\PurchaseOrderPaymentGatewayMethod.cs" />
+    <Compile Include="Payment\PurchaseOrder\Provider\PurchaseOrderPaymentGatewayProvider.cs" />
+    <Compile Include="Payment\PurchaseOrder\PurchaseOrderFormData.cs" />
+    <Compile Include="Payment\PurchaseOrder\PurchaseOrderInfoExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVisibility.cs" />
   </ItemGroup>

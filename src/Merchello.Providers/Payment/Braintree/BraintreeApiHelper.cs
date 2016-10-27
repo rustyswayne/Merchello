@@ -11,9 +11,6 @@
     using Merchello.Providers.Payment.Braintree.Controllers;
     using Merchello.Providers.Payment.Braintree.Models;
     using Merchello.Providers.Payment.Braintree.Provider;
-    using Merchello.Providers.Payment.Models;
-
-    using Umbraco.Core.Logging;
 
     using Constants = Merchello.Providers.Constants;
 

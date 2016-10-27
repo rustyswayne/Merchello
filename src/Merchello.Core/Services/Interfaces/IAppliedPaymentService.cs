@@ -19,6 +19,21 @@
         /// <returns>An <see cref="IAppliedPayment"/></returns>
         IAppliedPayment GetAppliedPaymentByKey(Guid key);
 
+
+        /// <summary>
+        /// Gets a collection of <see cref="IAppliedPayment"/>s by the payment key
+        /// </summary>
+        /// <param name="paymentKey">The payment key</param>
+        /// <returns>A collection of <see cref="IAppliedPayment"/></returns>
+        IEnumerable<IAppliedPayment> GetAppliedPaymentsByPaymentKey(Guid paymentKey);
+
+        /// <summary>
+        /// Gets a collection of <see cref="IAppliedPayment"/>s by the invoice key
+        /// </summary>
+        /// <param name="invoiceKey">The invoice key</param>
+        /// <returns>A collection <see cref="IAppliedPayment"/></returns>
+        IEnumerable<IAppliedPayment> GetAppliedPaymentsByInvoiceKey(Guid invoiceKey);
+
         /// <summary>
         /// Creates and saves an <see cref="IAppliedPayment"/> associated with an invoice.
         /// </summary>
@@ -53,20 +68,5 @@
         /// </summary>
         /// <param name="appliedPayments">The collection of <see cref="IAppliedPayment"/>s to be deleted</param>
         void Delete(IEnumerable<IAppliedPayment> appliedPayments);
-
-
-        /// <summary>
-        /// Gets a collection of <see cref="IAppliedPayment"/>s by the payment key
-        /// </summary>
-        /// <param name="paymentKey">The payment key</param>
-        /// <returns>A collection of <see cref="IAppliedPayment"/></returns>
-        IEnumerable<IAppliedPayment> GetAppliedPaymentsByPaymentKey(Guid paymentKey);
-
-        /// <summary>
-        /// Gets a collection of <see cref="IAppliedPayment"/>s by the invoice key
-        /// </summary>
-        /// <param name="invoiceKey">The invoice key</param>
-        /// <returns>A collection <see cref="IAppliedPayment"/></returns>
-        IEnumerable<IAppliedPayment> GetAppliedPaymentsByInvoiceKey(Guid invoiceKey);
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -39,7 +40,7 @@
         /// <param name="name">The name of the notification (used in back office)</param>
         /// <param name="serviceCode">The notification service code</param>
         /// <returns>The <see cref="INotificationMethod"/> created and saved</returns>
-        INotificationMethod CreateNotificationMethodWithKey(Guid providerKey, string name, string serviceCode);
+        Attempt<INotificationMethod> CreateNotificationMethodWithKey(Guid providerKey, string name, string serviceCode);
 
 
         /// <summary>

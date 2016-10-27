@@ -711,7 +711,7 @@
         /// </returns>
         public static Money TotalItemPrice(this IInvoice invoice)
         {
-            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Product), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Product));
         }
 
         /// <summary>
@@ -725,7 +725,7 @@
         /// </returns>
         public static Money TotalCustomItemPrice(this IInvoice invoice)
         {
-            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Custom), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Custom));
         }
 
         /// <summary>
@@ -739,7 +739,7 @@
         /// </returns>
         public static Money TotalAdjustmentItemPrice(this IInvoice invoice)
         {
-            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Adjustment), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Adjustment));
         }
 
         /// <summary>
@@ -753,7 +753,7 @@
         /// </returns>
         public static Money TotalShipping(this IInvoice invoice)
         {
-            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Shipping), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Shipping));
         }
 
         /// <summary>
@@ -767,7 +767,7 @@
         /// </returns>
         public static Money TotalTax(this IInvoice invoice)
         {
-            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Tax), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Tax));
         }
 
         /// <summary>
@@ -781,7 +781,7 @@
         /// </returns>
         public static Money TotalDiscounts(this IInvoice invoice)
         {
-            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Discount), invoice.CurrencyCode);
+            return TotalItems(invoice.Items.Where(x => x.LineItemType == LineItemType.Discount));
         }
 
         /// <summary>
@@ -790,19 +790,18 @@
         /// <param name="items">
         /// The items.
         /// </param>
-        /// <param name="currencyCode">
-        /// The currency code.
-        /// </param>
         /// <returns>
         /// The <see cref="Money"/>.
         /// </returns>
-        public static Money TotalItems(IEnumerable<ILineItem> items, string currencyCode)
+        public static Money TotalItems(IEnumerable<ILineItem> items)
         {
-            var lineItems = items as ILineItem[] ?? items.ToArray();
-            var total = new Money(0, currencyCode);
-            if (!lineItems.Any()) return new Money(0, currencyCode);
-            total = lineItems.Aggregate(total, (current, li) => current + li.TotalPrice);
-            return total;
+            return items.Select(x => x.TotalPrice).Sum();
+
+            //var lineItems = items as ILineItem[] ?? items.ToArray();
+            //var total = new Money(0, currencyCode);
+            //if (!lineItems.Any()) return new Money(0, currencyCode);
+            //total = lineItems.Aggregate(total, (current, li) => current + li.TotalPrice);
+            //return total;
         }
 
         #endregion

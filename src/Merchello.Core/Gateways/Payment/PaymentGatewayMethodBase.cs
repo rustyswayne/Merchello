@@ -146,7 +146,7 @@
         /// <param name="amount">The amount of the payment to the invoice</param>
         /// <param name="args">Additional arguments required by the payment processor</param>
         /// <returns>A <see cref="IPaymentResult"/></returns>
-        public virtual IPaymentResult AuthorizeCapturePayment(IInvoice invoice, decimal amount, ProcessorArgumentCollection args)
+        public virtual IPaymentResult AuthorizeCapturePayment(IInvoice invoice, Money amount, ProcessorArgumentCollection args)
         {
             Ensure.ParameterNotNull(invoice, "invoice");
 
@@ -191,7 +191,7 @@
         /// <param name="amount">The amount of the payment to be captured</param>
         /// <param name="args">Additional arguments required by the payment processor</param>
         /// <returns>A <see cref="IPaymentResult"/></returns>
-        public virtual IPaymentResult CapturePayment(IInvoice invoice, IPayment payment, decimal amount, ProcessorArgumentCollection args)
+        public virtual IPaymentResult CapturePayment(IInvoice invoice, IPayment payment, Money amount, ProcessorArgumentCollection args)
         {
             Ensure.ParameterNotNull(invoice, "invoice");
 
@@ -237,7 +237,7 @@
         /// <param name="amount">The amount to be refunded</param>
         /// <param name="args">Additional arguments required by the payment processor</param>
         /// <returns>A <see cref="IPaymentResult"/></returns>
-        public virtual IPaymentResult RefundPayment(IInvoice invoice, IPayment payment, decimal amount, ProcessorArgumentCollection args)
+        public virtual IPaymentResult RefundPayment(IInvoice invoice, IPayment payment, Money amount, ProcessorArgumentCollection args)
         {
             Ensure.ParameterNotNull(invoice, "invoice");
             if (!invoice.HasIdentity) return new PaymentResult(Attempt<IPayment>.Fail(new InvalidOperationException("Cannot refund a payment on an invoice that cannot have payments")), invoice, false);
@@ -338,7 +338,7 @@
         /// <param name="amount">The amount of the payment to the invoice</param>
         /// <param name="args">Additional arguments required by the payment processor</param>
         /// <returns>A <see cref="IPaymentResult"/></returns>
-        protected abstract IPaymentResult PerformAuthorizeCapturePayment(IInvoice invoice, decimal amount, ProcessorArgumentCollection args);
+        protected abstract IPaymentResult PerformAuthorizeCapturePayment(IInvoice invoice, Money amount, ProcessorArgumentCollection args);
 
         /// <summary>
         /// Does the actual work of capturing a payment
@@ -348,7 +348,7 @@
         /// <param name="amount">The amount of the payment to be captured</param>
         /// <param name="args">Any arguments required to process the payment. (Maybe a username, password or some API Key)</param>
         /// <returns>The <see cref="IPaymentResult"/></returns>
-        protected abstract IPaymentResult PerformCapturePayment(IInvoice invoice, IPayment payment, decimal amount, ProcessorArgumentCollection args);
+        protected abstract IPaymentResult PerformCapturePayment(IInvoice invoice, IPayment payment, Money amount, ProcessorArgumentCollection args);
 
 
         /// <summary>
@@ -359,7 +359,7 @@
         /// <param name="amount">The amount of the payment to be refunded</param>
         /// <param name="args">Additional arguments required by the payment processor</param>
         /// <returns>A <see cref="IPaymentResult"/></returns>
-        protected abstract IPaymentResult PerformRefundPayment(IInvoice invoice, IPayment payment, decimal amount, ProcessorArgumentCollection args);
+        protected abstract IPaymentResult PerformRefundPayment(IInvoice invoice, IPayment payment, Money amount, ProcessorArgumentCollection args);
 
         /// <summary>
         /// Does the actual work of voiding a payment

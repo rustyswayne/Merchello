@@ -2,6 +2,8 @@
 {
     using Merchello.Core.Models;
 
+    using NodaMoney;
+
     /// <summary>
     /// The authorize operation data.
     /// </summary>
@@ -15,7 +17,7 @@
         /// <summary>
         /// Gets or sets the amount.
         /// </summary>
-        public decimal Amount { get; set; }
+        public Money Amount { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="IPaymentMethod"/>.

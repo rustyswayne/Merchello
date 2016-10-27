@@ -27,7 +27,7 @@
         /// <param name="amount">The amount of the payment</param>
         /// <param name="paymentMethodKey">The optional payment method key</param>
         /// <returns>Returns <see cref="IPayment"/></returns>
-        IPayment CreatePayment(PaymentMethodType paymentMethodType, decimal amount, Guid? paymentMethodKey);
+        IPayment CreatePayment(PaymentMethodType paymentMethodType, Money amount, Guid? paymentMethodKey);
 
 
         /// <summary>
@@ -35,6 +35,13 @@
         /// </summary>
         /// <param name="payment">The <see cref="IPayment"/> to be saved</param>
         void Save(IPayment payment);
+
+        /// <summary>
+        /// Gets a collection of <see cref="IAppliedPayment"/>s by the payment key
+        /// </summary>
+        /// <param name="paymentKey">The payment key</param>
+        /// <returns>A collection of <see cref="IAppliedPayment"/></returns>
+        IEnumerable<IAppliedPayment> GetAppliedPaymentsByPaymentKey(Guid paymentKey);
 
         /// <summary>
         /// Creates and saves an AppliedPayment

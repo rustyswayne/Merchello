@@ -22,19 +22,19 @@
         /// Initializes a new instance of the <see cref="TaxationGatewayProviderBase"/> class.
         /// </summary>
         /// <param name="gatewayProviderService">
-        /// The gateway provider service.
-        /// </param>
-        /// <param name="runtimeCacheProvider">
-        /// The runtime cache provider.
+        /// The <see cref="IGatewayProviderSettingsService"/>.
         /// </param>
         /// <param name="gatewayProviderSettings">
-        /// The gateway provider settings.
+        /// The <see cref="IGatewayProviderSettings"/>.
+        /// </param>
+        /// <param name="runtimeCacheProvider">
+        /// The <see cref="IRuntimeCacheProviderAdapter"/>.
         /// </param>
         protected TaxationGatewayProviderBase(
             IGatewayProviderService gatewayProviderService,
-            IRuntimeCacheProviderAdapter runtimeCacheProvider,
-            IGatewayProviderSettings gatewayProviderSettings)
-            : base(gatewayProviderService, runtimeCacheProvider, gatewayProviderSettings)
+            IGatewayProviderSettings gatewayProviderSettings,
+            IRuntimeCacheProviderAdapter runtimeCacheProvider)
+            : base(gatewayProviderService, gatewayProviderSettings, runtimeCacheProvider)
         {            
         }
 

@@ -3,7 +3,7 @@
     using Merchello.Core;
 
     /// <summary>
-    /// Setting for the <see cref="PayPalPaymentDetailsTypeFactory"/>.
+    /// Setting for the <see cref="PayPalFactorySettings"/>.
     /// </summary>
     public class PayPalFactorySettings
     {
@@ -48,7 +48,7 @@
         private void Initialize()
         {
             if (!this.WebsiteUrl.IsNullOrWhiteSpace()) return;
-            this.WebsiteUrl = PayPalApiHelper.GetBaseWebsiteUrl();
+            //this.WebsiteUrl = PayPalApiHelper.GetBaseWebsiteUrl();
 
         }
     }

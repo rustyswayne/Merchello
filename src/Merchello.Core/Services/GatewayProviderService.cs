@@ -94,7 +94,7 @@
         }
 
         /// <inheritdoc/>
-        public IPayment CreatePayment(PaymentMethodType paymentMethodType, decimal amount, Guid? paymentMethodKey)
+        public IPayment CreatePayment(PaymentMethodType paymentMethodType, Money amount, Guid? paymentMethodKey)
         {
             return _paymentService.Value.Create(paymentMethodType, amount, paymentMethodKey);
         }
@@ -103,6 +103,17 @@
         public void Save(IPayment payment)
         {
             _paymentService.Value.Save(payment);
+        }
+
+
+        /// <summary>
+        /// Gets a collection of <see cref="IAppliedPayment"/>s by the payment key
+        /// </summary>
+        /// <param name="paymentKey">The payment key</param>
+        /// <returns>A collection of <see cref="IAppliedPayment"/></returns>
+        public IEnumerable<IAppliedPayment> GetAppliedPaymentsByPaymentKey(Guid paymentKey)
+        {
+            return _paymentService.Value.GetAppliedPaymentsByPaymentKey(paymentKey);
         }
 
         /// <inheritdoc/>

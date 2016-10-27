@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Merchello.Core.Services
+﻿namespace Merchello.Core.Services
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     public partial class GatewayProviderService : ITaxMethodService
@@ -40,7 +38,7 @@ namespace Merchello.Core.Services
             throw new NotImplementedException();
         }
 
-        public ITaxMethod CreateTaxMethodWithKey(Guid providerKey, string countryCode, decimal percentageTaxRate)
+        public Attempt<ITaxMethod> CreateTaxMethodWithKey(Guid providerKey, string countryCode, decimal percentageTaxRate)
         {
             throw new NotImplementedException();
         }

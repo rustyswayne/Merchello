@@ -175,6 +175,7 @@
 
             var serviceName = GetServiceNameForType(providerType);
 
+            // This was registered in the GatewayProviderRegisterBuilder
             return _container.GetInstance<IGatewayProviderSettings, IGatewayProvider>(providerSettings, serviceName);
         }
 

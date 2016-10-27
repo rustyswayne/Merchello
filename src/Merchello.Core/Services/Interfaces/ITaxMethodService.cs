@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -74,7 +75,7 @@
         /// <returns>
         /// The <see cref="ITaxMethod"/>.
         /// </returns>
-        ITaxMethod CreateTaxMethodWithKey(Guid providerKey, string countryCode, decimal percentageTaxRate);
+        Attempt<ITaxMethod> CreateTaxMethodWithKey(Guid providerKey, string countryCode, decimal percentageTaxRate);
 
         /// <summary>
         /// Saves a single <see cref="ITaxMethod"/>

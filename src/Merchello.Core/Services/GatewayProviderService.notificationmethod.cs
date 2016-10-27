@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Merchello.Core.Services
 {
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     public partial class GatewayProviderService : INotificationMethodService
@@ -25,7 +26,7 @@ namespace Merchello.Core.Services
             throw new NotImplementedException();
         }
 
-        public INotificationMethod CreateNotificationMethodWithKey(Guid providerKey, string name, string serviceCode)
+        public Attempt<INotificationMethod> CreateNotificationMethodWithKey(Guid providerKey, string name, string serviceCode)
         {
             throw new NotImplementedException();
         }

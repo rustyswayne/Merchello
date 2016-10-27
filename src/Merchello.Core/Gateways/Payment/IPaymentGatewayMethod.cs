@@ -2,6 +2,8 @@
 {
     using Merchello.Core.Models;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents a payment gateway method
     /// </summary>
@@ -27,7 +29,7 @@
         /// <param name="amount">The amount of the payment to the invoice</param>
         /// <param name="args">Additional arguments required by the payment processor</param>
         /// <returns>A <see cref="IPaymentResult"/></returns>
-        IPaymentResult AuthorizeCapturePayment(IInvoice invoice, decimal amount, ProcessorArgumentCollection args);
+        IPaymentResult AuthorizeCapturePayment(IInvoice invoice, Money amount, ProcessorArgumentCollection args);
 
         /// <summary>
         /// Captures a payment for the <see cref="IInvoice"/>
@@ -37,7 +39,7 @@
         /// <param name="amount">The amount to the payment to be captured</param>
         /// <param name="args">Additional arguments required by the payment processor</param>
         /// <returns>A <see cref="IPaymentResult"/></returns>
-        IPaymentResult CapturePayment(IInvoice invoice, IPayment payment, decimal amount, ProcessorArgumentCollection args);
+        IPaymentResult CapturePayment(IInvoice invoice, IPayment payment, Money amount, ProcessorArgumentCollection args);
 
         /// <summary>
         /// Refunds a payment
@@ -47,7 +49,7 @@
         /// <param name="amount">The amount of the payment to be refunded</param>
         /// <param name="args">Additional arguments required by the payment processor</param>
         /// <returns>A <see cref="IPaymentResult"/></returns>
-        IPaymentResult RefundPayment(IInvoice invoice, IPayment payment, decimal amount, ProcessorArgumentCollection args);
+        IPaymentResult RefundPayment(IInvoice invoice, IPayment payment, Money amount, ProcessorArgumentCollection args);
 
         /// <summary>
         /// Voids a payment

@@ -1,8 +1,11 @@
 ﻿{
   "dependencies": {
+    "Braintree": "2.54.0",
     "LightInject": "4.1.0",
     "LightInject.Annotation": "1.0.0.4",
-    "Newtonsoft.Json": "8.0.3"
+    "PayPalMerchantSDK": "2.15.117",
+    "Newtonsoft.Json": "8.0.3",
+    "NodaMoney": "1.0.0"
   },
   "frameworks": {
     "net461": {}

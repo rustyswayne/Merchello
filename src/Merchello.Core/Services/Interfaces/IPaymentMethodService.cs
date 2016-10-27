@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -47,7 +48,7 @@
         /// <param name="description">The description of the payment method</param>
         /// <param name="paymentCode">The unique 'payment code' associated with the payment method.  (e.g. visa, mc)</param>
         /// <returns>The <see cref="IPaymentMethod"/></returns>
-        IPaymentMethod CreatePaymentMethodWithKey(Guid providerKey, string name, string description, string paymentCode);
+        Attempt<IPaymentMethod> CreatePaymentMethodWithKey(Guid providerKey, string name, string description, string paymentCode);
 
         /// <summary>
         /// Saves a single <see cref="IPaymentMethod"/>

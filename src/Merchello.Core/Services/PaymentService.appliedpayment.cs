@@ -16,6 +16,17 @@
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
+        public IEnumerable<IAppliedPayment> GetAppliedPaymentsByPaymentKey(Guid paymentKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<IAppliedPayment> GetAppliedPaymentsByInvoiceKey(Guid invoiceKey)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <inheritdoc/>
         public IAppliedPayment ApplyPaymentToInvoice(Guid paymentKey, Guid invoiceKey, AppliedPaymentType appliedPaymentType, string description, Money amount)
@@ -44,18 +55,6 @@
 
         /// <inheritdoc/>
         public void Delete(IEnumerable<IAppliedPayment> appliedPayments)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<IAppliedPayment> GetAppliedPaymentsByPaymentKey(Guid paymentKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<IAppliedPayment> GetAppliedPaymentsByInvoiceKey(Guid invoiceKey)
         {
             throw new NotImplementedException();
         }

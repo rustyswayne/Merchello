@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Merchello.Core.Services
 {
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     public partial class GatewayProviderService : IShipMethodService
@@ -40,7 +41,7 @@ namespace Merchello.Core.Services
             throw new NotImplementedException();
         }
 
-        public IShipMethod CreateShipMethodWithKey(Guid providerKey, IShipCountry shipCountry, string name, string serviceCode)
+        public Attempt<IShipMethod> CreateShipMethodWithKey(Guid providerKey, IShipCountry shipCountry, string name, string serviceCode)
         {
             throw new NotImplementedException();
         }

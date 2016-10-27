@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     public partial class GatewayProviderService : IPaymentMethodService
@@ -22,7 +23,7 @@
             throw new NotImplementedException();
         }
 
-        public IPaymentMethod CreatePaymentMethodWithKey(Guid providerKey, string name, string description, string paymentCode)
+        public Attempt<IPaymentMethod> CreatePaymentMethodWithKey(Guid providerKey, string name, string description, string paymentCode)
         {
             throw new NotImplementedException();
         }

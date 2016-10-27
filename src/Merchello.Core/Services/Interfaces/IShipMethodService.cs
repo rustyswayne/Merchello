@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -94,7 +95,7 @@
         /// <returns>
         /// The <see cref="IShipMethod"/>.
         /// </returns>
-        IShipMethod CreateShipMethodWithKey(Guid providerKey, IShipCountry shipCountry, string name, string serviceCode);
+        Attempt<IShipMethod> CreateShipMethodWithKey(Guid providerKey, IShipCountry shipCountry, string name, string serviceCode);
 
         /// <summary>
         /// Saves a single <see cref="IShipMethod"/>
