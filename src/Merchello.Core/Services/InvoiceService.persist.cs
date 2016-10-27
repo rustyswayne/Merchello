@@ -8,36 +8,34 @@ namespace Merchello.Core.Services
 {
     using Merchello.Core.Models;
 
-    using NodaMoney;
-
-    public partial class PaymentService : IPaymentService
+    public partial class InvoiceService : IInvoiceService
     {
-        public IPayment Create(PaymentMethodType paymentMethodType, Money amount, Guid? paymentMethodKey)
+        public void Save(IInvoice entity)
         {
             throw new NotImplementedException();
         }
 
-        public IPayment CreateWithKey(PaymentMethodType paymentMethodType, Money amount, Guid? paymentMethodKey)
+        public void Save(IEnumerable<IInvoice> entities)
         {
             throw new NotImplementedException();
         }
 
-        public void Save(IPayment entity)
+        public void Delete(IInvoice entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Save(IEnumerable<IPayment> entities)
+        public void Delete(IEnumerable<IInvoice> entities)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(IPayment entity)
+        public IInvoice Create(Guid invoiceStatusKey)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(IEnumerable<IPayment> entities)
+        public IInvoice Create(Guid invoiceStatusKey, int invoiceNumber)
         {
             throw new NotImplementedException();
         }

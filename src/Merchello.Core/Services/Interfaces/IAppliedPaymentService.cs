@@ -5,10 +5,12 @@
 
     using Merchello.Core.Models;
 
+    using NodaMoney;
+
     /// <summary>
     /// Represents a data service for <see cref="IAppliedPayment"/>.
     /// </summary>
-    public interface IAppliedPaymentService
+    public interface IAppliedPaymentService : IService
     {
         /// <summary>
         /// Returns a <see cref="IAppliedPayment"/> by it's unique 'key'
@@ -16,6 +18,17 @@
         /// <param name="key">The unique 'key' of the <see cref="IAppliedPayment"/></param>
         /// <returns>An <see cref="IAppliedPayment"/></returns>
         IAppliedPayment GetAppliedPaymentByKey(Guid key);
+
+        /// <summary>
+        /// Creates and saves an <see cref="IAppliedPayment"/> associated with an invoice.
+        /// </summary>
+        /// <param name="paymentKey">The payment key</param>
+        /// <param name="invoiceKey">The invoice 'key'</param>
+        /// <param name="appliedPaymentType">The applied payment type</param>
+        /// <param name="description">The description of the payment application</param>
+        /// <param name="amount">The amount of the payment to be applied</param>
+        /// <returns>An <see cref="IAppliedPayment"/></returns>
+        IAppliedPayment ApplyPaymentToInvoice(Guid paymentKey, Guid invoiceKey, AppliedPaymentType appliedPaymentType, string description, Money amount);
 
         /// <summary>
         /// Saves an <see cref="IAppliedPayment"/>

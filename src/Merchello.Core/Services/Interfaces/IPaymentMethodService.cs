@@ -3,15 +3,13 @@
     using System;
     using System.Collections.Generic;
 
-    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     /// <summary>
     /// Represents a data service for <see cref="IPaymentMethod"/>.
     /// </summary>
-    public interface IPaymentMethodService
+    public interface IPaymentMethodService : IService
     {
-
         /// <summary>
         /// Gets a <see cref="IPaymentMethod"/>
         /// </summary>

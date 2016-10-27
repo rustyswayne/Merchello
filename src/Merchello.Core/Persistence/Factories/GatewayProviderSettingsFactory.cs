@@ -2,6 +2,10 @@
 {
     using System;
 
+    using Merchello.Core.Acquired;
+    using Merchello.Core.Gateways;
+    using Merchello.Core.Models.TypeFields;
+
     using Models;
     using Models.Rdbms;
 
@@ -81,27 +85,26 @@
         /// <returns>The <see cref="IGatewayProviderSettings"/></returns>
         internal IGatewayProviderSettings BuildEntity(Type t, GatewayProviderType gatewayProviderType)
         {
-            //Ensure.ParameterNotNull(t, "Type t cannot be null");
-            //Ensure.ParameterCondition(t.GetCustomAttribute<GatewayProviderActivationAttribute>(false) != null, "Type t must have a GatewayProviderActivationAttribute");
+            Ensure.ParameterNotNull(t, "Type t cannot be null");
+            Ensure.ParameterCondition(t.GetCustomAttribute<GatewayProviderActivationAttribute>(false) != null, "Type t must have a GatewayProviderActivationAttribute");
 
-            //var att = t.GetCustomAttribute<GatewayProviderActivationAttribute>(false);
-                           
-            //var provider = new GatewayProviderSettings()
-            //{
-            //    Key = att.Key,
-            //    ProviderTfKey = EnumTypeFieldConverter.GatewayProvider.GetTypeField(gatewayProviderType).TypeKey,
-            //    Name = att.Name,
-            //    Description = att.Description,
-            //    ExtendedData = new ExtendedDataCollection(),
-            //    EncryptExtendedData  = false,
-            //    UpdateDate = DateTime.Now,
-            //    CreateDate = DateTime.Now
-            //};
-            
-            //provider.ResetHasIdentity();
+            var att = t.GetCustomAttribute<GatewayProviderActivationAttribute>(false);
 
-            //return provider;
-            throw new NotImplementedException();
+            var provider = new GatewayProviderSettings()
+            {
+                Key = att.Key,
+                ProviderTfKey = EnumTypeFieldConverter.GatewayProvider.GetTypeField(gatewayProviderType).TypeKey,
+                Name = att.Name,
+                Description = att.Description,
+                ExtendedData = new ExtendedDataCollection(),
+                EncryptExtendedData = false,
+                UpdateDate = DateTime.Now,
+                CreateDate = DateTime.Now
+            };
+
+            provider.ResetHasIdentity();
+
+            return provider;
         }
     }
 }

@@ -66,8 +66,6 @@
 
             var ecRegister = MC.EntityCollectionProviderRegister;
 
-            Assert.IsFalse(MC.Container.GetAvailableService<IShipmentRateQuoteStrategy>() != null);
-
             Console.WriteLine(ecRegister.Count);
         }
     }

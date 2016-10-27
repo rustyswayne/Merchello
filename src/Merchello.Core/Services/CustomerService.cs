@@ -95,48 +95,12 @@
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IAnonymousCustomer> GetAllAnonymous()
-        {
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                var repo = uow.CreateRepository<IAnonymousCustomerRepository>();
-                var customers = repo.GetAll();
-                uow.Complete();
-                return customers;
-            }
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<IAnonymousCustomer> GetAnonymousCreatedBefore(DateTime createDate)
-        {
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                var repo = uow.CreateRepository<IAnonymousCustomerRepository>();
-                var customers = repo.GetByQuery(repo.Query.Where(x => x.CreateDate <= createDate));
-                uow.Complete();
-                return customers;
-            }
-        }
-
-        /// <inheritdoc/>
         public int CountCustomers()
         {
             using (var uow = UowProvider.CreateUnitOfWork())
             {
                 uow.ReadLock(Constants.Locks.CustomersTree);
                 var repo = uow.CreateRepository<ICustomerRepository>();
-                var count = repo.Count(repo.Query.Where(x => x.Key != Guid.Empty));
-                uow.Complete();
-                return count;
-            }
-        }
-
-        /// <inheritdoc/>
-        public int CountAnonymousCustomers()
-        {
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                var repo = uow.CreateRepository<IAnonymousCustomerRepository>();
                 var count = repo.Count(repo.Query.Where(x => x.Key != Guid.Empty));
                 uow.Complete();
                 return count;

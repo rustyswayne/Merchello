@@ -23,6 +23,11 @@
         private readonly Lazy<IEntityCollectionService> _entityCollectionService;
 
         /// <summary>
+        /// The <see cref="IGatewayProviderService"/>.
+        /// </summary>
+        private readonly Lazy<IGatewayProviderService> _gatewayProviderService;
+
+        /// <summary>
         /// The <see cref="IInvoiceService"/>.
         /// </summary>
         private readonly Lazy<IInvoiceService> _invoiceService;
@@ -56,6 +61,9 @@
         /// <param name="entityCollectionService">
         /// The <see cref="IEntityCollectionService"/>.
         /// </param>
+        /// <param name="gatewayProviderService">
+        /// The <see cref="IGatewayProviderService"/>
+        /// </param>
         /// <param name="invoiceService">
         /// The <see cref="IInvoiceService"/>
         /// </param>
@@ -72,6 +80,7 @@
             Lazy<IAuditLogService> auditLogService, 
             Lazy<ICustomerService> customerService, 
             Lazy<IEntityCollectionService> entityCollectionService, 
+            Lazy<IGatewayProviderService> gatewayProviderService,
             Lazy<IInvoiceService> invoiceService,
             Lazy<IMigrationStatusService> migrationStatusService,
             Lazy<IPaymentService> paymentService,
@@ -80,6 +89,7 @@
             _auditLogService = auditLogService;
             _customerService = customerService;
             _entityCollectionService = entityCollectionService;
+            _gatewayProviderService = gatewayProviderService;
             _invoiceService = invoiceService;
             _migrationStatusService = migrationStatusService;
             _paymentService = paymentService;
@@ -98,6 +108,9 @@
         /// <param name="entityCollectionService">
         /// The <see cref="IEntityCollectionService"/>
         /// </param>
+        /// <param name="gatewayProviderService">
+        /// The <see cref="IGatewayProviderService"/>
+        /// </param>
         /// <param name="invoiceService">
         /// The <see cref="IInvoiceService"/>
         /// </param>
@@ -114,6 +127,7 @@
             IAuditLogService auditLogService = null,
             ICustomerService customerService = null,
             IEntityCollectionService entityCollectionService = null,
+            IGatewayProviderService gatewayProviderService = null,
             IInvoiceService invoiceService = null,
             IMigrationStatusService migrationStatusService = null,
             IPaymentService paymentService = null,
@@ -122,6 +136,7 @@
             if (auditLogService != null) _auditLogService = new Lazy<IAuditLogService>(() => auditLogService);
             if (customerService != null) _customerService = new Lazy<ICustomerService>(() => customerService);
             if (entityCollectionService != null) _entityCollectionService = new Lazy<IEntityCollectionService>(() => entityCollectionService);
+            if (gatewayProviderService != null) _gatewayProviderService = new Lazy<IGatewayProviderService>(() => gatewayProviderService);
             if (invoiceService != null) _invoiceService = new Lazy<IInvoiceService>(() => invoiceService);
             if (migrationStatusService != null) _migrationStatusService = new Lazy<IMigrationStatusService>(() => migrationStatusService);
             if (paymentService != null) _paymentService = new Lazy<IPaymentService>(() => paymentService);
@@ -137,6 +152,9 @@
 
         /// <inheritdoc/>
         public IEntityCollectionService EntityCollectionService => _entityCollectionService.Value;
+
+        /// <inheritdoc/>
+        public IGatewayProviderService GatewayProviderService => _gatewayProviderService.Value;
 
         /// <summary>
         /// The <see cref="IInvoiceService"/>.

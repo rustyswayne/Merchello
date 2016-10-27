@@ -40,21 +40,6 @@
         }
 
         /// <inheritdoc/>
-        public IAnonymousCustomer CreateAnonymousWithKey()
-        {
-            var anonymous = new AnonymousCustomer();
-
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                var repo = uow.CreateRepository<IAnonymousCustomerRepository>();
-                repo.AddOrUpdate(anonymous);
-                uow.Complete();
-
-                return anonymous;
-            }
-        }
-
-        /// <inheritdoc/>
         public ICustomer CreateWithKey(string loginName)
         {
             return CreateWithKey(loginName, string.Empty, string.Empty, string.Empty);
@@ -70,33 +55,6 @@
             Save(customer);
 
             return customer;
-        }
-
-        /// <inheritdoc/>
-        public void Save(IAnonymousCustomer customer)
-        {
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                var repo = uow.CreateRepository<IAnonymousCustomerRepository>();
-                repo.AddOrUpdate(customer);
-                uow.Complete();
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Save(IEnumerable<IAnonymousCustomer> customers)
-        {
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                var repo = uow.CreateRepository<IAnonymousCustomerRepository>();
-
-                foreach (var customer in customers)
-                {
-                    repo.AddOrUpdate(customer);
-                }
-
-                uow.Complete();
-            }
         }
 
         /// <inheritdoc/>
@@ -142,33 +100,6 @@
             }
 
             Saved.RaiseEvent(new SaveEventArgs<ICustomer>(customerArr, false, msgs), this);
-        }
-
-        /// <inheritdoc/>
-        public void Delete(IAnonymousCustomer customer)
-        {
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                var repo = uow.CreateRepository<IAnonymousCustomerRepository>();
-                repo.Delete(customer);
-                uow.Complete();
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Delete(IEnumerable<IAnonymousCustomer> customers)
-        {
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                var repo = uow.CreateRepository<IAnonymousCustomerRepository>();
-
-                foreach (var customer in customers)
-                {
-                    repo.Delete(customer);
-                }
-
-                uow.Complete();
-            }
         }
 
         /// <inheritdoc/>

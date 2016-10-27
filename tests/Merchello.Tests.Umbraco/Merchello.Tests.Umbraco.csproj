@@ -47,8 +47,8 @@
     <Compile Include="Adapters\Cache\RuntimeCacheProviderAdapterTests.cs" />
     <Compile Include="Adapters\Cache\StaticCacheProviderAdapterTests.cs" />
     <Compile Include="Configuration\MerchelloConfigTests.cs" />
-    <Compile Include="Contexts\MerchelloContextTests.cs" />
     <Compile Include="EntityCollections\EntityCollectionRegisterTests.cs" />
+    <Compile Include="Gateways\GatewayContextTests.cs" />
     <Compile Include="MerchelloContextTests.cs" />
     <Compile Include="Migrations\InitialMigrationTests.cs" />
     <Compile Include="Migrations\MigrationTestBase.cs" />
@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="Contexts\" />
     <Folder Include="Persistence\Querying\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -34,7 +34,10 @@
             container.RegisterSingleton<IAuditLogService, AuditLogService>();
             container.RegisterSingleton<ICustomerService, CustomerService>();
             container.RegisterSingleton<IEntityCollectionService, EntityCollectionService>();
+            container.RegisterSingleton<IGatewayProviderService, GatewayProviderService>();
+            container.RegisterSingleton<IInvoiceService, InvoiceService>();
             container.RegisterSingleton<IMigrationStatusService, MigrationStatusService>();
+            container.RegisterSingleton<IPaymentService, PaymentService>();
             container.RegisterSingleton<IProductService, ProductService>();
             container.RegisterSingleton<IStoreSettingService, StoreSettingService>();
         }

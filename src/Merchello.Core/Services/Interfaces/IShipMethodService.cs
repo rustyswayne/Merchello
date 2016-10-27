@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents a data service for <see cref="IShipMethod"/>.
     /// </summary>
-    public interface IShipMethodService
+    public interface IShipMethodService : IService
     {
         /// <summary>
         /// Gets a <see cref="IShipMethod"/> given it's unique 'key' (Guid)

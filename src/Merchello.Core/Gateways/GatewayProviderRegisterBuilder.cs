@@ -5,7 +5,11 @@
 
     using LightInject;
 
+    using Merchello.Core.Acquired;
+    using Merchello.Core.Cache;
     using Merchello.Core.DI;
+    using Merchello.Core.Models;
+    using Merchello.Core.Services;
 
     /// <summary>
     /// Represents a register builder for <see cref="IGatewayProviderRegister"/>
@@ -66,6 +70,30 @@
             // register the collection
             _container.Register(_ => this.CreateRegister(), this.CollectionLifetime);
             _container.Register<IGatewayProviderRegister>(factory => factory.GetInstance<GatewayProviderRegister>());
+
+            // register IGatewayProvider instantiation construct
+            foreach (var type in _types)
+            {
+                var serviceName = GatewayProviderRegister.GetServiceNameForType(type);
+
+                _container.Register<IGatewayProviderSettings, IGatewayProvider>(
+                    (factory, settings) =>
+                    {
+                        var activator = factory.GetInstance<IActivatorServiceProvider>();
+
+                        var provider = activator.GetService<IGatewayProvider>(
+                        type,
+                        new object[]
+                        {
+                                factory.GetInstance<IGatewayProviderService>(),
+                                settings,
+                                factory.GetInstance<ICacheHelper>().RuntimeCache
+                        });
+                        return provider;
+                    }, 
+                    serviceName);
+            }
+
         }
     }
 }

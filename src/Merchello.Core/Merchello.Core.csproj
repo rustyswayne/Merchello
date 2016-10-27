@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Acquired\DisposableTimer.cs" />
     <Compile Include="Boot\IBoot.cs" />
+    <Compile Include="Boot\IInitializeAfterBoot.cs" />
     <Compile Include="Cache\CacheKeys.cs" />
     <Compile Include="Compositions\CacheComposition.cs" />
     <Compile Include="Compositions\LoggerComposition.cs" />
@@ -1051,6 +1052,9 @@
     <Compile Include="Models\Interfaces\ITaxProvince.cs" />
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Services\AuditLogService.cs" />
+    <Compile Include="Services\CustomerService.anonymous.cs">
+      <DependentUpon>CustomerService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\CustomerService.events.cs">
       <DependentUpon>CustomerService.cs</DependentUpon>
@@ -1072,14 +1076,42 @@
     <Compile Include="Services\EntityCollectionService.persist.cs">
       <DependentUpon>EntityCollectionService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\GatewayProviderService.cs" />
+    <Compile Include="Services\GatewayProviderService.gatewayprovidersettings.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GatewayProviderService.notificationmessage.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GatewayProviderService.notificationmethod.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GatewayProviderService.paymentmethod.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GatewayProviderService.shipcountry.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GatewayProviderService.shipmethod.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GatewayProviderService.shipratetier.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GatewayProviderService.taxmethod.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Interfaces\IAnonymousCustomerService.cs" />
     <Compile Include="Services\Interfaces\IAppliedPaymentService.cs" />
     <Compile Include="Services\Interfaces\IAuditLogService.cs" />
     <Compile Include="Services\Interfaces\IEntityCollectionEntityService.cs" />
     <Compile Include="Services\Interfaces\ICustomerService.cs" />
     <Compile Include="Services\Interfaces\IEntityCollectionService.cs" />
     <Compile Include="Services\Interfaces\IGatewayProviderService.cs" />
+    <Compile Include="Services\Interfaces\IGatewayProviderSettingsService.cs" />
     <Compile Include="Services\Interfaces\IInvoiceService.cs" />
     <Compile Include="Services\Interfaces\IItemCacheService.cs" />
+    <Compile Include="Services\Interfaces\INotificationMessageService.cs" />
     <Compile Include="Services\Interfaces\INotificationMethodService.cs" />
     <Compile Include="Services\Interfaces\IOfferSettingsService.cs" />
     <Compile Include="Services\Interfaces\IOrderService.cs" />
@@ -1088,11 +1120,24 @@
     <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
     <Compile Include="Services\Interfaces\IProductOptionService.cs" />
+    <Compile Include="Services\Interfaces\IShipCountryService.cs" />
     <Compile Include="Services\Interfaces\IShipmentService.cs" />
     <Compile Include="Services\Interfaces\IShipMethodService.cs" />
+    <Compile Include="Services\Interfaces\IShipRateTierService.cs" />
     <Compile Include="Services\Interfaces\IStoreService.cs" />
     <Compile Include="Services\Interfaces\IStoreSettingService.cs" />
+    <Compile Include="Services\Interfaces\ITaxMethodService.cs" />
     <Compile Include="Services\Interfaces\IWarehouseService.cs" />
+    <Compile Include="Services\InvoiceService.cs" />
+    <Compile Include="Services\InvoiceService.currency.cs">
+      <DependentUpon>InvoiceService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\InvoiceService.persist.cs">
+      <DependentUpon>InvoiceService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\InvoiceService.statuses.cs">
+      <DependentUpon>InvoiceService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\PaymentService.appliedpayment.cs">
       <DependentUpon>PaymentService.cs</DependentUpon>
     </Compile>

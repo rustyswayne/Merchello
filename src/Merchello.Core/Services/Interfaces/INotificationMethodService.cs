@@ -3,13 +3,12 @@
     using System;
     using System.Collections.Generic;
 
-    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
 
     /// <summary>
     /// Represents a data service for <see cref="INotificationMethod"/>.
     /// </summary>
-    public interface INotificationMethodService
+    public interface INotificationMethodService : IService
     {
         /// <summary>
         /// Gets a <see cref="INotificationMethod"/> by it's key

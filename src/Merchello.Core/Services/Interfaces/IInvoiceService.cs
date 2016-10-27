@@ -279,6 +279,5 @@
         /// The <see cref="PagedCollection{IInvoice}"/>.
         /// </returns>
         PagedCollection<IInvoice> GetInvoicesMatchingTermNotOrderStatus(string searchTerm, Guid orderStatusKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending);
-
     }
 }

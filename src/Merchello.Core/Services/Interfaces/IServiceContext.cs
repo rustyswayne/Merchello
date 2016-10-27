@@ -21,6 +21,11 @@
         IEntityCollectionService EntityCollectionService { get; }
 
         /// <summary>
+        /// Gets the <see cref="IGatewayProviderService"/>.
+        /// </summary>
+        IGatewayProviderService GatewayProviderService { get; }
+
+        /// <summary>
         /// Gets the <see cref="IInvoiceService"/>.
         /// </summary>
         IInvoiceService InvoiceService { get; }

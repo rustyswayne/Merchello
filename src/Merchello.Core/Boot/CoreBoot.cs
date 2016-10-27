@@ -10,6 +10,7 @@
     using Merchello.Core.Compositions;
     using Merchello.Core.Configuration;
     using Merchello.Core.DI;
+    using Merchello.Core.Events;
     using Merchello.Core.Logging;
     using Merchello.Core.Mapping;
 
@@ -54,6 +55,10 @@
             MC.Container = container;
         }
 
+        /// <summary>
+        /// Occurs after the boot has completed.
+        /// </summary>
+        public static event EventHandler Complete; 
 
         /// <inheritdoc/>
         public virtual void Boot()
@@ -75,6 +80,8 @@
             // Ensure Installation
             EnsureInstallVersion(MC.Container);
 
+            OnComplete(this, new EventArgs());
+
             // stop the timer and log the output
             _timer.Dispose();
         }
@@ -83,6 +90,20 @@
         public virtual void Terminate()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Occurs after a full boot and installation.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        public void OnComplete(object sender, EventArgs e)
+        {
+            Complete?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -128,7 +149,7 @@
         /// <summary>
         /// The initializes the AutoMapper mappings.
         /// </summary>
-        protected void InitializeAutoMapperMappers()
+        protected virtual void InitializeAutoMapperMappers()
         {
             var container = MC.Container;
 

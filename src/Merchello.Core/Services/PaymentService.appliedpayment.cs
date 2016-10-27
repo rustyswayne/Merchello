@@ -5,17 +5,33 @@
 
     using Merchello.Core.Models;
 
+    using NodaMoney;
+
     /// <inheritdoc/>
-    public partial class PaymentService : IPaymentService
+    public partial class PaymentService : IAppliedPaymentService
     {
         /// <inheritdoc/>
-        public IAppliedPayment ApplyPaymentToInvoice(Guid paymentKey, Guid invoiceKey, AppliedPaymentType appliedPaymentType, string description, decimal amount)
+        public IAppliedPayment GetAppliedPaymentByKey(Guid key)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <inheritdoc/>
+        public IAppliedPayment ApplyPaymentToInvoice(Guid paymentKey, Guid invoiceKey, AppliedPaymentType appliedPaymentType, string description, Money amount)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <inheritdoc/>
+        public void Save(IAppliedPayment appliedPayment)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Save(IAppliedPayment appliedPayment)
+        public void Save(IEnumerable<IAppliedPayment> appliedPayments)
         {
             throw new NotImplementedException();
         }
