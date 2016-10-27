@@ -15,9 +15,19 @@
         IShipMethod ShipMethod { get; }
 
         /// <summary>
+        /// Gets the <see cref="IShipCountry"/>.
+        /// </summary>
+        IShipCountry ShipCountry { get; }
+
+        /// <summary>
         /// Gets the <see cref="IGatewayResource"/>
         /// </summary>
         IGatewayResource GatewayResource { get; }
+
+        /// <summary>
+        /// Gets the currency code.
+        /// </summary>
+        string CurrencyCode { get; }
 
         /// <summary>
         /// Returns a rate quote for a given shipment

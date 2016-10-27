@@ -22,6 +22,11 @@
         /// </summary>
         private readonly IGatewayProviderSettings _gatewayProviderSettings;
 
+        /// <summary>
+        /// The currency code currently configured.
+        /// </summary>
+        private Lazy<string> _currencyCode;
+
         #endregion
 
         /// <summary>
@@ -45,6 +50,8 @@
             this.GatewayProviderService = gatewayProviderService;
             _gatewayProviderSettings = gatewayProviderSettings;
             this.RuntimeCache = runtimeCacheProvider;
+
+            this.Initialize();
         }
 
 
@@ -69,6 +76,9 @@
 
         /// <inheritdoc/>
         public bool Activated => this._gatewayProviderSettings.Activated;
+
+        /// <inheritdoc/>
+        public string CurrencyCode => _currencyCode.Value;
 
         /// <summary>
         /// Gets the RuntimeCache
@@ -97,6 +107,14 @@
         protected IShipmentRateQuoteStrategy GetRateQuoteStrategy(IShipment shipment, IShippingGatewayMethod[] shipMethods)
         {
             return MC.Container.GetInstance<IShipment, IShippingGatewayMethod[], IShipmentRateQuoteStrategy>(shipment, shipMethods);
+        }
+
+        /// <summary>
+        /// Initializes the provider.
+        /// </summary>
+        private void Initialize()
+        {
+            _currencyCode = new Lazy<string>(() => GatewayProviderService.GetDefaultCurrencyCode());
         }
     }
 }

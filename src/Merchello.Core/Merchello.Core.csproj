@@ -156,11 +156,13 @@
     <Compile Include="Gateways\Shipping\IShipmentRateQuote.cs" />
     <Compile Include="Gateways\Shipping\IShipmentRateQuoteStrategy.cs" />
     <Compile Include="Gateways\Shipping\IShippingContext.cs" />
+    <Compile Include="Gateways\Shipping\IShippingFixedRateTable.cs" />
     <Compile Include="Gateways\Shipping\IShippingGatewayMethod.cs" />
     <Compile Include="Gateways\Shipping\IShippingGatewayProvider.cs" />
     <Compile Include="Gateways\Shipping\ShipmentRateQuote.cs" />
     <Compile Include="Gateways\Shipping\ShipmentRateQuoteStrategyBase.cs" />
     <Compile Include="Gateways\Shipping\ShippingContext.cs" />
+    <Compile Include="Gateways\Shipping\ShippingFixedRateTable.cs" />
     <Compile Include="Gateways\Shipping\ShippingGatewayMethodBase.cs" />
     <Compile Include="Gateways\Shipping\ShippingGatewayProviderBase.cs" />
     <Compile Include="Gateways\Shipping\WarehouseCatalogValidationVisitor.cs" />
@@ -1089,6 +1091,12 @@
     <Compile Include="Services\GatewayProviderService.paymentmethod.cs">
       <DependentUpon>GatewayProviderService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\GatewayProviderService.payments.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\GatewayProviderService.sales.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\GatewayProviderService.shipcountry.cs">
       <DependentUpon>GatewayProviderService.cs</DependentUpon>
     </Compile>
@@ -1107,6 +1115,8 @@
     <Compile Include="Services\Interfaces\IEntityCollectionEntityService.cs" />
     <Compile Include="Services\Interfaces\ICustomerService.cs" />
     <Compile Include="Services\Interfaces\IEntityCollectionService.cs" />
+    <Compile Include="Services\Interfaces\IGatewayProviderInvoiceService.cs" />
+    <Compile Include="Services\Interfaces\IGatewayProviderPaymentService.cs" />
     <Compile Include="Services\Interfaces\IGatewayProviderService.cs" />
     <Compile Include="Services\Interfaces\IGatewayProviderSettingsService.cs" />
     <Compile Include="Services\Interfaces\IInvoiceService.cs" />

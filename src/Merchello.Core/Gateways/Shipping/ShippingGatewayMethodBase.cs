@@ -1,8 +1,13 @@
 ﻿namespace Merchello.Core.Gateways.Shipping
 {
+    using System;
+
     using Merchello.Core.Acquired;
+    using Merchello.Core.DI;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Interfaces;
+
+    using NodaMoney;
 
     /// <summary>
     /// Defines a an abstract gateway ship method
@@ -13,23 +18,28 @@
         /// Initializes a new instance of the <see cref="ShippingGatewayMethodBase"/> class.
         /// </summary>
         /// <param name="gatewayResource">
-        /// The gateway resource.
+        /// The <see cref="GatewayResource"/>.
         /// </param>
         /// <param name="shipMethod">
-        /// The ship method.
+        /// The <see cref="IShipMethod"/>.
         /// </param>
         /// <param name="shipCountry">
-        /// The ship country.
+        /// The <see cref="IShipCountry"/>.
         /// </param>
-        protected ShippingGatewayMethodBase(IGatewayResource gatewayResource, IShipMethod shipMethod, IShipCountry shipCountry)
+        /// <param name="currencyCode">
+        /// The currency code.
+        /// </param>
+        protected ShippingGatewayMethodBase(IGatewayResource gatewayResource, IShipMethod shipMethod, IShipCountry shipCountry, string currencyCode)
         {
             Ensure.ParameterNotNull(gatewayResource, "gatewayResource");
             Ensure.ParameterNotNull(shipMethod, "shipMethod");
             Ensure.ParameterNotNull(shipCountry, "shipCountry");
+            Ensure.ParameterNotNullOrEmpty(currencyCode, nameof(currencyCode));
 
             this.GatewayResource = gatewayResource;
             this.ShipMethod = shipMethod;
             this.ShipCountry = shipCountry;
+            this.CurrencyCode = currencyCode;
         }
 
         /// <summary>
@@ -46,6 +56,11 @@
         /// Gets the gateway resource
         /// </summary>
         public IGatewayResource GatewayResource { get; }
+
+        /// <summary>
+        /// Gets the currency code.
+        /// </summary>
+        public virtual string CurrencyCode { get; }
 
         /// <summary>
         /// Returns a rate quote for a given shipment
@@ -70,7 +85,7 @@
         /// <returns>
         /// The adjusted rate.
         /// </returns>
-        protected decimal AdjustedRate(decimal baseRate, IShipProvince province)
+        protected Money AdjustedRate(Money baseRate, IShipProvince province)
         {
             if (province == null) return baseRate;
             return province.RateAdjustmentType == RateAdjustmentType.Numeric

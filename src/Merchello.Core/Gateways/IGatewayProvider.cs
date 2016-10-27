@@ -33,6 +33,11 @@
         bool Activated { get; }
 
         /// <summary>
+        /// Gets the currently configured currency code.
+        /// </summary>
+        string CurrencyCode { get; }
+
+        /// <summary>
         /// Returns a collection of all possible gateway methods associated with this provider
         /// </summary>
         /// <returns>

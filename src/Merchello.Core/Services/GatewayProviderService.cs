@@ -1,15 +1,12 @@
 ﻿namespace Merchello.Core.Services
 {
     using System;
-    using System.Collections.Generic;
 
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
-
-    using NodaMoney;
 
     /// <inheritdoc/>
     public partial class GatewayProviderService : RepositoryServiceBase<IDatabaseUnitOfWorkProvider>, IGatewayProviderService
@@ -23,6 +20,11 @@
         /// The <see cref="IPaymentService"/>.
         /// </summary>
         private readonly Lazy<IPaymentService> _paymentService;
+
+        /// <summary>
+        /// The <see cref="IStoreSettingService"/>.
+        /// </summary>
+        private readonly Lazy<IStoreSettingService> _storeSettingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GatewayProviderService"/> class.
@@ -42,35 +44,21 @@
         /// <param name="paymentService">
         /// The <see cref="IPaymentService"/>
         /// </param>
-        public GatewayProviderService(IDatabaseUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory, Lazy<IInvoiceService> invoiceService, Lazy<IPaymentService> paymentService)
+        /// <param name="storeSettingService">
+        /// The <see cref="IStoreSettingService"/>
+        /// </param>
+        public GatewayProviderService(IDatabaseUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory, Lazy<IInvoiceService> invoiceService, Lazy<IPaymentService> paymentService, Lazy<IStoreSettingService> storeSettingService)
             : base(provider, logger, eventMessagesFactory)
         {
             Ensure.ParameterNotNull(invoiceService, nameof(invoiceService));
             Ensure.ParameterNotNull(paymentService, nameof(paymentService));
+            Ensure.ParameterNotNull(storeSettingService, nameof(storeSettingService));
 
             _invoiceService = invoiceService;
             _paymentService = paymentService;
+            _storeSettingService = storeSettingService;
         }
 
-
-        /// <inheritdoc/>
-        public IEnumerable<IInvoiceStatus> GetAllInvoiceStatuses()
-        {
-            return _invoiceService.Value.GetAllInvoiceStatuses();
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<IOrderStatus> GetAllOrderStatuses()
-        {
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                uow.ReadLock(Constants.Locks.SalesTree);
-                var repo = uow.CreateRepository<IOrderStatusRepository>();
-                var statuses = repo.GetAll();
-                uow.Complete();
-                return statuses;
-            }
-        }
 
         /// <inheritdoc/>
         public IWarehouse GetDefaultWarehouse()
@@ -88,44 +76,9 @@
         }
 
         /// <inheritdoc/>
-        public void Save(IInvoice invoice)
+        public string GetDefaultCurrencyCode()
         {
-            _invoiceService.Value.Save(invoice);
-        }
-
-        /// <inheritdoc/>
-        public IPayment CreatePayment(PaymentMethodType paymentMethodType, Money amount, Guid? paymentMethodKey)
-        {
-            return _paymentService.Value.Create(paymentMethodType, amount, paymentMethodKey);
-        }
-
-        /// <inheritdoc/>
-        public void Save(IPayment payment)
-        {
-            _paymentService.Value.Save(payment);
-        }
-
-
-        /// <summary>
-        /// Gets a collection of <see cref="IAppliedPayment"/>s by the payment key
-        /// </summary>
-        /// <param name="paymentKey">The payment key</param>
-        /// <returns>A collection of <see cref="IAppliedPayment"/></returns>
-        public IEnumerable<IAppliedPayment> GetAppliedPaymentsByPaymentKey(Guid paymentKey)
-        {
-            return _paymentService.Value.GetAppliedPaymentsByPaymentKey(paymentKey);
-        }
-
-        /// <inheritdoc/>
-        public IAppliedPayment ApplyPaymentToInvoice(Guid paymentKey, Guid invoiceKey, AppliedPaymentType appliedPaymentType, string description, Money amount)
-        {
-            return _paymentService.Value.ApplyPaymentToInvoice(paymentKey, invoiceKey, appliedPaymentType, description, amount);
-        }
-
-        /// <inheritdoc/>
-        public void Save(IAppliedPayment appliedPayment)
-        {
-            _paymentService.Value.Save(appliedPayment);
+            return _storeSettingService.Value.GetByKey(Constants.StoreSetting.CurrencyCodeKey).Value;
         }
     }
 }
