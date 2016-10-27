@@ -7,7 +7,6 @@
     using Merchello.Core.Gateways.Shipping;
     using Merchello.Core.Gateways.Taxation;
     using Merchello.Core.Models;
-    using Merchello.Core.Services;
 
     /// <summary>
     /// Represents the GatewayContext.  Provides access to <see cref="IGatewayProviderSettings"/>s
@@ -15,60 +14,77 @@
     internal class GatewayContext : IGatewayContext
     {
         /// <summary>
-        /// The gateway provider resolver.
-        /// </summary>
-        private readonly IGatewayProviderRegister _register;
-
-        /// <summary>
         /// The notification context.
         /// </summary>
-        private Lazy<INotificationContext> _notification;
+        private readonly Lazy<INotificationContext> _notification;
 
         /// <summary>
         /// The payment context.
         /// </summary>
-        private Lazy<IPaymentContext> _payment;
+        private readonly Lazy<IPaymentContext> _payment;
 
         /// <summary>
         /// The shipping context.
         /// </summary>
-        private Lazy<IShippingContext> _shipping;
+        private readonly Lazy<IShippingContext> _shipping;
 
         /// <summary>
         /// The taxation context.
         /// </summary>
-        private Lazy<ITaxationContext> _taxation;
+        private readonly Lazy<ITaxationContext> _taxation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GatewayContext"/> class.
         /// </summary>
-        /// <param name="serviceContext">
-        /// The service context.
+        /// <param name="notificationContext">
+        /// The <see cref="INotificationContext"/>.
         /// </param>
-        public GatewayContext(IServiceContext serviceContext)
-            : this(serviceContext, GatewayProviderResolver.Current)
+        /// <param name="paymentContext">
+        /// The <see cref="IPaymentContext"/>.
+        /// </param>
+        /// <param name="shippingContext">
+        /// The <see cref="IShippingContext"/>.
+        /// </param>
+        /// <param name="taxationContext">
+        /// The <see cref="ITaxationContext"/>.
+        /// </param>
+        public GatewayContext(
+            Lazy<INotificationContext> notificationContext,
+            Lazy<IPaymentContext> paymentContext,
+            Lazy<IShippingContext> shippingContext,
+            Lazy<ITaxationContext> taxationContext)
         {
+            _notification = notificationContext;
+            _payment = paymentContext;
+            _shipping = shippingContext;
+            _taxation = taxationContext;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GatewayContext"/> class.
         /// </summary>
-        /// <param name="serviceContext">
-        /// The service context.
+        /// <param name="notificationContext">
+        /// The <see cref="INotificationContext"/>.
         /// </param>
-        /// <param name="resolver">
-        /// The resolver.
+        /// <param name="paymentContext">
+        /// The <see cref="IPaymentContext"/>.
         /// </param>
-        internal GatewayContext(IServiceContext serviceContext, IGatewayProviderResolver resolver)
+        /// <param name="shippingContext">
+        /// The <see cref="IShippingContext"/>.
+        /// </param>
+        /// <param name="taxationContext">
+        /// The <see cref="ITaxationContext"/>.
+        /// </param>
+        public GatewayContext(
+            INotificationContext notificationContext = null,
+            IPaymentContext paymentContext = null,
+            IShippingContext shippingContext = null,
+            ITaxationContext taxationContext = null)
         {
-            Mandate.ParameterNotNull(serviceContext, "serviceContext");
-            Mandate.ParameterNotNull(resolver, "resolver");
-
-            _gatewayProviderService = serviceContext.GatewayProviderService;
-            _resolver = resolver;
-
-
-            BuildGatewayContext(serviceContext.GatewayProviderService, serviceContext.StoreSettingService);
+            if (notificationContext != null) _notification = new Lazy<INotificationContext>(() => notificationContext);
+            if (paymentContext != null) _payment = new Lazy<IPaymentContext>(() => paymentContext);
+            if (shippingContext != null) _shipping = new Lazy<IShippingContext>(() => shippingContext);
+            if (taxationContext != null) _taxation = new Lazy<ITaxationContext>(() => taxationContext);
         }
 
         /// <summary>
@@ -82,7 +98,6 @@
             get
             {
                 if (_payment == null) throw new InvalidOperationException("The PaymentContext is not set in the GatewayContext");
-
                 return _payment.Value;
             }
         }
@@ -97,8 +112,7 @@
         {
             get
             {
-                if(_notification == null) throw new InvalidOperationException("The NotificationContext is not set in the GatewayContext");
-
+                if (_notification == null) throw new InvalidOperationException("The NotificationContext is not set in the GatewayContext");
                 return _notification.Value;
             }
         }
@@ -114,7 +128,6 @@
             get
             {
                 if (_shipping == null) throw new InvalidOperationException("The ShippingContext is not set in the GatewayContext");
-
                 return _shipping.Value;
             }
         }
@@ -130,47 +143,8 @@
             get
             {
                 if (_taxation == null) throw new InvalidOperationException("The TaxationContext is not set in the GatewayContext");
-
                 return _taxation.Value;
             } 
         }
-
-
-        /// <summary>
-        /// For testing
-        /// </summary>
-        /// <param name="provider">
-        /// The provider.
-        /// </param>
-        internal void DeactivateProvider(GatewayProviderBase provider)
-        {
-            if (!provider.Activated) return;
-            _gatewayProviderService.Delete(provider.GatewayProviderSettings);
-            GatewayProviderResolver.Current.RefreshCache();
-        }
-
-        ///// <summary>
-        ///// The build gateway context.
-        ///// </summary>
-        ///// <param name="gatewayProviderService">
-        ///// The gateway provider service.
-        ///// </param>
-        ///// <param name="storeSettingService">
-        ///// The store setting service.
-        ///// </param>
-        //private void BuildGatewayContext(IGatewayProviderService gatewayProviderService, IStoreSettingService storeSettingService)
-        //{
-        //    if (_notification == null)
-        //        _notification = new Lazy<INotificationContext>(() => new NotificationContext(gatewayProviderService, _resolver));
-
-        //    if (_payment == null)
-        //        _payment = new Lazy<IPaymentContext>(() => new PaymentContext(gatewayProviderService, _resolver));
-
-        //    if (_shipping == null)
-        //        _shipping = new Lazy<IShippingContext>(() => new ShippingContext(gatewayProviderService, storeSettingService, _resolver));
-
-        //    if (_taxation == null)
-        //        _taxation = new Lazy<ITaxationContext>(() => new TaxationContext(gatewayProviderService, storeSettingService, _resolver));
-        //}
     }
 }

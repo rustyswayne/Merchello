@@ -11,7 +11,7 @@
     /// <summary>
     /// Represents a data service for <see cref="IGatewayProviderSettings"/>.
     /// </summary>
-    public interface IGatewayProviderService : IService<IGatewayProviderSettings>
+    public interface IGatewayProviderService : IGetAllService<IGatewayProviderSettings>, IAppliedPaymentService, INotificationMethodService, IPaymentMethodService, IShipMethodService
     {
         #region GatewayProvider
 
@@ -37,29 +37,6 @@
 
         #endregion
 
-        #region AppliedPayments
-
-        /// <summary>
-        /// Gets a collection of <see cref="IAppliedPayment"/>s by the payment key
-        /// </summary>
-        /// <param name="paymentKey">The payment key</param>
-        /// <returns>A collection of <see cref="IAppliedPayment"/></returns>
-        IEnumerable<IAppliedPayment> GetAppliedPaymentsByPaymentKey(Guid paymentKey);
-
-        /// <summary>
-        /// Gets a collection of <see cref="IAppliedPayment"/>s by the invoice key
-        /// </summary>
-        /// <param name="invoiceKey">The invoice key</param>
-        /// <returns>A collection of <see cref="IAppliedPayment"/></returns>
-        IEnumerable<IAppliedPayment> GetAppliedPaymentsByInvoiceKey(Guid invoiceKey);
-
-        /// <summary>
-        /// Saves a single <see cref="IAppliedPayment"/>
-        /// </summary>
-        /// <param name="appliedPayment">The <see cref="IAppliedPayment"/> to be saved</param>
-        void Save(IAppliedPayment appliedPayment);
-
-        #endregion
 
         #region Invoice
 
@@ -68,40 +45,6 @@
         /// </summary>
         /// <param name="invoice">The <see cref="IInvoice"/> to save</param>
         void Save(IInvoice invoice);
-
-        #endregion
-
-        #region PaymentMethod
-
-        /// <summary>
-        /// Creates a <see cref="IPaymentMethod"/> for a given provider.  If the provider already 
-        /// defines a paymentCode, the creation fails.
-        /// </summary>
-        /// <param name="providerKey">The unique 'key' (Guid) of the TaxationGatewayProvider</param>
-        /// <param name="name">The name of the payment method</param>
-        /// <param name="description">The description of the payment method</param>
-        /// <param name="paymentCode">The unique 'payment code' associated with the payment method.  (e.g. visa, mc)</param>
-        /// <returns><see cref="Attempt"/> indicating whether or not the creation of the <see cref="IPaymentMethod"/> with respective success or fail</returns>
-        IPaymentMethod CreatePaymentMethodWithKey(Guid providerKey, string name, string description, string paymentCode);
-
-        /// <summary>
-        /// Saves a single <see cref="IPaymentMethod"/>
-        /// </summary>
-        /// <param name="paymentMethod">The <see cref="IPaymentMethod"/> to be saved</param>        
-        void Save(IPaymentMethod paymentMethod);
-
-        /// <summary>
-        /// Deletes a single <see cref="IPaymentMethod"/>
-        /// </summary>
-        /// <param name="paymentMethod">The <see cref="IPaymentMethod"/> to be deleted</param>        
-        void Delete(IPaymentMethod paymentMethod);
-
-        /// <summary>
-        /// Gets a collection of <see cref="IPaymentMethod"/> for a given PaymentGatewayProvider
-        /// </summary>
-        /// <param name="providerKey">The unique 'key' of the PaymentGatewayProvider</param>
-        /// <returns>A collection of <see cref="IPaymentMethod"/></returns>
-        IEnumerable<IPaymentMethod> GetPaymentMethodsByProviderKey(Guid providerKey);
 
         #endregion
 
@@ -153,26 +96,6 @@
 
         #region Notification
 
-        /// <summary>
-        /// Creates a <see cref="INotificationMethod"/> and saves it to the database
-        /// </summary>
-        /// <param name="providerKey">The <see cref="IGatewayProviderSettings"/> key</param>
-        /// <param name="name">The name of the notification (used in back office)</param>
-        /// <param name="serviceCode">The notification service code</param>        
-        /// <returns>An Attempt{<see cref="INotificationMethod"/>}</returns>
-        Attempt<INotificationMethod> CreateNotificationMethodWithKey(Guid providerKey, string name, string serviceCode);
-
-        /// <summary>
-        /// Saves a <see cref="INotificationMethod"/>
-        /// </summary>
-        /// <param name="method">The <see cref="INotificationMethod"/> to be saved</param>
-        void Save(INotificationMethod method);
-
-        /// <summary>
-        /// Deletes a <see cref="INotificationMethod"/>
-        /// </summary>
-        /// <param name="method">The <see cref="INotificationMethod"/> to be deleted</param>
-        void Delete(INotificationMethod method);
 
         /// <summary>
         /// Creates a <see cref="INotificationMessage"/> and saves it to the database
@@ -199,13 +122,6 @@
         void Delete(INotificationMessage message);
 
         /// <summary>
-        /// Gets a collection of <see cref="INotificationMethod"/> for a give NotificationGatewayProvider
-        /// </summary>
-        /// <param name="providerKey">The unique 'key' of the NotificationGatewayProvider</param>
-        /// <returns>A collection of <see cref="INotificationMethod"/></returns>
-        IEnumerable<INotificationMethod> GetNotificationMethodsByProviderKey(Guid providerKey);
-
-        /// <summary>
         /// Gets a collection of <see cref="INotificationMessage"/> associated with a <see cref="INotificationMethod"/>
         /// </summary>
         /// <param name="notificationMethodKey">The key (Guid) of the <see cref="INotificationMethod"/></param>
@@ -226,89 +142,6 @@
         /// <returns>A collection of <see cref="INotificationMessage"/></returns>
         IEnumerable<INotificationMessage> GetNotificationMessagesByMonitorKey(Guid monitorKey);
 
-
-        #endregion
-
-        #region ShipMethod
-
-        /// <summary>
-        /// Creates a <see cref="IShipMethod"/>.  This is useful due to the data constraint
-        /// preventing two ShipMethods being created with the same ShipCountry and ServiceCode for any provider.
-        /// </summary>
-        /// <param name="providerKey">
-        /// The unique gateway provider key (Guid)
-        /// </param>
-        /// <param name="shipCountry">
-        /// The <see cref="IShipCountry"/> this ship method is to be associated with
-        /// </param>
-        /// <param name="name">
-        /// The required name of the <see cref="IShipMethod"/>
-        /// </param>
-        /// <param name="serviceCode">
-        /// The ShipMethods service code
-        /// </param>
-        /// <returns>
-        /// The <see cref="IShipMethod"/>.
-        /// </returns>
-        IShipMethod CreateShipMethodWithKey(Guid providerKey, IShipCountry shipCountry, string name, string serviceCode);
-
-        /// <summary>
-        /// Saves a single <see cref="IShipMethod"/>
-        /// </summary>
-        /// <param name="shipMethod">The <see cref="IShipMethod"/></param>
-        void Save(IShipMethod shipMethod);
-
-        /// <summary>
-        /// Saves a collection of <see cref="IShipMethod"/>
-        /// </summary>
-        /// <param name="shipMethodList">Collection of <see cref="IShipMethod"/></param>
-        void Save(IEnumerable<IShipMethod> shipMethodList);
-
-        /// <summary>
-        /// Deletes a <see cref="IShipMethod"/>
-        /// </summary>
-        /// <param name="shipMethod">The <see cref="IShipMethod"/></param>
-        void Delete(IShipMethod shipMethod);
-
-        /// <summary>
-        /// Gets a list of <see cref="IShipMethod"/> objects given a <see cref="IGatewayProviderSettings"/> key and a <see cref="IShipCountry"/> key
-        /// </summary>
-        /// <param name="providerKey">
-        /// The provider Key.
-        /// </param>
-        /// <param name="shipCountryKey">
-        /// The ship Country Key.
-        /// </param>
-        /// <returns>
-        /// A collection of <see cref="IShipMethod"/>
-        /// </returns>
-        IEnumerable<IShipMethod> GetShipMethodsByShipCountryKey(Guid providerKey, Guid shipCountryKey);
-
-        /// <summary>
-        /// Gets a list of all <see cref="IShipMethod"/> objects given a <see cref="IGatewayProviderSettings"/> key
-        /// </summary>
-        /// <param name="providerKey">
-        /// The provider Key.
-        /// </param>
-        /// <returns>
-        /// A collection of <see cref="IShipMethod"/>
-        /// </returns>
-        IEnumerable<IShipMethod> GetShipMethodsByShipCountryKey(Guid providerKey);
-
-        /// <summary>
-        /// Gets a <see cref="IShipMethod"/> by it's unique key
-        /// </summary>
-        /// <param name="shipMethodKey">The <see cref="IShipMethod"/> key</param>
-        /// <returns>A <see cref="IShipMethod"/></returns>
-        IShipMethod GetShipMethodByKey(Guid shipMethodKey);
-
-        /// <summary>
-        /// Gets all <see cref="IShipMethod"/>s.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IEnumerable{IShipMethod}"/>s.
-        /// </returns>
-        IEnumerable<IShipMethod> GetAllShipMethods();
 
         #endregion
 

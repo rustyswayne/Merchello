@@ -107,13 +107,17 @@
     <Compile Include="Extensions.Version.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gateways\GatewayContext.cs" />
     <Compile Include="Gateways\GatewayMethodEditorAttribute.cs" />
     <Compile Include="Gateways\GatewayMethodUiAttribute.cs" />
     <Compile Include="Gateways\GatewayProviderActivationAttribute.cs" />
     <Compile Include="Gateways\GatewayProviderBase.cs" />
     <Compile Include="Gateways\GatewayProviderEditorAttribute.cs" />
     <Compile Include="Gateways\GatewayProviderRegister.cs" />
+    <Compile Include="Gateways\GatewayProviderRegisterBuilder.cs" />
     <Compile Include="Gateways\GatewayProviderTypedContextBase.cs" />
+    <Compile Include="Gateways\GatewayResource.cs" />
+    <Compile Include="Gateways\IGatewayContext.cs" />
     <Compile Include="Gateways\IGatewayMethod.cs" />
     <Compile Include="Gateways\IGatewayProviderRegister.cs" />
     <Compile Include="Gateways\IGatewayProviderTypedContextBase.cs" />
@@ -1068,6 +1072,7 @@
     <Compile Include="Services\EntityCollectionService.persist.cs">
       <DependentUpon>EntityCollectionService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\Interfaces\IAppliedPaymentService.cs" />
     <Compile Include="Services\Interfaces\IAuditLogService.cs" />
     <Compile Include="Services\Interfaces\IEntityCollectionEntityService.cs" />
     <Compile Include="Services\Interfaces\ICustomerService.cs" />
@@ -1075,13 +1080,16 @@
     <Compile Include="Services\Interfaces\IGatewayProviderService.cs" />
     <Compile Include="Services\Interfaces\IInvoiceService.cs" />
     <Compile Include="Services\Interfaces\IItemCacheService.cs" />
+    <Compile Include="Services\Interfaces\INotificationMethodService.cs" />
     <Compile Include="Services\Interfaces\IOfferSettingsService.cs" />
     <Compile Include="Services\Interfaces\IOrderService.cs" />
+    <Compile Include="Services\Interfaces\IPaymentMethodService.cs" />
     <Compile Include="Services\Interfaces\IPaymentService.cs" />
     <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
     <Compile Include="Services\Interfaces\IProductOptionService.cs" />
     <Compile Include="Services\Interfaces\IShipmentService.cs" />
+    <Compile Include="Services\Interfaces\IShipMethodService.cs" />
     <Compile Include="Services\Interfaces\IStoreService.cs" />
     <Compile Include="Services\Interfaces\IStoreSettingService.cs" />
     <Compile Include="Services\Interfaces\IWarehouseService.cs" />

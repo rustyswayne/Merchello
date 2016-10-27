@@ -4,6 +4,7 @@
 
     using Merchello.Core.DI;
     using Merchello.Core.EntityCollections;
+    using Merchello.Core.Gateways;
     using Merchello.Core.Persistence.Migrations;
     using Merchello.Core.Plugins;
 
@@ -21,6 +22,12 @@
         public void Compose(IServiceRegistry register)
         {
             var container = (IServiceContainer)register;
+
+            // GatewayProviders
+            container.RegisterRegisterBuilder<GatewayProviderRegisterBuilder>(
+                factory => new GatewayProviderRegisterBuilder(
+                    factory.GetInstance<IServiceContainer>(),
+                    factory.GetInstance<IPluginManager>().ResolveGatewayProviders()));
 
             // EntityCollectionProviders
             container.RegisterRegisterBuilder<EntityCollectionProviderRegisterBuilder>(

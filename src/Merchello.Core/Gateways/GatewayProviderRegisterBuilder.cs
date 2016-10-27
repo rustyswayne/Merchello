@@ -1,18 +1,16 @@
-﻿namespace Merchello.Core.EntityCollections
+﻿namespace Merchello.Core.Gateways
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
 
     using LightInject;
 
     using Merchello.Core.DI;
 
     /// <summary>
-    /// Represents a builder for <see cref="IEntityCollectionProviderRegister"/>s.
+    /// Represents a register builder for <see cref="IGatewayProviderRegister"/>
     /// </summary>
-    internal class EntityCollectionProviderRegisterBuilder : IRegisterBuilder<EntityCollectionProviderRegister, Type>
+    internal class GatewayProviderRegisterBuilder : IRegisterBuilder<IGatewayProviderRegister, Type>
     {
         /// <summary>
         /// The container.
@@ -30,15 +28,15 @@
         private readonly object _locker = new object();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EntityCollectionProviderRegisterBuilder"/> class.
+        /// Initializes a new instance of the <see cref="GatewayProviderRegisterBuilder"/> class.
         /// </summary>
         /// <param name="container">
-        /// The <see cref="IServiceContainer"/>.
+        /// The <see cref="IServiceContainer"/>
         /// </param>
         /// <param name="instanceTypes">
-        /// The instance Types.
+        /// The instance types.
         /// </param>
-        public EntityCollectionProviderRegisterBuilder(IServiceContainer container, IEnumerable<Type> instanceTypes)
+        public GatewayProviderRegisterBuilder(IServiceContainer container, IEnumerable<Type> instanceTypes)
         {
             Core.Ensure.ParameterNotNull(container, nameof(container));
             _container = container;
@@ -52,11 +50,10 @@
         protected virtual ILifetime CollectionLifetime => new PerContainerLifetime();
 
         /// <inheritdoc/>
-        public EntityCollectionProviderRegister CreateRegister()
+        public IGatewayProviderRegister CreateRegister()
         {
-            return new EntityCollectionProviderRegister(_container, _types);
+            return new GatewayProviderRegister(_container, _types);
         }
-
 
         /// <inheritdoc/>
         protected void Initialize(IEnumerable<Type> types)
@@ -68,7 +65,7 @@
 
             // register the collection
             _container.Register(_ => this.CreateRegister(), this.CollectionLifetime);
-            _container.Register<IEntityCollectionProviderRegister>(factory => factory.GetInstance<EntityCollectionProviderRegister>());
+            _container.Register<IGatewayProviderRegister>(factory => factory.GetInstance<GatewayProviderRegister>());
         }
     }
 }

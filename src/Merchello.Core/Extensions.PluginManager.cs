@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using Merchello.Core.EntityCollections;
+    using Merchello.Core.Gateways;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.Migrations;
     using Merchello.Core.Plugins;
@@ -25,6 +26,20 @@
         internal static IEnumerable<Type> ResolveBaseMappers(this IPluginManager pluginManager)
         {
             return pluginManager.ResolveTypesWithAttribute<BaseMapper, MapperForAttribute>();
+        }
+
+        /// <summary>
+        /// Resolves the <see cref="IGatewayProvider"/> types for use in the <see cref="IGatewayContext"/>
+        /// </summary>
+        /// <param name="pluginManager">
+        /// The plugin Manager.
+        /// </param>
+        /// <returns>
+        /// The collection of gateway providers resolved
+        /// </returns>
+        internal static IEnumerable<Type> ResolveGatewayProviders(this IPluginManager pluginManager)
+        {
+            return pluginManager.ResolveTypesWithAttribute<GatewayProviderBase, GatewayProviderActivationAttribute>();
         }
 
         /// <summary>
