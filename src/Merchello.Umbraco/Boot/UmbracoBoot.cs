@@ -14,6 +14,7 @@
     using global::Umbraco.Core.Logging;
     using global::Umbraco.Core.Plugins;
 
+    using Merchello.Core.Boot;
     using Merchello.Core.Cache;
     using Merchello.Umbraco.Adapters.Persistence;
     using Merchello.Umbraco.Cache;
@@ -49,6 +50,9 @@
         /// Initializes a new instance of the <see cref="Merchello.Umbraco.Boot.UmbracoBoot"/> class.
         /// </summary>
         /// <param name="container">
+        /// The <see cref="IServiceContainer"/>.
+        /// </param>
+        /// <param name="bootSettings">
         /// The <see cref="IBootSettings"/>.
         /// </param>
         /// <param name="databaseContext">
@@ -63,8 +67,8 @@
         /// <param name="pluginManager">
         /// Umbraco's <see cref="PluginManager"/>
         /// </param>
-        public UmbracoBoot(IServiceContainer container, DatabaseContext databaseContext, CacheHelper applicationCache, ProfilingLogger profilingLogger, PluginManager pluginManager)
-            : base(container)
+        public UmbracoBoot(IServiceContainer container, IBootSettings bootSettings, DatabaseContext databaseContext, CacheHelper applicationCache, ProfilingLogger profilingLogger, PluginManager pluginManager)
+            : base(container, bootSettings)
         {
             Core.Ensure.ParameterNotNull(databaseContext, nameof(databaseContext));
             Core.Ensure.ParameterNotNull(applicationCache, nameof(applicationCache));
@@ -91,9 +95,6 @@
 
             container.RegisterFrom<UmbracoCompositionRoot>();
 
-            // Migrations
-            container.Register<IMigrationManager, MigrationManager>();
-
             // we have to grab the previous services from Umbraco before allowing Merchello to 
             // boot as we need to adapt them for usage in Merchello.
             base.Boot();
@@ -111,25 +112,10 @@
 
             // Replace ICloneableCacheEntityFactory
             container.Register<ICloneableCacheEntityFactory, CacheSurrogateFactory>();
-        }
 
-        /// <inheritdoc/>
-        protected override void EnsureInstallVersion(IServiceContainer container)
-        {
-            var manager = container.GetInstance<IMigrationManager>();
 
-            var status = manager.GetDbSchemaStatus();
-            switch (status)
-            {
-                case DbSchemaStatus.RequiresInstall:
-                    manager.InstallDatabaseSchema();
-                    break;
-                case DbSchemaStatus.RequiresUpgrade:
-                    break;
-                case DbSchemaStatus.Current:
-                default:
-                    break;
-            }
+            // Migrations
+            container.Register<IMigrationManager, MigrationManager>();
         }
     }
 }

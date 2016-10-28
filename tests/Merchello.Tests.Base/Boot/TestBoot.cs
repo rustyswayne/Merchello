@@ -7,12 +7,13 @@
 
     using LightInject;
 
+    using Merchello.Core.Boot;
     using Merchello.Umbraco.Boot;
 
     internal class TestBoot : UmbracoBoot
     {
-        public TestBoot(IServiceContainer container, DatabaseContext databaseContext, CacheHelper applicationCache, ProfilingLogger profilingLogger, PluginManager pluginManager)
-            : base(container, databaseContext, applicationCache, profilingLogger, pluginManager)
+        public TestBoot(IServiceContainer container, IBootSettings bootSettings, DatabaseContext databaseContext, CacheHelper applicationCache, ProfilingLogger profilingLogger, PluginManager pluginManager)
+            : base(container, bootSettings, databaseContext, applicationCache, profilingLogger, pluginManager)
         {
         }
     }

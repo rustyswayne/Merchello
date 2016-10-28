@@ -6,6 +6,7 @@
 
     using Merchello.Core.Cache;
     using Merchello.Core.EntityCollections;
+    using Merchello.Core.Gateways;
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence;
     using Merchello.Core.Services;
@@ -41,9 +42,20 @@
         public static IServiceContext Services => Container.GetInstance<IServiceContext>();
 
         /// <summary>
+        /// Gets the <see cref="IGatewayContext"/>
+        /// </summary>
+        public static IGatewayContext Gateways => Container.GetInstance<IGatewayContext>();
+
+
+        /// <summary>
         /// Gets the <see cref="IEntityCollectionProviderRegister"/>.
         /// </summary>
         internal static IEntityCollectionProviderRegister EntityCollectionProviderRegister => Container.GetInstance<IEntityCollectionProviderRegister>();
+
+        /// <summary>
+        /// Gets the <see cref="IGatewayProviderRegister"/>
+        /// </summary>
+        internal static IGatewayProviderRegister GatewayProviderRegister => Container.GetInstance<IGatewayProviderRegister>();
 
         /// <summary>
         /// The <see cref="IActivatorServiceProvider"/>.

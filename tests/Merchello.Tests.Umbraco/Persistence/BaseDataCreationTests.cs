@@ -9,15 +9,12 @@
 
     using NUnit.Framework;
 
-    using StoreSettingDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.StoreSettingDto;
-    using WarehouseDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.WarehouseDto;
 
     [TestFixture]
     public class BaseDataCreationTests : UmbracoRuntimeTestBase
     {
         private IDatabaseSchemaManager SchemaManager;
 
-        private Database Database;
 
         public override void Initialize()
         {
@@ -32,10 +29,10 @@
             Assert.NotNull(Database);
         }
 
-        public override void TearDown()
+        public override void OneTimeTearDown()
         {
             SchemaManager.UninstallDatabaseSchema();
-            base.TearDown();
+            base.OneTimeTearDown();
         }
 
         [Test]

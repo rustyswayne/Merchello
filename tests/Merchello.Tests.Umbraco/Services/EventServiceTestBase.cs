@@ -9,8 +9,10 @@
 
     using NUnit.Framework;
 
-    public abstract class EventsServiceTestBase<TService, TEntity> : MerchelloDatabaseTestBase
+    public abstract class EventsServiceTestBase<TService, TEntity> : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+
         protected static TEntity CreatingEntity, CreatedEntity;
         protected static IEnumerable<TEntity> SavingEntities, SavedEntities, DeletingEntities, DeletedEntities;
 

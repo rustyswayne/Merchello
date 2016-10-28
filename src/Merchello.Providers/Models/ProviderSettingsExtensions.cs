@@ -8,7 +8,6 @@
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Providers.Payment.Braintree.Models;
-    using Merchello.Providers.Payment.Models;
     using Merchello.Providers.Payment.PayPal.Models;
 
     using Newtonsoft.Json;

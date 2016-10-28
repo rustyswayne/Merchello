@@ -39,7 +39,7 @@
         /// </returns>
         internal static IEnumerable<Type> ResolveGatewayProviders(this IPluginManager pluginManager)
         {
-            return pluginManager.ResolveTypesWithAttribute<GatewayProviderBase, GatewayProviderActivationAttribute>();
+            return pluginManager.ResolveTypesWithAttribute<IGatewayProvider, GatewayProviderActivationAttribute>();
         }
 
         /// <summary>

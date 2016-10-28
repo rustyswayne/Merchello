@@ -4,8 +4,6 @@
     using Merchello.Core.Persistence;
     using Merchello.Core.Persistence.Querying;
 
-    using NPoco;
-
     using global::Umbraco.Core;
 
     /// <summary>
@@ -60,7 +58,7 @@
         /// Gets the database from Umbraco's DatabaseContext.
         /// </summary>
         /// <returns>
-        /// The <see cref="Database"/>.
+        /// The <see cref="IDatabaseAdapter"/>.
         /// </returns>
         public override IDatabaseAdapter GetDatabase()
         {

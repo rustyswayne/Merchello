@@ -119,10 +119,6 @@
       <Project>{d921b972-b572-487f-af14-613713e1b4e7}</Project>
       <Name>Merchello.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Merchello.Providers\Merchello.Providers.csproj">
-      <Project>{94e933dd-a2d6-4267-9ab4-e4b32e1b68b1}</Project>
-      <Name>Merchello.Providers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Merchello.Umbraco\Merchello.Umbraco.csproj">
       <Project>{332eecfd-f193-4dcf-9b0b-11484584c600}</Project>
       <Name>Merchello.Umbraco</Name>

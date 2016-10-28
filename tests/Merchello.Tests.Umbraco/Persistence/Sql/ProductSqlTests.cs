@@ -18,8 +18,10 @@
     using SqlContext = global::Merchello.Core.Persistence.SqlContext;
 
     [TestFixture]
-    public class ProductSqlTests : MerchelloDatabaseTestBase
+    public class ProductSqlTests : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+
         private readonly string orderExpression = "name";
 
         private readonly Direction direction = Direction.Ascending;

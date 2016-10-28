@@ -15,8 +15,10 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class SettingsSqlTests : MerchelloDatabaseTestBase
+    public class SettingsSqlTests : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+
         [Test]
         public void GetByStoreKey()
         {

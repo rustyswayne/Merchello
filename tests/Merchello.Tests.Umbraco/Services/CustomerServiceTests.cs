@@ -14,19 +14,15 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public partial class CustomerServiceTests : MerchelloDatabaseTestBase
+    public partial class CustomerServiceTests : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+
         protected ICustomerService _customerService;
 
         protected IDatabaseAdapter _dbAdapter;
 
-        protected override bool EnableCache
-        {
-            get
-            {
-                return false;
-            }
-        }
+        protected override bool EnableCache => false;
 
         public override void Initialize()
         {

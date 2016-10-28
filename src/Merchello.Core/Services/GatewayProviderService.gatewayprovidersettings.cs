@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Merchello.Core.Services
 {
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
 
     public partial class GatewayProviderService : IGatewayProviderSettingsService
     {
@@ -28,11 +29,19 @@ namespace Merchello.Core.Services
         public IEnumerable<IGatewayProviderSettings> GetGatewayProvidersByShipCountry(IShipCountry shipCountry)
         {
             throw new NotImplementedException();
+
         }
 
         public IEnumerable<IGatewayProviderSettings> GetAllGatewayProviders()
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.ProvidersTree);
+                var repo = uow.CreateRepository<IGatewayProviderSettingsRepository>();
+                var settings = repo.GetAll();
+                uow.Complete();
+                return settings;
+            }
         }
 
         public void Save(IGatewayProviderSettings entity)

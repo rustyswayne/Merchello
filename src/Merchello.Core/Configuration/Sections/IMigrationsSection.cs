@@ -10,7 +10,6 @@
         /// Gets a value indicating whether or not to automatically run database schema changes when an install or upgrade migration
         /// has occurred.
         /// </summary>
-        /// REFACTOR - this should be respected by new Migrations in V3
         bool AutoUpdateDbSchema { get; }
     }
 }

@@ -14,18 +14,19 @@
     using Semver;
 
     [TestFixture]
-    public class MigrationStatusRepositoryTests : MerchelloDatabaseTestBase
+    public class MigrationStatusRepositoryTests : MerchelloRepositoryTestBase
     {
+        protected override bool AutoInstall => true;
+
         [Test]
         public void Can_Add_MigrationStatus()
         {
             //// Arrange
-            var uowProvider = MC.Container.GetInstance<IDatabaseUnitOfWorkProvider>();
             var status = new MigrationStatus { MigrationName = "MerchelloTest", Version = new SemVersion(3) };
 
 
             //// Act
-            using (var uow = uowProvider.CreateUnitOfWork())
+            using (var uow = UowProvider.CreateUnitOfWork())
             {
                 var repo = uow.CreateRepository<IMigrationStatusRepository>();
                 repo.AddOrUpdate(status);

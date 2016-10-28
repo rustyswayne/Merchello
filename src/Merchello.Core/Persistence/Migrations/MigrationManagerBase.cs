@@ -6,6 +6,7 @@
 
     using Merchello.Core.Boot;
     using Merchello.Core.Configuration;
+    using Merchello.Core.Exceptions;
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence.Migrations.Initial;
     using Merchello.Core.Persistence.SqlSyntax;
@@ -19,6 +20,11 @@
     /// </summary>
     internal abstract class MigrationManagerBase : IMigrationManager
     {
+        /// <summary>
+        /// The <see cref="IDatabaseFactory"/>.
+        /// </summary>
+        private readonly IDatabaseFactory _dbFactory;
+
         /// <summary>
         /// The Database Adapter.
         /// </summary>
@@ -35,22 +41,23 @@
         /// <param name="container">
         /// The <see cref="IServiceContainer"/>
         /// </param>
-        /// <param name="dbAdapter">
-        /// The <see cref="IDatabaseAdapter"/>.
+        /// <param name="dbFactory">
+        /// The <see cref="IDatabaseFactory"/>.
         /// </param>
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        protected MigrationManagerBase(IServiceContainer container, IDatabaseAdapter dbAdapter, ILogger logger)
+        protected MigrationManagerBase(IServiceContainer container, IDatabaseFactory dbFactory, ILogger logger)
         {
             Ensure.ParameterNotNull(container, nameof(container));
-            Ensure.ParameterNotNull(dbAdapter, nameof(dbAdapter));
+            Ensure.ParameterNotNull(dbFactory, nameof(dbFactory));
             Ensure.ParameterNotNull(logger, nameof(logger));
             _container = container;
             this.Logger = logger;
-            _dbAdapter = dbAdapter;
+            _dbFactory = dbFactory;
+            _dbAdapter = dbFactory.GetDatabase();
 
-            Initialize();
+            EnsureInitialized();
         }
 
         /// <summary>
@@ -74,14 +81,20 @@
         public Version DbVersion { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="IDatabaseSchemaCreation"/>.
+        /// Gets the <see cref="IDatabaseSchemaManager"/>.
         /// </summary>
-        protected IDatabaseSchemaCreation SchemaCreation { get; private set; }
+        protected IDatabaseSchemaManager SchemaManager { get; private set; }
+
 
         /// <summary>
         /// Gets the <see cref="DatabaseSchemaResult"/>.
         /// </summary>
         protected DatabaseSchemaResult DbSchemaResult { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether is manager is initialized.
+        /// </summary>
+        protected bool IsInitialized { get; private set; } = false;
 
         /// <inheritdoc/>
         public string GetSummary()
@@ -102,52 +115,91 @@
         }
 
 
-
         /// <summary>
-        /// Ensures all necessary migrations have been run.
+        /// Gets the <see cref="MigrationInstruction"/>.
         /// </summary>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// The <see cref="MigrationInstruction"/>.
         /// </returns>
-        public virtual DbSchemaStatus GetDbSchemaStatus()
+        public virtual MigrationInstruction GetMigrationInstruction()
         {
-            Logger.Info<MigrationManagerBase>("Verifying Merchello database is present.");
-            
-            if (DbVersion != MerchelloVersion.Current)
-            {
-                if (DbVersion == new Version(0, 0, 0))
+            EnsureInitialized();
+
+            // version in the configuration
+            var statusFromConfig = MerchelloConfig.For.MerchelloSettings().ConfigurationStatus;
+            Logger.Info<IMigrationManager>($"Merchello configuration status version: {statusFromConfig.GetVersion(0)}");
+
+            // get the configuration value which indicates whether or not we should automatically execute migrations.
+            var autoUpdateDbSchema = MerchelloConfig.For.MerchelloSettings().Migrations.AutoUpdateDbSchema;
+
+            var installStatus = GetPluginInstallStatus();
+
+            return new MigrationInstruction
                 {
-                    Logger.Info<CoreBoot>("Merchello database not installed.  Initial migration");
-                    return DbSchemaStatus.RequiresInstall;
-                }
-
-                Logger.Info<CoreBoot>("Merchello version did not match, find migration(s).");
-                return DbSchemaStatus.RequiresUpgrade;
-            }
-           
-            Logger.Info<CoreBoot>("Merchello database is the current version");
-
-            return DbSchemaStatus.Current;
+                    ConfigurationStatus = statusFromConfig,
+                    TargetConfigurationStatus = MerchelloVersion.GetSemanticVersion(),
+                    PluginInstallStatus = installStatus,
+                    AutoUpdateDbSchema = autoUpdateDbSchema
+                };
         }
 
         /// <inheritdoc/>
         public virtual void Refresh()
         {
-            DbSchemaResult = SchemaCreation.ValidateSchema();
+            EnsureInitialized();
+
+            DbSchemaResult = SchemaManager.ValidateSchema();
             DbVersion = DbSchemaResult.DetermineInstalledVersion();
         }
 
         /// <inheritdoc/>
         public virtual void InstallDatabaseSchema()
         {
-            SchemaCreation.InitializeDatabaseSchema();
+            EnsureInitialized();
+
+            SchemaManager.InstallDatabaseSchema();
         }
 
 
         /// <inheritdoc/>
         public virtual void UninstallDatabaseSchema()
         {
-            SchemaCreation.UninstallDatabaseSchema();
+            EnsureInitialized();
+
+            SchemaManager.UninstallDatabaseSchema();
+        }
+
+        /// <summary>
+        /// Compares database schema status with application status.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="PluginInstallStatus"/>.
+        /// </returns>
+        protected virtual PluginInstallStatus GetPluginInstallStatus()
+        {
+            EnsureInitialized();
+
+            Logger.Info<IMigrationManager>("Checking Merchello database.");
+            Logger.Info<IMigrationManager>($"Merchello database version: {DbVersion}");
+            Logger.Info<IMigrationManager>($"Merchello application version: {MerchelloVersion.Current}");
+
+            if (DbVersion != MerchelloVersion.Current)
+            {
+                if (DbVersion == new Version(0, 0, 0))
+                {
+                    Logger.Info<IMigrationManager>("Merchello database not installed.  Initial migration");
+                    return PluginInstallStatus.RequiresInstall;
+                }
+
+                if (DbVersion < MerchelloVersion.Current)
+                {
+                    Logger.Info<IMigrationManager>("Merchello database needs to updated, will try to find migration(s).");
+                    return PluginInstallStatus.RequiresUpgrade;
+                }
+            }
+
+            Logger.Info<IMigrationManager>("Merchello is version is current.");
+            return PluginInstallStatus.Current;
         }
 
         /// <summary>
@@ -156,13 +208,31 @@
         protected abstract void ProcessMigrations();
 
         /// <summary>
+        /// Ensures the manager is initialized.
+        /// </summary>
+        private void EnsureInitialized()
+        {
+            if (IsInitialized) return;
+            if (_dbFactory.Configured && _dbFactory.CanConnect)
+            {
+                Initialize();
+                return;
+            }
+
+            var bex = new BootException("The database is not configured or Merchello cannot connect to database.");
+            Logger.Error<IMigrationManager>("Cannot connect to the database", bex);
+            throw bex;
+        }
+
+        /// <summary>
         /// Initializes the Migration Manager.
         /// </summary>
         private void Initialize()
         {
-            SchemaCreation = _container.GetInstance<IDatabaseSchemaCreation>();
-            DbSchemaResult = SchemaCreation.ValidateSchema();
+            SchemaManager = _container.GetInstance<IDatabaseSchemaManager>();
+            DbSchemaResult = SchemaManager.ValidateSchema();
             DbVersion = DbSchemaResult.DetermineInstalledVersion();
+            IsInitialized = true;
         }
     }
 }

@@ -13,11 +13,12 @@
 
     using NUnit.Framework;
 
-    using ItemCacheDto = Merchello.Tests.Umbraco.Migrations.V2Dtos.ItemCacheDto;
 
     [TestFixture]
-    public class ItemCacheSqlTests : MerchelloDatabaseTestBase
+    public class ItemCacheSqlTests : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+
         [Test]
         public void Can_GetItemCachePage()
         {

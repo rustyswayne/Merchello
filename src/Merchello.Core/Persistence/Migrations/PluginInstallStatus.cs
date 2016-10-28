@@ -2,9 +2,9 @@
 namespace Merchello.Core.Persistence.Migrations
 {
     /// <summary>
-    /// The database schema status.
+    /// The install status of the package.
     /// </summary>
-    internal enum DbSchemaStatus
+    internal enum PluginInstallStatus
     {
          RequiresInstall,
          RequiresUpgrade,

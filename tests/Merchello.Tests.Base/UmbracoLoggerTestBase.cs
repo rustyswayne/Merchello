@@ -26,10 +26,5 @@
             var profiler = new Core.Acquired.Logging.LogProfiler(new LoggerAdapter(this.Logger));
             this.ProfileLogger = new ProfilingLogger(this.Logger, new LogProfilerAdapter(profiler));
         }
-
-        [OneTimeTearDown]
-        public virtual void TearDown()
-        {
-        }
     }
 }

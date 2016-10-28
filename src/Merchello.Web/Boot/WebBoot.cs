@@ -9,15 +9,17 @@
     /// </summary>
     internal class WebBoot : CoreBoot
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WebBoot"/> class. 
         /// </summary>
         /// <param name="container">
         /// The <see cref="IServiceContainer"/>.
         /// </param>
-        internal WebBoot(IServiceContainer container)
-            : base(container)
+        /// <param name="bootSettings">
+        /// The boot Settings.
+        /// </param>
+        internal WebBoot(IServiceContainer container, IBootSettings bootSettings)
+            : base(container, bootSettings)
         {
         }
 

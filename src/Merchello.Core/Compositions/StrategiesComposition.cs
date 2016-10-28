@@ -22,10 +22,6 @@
         /// </param>
         public void Compose(IServiceRegistry container)
         {
-            // In most tests we don't want to compose this.
-            // TODO should refactor test base a bit so we don't need to have .IsReady.
-            if (!MerchelloConfig.IsReady) return;
-
             var strategies = MerchelloConfig.For.MerchelloExtensibility().Strategies;
 
             // shipment rate quote

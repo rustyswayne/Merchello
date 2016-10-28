@@ -34,7 +34,6 @@ gulp.task('clean', function() {
 
 // copies the config files to the tests directory to ensure current
 gulp.task('copy:tests', function() {
-    // todo addd changed
 
     var copy = require('gulp-copy');
     var rename = require('gulp-rename');
@@ -69,7 +68,7 @@ gulp.task('copy:tests', function() {
 
     gulp.src(configs + 'merchelloSettings.config')
         // set the version to the build version
-        .pipe(xmlpoke({
+        /*.pipe(xmlpoke({
                 replacements: [{
                     xpath: "//merchelloConfigurationStatus",
                     value: function (node) {
@@ -90,7 +89,7 @@ gulp.task('copy:tests', function() {
                         }
                     }
                 }]
-            }))
+            }))*/
         .pipe(gulp.dest(tdebug + paths.settings))
         .pipe(gulp.dest(trelease + paths.settings))
         .pipe(gulp.dest(utdebug + paths.umbraco))

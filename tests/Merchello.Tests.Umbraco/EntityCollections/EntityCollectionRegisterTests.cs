@@ -17,8 +17,10 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class EntityCollectionRegisterTests : MerchelloDatabaseTestBase
+    public class EntityCollectionRegisterTests : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+
         private Guid _productTfKey, _productProviderKey, _productFilterGroupKey;
 
         private Guid _productColKey;

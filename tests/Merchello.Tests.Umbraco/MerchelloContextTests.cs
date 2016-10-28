@@ -30,6 +30,17 @@
         }
 
         [Test]
+        public void Gateways()
+        {
+            var gateways = MerchelloContext.Current.Gateways;
+            Assert.That(gateways, Is.Not.Null);
+            Assert.That(gateways.Notification, Is.Not.Null);
+            Assert.That(gateways.Payment, Is.Not.Null);
+            Assert.That(gateways.Shipping, Is.Not.Null);
+            Assert.That(gateways.Taxation, Is.Not.Null);
+        }
+
+        [Test]
         public void Cache()
         {
             var cache = MerchelloContext.Current.Cache;

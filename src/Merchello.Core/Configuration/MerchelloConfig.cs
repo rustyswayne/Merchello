@@ -86,13 +86,6 @@
         public static MerchelloConfig For => config.Value;
 
         /// <summary>
-        /// Used for testing - determines if the configurations have been setup.
-        /// </summary>
-        internal static bool IsReady => config.Value._merchelloExtensibility != null && 
-                                        config.Value._merchelloSettings != null && 
-                                        config.Value._merchelloCountries != null;
-
-        /// <summary>
         /// Gets the Merchello Settings configuration section.
         /// </summary>
         /// <returns>

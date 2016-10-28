@@ -2,7 +2,6 @@
 {
     using Merchello.Providers.Models;
     using Merchello.Providers.Payment.Braintree;
-    using Merchello.Providers.Payment.Models;
 
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;

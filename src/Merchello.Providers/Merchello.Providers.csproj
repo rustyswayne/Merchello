@@ -49,8 +49,10 @@
     <Compile Include="Constants.paypal.cs">
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
-    <Compile Include="Constants.purchaseorder.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Constants.purchaseorder.cs">
+      <DependentUpon>Constants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\IPaymentProviderSettings.cs" />
     <Compile Include="Models\PaymentRedirectingUrl.cs" />
     <Compile Include="Models\ProviderSettingsExtensions.cs" />

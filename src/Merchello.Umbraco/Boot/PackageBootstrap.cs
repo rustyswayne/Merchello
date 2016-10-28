@@ -7,8 +7,9 @@
 
     using log4net;
 
-    using global::Umbraco.Core;
+    using Merchello.Core.Boot;
 
+    using global::Umbraco.Core;
     using global::Umbraco.Web;
 
     /// <summary>
@@ -40,7 +41,6 @@
         /// </remarks>
         public void OnApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-
             try
             {
                 // Initialize Merchello
@@ -50,8 +50,10 @@
                 var container = new ServiceContainer();
                 container.EnableAnnotatedConstructorInjection();
                 container.EnableAnnotatedPropertyInjection();
+
                 var loader = new UmbracoBoot(
-                    container, 
+                    container,
+                    new BootSettings(),
                     Current.DatabaseContext, 
                     Current.ApplicationCache, 
                     Current.ProfilingLogger, 

@@ -44,10 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acquired\DisposableTimer.cs" />
+    <Compile Include="Boot\BootSettings.cs" />
     <Compile Include="Boot\IBoot.cs" />
+    <Compile Include="Boot\IBootSettings.cs" />
     <Compile Include="Boot\IInitializeAfterBoot.cs" />
     <Compile Include="Cache\CacheKeys.cs" />
     <Compile Include="Compositions\CacheComposition.cs" />
+    <Compile Include="Compositions\GatewaysComposition.cs" />
     <Compile Include="Compositions\LoggerComposition.cs" />
     <Compile Include="Compositions\RegistersComposition.cs" />
     <Compile Include="Compositions\StrategiesComposition.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="Events\DeleteEventArgs.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\SaveEventArgs.cs" />
+    <Compile Include="Exceptions\BootException.cs" />
     <Compile Include="Extensions.IStore.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
@@ -222,11 +226,12 @@
     <Compile Include="Persistence\Migrations\IMigrationRunner.cs" />
     <Compile Include="Persistence\Migrations\Initial\DatabaseVersionHelper.cs" />
     <Compile Include="Persistence\Migrations\MigrationAttribute.cs" />
+    <Compile Include="Persistence\Migrations\MigrationInstruction.cs" />
     <Compile Include="Persistence\Migrations\MigrationManagerBase.cs" />
     <Compile Include="Persistence\Migrations\MigrationRegister.cs" />
     <Compile Include="Persistence\Migrations\MigrationRegisterBuilder.cs" />
     <Compile Include="Persistence\Migrations\MigrationRunnerBase.cs" />
-    <Compile Include="Persistence\Migrations\SchemaStatus.cs" />
+    <Compile Include="Persistence\Migrations\PluginInstallStatus.cs" />
     <Compile Include="Persistence\NPocoDatabaseExtensions.cs" />
     <Compile Include="Acquired\Persistence\NPocoDatabaseTypeExtensions.cs" />
     <Compile Include="Acquired\Persistence\NPocoSqlExtensions.cs" />

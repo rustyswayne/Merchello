@@ -61,13 +61,7 @@ namespace Merchello.Core.Persistence
         }
 
         /// <inheritdoc/>
-        internal BaseDataCreation BaseDataCreation
-        {
-            get
-            {
-                return _baseDataCreation.Value;
-            }
-        }
+        internal BaseDataCreation BaseDataCreation => this._baseDataCreation.Value;
 
         /// <inheritdoc/>
         public abstract bool TableExist(string tableName);

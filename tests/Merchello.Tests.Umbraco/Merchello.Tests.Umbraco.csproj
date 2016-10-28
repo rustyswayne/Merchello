@@ -46,30 +46,22 @@
     <Compile Include="Adapters\Cache\ObjectCacheProviderAdapterTests.cs" />
     <Compile Include="Adapters\Cache\RuntimeCacheProviderAdapterTests.cs" />
     <Compile Include="Adapters\Cache\StaticCacheProviderAdapterTests.cs" />
-    <Compile Include="Configuration\MerchelloConfigTests.cs" />
     <Compile Include="EntityCollections\EntityCollectionRegisterTests.cs" />
-    <Compile Include="Gateways\GatewayContextTests.cs" />
+    <Compile Include="Gateways\GatewayProviderRegisterTests.cs" />
+    <Compile Include="Gateways\GatewayServiceLocatorTests.cs" />
     <Compile Include="MerchelloContextTests.cs" />
     <Compile Include="Migrations\InitialMigrationTests.cs" />
     <Compile Include="Migrations\MigrationTestBase.cs" />
-    <Compile Include="Migrations\V2Dtos\CustomerIndexDto.cs" />
-    <Compile Include="Migrations\V2Dtos\InvoiceDto.cs" />
-    <Compile Include="Migrations\V2Dtos\InvoiceIndexDto.cs" />
-    <Compile Include="Migrations\V2Dtos\ItemCacheDto.cs" />
-    <Compile Include="Migrations\V2Dtos\OfferSettngsDto.cs" />
-    <Compile Include="Migrations\V2Dtos\OrderIndexDto.cs" />
-    <Compile Include="Migrations\V2Dtos\StoreSettingDto.cs" />
-    <Compile Include="Migrations\V2Dtos\WarehouseDto.cs" />
     <Compile Include="Persistence\BaseDataCreationTests.cs" />
     <Compile Include="Persistence\DatabaseCreationTests.cs" />
     <Compile Include="Persistence\Mappers\MapperRegisterTests.cs" />
+    <Compile Include="Persistence\Repositories\MigrationStatusRepositoryTests.cs" />
     <Compile Include="Persistence\Repositories\StoreSettingRepositoryTests.cs" />
-    <Compile Include="Persistence\Sql\ProductSqlTests.cs" />
-    <Compile Include="Persistence\Sql\ScratchSqlTests.cs" />
     <Compile Include="Persistence\Sql\EntityCollectionSqlTests.cs" />
     <Compile Include="Persistence\Sql\InvoiceSqlTests.cs" />
     <Compile Include="Persistence\Sql\ItemCacheSqlTests.cs" />
-    <Compile Include="Persistence\Repositories\MigrationStatusRepositoryTests.cs" />
+    <Compile Include="Persistence\Sql\ProductSqlTests.cs" />
+    <Compile Include="Persistence\Sql\ScratchSqlTests.cs" />
     <Compile Include="Persistence\Sql\SettingsSqlTests.cs" />
     <Compile Include="Resolvers\EntityCollectionResolverTests.cs" />
     <Compile Include="ServiceContainer\AdapterTests.cs" />
@@ -97,6 +89,10 @@
       <Project>{d921b972-b572-487f-af14-613713e1b4e7}</Project>
       <Name>Merchello.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Merchello.Providers\Merchello.Providers.csproj">
+      <Project>{94e933dd-a2d6-4267-9ab4-e4b32e1b68b1}</Project>
+      <Name>Merchello.Providers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Merchello.Umbraco\Merchello.Umbraco.csproj">
       <Project>{332eecfd-f193-4dcf-9b0b-11484584c600}</Project>
       <Name>Merchello.Umbraco</Name>
@@ -113,6 +109,7 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="Contexts\" />
+    <Folder Include="Migrations\V2Dtos\" />
     <Folder Include="Persistence\Querying\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

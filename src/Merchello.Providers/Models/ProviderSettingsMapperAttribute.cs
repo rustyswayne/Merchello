@@ -1,4 +1,4 @@
-﻿namespace Merchello.Providers.Payment.Models
+﻿namespace Merchello.Providers.Models
 {
     using System;
 
@@ -18,8 +18,8 @@
         /// </param>
         internal ProviderSettingsMapperAttribute(string key, Type settingsType)
         {
-            Key = key;
-            SettingsType = settingsType;
+            this.Key = key;
+            this.SettingsType = settingsType;
         }
 
         /// <summary>

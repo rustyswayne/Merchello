@@ -3,8 +3,10 @@
     using Merchello.Core.DI;
     using Merchello.Core.Persistence.UnitOfWork;
 
-    public abstract class MerchelloRepositoryTestBase : MerchelloDatabaseTestBase
+    public abstract class MerchelloRepositoryTestBase : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+
         protected IDatabaseUnitOfWorkProvider UowProvider;
 
         public override void Initialize()

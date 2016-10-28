@@ -25,7 +25,7 @@
     /// <summary>
     /// Represents a Migration Manager
     /// </summary>
-    internal class WebMigrationManager: MigrationManagerBase
+    internal class WebMigrationManager : MigrationManagerBase
     {
         /// <summary>
         /// The post URL.
@@ -43,14 +43,14 @@
         /// <param name="container">
         /// The <see cref="IServiceContainer"/>.
         /// </param>
-        /// <param name="dbAdapter">
-        /// The <see cref="IDatabaseAdapter"/>.
+        /// <param name="dbFactory">
+        /// The <see cref="IDatabaseFactory"/>.
         /// </param>
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        public WebMigrationManager(IServiceContainer container, IDatabaseAdapter dbAdapter, ILogger logger)
-            : base(container, dbAdapter, logger)
+        public WebMigrationManager(IServiceContainer container, IDatabaseFactory dbFactory, ILogger logger)
+            : base(container, dbFactory, logger)
         {
         }
 

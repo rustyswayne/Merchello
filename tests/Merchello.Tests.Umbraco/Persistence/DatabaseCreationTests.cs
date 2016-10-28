@@ -20,10 +20,10 @@
             Assert.NotNull(SchemaManager);
         }
 
-        public override void TearDown()
+        public override void OneTimeTearDown()
         {
             SchemaManager.UninstallDatabaseSchema();
-            base.TearDown();
+            base.OneTimeTearDown();
         }
 
         [Test]

@@ -49,6 +49,13 @@
             ResetSettings();
         }
 
+        protected void ResetToInstallVersion()
+        {
+            var fileName = new FileInfo(TestHelper.MapPathForTest("~/Configurations/MerchelloSettings/merchelloSettings.config"));
+            MerchelloConfig.SaveConfigurationStatus(Semver.SemVersion.Parse("0.0.0"), fileName.FullName);
+            ResetSettings();
+        }
+
         protected IMerchelloSettingsSection SettingsSection { get; private set; }
     }
 }

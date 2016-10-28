@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merchello.Web", "Merchello.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F10CD53F-992E-4FFD-99F6-5538708D0A76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merchello.Providers", "Merchello.Providers\Merchello.Providers.csproj", "{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merchello.Tests.Unit", "..\tests\Merchello.Tests.Unit\Merchello.Tests.Unit.csproj", "{DD560559-1756-4030-9823-36AFB363575A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{316576E6-26C7-43A9-AB5C-A024F1598FBF}"
@@ -52,6 +50,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Merchello.Umbraco.Ui.Client
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merchello.Tests.Base", "..\tests\Merchello.Tests.Base\Merchello.Tests.Base.csproj", "{72EDA5F0-FAD9-44A7-B65E-E778301F82E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merchello.Providers", "Merchello.Providers\Merchello.Providers.csproj", "{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,10 +66,6 @@ Global
 		{9DCEAC26-70C0-4B2F-88F5-FD2A2E2A30DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DCEAC26-70C0-4B2F-88F5-FD2A2E2A30DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DCEAC26-70C0-4B2F-88F5-FD2A2E2A30DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DD560559-1756-4030-9823-36AFB363575A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DD560559-1756-4030-9823-36AFB363575A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD560559-1756-4030-9823-36AFB363575A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -89,6 +85,10 @@ Global
 		{72EDA5F0-FAD9-44A7-B65E-E778301F82E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72EDA5F0-FAD9-44A7-B65E-E778301F82E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72EDA5F0-FAD9-44A7-B65E-E778301F82E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

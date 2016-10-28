@@ -4,6 +4,7 @@
 
     using Merchello.Core.Cache;
     using Merchello.Core.DI;
+    using Merchello.Core.Gateways;
     using Merchello.Core.Services;
 
     /// <inheritdoc/>
@@ -27,6 +28,9 @@
 
         /// <inheritdoc/>
         public IServiceContext Services => MC.Container.GetInstance<IServiceContext>();
+
+        /// <inheritdoc/>
+        public IGatewayContext Gateways => MC.Container.GetInstance<IGatewayContext>();
 
         /// <summary>
         /// Gets a value indicating whether is configured.

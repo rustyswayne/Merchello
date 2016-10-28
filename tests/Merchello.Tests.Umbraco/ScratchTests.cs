@@ -1,26 +1,52 @@
 ﻿namespace Merchello.Tests.Umbraco
 {
     using System;
+    using System.Linq;
 
     using global::Umbraco.Core.Logging;
 
     using Merchello.Core;
     using Merchello.Core.Cache;
     using Merchello.Core.DI;
-    using Merchello.Core.Gateways.Shipping;
+    using Merchello.Core.Gateways;
     using Merchello.Core.Persistence;
-    using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.Migrations;
     using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
+    using Merchello.Core.Plugins;
     using Merchello.Tests.Base;
 
     using NUnit.Framework;
 
     [TestFixture]
+    [Ignore("scrath use only")]
     public class ScratchTests : UmbracoRuntimeTestBase
     {
         protected override bool RequiresMerchelloConfig => true;
+
+        protected override bool AutoInstall => false;
+
+        protected override bool UninistallDatabaseOnTearDown => true;
+
+        [Test]
+        public void UninstallDatabase()
+        {
+            var manager = MC.Container.GetInstance<IDatabaseSchemaManager>();
+            manager.UninstallDatabaseSchema();
+        }
+
+
+        [Test]
+        public void PluginManagerTests()
+        {
+            var pm = MC.Container.GetInstance<IPluginManager>();
+            var cha = pm.ResolveTypes<IGatewayProvider>();
+            //var gwp = TPluginManager.ResolveTypes<IGatewayProvider>();
+            var types = pm.ResolveTypes<IGatewayProvider>();
+
+            
+            Console.WriteLine(types.Count());
+        }
 
         [Test]
         public void LogTest()
@@ -46,17 +72,25 @@
 
             //var unitOfWork = IoC.Container.GetInstance<IUnitOfWork>();
 
-            var manager = MC.Container.GetInstance<IDatabaseSchemaManager>();
-            manager.UninstallDatabaseSchema();
+            //var manager = MC.Container.GetInstance<IDatabaseSchemaManager>();
+            //manager.UninstallDatabaseSchema();
             //manager.InstallDatabaseSchema();
-            Assert.NotNull(manager);
+            //Assert.NotNull(manager);
 
-            var builder = MC.Container.GetInstance<MigrationRegisterBuilder>();
-            Assert.NotNull(builder);
-            var register = builder.CreateRegister();
-            var migrationCount = register.Count;
-            Console.WriteLine(migrationCount);
+            //var builder = MC.Container.GetInstance<MigrationRegisterBuilder>();
+            //Assert.NotNull(builder);
+            //var register = builder.CreateRegister();
+            //var migrationCount = register.Count;
+            //Console.WriteLine(migrationCount);
 
+            var gatewayBuilder = MC.Container.GetInstance<GatewayProviderRegisterBuilder>();
+            var gatewayRegister = gatewayBuilder.CreateRegister();
+            //gatewayRegister.RefreshCache();
+            var gatewayCount = gatewayRegister.Count;
+            Console.WriteLine($"Gateways {gatewayCount}");
+
+            var providers = gatewayRegister.GetActivatedProviders();
+            Console.WriteLine($"providers count: {providers.Count()}");
             //var manager = IoC.Container.GetInstance<IMigrationManager>();
             //Assert.NotNull(manager);
             //var version = new Version("0.0.0");

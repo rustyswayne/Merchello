@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Reflection;
 
-    using global::Umbraco.Core.Plugins;
-
     using Merchello.Core;
     using Merchello.Core.Plugins;
+
+    using global::Umbraco.Core.Plugins;
 
     /// <inheritdoc/>
     internal sealed class PluginManagerAdapter : IPluginManager, IUmbracoAdapter
@@ -45,7 +45,7 @@
         /// <inheritdoc/>
         public IEnumerable<Type> ResolveTypes<T>(bool cacheResult = true, IEnumerable<Assembly> specificAssemblies = null)
         {
-            return this._pluginManager.ResolveTypes<T>(cacheResult, specificAssemblies);
+            return _pluginManager.ResolveTypes<T>(cacheResult, specificAssemblies);
         }
 
         /// <inheritdoc/>

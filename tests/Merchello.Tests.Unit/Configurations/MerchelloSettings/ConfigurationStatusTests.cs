@@ -14,6 +14,12 @@
     [TestFixture]
     public class ConfigurationStatusTests : MerchelloSettingsTests
     {
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            ResetToInstallVersion();
+        }
+
         [Test]
         public void ConfigurationStatus()
         {

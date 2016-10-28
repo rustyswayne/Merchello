@@ -18,14 +18,14 @@
         /// <param name="container">
         /// The <see cref="IServiceContainer"/>.
         /// </param>
-        /// <param name="dbAdapter">
-        /// The <see cref="IDatabaseAdapter"/>.
+        /// <param name="dbFactory">
+        /// The <see cref="IDatabaseFactory"/>.
         /// </param>
         /// <param name="logger">
         /// The <see cref="ILogger"/>.
         /// </param>
-        public MigrationManager(IServiceContainer container, IDatabaseAdapter dbAdapter, ILogger logger)
-            : base(container, dbAdapter, logger)
+        public MigrationManager(IServiceContainer container, IDatabaseFactory dbFactory, ILogger logger)
+            : base(container, dbFactory, logger)
         {
         }
 

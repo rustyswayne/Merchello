@@ -14,8 +14,10 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class AuditLogServiceTests : MerchelloDatabaseTestBase
+    public class AuditLogServiceTests : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+
         protected IAuditLogService _auditLogService;
 
         protected IDatabaseAdapter _dbAdapter;

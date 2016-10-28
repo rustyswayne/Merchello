@@ -42,11 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapter\LogProfilerAdapter.cs" />
+    <Compile Include="HashCodeCombiner.cs" />
     <Compile Include="MerchelloDatabaseTestBase.cs" />
     <Compile Include="MerchelloRepositoryTestBase.cs" />
     <Compile Include="Mocks\MockAnonymousCustomer.cs" />
     <Compile Include="Mocks\MockCustomer.cs" />
     <Compile Include="Properties\AssemblyVisibility.cs" />
+    <Compile Include="Temp\PluginManager.cs" />
     <Compile Include="TestUmbracoDatabaseFactory.cs" />
     <Compile Include="UmbracoRuntimeTestBase.cs" />
     <Compile Include="UmbracoCacheTestBase.cs" />
@@ -69,6 +71,10 @@
     <ProjectReference Include="..\..\src\Merchello.Core\Merchello.Core.csproj">
       <Project>{d921b972-b572-487f-af14-613713e1b4e7}</Project>
       <Name>Merchello.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Merchello.Providers\Merchello.Providers.csproj">
+      <Project>{94E933DD-A2D6-4267-9AB4-E4B32E1B68B1}</Project>
+      <Name>Merchello.Providers</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Merchello.Umbraco\Merchello.Umbraco.csproj">
       <Project>{332eecfd-f193-4dcf-9b0b-11484584c600}</Project>

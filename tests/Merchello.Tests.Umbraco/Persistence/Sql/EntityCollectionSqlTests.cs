@@ -13,8 +13,10 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class EntityCollectionSqlTests : MerchelloDatabaseTestBase
+    public class EntityCollectionSqlTests : UmbracoRuntimeTestBase
     {
+        protected override bool AutoInstall => true;
+        
         private IDatabaseAdapter _db;
 
         [OneTimeSetUp]

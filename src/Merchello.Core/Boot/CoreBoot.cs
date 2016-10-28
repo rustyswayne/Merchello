@@ -11,8 +11,11 @@
     using Merchello.Core.Configuration;
     using Merchello.Core.DI;
     using Merchello.Core.Events;
+    using Merchello.Core.Exceptions;
     using Merchello.Core.Logging;
     using Merchello.Core.Mapping;
+    using Merchello.Core.Persistence;
+    using Merchello.Core.Persistence.Migrations;
 
     using Ensure = Merchello.Core.Ensure;
 
@@ -37,6 +40,7 @@
         /// </summary>
         private IDisposableTimer _timer;
 
+
         #endregion
 
         /// <summary>
@@ -45,9 +49,15 @@
         /// <param name="container">
         /// The <see cref="IServiceContainer"/>.
         /// </param>
-        internal CoreBoot(IServiceContainer container)
+        /// <param name="bootSettings">
+        /// The <see cref="IBootSettings"/>
+        /// </param>
+        internal CoreBoot(IServiceContainer container, IBootSettings bootSettings)
         {
             Ensure.ParameterNotNull(container, nameof(container));
+            Ensure.ParameterNotNull(bootSettings, nameof(bootSettings));
+
+            this.BootSettings = bootSettings;
 
             // Self register the container
             container.Register<IServiceContainer>(_ => container);
@@ -58,7 +68,20 @@
         /// <summary>
         /// Occurs after the boot has completed.
         /// </summary>
-        public static event EventHandler Complete; 
+        public static event EventHandler Complete;
+
+        /// <summary>
+        /// Gets or sets the merchello settings path.
+        /// </summary>
+        /// <remarks>
+        /// Used in tests.
+        /// </remarks>
+        internal string MerchelloSettingsPath { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="IBootSettings"/>.
+        /// </summary>
+        protected IBootSettings BootSettings { get; }
 
         /// <inheritdoc/>
         public virtual void Boot()
@@ -103,6 +126,7 @@
         /// </param>
         public void OnComplete(object sender, EventArgs e)
         {
+            if (!BootSettings.AutoInstall) return;
             Complete?.Invoke(sender, e);
         }
 
@@ -133,7 +157,10 @@
             container.RegisterFrom<RegistersComposition>();
 
             // Strategies
-            container.RegisterFrom<StrategiesComposition>();
+            if (BootSettings.RequiresConfig) container.RegisterFrom<StrategiesComposition>();
+
+            // Gateways
+            container.RegisterFrom<GatewaysComposition>();
         }
 
         /// <summary>
@@ -142,8 +169,56 @@
         /// <param name="container">
         /// The container.
         /// </param>
-        protected virtual void EnsureInstallVersion(IServiceContainer container)
+        internal virtual void EnsureInstallVersion(IServiceContainer container)
         {
+            if (!BootSettings.AutoInstall) return;
+
+            var manager = container.GetInstance<IMigrationManager>();
+
+            var instruction = manager.GetMigrationInstruction();
+
+            // Check for the current version and ensure Merchello is supposed to automatically perform the database updates.
+            if (instruction.PluginInstallStatus != PluginInstallStatus.Current && instruction.AutoUpdateDbSchema)
+            {
+                if (instruction.PluginInstallStatus == PluginInstallStatus.RequiresInstall)
+                {
+                    // Merchello database tables need to be installed.
+                    _logger.Info<CoreBoot>("Installing Merchello database.");
+                    try
+                    {
+                        manager.InstallDatabaseSchema();
+                        _logger.Info<CoreBoot>("Merchello database installation completed.");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error<CoreBoot>("Merchello failed to install database", ex);
+                    }   
+                }
+
+                if (instruction.PluginInstallStatus == PluginInstallStatus.RequiresUpgrade)
+                {
+                    _logger.Info<CoreBoot>("Finding migrations.");
+
+                    _logger.Warn<CoreBoot>("No migrations found. Database version should have reported as current. Please log issue.");
+                }
+            }
+            else if (instruction.PluginInstallStatus != PluginInstallStatus.Current)
+            {
+                var bex = new BootException("Merchello boot detected an upgrade is required but Merchello Settings for AutoUpdateDbSchema was set to 'false' - aborting boot.");
+                _logger.Error<CoreBoot>("Merchello needs to be manually upgraded per configuration setting", bex);
+                throw bex;
+            }
+
+            // update the configuration status in the merchelloSettings.config file
+            if (instruction.UpdateConfigFile)
+            {
+                if (BootSettings.IsTest && !MerchelloSettingsPath.IsNullOrWhiteSpace())
+                {
+                    MerchelloConfig.SaveConfigurationStatus(instruction.TargetConfigurationStatus, MerchelloSettingsPath);
+                }
+
+                if (!BootSettings.IsTest) MerchelloConfig.SaveConfigurationStatus(instruction.TargetConfigurationStatus);
+            }
         }
 
         /// <summary>

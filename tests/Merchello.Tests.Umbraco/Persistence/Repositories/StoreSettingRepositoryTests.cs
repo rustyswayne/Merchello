@@ -11,18 +11,20 @@
     [TestFixture]
     public class StoreSettingRepositoryTests : MerchelloRepositoryTestBase
     {
-        
+         protected override bool AutoInstall => true;
 
         [Test]
         public void GetByKey()
         {
-            var uow = UowProvider.CreateUnitOfWork();
-            uow.ReadLock(Constants.Locks.Settings);
-            var repo = uow.CreateRepository<IStoreSettingRepository>();
-            var setting = repo.Get(Constants.StoreSetting.CurrencyCodeKey);
-            uow.Complete();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IStoreSettingRepository>();
+                var setting = repo.Get(Constants.StoreSetting.CurrencyCodeKey);
+                uow.Complete();
 
-            Assert.NotNull(setting);
+                Assert.NotNull(setting);
+            }
 
         }
     }

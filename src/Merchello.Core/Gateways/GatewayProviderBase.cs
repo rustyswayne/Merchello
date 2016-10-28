@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.Boot;
     using Merchello.Core.Cache;
     using Merchello.Core.DI;
     using Merchello.Core.Gateways.Shipping;

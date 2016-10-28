@@ -3,11 +3,10 @@
     using System;
 
     using Merchello.Core.Cache;
+    using Merchello.Core.Gateways;
+    using Merchello.Core.Services;
 
     using Semver;
-    //using Gateways;
-    using Services;
-
 
     /// <summary>
     /// Represents the MerchelloContext
@@ -24,11 +23,10 @@
         /// </summary>
         IServiceContext Services { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IGatewayContext"/>
-        ///// </summary>
-        //IGatewayContext Gateways { get; }
-
+        /// <summary>
+        /// Gets the <see cref="IGatewayContext"/>
+        /// </summary>
+        IGatewayContext Gateways { get; }
 
         /// <summary>
         /// Gets a value indicating whether or not the Merchello needs to be upgraded

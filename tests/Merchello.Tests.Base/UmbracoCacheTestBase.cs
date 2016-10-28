@@ -6,14 +6,7 @@ namespace Merchello.Tests.Base
     {
         protected CacheHelper CacheHelper { get; private set; }
 
-        protected virtual bool EnableCache
-        {
-            get
-            {
-                return false;
-            }
-        }
-
+        protected virtual bool EnableCache => false;
 
         public override void Initialize()
         {

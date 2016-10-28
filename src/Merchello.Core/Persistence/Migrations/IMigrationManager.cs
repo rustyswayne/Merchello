@@ -33,12 +33,12 @@
         ISqlSyntaxProviderAdapter SqlSyntax { get; }
 
         /// <summary>
-        /// Gets the database schema status.
+        /// Gets the <see cref="MigrationInstruction"/>.
         /// </summary>
         /// <returns>
-        /// The <see cref="DbSchemaStatus"/>.
+        /// The <see cref="MigrationInstruction"/>.
         /// </returns>
-        DbSchemaStatus GetDbSchemaStatus();
+        MigrationInstruction GetMigrationInstruction();
 
         /// <summary>
         /// Refreshes the status and schema result.

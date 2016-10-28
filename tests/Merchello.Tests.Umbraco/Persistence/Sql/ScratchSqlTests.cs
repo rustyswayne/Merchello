@@ -26,11 +26,11 @@
             this._manager.CreateTable(true, typeof(ThingDto));
         }
 
-        public override void TearDown()
+        public override void OneTimeTearDown()
         {
             this._manager.DropTable("testThing");
             this._manager.DropTable("testStatus");
-            base.TearDown();
+            base.OneTimeTearDown();
         }
 
         [Test]
