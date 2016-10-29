@@ -1,17 +1,27 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
     using System;
-    using System.Web.UI.WebControls;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
-    using Persistence;
 
     /// <inheritdoc/>
     internal partial class InvoiceRepository : IInvoiceRepository
     {
+        /// <inheritdoc/>
+        public IEnumerable<IInvoice> GetByDateRange(DateTime startDate, DateTime endDate)
+        {
+            var sql = GetBaseQuery(false).WhereBetween<InvoiceDto>(x => x.InvoiceDate, startDate, endDate);
+
+            var dtos = Database.Fetch<InvoiceDto>(sql);
+
+            return GetAll(dtos.Select(x => x.Key).ToArray());
+        }
+
         /// <inheritdoc/>
         public PagedCollection<IInvoice> GetInvoicesMatchingInvoiceStatus(string searchTerm, Guid invoiceStatusKey, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {

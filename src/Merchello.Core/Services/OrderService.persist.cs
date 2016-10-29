@@ -6,41 +6,46 @@
     using Merchello.Core.Models;
 
     /// <inheritdoc/>
-    public partial class InvoiceService : IInvoiceService
+    public partial class OrderService : IOrderService
     {
-
         /// <inheritdoc/>
-        public IInvoice Create(Guid invoiceStatusKey)
+        public IOrder Create(Guid orderStatusKey, Guid invoiceKey)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public IInvoice Create(Guid invoiceStatusKey, int invoiceNumber)
+        public IOrder Create(Guid orderStatusKey, Guid invoiceKey, int orderNumber)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Save(IInvoice entity)
+        public IOrder CreateWithKey(Guid orderStatusKey, Guid invoiceKey)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Save(IEnumerable<IInvoice> entities)
+        public void Save(IOrder entity)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Delete(IInvoice entity)
+        public void Save(IEnumerable<IOrder> entities)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Delete(IEnumerable<IInvoice> entities)
+        public void Delete(IOrder entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public void Delete(IEnumerable<IOrder> entities)
         {
             throw new NotImplementedException();
         }

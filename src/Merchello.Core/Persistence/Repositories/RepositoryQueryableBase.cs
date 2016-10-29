@@ -17,7 +17,7 @@
     /// <typeparam name="TEntity">
     /// The type of entity
     /// </typeparam>
-    internal abstract class RepositoryReadableQueryableBase<TEntity> : RepositoryReadableBase<TEntity>, IRepositoryQueryable<TEntity>
+    internal abstract class RepositoryQueryableBase<TEntity> : RepositoryReadableBase<TEntity>, IRepositoryQueryable<TEntity>
         where TEntity : class, IEntity
     {
         /// <summary>
@@ -26,7 +26,7 @@
         private IRepositoryCachePolicy<TEntity> _cachePolicy;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RepositoryReadableQueryableBase{TEntity}"/> class.
+        /// Initializes a new instance of the <see cref="RepositoryQueryableBase{TEntity}"/> class.
         /// </summary>
         /// <param name="work">
         /// The work.
@@ -37,7 +37,7 @@
         /// <param name="logger">
         /// The logger.
         /// </param>
-        protected RepositoryReadableQueryableBase(IUnitOfWork work, ICacheHelper cache, ILogger logger)
+        protected RepositoryQueryableBase(IUnitOfWork work, ICacheHelper cache, ILogger logger)
             : base(work, cache, logger)
         {
         }

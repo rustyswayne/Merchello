@@ -1,48 +1,123 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Merchello.Core.Services
+﻿namespace Merchello.Core.Services
 {
-    using Merchello.Core.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
+    using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
+
+    /// <inheritdoc/>
     public partial class GatewayProviderService : IShipCountryService
     {
+        /// <inheritdoc/>
         public IShipCountry GetShipCountryByKey(Guid key)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IShipCountryRepository>();
+                var country = repo.Get(key);
+                uow.Complete();
+                return country;
+            }
         }
 
+        /// <inheritdoc/>
         public IEnumerable<IShipCountry> GetAllShipCountries()
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IShipCountryRepository>();
+                var countries = repo.GetAll();
+                uow.Complete();
+                return countries;
+            }
         }
 
+        /// <inheritdoc/>
         public IShipCountry GetShipCountry(Guid catalogKey, string countryCode)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IShipCountryRepository>();
+                var countries = repo.GetByQuery(repo.Query.Where(x => x.CatalogKey == catalogKey && x.CountryCode == countryCode));
+                uow.Complete();
+                return countries.FirstOrDefault();
+            }
         }
 
-        public IShipCountry GetShipCountryByCountryCode(Guid catalogKey, string countryCode)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <inheritdoc/>
         public IEnumerable<IShipCountry> GetShipCountriesByCatalogKey(Guid catalogKey)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IShipCountryRepository>();
+                var countries = repo.GetByQuery(repo.Query.Where(x => x.CatalogKey == catalogKey));
+                uow.Complete();
+                return countries;
+            }
         }
 
+        /// <inheritdoc/>
         public void Save(IShipCountry shipCountry)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.WriteLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IShipCountryRepository>();
+                repo.AddOrUpdate(shipCountry);
+                uow.Complete();
+            }
         }
 
+        /// <inheritdoc/>
+        public void Save(IEnumerable<IShipCountry> shipCountries)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.WriteLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IShipCountryRepository>();
+
+                foreach (var country in shipCountries)
+                {
+                    repo.AddOrUpdate(country);
+                }
+               
+                uow.Complete();
+            }
+        }
+
+        /// <inheritdoc/>
         public void Delete(IShipCountry shipCountry)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.WriteLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IShipCountryRepository>();
+                repo.Delete(shipCountry);
+                uow.Complete();
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Delete(IEnumerable<IShipCountry> shipCountries)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.WriteLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<IShipCountryRepository>();
+
+                foreach (var country in shipCountries)
+                {
+                    repo.Delete(country);
+                }
+                
+                uow.Complete();
+            }
         }
     }
 }

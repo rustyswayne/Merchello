@@ -30,7 +30,7 @@
         /// <returns>
         /// A collection of <see cref="IShipMethod"/>
         /// </returns>
-        IEnumerable<IShipMethod> GetShipMethodsByProviderKey(Guid providerKey, Guid shipCountryKey);
+        IEnumerable<IShipMethod> GetShipMethods(Guid providerKey, Guid shipCountryKey);
 
         /// <summary>
         /// Gets a list of all <see cref="IShipMethod"/> objects given a <see cref="IGatewayProviderSettings"/> key
@@ -46,27 +46,14 @@
         /// <summary>
         /// Gets a list of all <see cref="IShipMethod"/> objects given a <see cref="IGatewayProviderSettings"/> key
         /// </summary>
-        /// <param name="providerKey">
-        /// The provider Key.
-        /// </param>
-        /// <returns>
-        /// A collection of <see cref="IShipMethod"/>
-        /// </returns>
-        IEnumerable<IShipMethod> GetShipMethodsByShipCountryKey(Guid providerKey);
-
-        /// <summary>
-        /// Gets a list of <see cref="IShipMethod"/> objects given a <see cref="IGatewayProviderSettings"/> key and a <see cref="IShipCountry"/> key
-        /// </summary>
-        /// <param name="providerKey">
-        /// The provider Key.
-        /// </param>
         /// <param name="shipCountryKey">
-        /// The ship Country Key.
+        /// The ship country key.
         /// </param>
         /// <returns>
         /// A collection of <see cref="IShipMethod"/>
         /// </returns>
-        IEnumerable<IShipMethod> GetShipMethodsByShipCountryKey(Guid providerKey, Guid shipCountryKey);
+        IEnumerable<IShipMethod> GetShipMethodsByShipCountryKey(Guid shipCountryKey);
+
 
         /// <summary>
         /// Gets all the <see cref="IShipMethod"/>.

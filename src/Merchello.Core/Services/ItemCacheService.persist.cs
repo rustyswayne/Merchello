@@ -6,41 +6,34 @@
     using Merchello.Core.Models;
 
     /// <inheritdoc/>
-    public partial class InvoiceService : IInvoiceService
+    public partial class ItemCacheService : IItemCacheService
     {
-
         /// <inheritdoc/>
-        public IInvoice Create(Guid invoiceStatusKey)
+        public IItemCache GetByKey(Guid key)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public IInvoice Create(Guid invoiceStatusKey, int invoiceNumber)
+        public void Save(IItemCache entity)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Save(IInvoice entity)
+        public void Save(IEnumerable<IItemCache> entities)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Save(IEnumerable<IInvoice> entities)
+        public void Delete(IItemCache entity)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Delete(IInvoice entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public void Delete(IEnumerable<IInvoice> entities)
+        public void Delete(IEnumerable<IItemCache> entities)
         {
             throw new NotImplementedException();
         }

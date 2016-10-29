@@ -1,5 +1,6 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
+    using System;
     using System.Collections.Generic;
 
     using Merchello.Core.Acquired.Persistence;
@@ -34,6 +35,13 @@
         public NotificationMethodRepository(IDatabaseUnitOfWork work, ICacheHelper cache, ILogger logger, IMapperRegister mappers)
             : base(work, cache, logger, mappers)
         {
+        }
+
+        /// <inheritdoc/>
+        public bool Exists(Guid providerKey, string serviceCode)
+        {
+            var query = Query.Where(x => x.ProviderKey == providerKey && x.ServiceCode == serviceCode);
+            return Count(query) > 0;
         }
 
         /// <inheritdoc/>

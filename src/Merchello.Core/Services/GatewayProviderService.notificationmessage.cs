@@ -1,59 +1,131 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Merchello.Core.Services
+﻿namespace Merchello.Core.Services
 {
-    using Merchello.Core.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
+    using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
+
+    /// <inheritdoc/>
     public partial class GatewayProviderService : INotificationMessageService
     {
+        /// <inheritdoc/>
         public INotificationMessage GetNotificationMessageByKey(Guid key)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<INotificationMessageRepository>();
+                var message = repo.Get(key);
+                uow.Complete();
+                return message;
+            }
         }
 
+        /// <inheritdoc/>
         public IEnumerable<INotificationMessage> GetAllNotificationMessages()
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<INotificationMessageRepository>();
+                var messages = repo.GetAll();
+                uow.Complete();
+                return messages;
+            }
         }
 
+        /// <inheritdoc/>
         public IEnumerable<INotificationMessage> GetNotificationMessagesByMethodKey(Guid notificationMethodKey)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<INotificationMessageRepository>();
+                var message = repo.GetByQuery(repo.Query.Where(x => x.MethodKey == notificationMethodKey));
+                uow.Complete();
+                return message;
+            }
         }
 
+        /// <inheritdoc/>
         public IEnumerable<INotificationMessage> GetNotificationMessagesByMonitorKey(Guid monitorKey)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<INotificationMessageRepository>();
+                var message = repo.GetByQuery(repo.Query.Where(x => x.MonitorKey == monitorKey));
+                uow.Complete();
+                return message;
+            }
         }
 
-        public INotificationMessage CreateNotificationMessageWithKey(
-            Guid methodKey,
-            string name,
-            string description,
-            string fromAddress,
-            IEnumerable<string> recipients,
-            string bodyText)
+        /// <inheritdoc/>
+        public INotificationMessage CreateNotificationMessageWithKey(Guid methodKey, string name, string description, string fromAddress, IEnumerable<string> recipients, string bodyText)
         {
-            throw new NotImplementedException();
+            var recipientArray = recipients as string[] ?? recipients.ToArray();
+
+            Ensure.ParameterCondition(methodKey != Guid.Empty, "methodKey");
+            Ensure.ParameterNotNullOrEmpty(name, "name");
+            Ensure.ParameterNotNullOrEmpty(fromAddress, "fromAddress");
+
+            var message = new NotificationMessage(methodKey, name, fromAddress)
+            {
+                Description = description,
+                BodyText = bodyText,
+                Recipients = string.Join(",", recipientArray)
+            };
+
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.WriteLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<INotificationMessageRepository>();
+                repo.AddOrUpdate(message);
+                uow.Complete();
+            }
+
+            return message;
         }
 
+        /// <inheritdoc/>
         public void Save(INotificationMessage notificationMessage)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.WriteLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<INotificationMessageRepository>();
+                repo.AddOrUpdate(notificationMessage);
+                uow.Complete();
+            }
         }
 
+        /// <inheritdoc/>
         public void Save(IEnumerable<INotificationMessage> notificationMessages)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.WriteLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<INotificationMessageRepository>();
+                foreach (var message in notificationMessages)
+                {
+                    repo.AddOrUpdate(message);
+                }
+                uow.Complete();
+            }
         }
 
+        /// <inheritdoc/>
         public void Delete(INotificationMessage notificationMessage)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.WriteLock(Constants.Locks.Settings);
+                var repo = uow.CreateRepository<INotificationMessageRepository>();
+                repo.Delete(notificationMessage);
+                uow.Complete();
+            }
         }
     }
 }

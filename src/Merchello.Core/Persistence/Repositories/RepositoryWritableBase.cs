@@ -11,7 +11,7 @@
     /// <typeparam name="TEntity">
     /// The type of entity.
     /// </typeparam>
-    internal abstract class RepositoryWritableBase<TEntity> : RepositoryReadableQueryableBase<TEntity>, IRepositoryWritable<TEntity>, IUnitOfWorkRepository
+    internal abstract class RepositoryWritableBase<TEntity> : RepositoryQueryableBase<TEntity>, IRepositoryWritable<TEntity>, IUnitOfWorkRepository
         where TEntity : class, IEntity
     {
         /// <summary>

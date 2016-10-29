@@ -637,6 +637,7 @@
     <Compile Include="Persistence\Repositories\Interfaces\IShipCountryRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IShipmentRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IShipmentStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\Interfaces\IShipMethodRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IShipRateTierRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IStoreRepository.cs" />
     <Compile Include="Persistence\Repositories\Interfaces\IStoreSettingRepository.cs" />
@@ -784,6 +785,7 @@
       <DependentUpon>ShipmentRepository.cs</DependentUpon>
     </Compile>
     <Compile Include="Persistence\Repositories\ShipmentStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\ShipMethodRepository.cs" />
     <Compile Include="Persistence\Repositories\ShipRateTierRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.cs" />
     <Compile Include="Persistence\Repositories\StoreRepository.npoco.cs">
@@ -1156,6 +1158,24 @@
     <Compile Include="Services\InvoiceService.statuses.cs">
       <DependentUpon>InvoiceService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ItemCacheService.cs" />
+    <Compile Include="Services\ItemCacheService.persist.cs">
+      <DependentUpon>ItemCacheService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ItemCacheService.reporting.cs">
+      <DependentUpon>ItemCacheService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\OfferSettingsService.cs" />
+    <Compile Include="Services\OfferSettingsService.persist.cs">
+      <DependentUpon>OfferSettingsService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\OfferSettingsService.querying.cs">
+      <DependentUpon>OfferSettingsService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\OrderService.persist.cs">
+      <DependentUpon>OrderService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\PaymentService.appliedpayment.cs">
       <DependentUpon>PaymentService.cs</DependentUpon>
     </Compile>
@@ -1165,6 +1185,13 @@
     </Compile>
     <Compile Include="Services\PaymentService.persist.cs">
       <DependentUpon>PaymentService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ProductOptionService.cs" />
+    <Compile Include="Services\ProductOptionService.persist.cs">
+      <DependentUpon>ProductOptionService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ProductOptionService.querying.cs">
+      <DependentUpon>ProductOptionService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ProductService.persist.cs">
       <DependentUpon>ProductService.cs</DependentUpon>

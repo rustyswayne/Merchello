@@ -156,7 +156,7 @@
         /// </returns>
         public override IEnumerable<IShippingGatewayMethod> GetAllShippingGatewayMethods(IShipCountry shipCountry)
         {
-            var methods = this.GatewayProviderService.GetShipMethodsByShipCountryKey(this.GatewayProviderSettings.Key, shipCountry.Key);
+            var methods = this.GatewayProviderService.GetShipMethods(this.GatewayProviderSettings.Key, shipCountry.Key);
             return methods
                 .Select(
                 shipMethod => new FixedRateShippingGatewayMethod(

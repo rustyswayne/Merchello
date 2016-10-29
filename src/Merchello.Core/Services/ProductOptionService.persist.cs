@@ -6,41 +6,40 @@
     using Merchello.Core.Models;
 
     /// <inheritdoc/>
-    public partial class InvoiceService : IInvoiceService
+    public partial class ProductOptionService : IProductOptionService
     {
-
         /// <inheritdoc/>
-        public IInvoice Create(Guid invoiceStatusKey)
+        public void Save(IProductOption entity)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public IInvoice Create(Guid invoiceStatusKey, int invoiceNumber)
+        public void Save(IEnumerable<IProductOption> entities)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Save(IInvoice entity)
+        public void Delete(IProductOption entity)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Save(IEnumerable<IInvoice> entities)
+        public void Delete(IEnumerable<IProductOption> entities)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Delete(IInvoice entity)
+        public IProductOption Create(string name, bool shared = false, bool required = true)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Delete(IEnumerable<IInvoice> entities)
+        public IProductOption CreateProductOptionWithKey(string name, bool shared = false, bool required = true)
         {
             throw new NotImplementedException();
         }

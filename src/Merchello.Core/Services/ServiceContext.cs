@@ -28,6 +28,11 @@
         private readonly Lazy<IGatewayProviderService> _gatewayProviderService;
 
         /// <summary>
+        /// The <see cref="IItemCacheService"/>.
+        /// </summary>
+        private readonly Lazy<IItemCacheService> _itemCacheService;
+
+        /// <summary>
         /// The <see cref="IInvoiceService"/>.
         /// </summary>
         private readonly Lazy<IInvoiceService> _invoiceService;
@@ -41,6 +46,21 @@
         /// The <see cref="IMigrationStatusService"/>.
         /// </summary>
         private readonly Lazy<IMigrationStatusService> _migrationStatusService;
+
+        /// <summary>
+        /// The <see cref="IOfferSettingsService"/>.
+        /// </summary>
+        private readonly Lazy<IOfferSettingsService> _offerSettingsService;
+
+        /// <summary>
+        /// The <see cref="IOrderService"/>.
+        /// </summary>
+        private readonly Lazy<IOrderService> _orderService;
+
+        /// <summary>
+        /// The <see cref="IProductOptionService"/>.
+        /// </summary>
+        private readonly Lazy<IProductOptionService> _productOptionService;
 
         /// <summary>
         /// The <see cref="IStoreSettingService"/>.
@@ -64,14 +84,26 @@
         /// <param name="gatewayProviderService">
         /// The <see cref="IGatewayProviderService"/>
         /// </param>
+        /// <param name="itemCacheService">
+        /// The <see cref="IItemCacheService"/>.
+        /// </param>
         /// <param name="invoiceService">
         /// The <see cref="IInvoiceService"/>
         /// </param>
         /// <param name="migrationStatusService">
         /// The <see cref="IMigrationStatusService"/>.
         /// </param>
+        /// <param name="offerSettingsService">
+        /// The <see cref="IOfferSettingsService"/>
+        /// </param>
+        /// <param name="orderService">
+        /// The <see cref="IOrderService"/>
+        /// </param>
         /// <param name="paymentService">
         /// The <see cref="IPaymentService"/>
+        /// </param>
+        /// <param name="productOptionService">
+        /// The <see cref="IProductOptionService"/>
         /// </param>
         /// <param name="storeSettingService">
         /// The <see cref="IStoreSettingService"/>
@@ -81,18 +113,26 @@
             Lazy<ICustomerService> customerService, 
             Lazy<IEntityCollectionService> entityCollectionService, 
             Lazy<IGatewayProviderService> gatewayProviderService,
+            Lazy<IItemCacheService> itemCacheService,
             Lazy<IInvoiceService> invoiceService,
             Lazy<IMigrationStatusService> migrationStatusService,
+            Lazy<IOfferSettingsService> offerSettingsService,
+            Lazy<IOrderService> orderService,
             Lazy<IPaymentService> paymentService,
+            Lazy<IProductOptionService> productOptionService,
             Lazy<IStoreSettingService> storeSettingService)
         {
             _auditLogService = auditLogService;
             _customerService = customerService;
             _entityCollectionService = entityCollectionService;
             _gatewayProviderService = gatewayProviderService;
+            _itemCacheService = itemCacheService;
             _invoiceService = invoiceService;
             _migrationStatusService = migrationStatusService;
+            _offerSettingsService = offerSettingsService;
+            _orderService = orderService;
             _paymentService = paymentService;
+            _productOptionService = productOptionService;
             _storeSettingService = storeSettingService;
         }
 
@@ -111,14 +151,26 @@
         /// <param name="gatewayProviderService">
         /// The <see cref="IGatewayProviderService"/>
         /// </param>
+        /// <param name="itemCacheService">
+        /// The <see cref="IItemCacheService"/>
+        /// </param>
         /// <param name="invoiceService">
         /// The <see cref="IInvoiceService"/>
         /// </param>
         /// <param name="migrationStatusService">
         /// The <see cref="IMigrationStatusService"/>.
         /// </param>
+        /// <param name="offerSettingsService">
+        /// The <see cref="IOfferSettingsService"/>
+        /// </param>
+        /// <param name="orderService">
+        /// The <see cref="IOrderService"/>
+        /// </param>
         /// <param name="paymentService">
         /// The <see cref="IPaymentService"/>
+        /// </param>
+        /// <param name="productOptionService">
+        /// The <see cref="IProductOptionService"/>
         /// </param>
         /// <param name="storeSettingServcie">
         /// The <see cref="IStoreSettingService"/>
@@ -128,18 +180,26 @@
             ICustomerService customerService = null,
             IEntityCollectionService entityCollectionService = null,
             IGatewayProviderService gatewayProviderService = null,
+            IItemCacheService itemCacheService = null,
             IInvoiceService invoiceService = null,
             IMigrationStatusService migrationStatusService = null,
+            IOfferSettingsService offerSettingsService = null,
+            IOrderService orderService = null,
             IPaymentService paymentService = null,
+            IProductOptionService productOptionService = null,
             IStoreSettingService storeSettingServcie = null)
         {
             if (auditLogService != null) _auditLogService = new Lazy<IAuditLogService>(() => auditLogService);
             if (customerService != null) _customerService = new Lazy<ICustomerService>(() => customerService);
             if (entityCollectionService != null) _entityCollectionService = new Lazy<IEntityCollectionService>(() => entityCollectionService);
             if (gatewayProviderService != null) _gatewayProviderService = new Lazy<IGatewayProviderService>(() => gatewayProviderService);
+            if (itemCacheService != null) _itemCacheService = new Lazy<IItemCacheService>(() => itemCacheService);
             if (invoiceService != null) _invoiceService = new Lazy<IInvoiceService>(() => invoiceService);
             if (migrationStatusService != null) _migrationStatusService = new Lazy<IMigrationStatusService>(() => migrationStatusService);
+            if (offerSettingsService != null) _offerSettingsService = new Lazy<IOfferSettingsService>(() => offerSettingsService);
+            if (orderService != null) _orderService = new Lazy<IOrderService>(() => orderService);
             if (paymentService != null) _paymentService = new Lazy<IPaymentService>(() => paymentService);
+            if (productOptionService != null) _productOptionService = new Lazy<IProductOptionService>(() => productOptionService);
             if (storeSettingServcie != null) _storeSettingService = new Lazy<IStoreSettingService>(() => storeSettingServcie);
         }
 
@@ -156,18 +216,26 @@
         /// <inheritdoc/>
         public IGatewayProviderService GatewayProviderService => _gatewayProviderService.Value;
 
-        /// <summary>
-        /// The <see cref="IInvoiceService"/>.
-        /// </summary>
+        /// <inheritdoc/>
+        public IItemCacheService ItemCacheService => _itemCacheService.Value;
+
+        /// <inheritdoc/>
         public IInvoiceService InvoiceService => _invoiceService.Value;
 
         /// <inheritdoc/>
         public IMigrationStatusService MigrationStatusService => _migrationStatusService.Value;
 
-        /// <summary>
-        /// The <see cref="IPaymentService"/>.
-        /// </summary>
+        /// <inheritdoc/>
+        public IOfferSettingsService OfferSettingsService => _offerSettingsService.Value;
+
+        /// <inheritdoc/>
+        public IOrderService OrderService => _orderService.Value;
+
+        /// <inheritdoc/>
         public IPaymentService PaymentService => _paymentService.Value;
+
+        /// <inheritdoc/>
+        public IProductOptionService ProductOptionService => _productOptionService.Value;
 
         /// <inheritdoc/>
         public IStoreSettingService StoreSettingService => _storeSettingService.Value;

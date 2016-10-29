@@ -24,8 +24,11 @@
             Assert.That(services.EntityCollectionService, Is.Not.Null);
             Assert.That(services.GatewayProviderService, Is.Not.Null);
             Assert.That(services.InvoiceService, Is.Not.Null);
+            Assert.That(services.ItemCacheService, Is.Not.Null);
             Assert.That(services.MigrationStatusService, Is.Not.Null);
+            Assert.That(services.OrderService, Is.Not.Null);
             Assert.That(services.PaymentService, Is.Not.Null);
+            Assert.That(services.ProductOptionService, Is.Not.Null);
             Assert.That(services.StoreSettingService, Is.Not.Null);
         }
 

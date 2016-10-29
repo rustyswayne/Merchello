@@ -43,10 +43,11 @@
   <ItemGroup>
     <Compile Include="Adapter\LogProfilerAdapter.cs" />
     <Compile Include="HashCodeCombiner.cs" />
-    <Compile Include="MerchelloDatabaseTestBase.cs" />
     <Compile Include="MerchelloRepositoryTestBase.cs" />
     <Compile Include="Mocks\MockAnonymousCustomer.cs" />
     <Compile Include="Mocks\MockCustomer.cs" />
+    <Compile Include="Mocks\MockEntity.cs" />
+    <Compile Include="Mocks\MockSimpleRepository.cs" />
     <Compile Include="Properties\AssemblyVisibility.cs" />
     <Compile Include="Temp\PluginManager.cs" />
     <Compile Include="TestUmbracoDatabaseFactory.cs" />

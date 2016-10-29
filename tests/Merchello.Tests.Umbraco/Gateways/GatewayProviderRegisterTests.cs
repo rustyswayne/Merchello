@@ -41,7 +41,7 @@
         {
             //// Arrange
             // expect to resolve cash payment, smtp notification, fixed tax, flat rate ship
-            var expected = 4;
+            var expected = 5;
 
             //// Act
             var providers = this.Register.GetAllProviders().ToArray();
@@ -108,6 +108,27 @@
 
             //// Assert
             Assert.AreEqual(expected, providers.Length);
+        }
+
+        [TestCase("B2612C3D-8BF0-411C-8C56-32E7495AE79C", true, false)] // cash
+        [TestCase("B2612C3D-8BF0-411C-8C56-32E7495AE79C", false, false)]
+        [TestCase("AEC7A923-9F64-41D0-B17B-0EF64725F576", true, false)] // shipping
+        [TestCase("AEC7A923-9F64-41D0-B17B-0EF64725F576", false, false)]
+        [TestCase("A4AD4331-C278-4231-8607-925E0839A6CD", true, false)] // tax
+        [TestCase("A4AD4331-C278-4231-8607-925E0839A6CD", false, false)]
+        [TestCase("5F2E88D1-6D07-4809-B9AB-D4D6036473E9", true, true)] // smtp
+        [TestCase("A4AD4331-C278-4231-8607-925E0839A6CD", false, false)]
+        [Test]
+        public void GetProviderByKey(string providerKey, bool activatedOnly, bool expectNull)
+        {
+            //// Arrange
+            var key = new Guid(providerKey);
+
+            //// Act
+            var provider = Register.GetProviderByKey<IGatewayProvider>(key, activatedOnly);
+
+            //// Assert
+            Assert.That(provider == null, Is.EqualTo(expectNull));
         }
 
         [TestCase(typeof(IPaymentGatewayProvider), GatewayProviderType.Payment)]

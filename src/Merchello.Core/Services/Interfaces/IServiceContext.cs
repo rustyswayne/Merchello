@@ -30,35 +30,35 @@
         /// </summary>
         IInvoiceService InvoiceService { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IItemCacheService"/>.
-        ///// </summary>
-        //IItemCacheService ItemCacheService { get; }
+        /// <summary>
+        /// Gets the <see cref="IItemCacheService"/>.
+        /// </summary>
+        IItemCacheService ItemCacheService { get; }
 
         /// <summary>
         /// Gets the <see cref="IMigrationStatusService"/>.
         /// </summary>
         IMigrationStatusService MigrationStatusService { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IOfferSettingsService"/>.
-        ///// </summary>
-        //IOfferSettingsService OfferSettingsService { get; }
+        /// <summary>
+        /// Gets the <see cref="IOfferSettingsService"/>.
+        /// </summary>
+        IOfferSettingsService OfferSettingsService { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IOrderService"/>.
-        ///// </summary>
-        //IOrderService OrderService { get; }
+        /// <summary>
+        /// Gets the <see cref="IOrderService"/>.
+        /// </summary>
+        IOrderService OrderService { get; }
 
         /// <summary>
         /// Gets the <see cref="IPaymentService"/>.
         /// </summary>
         IPaymentService PaymentService { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IProductOptionService"/>.
-        ///// </summary>
-        //IProductOptionService ProductOptionService { get; }
+        /// <summary>
+        /// Gets the <see cref="IProductOptionService"/>.
+        /// </summary>
+        IProductOptionService ProductOptionService { get; }
 
         ///// <summary>
         ///// Gets the <see cref="IProductService"/>.

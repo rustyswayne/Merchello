@@ -12,6 +12,8 @@
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.UnitOfWork;
 
+    using NodaMoney;
+
     /// <inheritdoc/>
     internal partial class InvoiceRepository : IInvoiceRepository
     {
@@ -78,17 +80,19 @@
         }
 
         /// <inheritdoc/>
-        public decimal SumInvoiceTotals(DateTime startDate, DateTime endDate, string currencyCode)
+        public Money SumInvoiceTotals(DateTime startDate, DateTime endDate, string currencyCode)
         {
             var sql = Sql().SelectSum<InvoiceDto>(x => x.Total)
                             .From<InvoiceDto>()
+                            .Where<InvoiceDto>(x => x.CurrencyCode == currencyCode)
                             .WhereBetween<InvoiceDto>(x => x.InvoiceDate, startDate, endDate);
+                          
 
-            return Database.ExecuteScalar<decimal>(sql);
+            return new Money(Database.ExecuteScalar<decimal>(sql), currencyCode);
         }
 
         /// <inheritdoc/>
-        public decimal SumLineItemTotalsBySku(DateTime startDate, DateTime endDate, string currencyCode, string sku)
+        public Money SumLineItemTotalsBySku(DateTime startDate, DateTime endDate, string currencyCode, string sku)
         {
             var sumExp = string.Format(
                     "{0}.{1} * {0}.{2}",
@@ -105,7 +109,7 @@
                         .Where<InvoiceDto>(x => x.CurrencyCode == currencyCode)
                         .WhereBetween<InvoiceDto>(x => x.InvoiceDate, startDate, endDate);
 
-            return Database.ExecuteScalar<decimal>(sql);
+            return new Money(Database.ExecuteScalar<decimal>(sql), currencyCode);
         }
 
         /// <summary>

@@ -1,5 +1,7 @@
 ﻿namespace Merchello.Core.Persistence.Repositories
 {
+    using System;
+
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
     using Merchello.Core.Persistence.Factories;
@@ -37,6 +39,13 @@
         {
             Ensure.ParameterNotNull(paymentRepository, nameof(paymentRepository));
             _paymentRepository = paymentRepository;
+        }
+
+        /// <inheritdoc/>
+        public bool Exists(Guid providerKey, string paymentCode)
+        {
+            var query = Query.Where(x => x.ProviderKey == providerKey && x.PaymentCode == paymentCode);
+            return Count(query) > 0;
         }
 
         /// <inheritdoc/>

@@ -38,20 +38,6 @@
         IShipCountry GetShipCountry(Guid catalogKey, string countryCode);
 
         /// <summary>
-        /// Gets a single <see cref="IShipCountry"/>
-        /// </summary>
-        /// <param name="catalogKey">
-        /// The warehouse catalog key (guid)
-        /// </param>
-        /// <param name="countryCode">
-        /// The two letter ISO country code
-        /// </param>
-        /// <returns>
-        /// The <see cref="IShipCountry"/>.
-        /// </returns>
-        IShipCountry GetShipCountryByCountryCode(Guid catalogKey, string countryCode);
-
-        /// <summary>
         /// Gets a list of <see cref="IShipCountry"/> objects given a <see cref="IWarehouseCatalog"/> key
         /// </summary>
         /// <param name="catalogKey">The catalog key</param>
@@ -67,11 +53,27 @@
         void Save(IShipCountry shipCountry);
 
         /// <summary>
+        /// Saves a collection of <see cref="IShipCountry"/>.
+        /// </summary>
+        /// <param name="shipCountries">
+        /// The collection of <see cref="IShipCountry"/>.
+        /// </param>
+        void Save(IEnumerable<IShipCountry> shipCountries);
+
+        /// <summary>
         /// Deletes a single <see cref="IShipCountry"/> object
         /// </summary>
         /// <param name="shipCountry">
         /// The ship Country.
         /// </param>
         void Delete(IShipCountry shipCountry);
+
+        /// <summary>
+        /// Deletes a collection of <see cref="IShipCountry"/>.
+        /// </summary>
+        /// <param name="shipCountries">
+        /// The collection of <see cref="IShipCountry"/>.
+        /// </param>
+        void Delete(IEnumerable<IShipCountry> shipCountries);
     }
 }
