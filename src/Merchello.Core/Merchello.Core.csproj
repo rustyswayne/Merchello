@@ -49,6 +49,8 @@
     <Compile Include="Boot\IBootSettings.cs" />
     <Compile Include="Boot\IInitializeAfterBoot.cs" />
     <Compile Include="Cache\CacheKeys.cs" />
+    <Compile Include="Chains\OfferConstraints\IOfferProcessor.cs" />
+    <Compile Include="Chains\OfferConstraints\IOfferProcessorFactory.cs" />
     <Compile Include="Compositions\CacheComposition.cs" />
     <Compile Include="Compositions\GatewaysComposition.cs" />
     <Compile Include="Compositions\LoggerComposition.cs" />
@@ -97,9 +99,13 @@
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\SaveEventArgs.cs" />
     <Compile Include="Exceptions\BootException.cs" />
+    <Compile Include="Exceptions\MerchelloApiException.cs" />
+    <Compile Include="Exceptions\OfferNotActiveException.cs" />
+    <Compile Include="Exceptions\SkuExistsException.cs" />
     <Compile Include="Extensions.Enumerable.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.IOfferResult.cs" />
     <Compile Include="Extensions.IStore.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
@@ -193,6 +199,20 @@
     <Compile Include="IActivatorServiceProvider.cs" />
     <Compile Include="Logging\DefaultEmptyRemoteLogger.cs" />
     <Compile Include="Logging\RemoteLoggerBase.cs" />
+    <Compile Include="Marketing\Constraints\IOfferConstraintComponent.cs" />
+    <Compile Include="Marketing\Constraints\OfferConstraintComponentBase.cs" />
+    <Compile Include="Marketing\Constraints\OfferConstraintComponentBase{T}.cs" />
+    <Compile Include="Marketing\Constraints\ProductConstraintDataSet.cs" />
+    <Compile Include="Marketing\Offer\IOffer.cs" />
+    <Compile Include="Marketing\Offer\IOfferComponentBase.cs" />
+    <Compile Include="Marketing\Offer\IOfferComponentRegister.cs" />
+    <Compile Include="Marketing\Offer\IOfferResult.cs" />
+    <Compile Include="Marketing\Offer\OfferBase.cs" />
+    <Compile Include="Marketing\Offer\OfferComponentAttribute.cs" />
+    <Compile Include="Marketing\Offer\OfferComponentBase.cs" />
+    <Compile Include="Marketing\Offer\OfferComponentType.cs" />
+    <Compile Include="Marketing\Offer\OfferResult.cs" />
+    <Compile Include="Marketing\Rewards\OfferRewardComponentBase.cs" />
     <Compile Include="Models\Cache\DefaultCloneableCacheEntry.cs" />
     <Compile Include="Models\EntityBase\IStoreSpecificEntity.cs" />
     <Compile Include="Models\Interfaces\IHasCurrencyCode.cs" />

@@ -5,7 +5,7 @@
     using Merchello.Core.Models;
 
     /// <summary>
-    /// Represents an offer component definition.
+    /// The constraint settings.
     /// </summary>
     public class OfferComponentDefinition : IHasExtendedData
     {
