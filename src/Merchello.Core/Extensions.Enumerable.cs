@@ -7,7 +7,7 @@
     /// <summary>
     /// Extension methods for IEnumerable types
     /// </summary>
-    internal static class EnumerableExtensions
+    public static partial class Extensions
     {
         /// <summary>
         /// An enumerable representing the cartesian product of the sequences
@@ -24,10 +24,10 @@
                 (accumulator, sequence) =>
                     from accseq in accumulator
                     from item in sequence
-                    select accseq.Concat(new[]
-                    {
-                        item
-                    }));
+                    select accseq.Concat<T>(new[]
+                                                {
+                                                    item
+                                                }));
         }
 
         /// <summary>
@@ -77,7 +77,7 @@
             for (var i = 1; i <= count - 1; i++)
             {
                 var str = Convert.ToString(i, 2).PadLeft(collectionArray.Count(), '0');
-                var level = str.ToArray().Where(x => x != '0').Sum(x => int.Parse(x.ToString()));
+                var level = str.ToArray().Where(x => x != '0').Sum(x => Int32.Parse(x.ToString()));
 
                 var group = new List<T>();
 
@@ -85,11 +85,11 @@
                 {
                     if (str[j] == '1')
                     {
-                        group.Add(collectionArray[j]);
+                        @group.Add(collectionArray[j]);
                     }
                 }
 
-                combos.Add(new Tuple<int, IEnumerable<T>>(level, group));
+                combos.Add(new Tuple<int, IEnumerable<T>>(level, @group));
             }
 
             return combos;

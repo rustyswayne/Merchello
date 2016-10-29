@@ -33,7 +33,7 @@
         /// <returns>The prefixed invoice number</returns>
         public static string PrefixedInvoiceNumber(this IInvoice invoice)
         {
-            return string.IsNullOrEmpty(invoice.InvoiceNumberPrefix)
+            return String.IsNullOrEmpty(invoice.InvoiceNumberPrefix)
                 ? invoice.InvoiceNumber.ToString(CultureInfo.InvariantCulture)
                 : $"{invoice.InvoiceNumberPrefix}-{invoice.InvoiceNumber}";
         }
@@ -48,7 +48,7 @@
             var allCurrencyCodes =
                 invoice.Items.Select(x => x.ExtendedData.GetValue(Constants.ExtendedDataKeys.CurrencyCode)).Distinct().ToArray();
 
-            return allCurrencyCodes.Any() ? allCurrencyCodes.First() : string.Empty;
+            return allCurrencyCodes.Any() ? allCurrencyCodes.First() : String.Empty;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@
         public static Currency Currency(this IInvoice invoice)
         {
             var currencyCode = invoice.CurrencyCode();
-            return !string.IsNullOrWhiteSpace(currencyCode) ?
+            return !String.IsNullOrWhiteSpace(currencyCode) ?
                     NodaMoney.Currency.FromCode(currencyCode) :
                     default(Currency);
         }

@@ -29,7 +29,11 @@
             Assert.That(services.OrderService, Is.Not.Null);
             Assert.That(services.PaymentService, Is.Not.Null);
             Assert.That(services.ProductOptionService, Is.Not.Null);
+            Assert.That(services.ProductService, Is.Not.Null);
+            Assert.That(services.ShipmentService, Is.Not.Null);
+            Assert.That(services.StoreService, Is.Not.Null);
             Assert.That(services.StoreSettingService, Is.Not.Null);
+            Assert.That(services.WarehouseService, Is.Not.Null);
         }
 
         [Test]

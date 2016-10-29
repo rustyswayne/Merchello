@@ -1,6 +1,7 @@
 ﻿namespace Merchello.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using Merchello.Core.Logging;

@@ -432,7 +432,7 @@
                     writer.WriteAttributeString("attributes", GetAttributesJson(productVariant));
                     writer.WriteAttributeString("catalogInventories", GetCatalogInventoriesJson(productVariant));
                     writer.WriteAttributeString("productOptions", GetProductOptionsJson(productOptionCollection));
-                    writer.WriteAttributeString("slugs", string.Join(" ", productVariant.DetachedContents.Select(x => x.Slug)));
+                    writer.WriteAttributeString("slugs", String.Join(" ", productVariant.DetachedContents.Select(x => x.Slug)));
                     writer.WriteAttributeString("detachedContents", GetDetachedContentsJson(((ProductVariant)productVariant).DetachedContents));
                     writer.WriteAttributeString("versionKey", productVariant.VersionKey.ToString());
 
@@ -442,7 +442,7 @@
                         var collectionKeys = collections as Guid[] ?? collections.ToArray();
                         if (collectionKeys.Any())
                         {
-                            writer.WriteAttributeString("staticCollectionKeys", string.Join(" ", collectionKeys));
+                            writer.WriteAttributeString("staticCollectionKeys", String.Join(" ", collectionKeys));
                         }
                     }
 
@@ -486,7 +486,7 @@
         private static string GetProductOptionsJson(IEnumerable<IProductOption> productOptions)
         {
             var json = "[{0}]";
-            var options = string.Empty;
+            var options = String.Empty;
 
             if (productOptions != null)
             {
@@ -520,13 +520,13 @@
                                 required = option.Required,
                                 sortOrder = option.SortOrder,
                                 choices = optionChoices,
-                                uiOption = option.UiOption ?? string.Empty,
+                                uiOption = option.UiOption ?? String.Empty,
                                 useName = option.UseName
                             });
                 }
             }
 
-            json = string.Format(json, options);
+            json = String.Format(json, options);
 
             return json;
         }
@@ -543,7 +543,7 @@
         private static string GetDetachedContentsJson(IEnumerable<IProductVariantDetachedContent> detachedContentCollection)
         {
             const string Json = "{0}";
-            var contents = string.Empty;
+            var contents = String.Empty;
 
             if (detachedContentCollection != null)
             {
@@ -569,7 +569,7 @@
                 if (generic.Any()) contents = JsonConvert.SerializeObject(generic.ToArray(), Formatting.None);
             }
 
-            return string.Format(Json, contents);
+            return String.Format(Json, contents);
         }
 
         /// <summary>
@@ -584,7 +584,7 @@
         private static string GetCatalogInventoriesJson(IProductVariant productVariant)
         {
             var json = "[{0}]";
-            var catalogInventories = string.Empty;
+            var catalogInventories = String.Empty;
 
             foreach (var ch in productVariant.CatalogInventories)
             {
@@ -601,7 +601,7 @@
                 Formatting.None);
             }
 
-            json = string.Format(json, catalogInventories);
+            json = String.Format(json, catalogInventories);
             return json;
         }
 
@@ -617,7 +617,7 @@
         private static string GetAttributesJson(IProductVariant productVariant)
         {
             var json = "[{0}]";
-            var atts = string.Empty;
+            var atts = String.Empty;
 
             foreach (var attribute in productVariant.Attributes)
             {
@@ -635,7 +635,7 @@
                 Formatting.None);
             }
 
-            json = string.Format(json, atts);
+            json = String.Format(json, atts);
             return json;
         }
 

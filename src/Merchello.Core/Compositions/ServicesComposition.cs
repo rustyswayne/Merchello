@@ -43,7 +43,10 @@
             container.RegisterSingleton<IPaymentService, PaymentService>();
             container.RegisterSingleton<IProductService, ProductService>();
             container.RegisterSingleton<IProductOptionService, ProductOptionService>();
+            container.RegisterSingleton<IShipmentService, ShipmentService>();
+            container.RegisterSingleton<IStoreService, StoreService>();
             container.RegisterSingleton<IStoreSettingService, StoreSettingService>();
+            container.RegisterSingleton<IWarehouseService, WarehouseService>();
         }
     }
 }

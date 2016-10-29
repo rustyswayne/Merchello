@@ -63,9 +63,29 @@
         private readonly Lazy<IProductOptionService> _productOptionService;
 
         /// <summary>
+        /// The <see cref="IProductService"/>.
+        /// </summary>
+        private readonly Lazy<IProductService> _productService;
+
+        /// <summary>
+        /// The <see cref="IShipmentService"/>.
+        /// </summary>
+        private readonly Lazy<IShipmentService> _shipmentService;
+
+        /// <summary>
+        /// The <see cref="IStoreService"/>.
+        /// </summary>
+        private readonly Lazy<IStoreService> _storeService;
+
+        /// <summary>
         /// The <see cref="IStoreSettingService"/>.
         /// </summary>
         private readonly Lazy<IStoreSettingService> _storeSettingService;
+
+        /// <summary>
+        /// The <see cref="IWarehouseService"/>.
+        /// </summary>
+        private readonly Lazy<IWarehouseService> _warehouseService;
 
         #endregion
 
@@ -105,8 +125,20 @@
         /// <param name="productOptionService">
         /// The <see cref="IProductOptionService"/>
         /// </param>
+        /// <param name="productService">
+        /// The <see cref="IProductService"/>
+        /// </param>
+        /// <param name="shipmentService">
+        /// The <see cref="IShipmentService"/>
+        /// </param>
+        /// <param name="storeService">
+        /// The <see cref="IStoreService"/> 
+        /// </param>
         /// <param name="storeSettingService">
         /// The <see cref="IStoreSettingService"/>
+        /// </param>
+        /// <param name="warehouseService">
+        /// The <see cref="IWarehouseService"/>
         /// </param>
         public ServiceContext(
             Lazy<IAuditLogService> auditLogService, 
@@ -120,7 +152,11 @@
             Lazy<IOrderService> orderService,
             Lazy<IPaymentService> paymentService,
             Lazy<IProductOptionService> productOptionService,
-            Lazy<IStoreSettingService> storeSettingService)
+            Lazy<IProductService> productService,
+            Lazy<IShipmentService> shipmentService,
+            Lazy<IStoreService> storeService,
+            Lazy<IStoreSettingService> storeSettingService,
+            Lazy<IWarehouseService> warehouseService)
         {
             _auditLogService = auditLogService;
             _customerService = customerService;
@@ -133,7 +169,11 @@
             _orderService = orderService;
             _paymentService = paymentService;
             _productOptionService = productOptionService;
+            _productService = productService;
+            _shipmentService = shipmentService;
+            _storeService = storeService;
             _storeSettingService = storeSettingService;
+            _warehouseService = warehouseService;
         }
 
         /// <summary>
@@ -172,8 +212,20 @@
         /// <param name="productOptionService">
         /// The <see cref="IProductOptionService"/>
         /// </param>
-        /// <param name="storeSettingServcie">
+        /// <param name="productService">
+        /// The <see cref="IProductService"/>
+        /// </param>
+        /// <param name="shipmentService">
+        /// The <see cref="IShipmentService"/>
+        /// </param>
+        /// <param name="storeService">
+        /// The <see cref="IStoreService"/>
+        /// </param>
+        /// <param name="storeSettingService">
         /// The <see cref="IStoreSettingService"/>
+        /// </param>
+        /// <param name="warehouseService">
+        /// The <see cref="IWarehouseService"/>
         /// </param>
         public ServiceContext(
             IAuditLogService auditLogService = null,
@@ -187,7 +239,11 @@
             IOrderService orderService = null,
             IPaymentService paymentService = null,
             IProductOptionService productOptionService = null,
-            IStoreSettingService storeSettingServcie = null)
+            IProductService productService = null,
+            IShipmentService shipmentService = null,
+            IStoreService storeService = null,
+            IStoreSettingService storeSettingService = null,
+            IWarehouseService warehouseService = null)
         {
             if (auditLogService != null) _auditLogService = new Lazy<IAuditLogService>(() => auditLogService);
             if (customerService != null) _customerService = new Lazy<ICustomerService>(() => customerService);
@@ -200,7 +256,11 @@
             if (orderService != null) _orderService = new Lazy<IOrderService>(() => orderService);
             if (paymentService != null) _paymentService = new Lazy<IPaymentService>(() => paymentService);
             if (productOptionService != null) _productOptionService = new Lazy<IProductOptionService>(() => productOptionService);
-            if (storeSettingServcie != null) _storeSettingService = new Lazy<IStoreSettingService>(() => storeSettingServcie);
+            if (productService != null) _productService = new Lazy<IProductService>(() => productService);
+            if (shipmentService != null) _shipmentService = new Lazy<IShipmentService>(() => shipmentService);
+            if (storeService != null) _storeService = new Lazy<IStoreService>(() => storeService);
+            if (storeSettingService != null) _storeSettingService = new Lazy<IStoreSettingService>(() => storeSettingService);
+            if (warehouseService != null) _warehouseService = new Lazy<IWarehouseService>(() => warehouseService);
         }
 
 
@@ -238,6 +298,18 @@
         public IProductOptionService ProductOptionService => _productOptionService.Value;
 
         /// <inheritdoc/>
+        public IProductService ProductService => _productService.Value;
+
+        /// <inheritdoc/>
+        public IShipmentService ShipmentService => _shipmentService.Value;
+
+        /// <inheritdoc/>
+        public IStoreService StoreService => _storeService.Value;
+
+        /// <inheritdoc/>
         public IStoreSettingService StoreSettingService => _storeSettingService.Value;
+
+        /// <inheritdoc/>
+        public IWarehouseService WarehouseService => _warehouseService.Value;
     }
 }

@@ -97,6 +97,9 @@
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\SaveEventArgs.cs" />
     <Compile Include="Exceptions\BootException.cs" />
+    <Compile Include="Extensions.Enumerable.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.IStore.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
@@ -306,7 +309,6 @@
       <DependentUpon>Constants.cs</DependentUpon>
     </Compile>
     <Compile Include="Compositions\ServicesComposition.cs" />
-    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Events\CacheRefresherEventArgs.cs" />
     <Compile Include="Events\TypedEventHandler.cs" />
     <Compile Include="Extensions.cs" />
@@ -1147,6 +1149,7 @@
     <Compile Include="Services\Interfaces\IStoreService.cs" />
     <Compile Include="Services\Interfaces\IStoreSettingService.cs" />
     <Compile Include="Services\Interfaces\ITaxMethodService.cs" />
+    <Compile Include="Services\Interfaces\IWarehouseCatalogService.cs" />
     <Compile Include="Services\Interfaces\IWarehouseService.cs" />
     <Compile Include="Services\InvoiceService.cs" />
     <Compile Include="Services\InvoiceService.currency.cs">
@@ -1204,6 +1207,17 @@
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\RepositoryServiceBase.cs" />
     <Compile Include="Services\ServiceContext.cs" />
+    <Compile Include="Services\ShipmentService.cs" />
+    <Compile Include="Services\ShipmentService.persist.cs">
+      <DependentUpon>ShipmentService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ShipmentService.statuses.cs">
+      <DependentUpon>ShipmentService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\StoreService.cs" />
+    <Compile Include="Services\StoreService.persist.cs">
+      <DependentUpon>StoreService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\StoreSettingService.country.cs">
       <DependentUpon>StoreSettingService.cs</DependentUpon>
     </Compile>
@@ -1222,6 +1236,13 @@
     </Compile>
     <Compile Include="Services\StoreSettingService.typefields.cs">
       <DependentUpon>StoreSettingService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\WarehouseService.catalogs.cs">
+      <DependentUpon>WarehouseService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\WarehouseService.cs" />
+    <Compile Include="Services\WarehouseService.persist.cs">
+      <DependentUpon>WarehouseService.cs</DependentUpon>
     </Compile>
     <Compile Include="Strategies\IStrategy.cs" />
     <Compile Include="Vistors\IVisitor{T}.cs" />

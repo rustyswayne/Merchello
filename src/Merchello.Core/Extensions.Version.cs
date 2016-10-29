@@ -1,6 +1,8 @@
 ﻿namespace Merchello.Core
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using Semver;
 
@@ -24,7 +26,7 @@
         internal static Version GetVersion(this SemVersion semVersion, int maxParts = 4)
         {
             var build = 0;
-            int.TryParse(semVersion.Build, out build);
+            Int32.TryParse(semVersion.Build, out build);
 
             if (maxParts >= 4)
             {

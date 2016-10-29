@@ -112,7 +112,7 @@
         /// </param>
         public static void AddExtendedDataCollection(this ExtendedDataCollection extendedData, ExtendedDataCollection extendedDataToSerialize)
         {
-            extendedData.SetValue(Core.Constants.ExtendedDataKeys.ExtendedData, extendedDataToSerialize.SerializeToXml());
+            extendedData.SetValue(Constants.ExtendedDataKeys.ExtendedData, extendedDataToSerialize.SerializeToXml());
         }
 
         /// <summary>
@@ -207,8 +207,8 @@
                         new Guid(dictionary[Constants.ExtendedDataKeys.LineItemTfKey]),
                         dictionary[Constants.ExtendedDataKeys.Name],
                         dictionary[Constants.ExtendedDataKeys.Sku],
-                        int.Parse(dictionary[Constants.ExtendedDataKeys.Quantity]),
-                        decimal.Parse(dictionary[Constants.ExtendedDataKeys.Price], NumberStyles.Any, CultureInfo.InvariantCulture),
+                        Int32.Parse(dictionary[Constants.ExtendedDataKeys.Quantity]),
+                        Decimal.Parse(dictionary[Constants.ExtendedDataKeys.Price], NumberStyles.Any, CultureInfo.InvariantCulture),
                         new ExtendedDataCollection(dictionary[Constants.ExtendedDataKeys.ExtendedData])
                     };
 
@@ -234,8 +234,7 @@
         {
             var xdoc = XDocument.Parse(lineItemXml);
 
-            var dictionary = new Dictionary<string, string>
-            {
+            var dictionary = new Dictionary<string, string> {
                 { Constants.ExtendedDataKeys.ContainerKey, GetXmlValue(xdoc,Constants.ExtendedDataKeys.ContainerKey) },
                 { Constants.ExtendedDataKeys.LineItemTfKey, GetXmlValue(xdoc,Constants.ExtendedDataKeys.LineItemTfKey) },
                 { Constants.ExtendedDataKeys.Sku, GetXmlValue(xdoc,Constants.ExtendedDataKeys.Sku) },
@@ -1028,7 +1027,7 @@
         private static bool AsBool(this string value)
         {
             bool converted;
-            return bool.TryParse(value, out converted) && converted;
+            return Boolean.TryParse(value, out converted) && converted;
             ////return "true" == value.ToLowerInvariant() || "y" == value.ToLowerInvariant() || "yes" == value.ToLowerInvariant() || value == "1";
         }
 
@@ -1044,7 +1043,7 @@
         private static decimal AsDecimal(this string value)
         {
             decimal converted;
-            return decimal.TryParse(value, System.Globalization.NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out converted) ? converted : 0;
+            return Decimal.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out converted) ? converted : 0;
         }
 
         /// <summary>
@@ -1059,7 +1058,7 @@
         private static int AsInt(this string value)
         {
             int converted;
-            return int.TryParse(value, out converted) ? converted : 0;
+            return Int32.TryParse(value, out converted) ? converted : 0;
         }
 
         /// <summary>

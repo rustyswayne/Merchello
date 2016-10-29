@@ -60,29 +60,29 @@
         /// </summary>
         IProductOptionService ProductOptionService { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IProductService"/>.
-        ///// </summary>
-        //IProductService ProductService { get; }
+        /// <summary>
+        /// Gets the <see cref="IProductService"/>.
+        /// </summary>
+        IProductService ProductService { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IShipmentService"/>.
-        ///// </summary>
-        //IShipmentService ShipmentService { get; }
+        /// <summary>
+        /// Gets the <see cref="IShipmentService"/>.
+        /// </summary>
+        IShipmentService ShipmentService { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IStoreService"/>.
-        ///// </summary>
-        //IStoreService StoreService { get; }
+        /// <summary>
+        /// Gets the <see cref="IStoreService"/>.
+        /// </summary>
+        IStoreService StoreService { get; }
 
         /// <summary>
         /// Gets the <see cref="IStoreSettingService"/>
         /// </summary>
         IStoreSettingService StoreSettingService { get; }
 
-        ///// <summary>
-        ///// Gets the <see cref="IWarehouseService"/>.
-        ///// </summary>
-        //IWarehouseService WarehouseService { get; }
+        /// <summary>
+        /// Gets the <see cref="IWarehouseService"/>.
+        /// </summary>
+        IWarehouseService WarehouseService { get; }
     }
 }
