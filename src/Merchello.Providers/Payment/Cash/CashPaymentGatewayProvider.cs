@@ -33,13 +33,13 @@
         /// Initializes a new instance of the <see cref="CashPaymentGatewayProvider"/> class.
         /// </summary>
         /// <param name="gatewayProviderService">
-        /// The gateway provider service.
+        /// The <see cref="IGatewayProviderService"/>.
         /// </param>
         /// <param name="gatewayProviderSettings">
-        /// The gateway provider settings.
+        /// The <see cref="IGatewayProviderSettings"/>.
         /// </param>
         /// <param name="runtimeCacheProvider">
-        /// The runtime cache provider.
+        /// The <see cref="IRuntimeCacheProviderAdapter"/>.
         /// </param>
         public CashPaymentGatewayProvider(
             IGatewayProviderService gatewayProviderService,

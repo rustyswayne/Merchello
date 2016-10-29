@@ -7,6 +7,7 @@
     using Merchello.Core.Cache;
     using Merchello.Core.Configuration;
     using Merchello.Core.Gateways.Shipping;
+    using Merchello.Core.Gateways.Taxation;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -39,6 +40,23 @@
                             return strategy;
                         });
             }
+
+            // tax rate quote
+            var taxRateQuote = strategies.FirstOrDefault(x => x.Key == Constants.StrategyTypeAlias.DefaultInvoiceTaxRateQuote);
+            if (taxRateQuote.Value != null)
+            {
+                container.Register<IInvoice, IAddress, ITaxMethod, ITaxCalculationStrategy>(
+                    (factory, invoice, address, method) =>
+                        {
+                            var activator = factory.GetInstance<IActivatorServiceProvider>();
+
+                            var strategy = activator.GetService<TaxCalculationStrategyBase>(
+                                taxRateQuote.Value,
+                                new object[] { invoice, address, method });
+
+                            return strategy;
+                        });
+            } 
         }
     }
 }

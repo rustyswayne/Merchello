@@ -7,7 +7,6 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Gateways;
     using Merchello.Core.Gateways.Shipping;
-    using Merchello.Core.Gateways.Shipping.FixedRate;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Interfaces;
 

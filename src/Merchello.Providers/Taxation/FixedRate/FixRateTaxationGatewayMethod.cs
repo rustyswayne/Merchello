@@ -1,12 +1,8 @@
-﻿namespace Merchello.Core.Gateways.Taxation.FixedRate
+﻿namespace Merchello.Providers.Taxation.FixedRate
 {
-    using System.Globalization;
-    using System.Linq;
-
-    using Merchello.Core.Configuration;
+    using Merchello.Core.DI;
+    using Merchello.Core.Gateways.Taxation;
     using Merchello.Core.Models;
-
-    using Umbraco.Core.Logging;
 
     /// <summary>
     /// The fix rate taxation gateway method.
@@ -38,19 +34,8 @@
         /// </returns>
         public override ITaxCalculationResult CalculateTaxForInvoice(IInvoice invoice, IAddress taxAddress)
         {            
-            var ctrValues = new object[] { invoice, taxAddress, TaxMethod };
-
-            var typeName = MerchelloConfiguration.Current.GetStrategyElement(Constants.StrategyTypeAlias.DefaultInvoiceTaxRateQuote).Type;
-
-            var attempt = ActivatorHelper.CreateInstance<TaxCalculationStrategyBase>(typeName, ctrValues);
-
-            if (!attempt.Success)
-            {
-                LogHelper.Error<FixedRateTaxationGatewayProvider>("Failed to instantiate the tax calculation strategy '" + typeName + "'", attempt.Exception);
-                throw attempt.Exception;
-            }
-
-            return CalculateTaxForInvoice(attempt.Result);
+            var strategy = MC.Container.GetInstance<IInvoice, IAddress, ITaxMethod, ITaxCalculationStrategy>(invoice, taxAddress, this.TaxMethod);
+            return this.CalculateTaxForInvoice(strategy);
         }
 
 
@@ -65,7 +50,7 @@
         /// </returns>
         public virtual IProductTaxCalculationResult CalculateTaxForProduct(IProductVariantDataModifierData product)
         {            
-            var baseTaxRate = TaxMethod.PercentageTaxRate;
+            var baseTaxRate = this.TaxMethod.PercentageTaxRate;
 
             var taxRate = baseTaxRate > 1 ? baseTaxRate / 100M : baseTaxRate;
 
@@ -73,7 +58,7 @@
 
             var salePriceCalc = product.SalePrice * taxRate;
 
-            return new ProductTaxCalculationResult(TaxMethod.Name, product.Price, priceCalc, product.SalePrice, salePriceCalc, baseTaxRate);
+            return new ProductTaxCalculationResult(this.TaxMethod.Name, product.Price, priceCalc, product.SalePrice, salePriceCalc, baseTaxRate);
         }
     }
 }

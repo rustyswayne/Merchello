@@ -1,5 +1,7 @@
-﻿namespace Merchello.Core.Gateways.Taxation.FixedRate
+﻿namespace Merchello.Providers.Taxation.FixedRate
 {
+    using Merchello.Core.Gateways.Taxation;
+
     /// <summary>
     /// Marker interface the FixedRateTaxationGatewayProvider
     /// </summary>

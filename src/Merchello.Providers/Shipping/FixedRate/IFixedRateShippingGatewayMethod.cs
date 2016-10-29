@@ -1,6 +1,6 @@
-﻿namespace Merchello.Core.Gateways.Shipping.FixedRate
+﻿namespace Merchello.Providers.Shipping.FixedRate
 {
-    using Merchello.Providers.Shipping.FixedRate;
+    using Merchello.Core.Gateways.Shipping;
 
     /// <summary>
     /// Defines the rate table ship method

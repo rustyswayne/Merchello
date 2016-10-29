@@ -8,7 +8,6 @@
     using Merchello.Core.Cache;
     using Merchello.Core.Gateways;
     using Merchello.Core.Gateways.Shipping;
-    using Merchello.Core.Gateways.Shipping.FixedRate;
     using Merchello.Core.Models;
     using Merchello.Core.Services;
 
@@ -36,13 +35,13 @@
         /// Initializes a new instance of the <see cref="FixedRateShippingGatewayProvider"/> class.
         /// </summary>
         /// <param name="gatewayProviderService">
-        /// The gateway provider service.
+        /// The <see cref="IGatewayProviderService"/>.
         /// </param>
         /// <param name="gatewayProviderSettings">
-        /// The gateway provider settings.
+        /// The <see cref="IGatewayProviderSettings"/>.
         /// </param>
         /// <param name="runtimeCacheProvider">
-        /// The runtime cache provider.
+        /// The <see cref="IRuntimeCacheProviderAdapter"/>.
         /// </param>
         public FixedRateShippingGatewayProvider(IGatewayProviderService gatewayProviderService, IGatewayProviderSettings gatewayProviderSettings, IRuntimeCacheProviderAdapter runtimeCacheProvider)
             : base(gatewayProviderService, gatewayProviderSettings, runtimeCacheProvider)

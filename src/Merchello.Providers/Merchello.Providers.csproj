@@ -95,6 +95,11 @@
     <Compile Include="Shipping\FixedRate\FixedRateShippingGatewayProvider.cs" />
     <Compile Include="Shipping\FixedRate\IFixedRateShippingGatewayMethod.cs" />
     <Compile Include="Shipping\FixedRate\IFixedRateShippingGatewayProvider.cs" />
+    <Compile Include="Taxation\FixedRate\FixedRateTaxationGatewayProvider.cs" />
+    <Compile Include="Taxation\FixedRate\FixedRateTaxCalculationStrategy.cs" />
+    <Compile Include="Taxation\FixedRate\FixRateTaxationGatewayMethod.cs" />
+    <Compile Include="Taxation\FixedRate\IFixedRateTaxationGatewayMethod.cs" />
+    <Compile Include="Taxation\FixedRate\IFixedRateTaxationGatewayProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Merchello.Core\Merchello.Core.csproj">

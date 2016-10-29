@@ -1,5 +1,7 @@
-﻿namespace Merchello.Core.Gateways.Shipping.FixedRate
+﻿namespace Merchello.Providers.Shipping.FixedRate
 {
+    using Merchello.Core.Gateways.Shipping;
+
     /// <summary>
     /// Marker interface for a Fixed Rate Shipping Gateway Provider
     /// </summary>

@@ -18,9 +18,20 @@
         /// The type of <see cref="GatewayProviderBase"/>
         /// </typeparam>
         /// <returns>
-        /// The collection of activated <see cref="IGatewayProvider"/>s
+        /// The collection of activated <see cref="T"/>s
         /// </returns>
-        IEnumerable<IGatewayProvider> GetActivatedProviders<T>() where T : IGatewayProvider;
+        IEnumerable<T> GetActivatedProviders<T>() where T : IGatewayProvider;
+
+        /// <summary>
+        /// Gets activated providers of a particular type.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IGatewayProvider}"/>.
+        /// </returns>
+        IEnumerable<IGatewayProvider> GetActivatedProviders(Type type);
 
         /// <summary>
         /// Gets a collection of all "activated" providers regardless of type

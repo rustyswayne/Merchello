@@ -1,12 +1,15 @@
-﻿namespace Merchello.Core.Gateways.Taxation.FixedRate
+﻿namespace Merchello.Providers.Taxation.FixedRate
 {
     using System;
     using System.Globalization;
     using System.Linq;
 
+    using Merchello.Core;
+    using Merchello.Core.Acquired;
+    using Merchello.Core.Gateways.Taxation;
     using Merchello.Core.Models;
 
-    using Umbraco.Core;
+    using NodaMoney;
 
     /// <summary>
     /// The fixed rate tax calculation strategy.
@@ -33,9 +36,9 @@
         public FixedRateTaxCalculationStrategy(IInvoice invoice, IAddress taxAddress, ITaxMethod taxMethod)
             : base(invoice, taxAddress)
         {
-            Mandate.ParameterNotNull(taxMethod, "countryTaxRate");
+            Ensure.ParameterNotNull(taxMethod, "countryTaxRate");
             
-            _taxMethod = taxMethod;
+            this._taxMethod = taxMethod;
         }
 
         /// <summary>
@@ -50,23 +53,23 @@
 
             try
             {                
-                var baseTaxRate = _taxMethod.PercentageTaxRate;
+                var baseTaxRate = this._taxMethod.PercentageTaxRate;
 
                 extendedData.SetValue(Core.Constants.ExtendedDataKeys.BaseTaxRate, baseTaxRate.ToString(CultureInfo.InvariantCulture));
 
-                if (_taxMethod.HasProvinces)
+                if (this._taxMethod.HasProvinces)
                 {
-                    baseTaxRate = AdjustedRate(baseTaxRate, _taxMethod.Provinces.FirstOrDefault(x => x.Code == TaxAddress.Region), extendedData);
+                    baseTaxRate = AdjustedRate(baseTaxRate, this._taxMethod.Provinces.FirstOrDefault(x => x.Code == this.TaxAddress.Region), extendedData);
                 }
                 
                 var visitor = new TaxableLineItemVisitor(baseTaxRate / 100);
 
-                Invoice.Items.Accept(visitor);
+                this.Invoice.Items.Accept(visitor);
 
-                var totalTax = visitor.TaxableLineItems.Sum(x => decimal.Parse(x.ExtendedData.GetValue(Core.Constants.ExtendedDataKeys.LineItemTaxAmount), CultureInfo.InvariantCulture));
+                var totalTax = visitor.TaxableLineItems.Select(x => new Money(decimal.Parse(x.ExtendedData.GetValue(Core.Constants.ExtendedDataKeys.LineItemTaxAmount), CultureInfo.InvariantCulture), Invoice.CurrencyCode)).Sum();
 
                 return Attempt<ITaxCalculationResult>.Succeed(
-                    new TaxCalculationResult(_taxMethod.Name, baseTaxRate, totalTax, extendedData));
+                    new TaxCalculationResult(this._taxMethod.Name, baseTaxRate, totalTax, extendedData));
             }
             catch (Exception ex)
             {

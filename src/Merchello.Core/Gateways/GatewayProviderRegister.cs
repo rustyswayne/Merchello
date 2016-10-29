@@ -52,14 +52,18 @@
         {
             Core.Ensure.ParameterNotNull(container, nameof(container));
             _container = container;
-
-            CoreBoot.Complete += Initialize;
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IGatewayProvider> GetActivatedProviders<T>() where T : IGatewayProvider
+        public IEnumerable<T> GetActivatedProviders<T>() where T : IGatewayProvider
         {
-            return GetActivatedProviders().Where(x => x is T);
+            return GetActivatedProviders(typeof(T)).OfType<T>();
+        }
+       
+        /// <inheritdoc/>
+        public IEnumerable<IGatewayProvider> GetActivatedProviders(Type type)
+        {
+            return GetActivatedProviders().Where(type.IsInstanceOfType);
         }
 
         /// <inheritdoc/>
@@ -201,20 +205,6 @@
         private void AddOrUpdateCache(IGatewayProviderSettings settings)
         {
             _activatedCache.AddOrUpdate(settings.Key, settings, (x, y) => settings);
-        }
-
-        /// <summary>
-        /// Initializes after boot has completed.
-        /// </summary>
-        /// <param name="sender">
-        /// The <see cref="CoreBoot"/>.
-        /// </param>
-        /// <param name="e">
-        /// The event arguments.
-        /// </param>
-        private void Initialize(object sender, EventArgs e)
-        {
-            BuildActivatedCache();
         }
     }
 }

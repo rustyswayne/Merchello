@@ -12,6 +12,7 @@
     using Merchello.Core.DI;
     using Merchello.Core.Events;
     using Merchello.Core.Exceptions;
+    using Merchello.Core.Gateways;
     using Merchello.Core.Logging;
     using Merchello.Core.Mapping;
     using Merchello.Core.Persistence;
@@ -101,9 +102,10 @@
             InitializeAutoMapperMappers();
 
             // Ensure Installation
-            EnsureInstallVersion(MC.Container);
-
-            OnComplete(this, new EventArgs());
+            if (EnsureInstallVersion(MC.Container))
+            {
+                PostInstallInitialization();
+            }
 
             // stop the timer and log the output
             _timer.Dispose();
@@ -118,16 +120,11 @@
         /// <summary>
         /// Occurs after a full boot and installation.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The event arguments.
-        /// </param>
-        public void OnComplete(object sender, EventArgs e)
+        public void PostInstallInitialization()
         {
-            if (!BootSettings.AutoInstall) return;
-            Complete?.Invoke(sender, e);
+            // GatewayProviderRegister
+            MC.Container.GetInstance<IGatewayProviderRegister>().RefreshCache();
+
         }
 
         /// <summary>
@@ -169,9 +166,12 @@
         /// <param name="container">
         /// The container.
         /// </param>
-        internal virtual void EnsureInstallVersion(IServiceContainer container)
+        /// <returns>
+        /// A success value.
+        /// </returns>
+        internal virtual bool EnsureInstallVersion(IServiceContainer container)
         {
-            if (!BootSettings.AutoInstall) return;
+            if (!BootSettings.AutoInstall) return false;
 
             var manager = container.GetInstance<IMigrationManager>();
 
@@ -192,6 +192,7 @@
                     catch (Exception ex)
                     {
                         _logger.Error<CoreBoot>("Merchello failed to install database", ex);
+                        return false;
                     }   
                 }
 
@@ -219,6 +220,8 @@
 
                 if (!BootSettings.IsTest) MerchelloConfig.SaveConfigurationStatus(instruction.TargetConfigurationStatus);
             }
+
+            return true;
         }
 
         /// <summary>

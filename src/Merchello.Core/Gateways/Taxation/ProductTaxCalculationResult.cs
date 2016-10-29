@@ -4,6 +4,8 @@
 
     using Merchello.Core.Models;
 
+    using NodaMoney;
+
     /// <summary>
     /// The product tax calculation result.
     /// </summary>
@@ -32,10 +34,10 @@
         /// </param>
         public ProductTaxCalculationResult(
             string taxMethodName,
-            decimal originalPrice,
-            decimal modifiedPrice,
-            decimal originalSalePrice,
-            decimal modifiedSalePrice,
+            Money originalPrice,
+            Money modifiedPrice,
+            Money originalSalePrice,
+            Money modifiedSalePrice,
             decimal? baseTaxRate = null)
         {
             var edprice = new ExtendedDataCollection();
@@ -52,10 +54,10 @@
                 edsaleprice.SetValue(Core.Constants.ExtendedDataKeys.BaseTaxRate, baseTaxRate.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            edprice.SetValue(Constants.ExtendedDataKeys.ProductPriceNoTax, originalPrice.ToString(CultureInfo.InvariantCulture));
-            edprice.SetValue(Constants.ExtendedDataKeys.ProductPriceTaxAmount, modifiedPrice.ToString(CultureInfo.InvariantCulture));
-            edsaleprice.SetValue(Constants.ExtendedDataKeys.ProductSalePriceNoTax, originalSalePrice.ToString(CultureInfo.InvariantCulture));
-            edsaleprice.SetValue(Constants.ExtendedDataKeys.ProductSalePriceTaxAmount, modifiedSalePrice.ToString(CultureInfo.InvariantCulture));
+            edprice.SetValue(Constants.ExtendedDataKeys.ProductPriceNoTax, originalPrice.Amount.ToString(CultureInfo.InvariantCulture));
+            edprice.SetValue(Constants.ExtendedDataKeys.ProductPriceTaxAmount, modifiedPrice.Amount.ToString(CultureInfo.InvariantCulture));
+            edsaleprice.SetValue(Constants.ExtendedDataKeys.ProductSalePriceNoTax, originalSalePrice.Amount.ToString(CultureInfo.InvariantCulture));
+            edsaleprice.SetValue(Constants.ExtendedDataKeys.ProductSalePriceTaxAmount, modifiedSalePrice.Amount.ToString(CultureInfo.InvariantCulture));
 
             PriceResult = new TaxCalculationResult(taxMethodName, taxRate, modifiedPrice, edprice);
             SalePriceResult = new TaxCalculationResult(taxMethodName, taxRate, modifiedSalePrice, edsaleprice);

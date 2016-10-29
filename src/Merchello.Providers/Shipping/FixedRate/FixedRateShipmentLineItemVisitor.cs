@@ -13,7 +13,7 @@
         /// <summary>
         /// The currency code.
         /// </summary>
-        private string _currencyCode;
+        private readonly string _currencyCode;
 
 
         /// <summary>
