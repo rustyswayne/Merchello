@@ -1084,6 +1084,9 @@
       <DependentUpon>EntityCollectionService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\GatewayProviderService.cs" />
+    <Compile Include="Services\GatewayProviderService.events.cs">
+      <DependentUpon>GatewayProviderService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\GatewayProviderService.gatewayprovidersettings.cs">
       <DependentUpon>GatewayProviderService.cs</DependentUpon>
     </Compile>

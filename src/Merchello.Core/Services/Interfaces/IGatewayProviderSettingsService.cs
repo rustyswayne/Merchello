@@ -5,6 +5,9 @@
 
     using Merchello.Core.Models;
 
+    /// <summary>
+    /// Represents a data service for <see cref="IGatewayProviderSettings"/>.
+    /// </summary>
     public interface IGatewayProviderSettingsService : IService
     {
         /// <summary>
@@ -17,14 +20,6 @@
         /// The <see cref="IGatewayProviderSettings"/>.
         /// </returns>
         IGatewayProviderSettings GetGatewayProviderSettingsByKey(Guid key);
-
-        /// <summary>
-        /// Gets a collection of all <see cref="IGatewayProviderSettings"/>.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IEnumerable{IGatewayProviderSettings}"/>.
-        /// </returns>
-        IEnumerable<IGatewayProviderSettings> GetAllGatewayProviderSettings();
 
         /// <summary>
         /// Gets a collection of <see cref="IGatewayProviderSettings"/> by its type (Shipping, Taxation, Payment)
@@ -44,7 +39,7 @@
         /// Gets a collection containing all <see cref="IGatewayProviderSettings"/>
         /// </summary>
         /// <returns>A collection of <see cref="IGatewayProviderSettings"/></returns>
-        IEnumerable<IGatewayProviderSettings> GetAllGatewayProviders();
+        IEnumerable<IGatewayProviderSettings> GetAllGatewayProviderSettings();
 
         /// <summary>
         /// Saves the entity.

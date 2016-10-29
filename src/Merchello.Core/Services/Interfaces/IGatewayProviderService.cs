@@ -1,15 +1,10 @@
 ﻿namespace Merchello.Core.Services
 {
-    using System;
-    using System.Collections.Generic;
-
-    using Merchello.Core.Acquired;
+    using Merchello.Core.Gateways;
     using Merchello.Core.Models;
 
-    using NodaMoney;
-
     /// <summary>
-    /// Represents a data service for <see cref="IGatewayProviderSettings"/>.
+    /// Represents a data service for use in <see cref="IGatewayProvider"/>s.
     /// </summary>
     public interface IGatewayProviderService : 
         IGatewayProviderSettingsService, 

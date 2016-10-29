@@ -192,7 +192,7 @@
 
             // Get the list of all provider settings saved in the database.
             // If a provider is "Activated" there will always be a reference
-            var settings = service.GetAllGatewayProviders().ToArray();
+            var settings = service.GetAllGatewayProviderSettings().ToArray();
             foreach (var setting in settings) AddOrUpdateCache(setting);
         }
 
