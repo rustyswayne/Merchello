@@ -2,10 +2,9 @@
 {
     using System;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Checkout;
     using Merchello.Core.Models;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Converts ItemCacheLineItem(s) to InvoiceLineItems

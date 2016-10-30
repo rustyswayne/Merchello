@@ -3,10 +3,9 @@
     using System.IO;
     using System.Linq;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Checkout;
     using Merchello.Core.Models;
-
-    using Umbraco.Core;
 
     using Constants = Merchello.Core.Constants;
 
@@ -37,30 +36,12 @@
         /// </returns>
         public override Attempt<IInvoice> PerformTask(IInvoice value)
         {
-            var unTagged = value.Items.Where(x => !x.ExtendedData.ContainsKey(Constants.ExtendedDataKeys.CurrencyCode)).ToArray();
-
-            if (unTagged.Any())
-            {
-                var defaultCurrency =
-                    this.CheckoutManager.Context.Services.StoreSettingService.GetByKey(
-                        Constants.StoreSettingKeys.CurrencyCodeKey);
-
-                foreach (var item in unTagged)
-                {
-                    item.ExtendedData.SetValue(Constants.ExtendedDataKeys.CurrencyCode, defaultCurrency.Value);
-                }
-            }
-
             var allCurrencyCodes =
-                value.Items.Select(x => x.ExtendedData.GetValue(Constants.ExtendedDataKeys.CurrencyCode)).Distinct().ToArray();
+                value.Items.Select(x => x.Price.Currency.Code).Distinct().ToArray();
 
-            //// Assign the currency code on the invoice
-            if (allCurrencyCodes.Length == 1) value.CurrencyCode = allCurrencyCodes.First();
-
-            return 1 == allCurrencyCodes.Length
+            return 1 == allCurrencyCodes.Length && value.CurrencyCode == allCurrencyCodes.First()
                        ? Attempt<IInvoice>.Succeed(value)
                        : Attempt<IInvoice>.Fail(new InvalidDataException("Invoice is being created with line items costed in different currencies."));
-
         }
     }
 }

@@ -5,6 +5,7 @@
     using System.Linq;
 
     using Merchello.Core.DI;
+    using Merchello.Core.Gateways.Taxation;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.TypeFields;
@@ -106,32 +107,28 @@
         //    throw attempt.Exception;
         //}
 
-        ///// <summary>
-        ///// Creates a line item of a particular type for a invoiceTaxResult
-        ///// </summary>
-        ///// <typeparam name="T">The type of the line item to be created</typeparam>
-        ///// <param name="taxCalculationResult">The <see cref="ITaxCalculationResult"/> to be converted to a line item</param>
-        ///// <returns>A <see cref="ILineItem"/> representing the <see cref="ITaxCalculationResult"/></returns>
-        //public static T AsLineItemOf<T>(this ITaxCalculationResult taxCalculationResult) where T : LineItemBase
-        //{
-        //    var ctrValues = new object[]
-        //    {
-        //        EnumTypeFieldConverter.LineItemType.Tax.TypeKey,
-        //        taxCalculationResult.Name,
-        //        "Tax", // TODO this may not e unqiue (SKU),
-        //        1,
-        //        taxCalculationResult.TaxAmount,
-        //        taxCalculationResult.ExtendedData
-        //    };
+        /// <summary>
+        /// Creates a line item of a particular type for a invoiceTaxResult
+        /// </summary>
+        /// <typeparam name="T">The type of the line item to be created</typeparam>
+        /// <param name="taxCalculationResult">The <see cref="ITaxCalculationResult"/> to be converted to a line item</param>
+        /// <returns>A <see cref="ILineItem"/> representing the <see cref="ITaxCalculationResult"/></returns>
+        public static T AsLineItemOf<T>(this ITaxCalculationResult taxCalculationResult) where T : LineItemBase
+        {
+            var ctrValues = new object[]
+            {
+                EnumTypeFieldConverter.LineItemType.Tax.TypeKey,
+                taxCalculationResult.Name,
+                "Tax", // TODO this may not e unqiue (SKU),
+                1,
+                taxCalculationResult.TaxAmount,
+                taxCalculationResult.ExtendedData
+            };
 
-        //    var attempt = ActivatorHelper.CreateInstance<LineItemBase>(typeof(T), ctrValues);
+            var newItem = MC.ActivatorServiceProvider.GetService<LineItemBase>(typeof(T), ctrValues);
 
-        //    if (attempt.Success) return attempt.Result as T;
-
-        //    MultiLogHelper.Error<ILineItem>("Failed instiating a line item from invoiceTaxResult", attempt.Exception);
-
-        //    throw attempt.Exception;
-        //}
+            return newItem as T;
+        }
 
         /// <summary>
         /// Returns a value indicating whether collection contains shippable items.

@@ -3,10 +3,9 @@
     using System;
     using System.Linq;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Checkout;
     using Merchello.Core.Models;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Responsible for apply taxes to invoice tax.
@@ -58,14 +57,14 @@
                     taxAddress = taxAddress ?? value.GetBillingAddress();
 
                     this.SetTaxableSetting(value);
-                    var taxes = value.CalculateTaxes(CheckoutManager.Context.MerchelloContext, taxAddress);
+                    var taxes = value.CalculateTaxes(taxAddress);
                     this.SetTaxableSetting(value, true);
 
                     var taxLineItem = taxes.AsLineItemOf<InvoiceLineItem>();
 
                     var currencyCode =
                         this.CheckoutManager.Context.Services.StoreSettingService.GetByKey(
-                            Core.Constants.StoreSettingKeys.CurrencyCodeKey).Value;
+                            Core.Constants.StoreSetting.CurrencyCodeKey).Value;
 
                     taxLineItem.ExtendedData.SetValue(Core.Constants.ExtendedDataKeys.CurrencyCode, currencyCode);
 

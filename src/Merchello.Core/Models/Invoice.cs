@@ -460,13 +460,7 @@
 
         /// <inheritdoc/>
         [DataMember]
-        public string CurrencyCode
-        {
-            get
-            {
-                return _total.Currency.Code;
-            }
-        }
+        public string CurrencyCode => this._total.Currency.Code;
 
         /// <inheritdoc/>
         [DataMember]

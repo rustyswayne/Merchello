@@ -1,9 +1,8 @@
 ﻿namespace Merchello.Core.Chains.InvoiceCreation.CheckoutManager
 {
+    using Merchello.Core.Acquired;
     using Merchello.Core.Checkout;
     using Merchello.Core.Models;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Adds the invoice number prefix to the invoice.

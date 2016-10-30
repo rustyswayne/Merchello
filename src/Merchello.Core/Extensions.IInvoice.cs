@@ -10,6 +10,7 @@
 
     using Merchello.Core.DI;
     using Merchello.Core.Gateways.Payment;
+    using Merchello.Core.Gateways.Taxation;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Interfaces;
@@ -652,48 +653,34 @@
 
         #region Taxation
 
-        ///// <summary>
-        ///// Calculates taxes for the invoice
-        ///// </summary>
-        ///// <param name="invoice">
-        ///// The <see cref="IInvoice"/>
-        ///// </param>
-        ///// <param name="quoteOnly">
-        ///// A value indicating whether or not the taxes should be calculated as a quote
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="ITaxCalculationResult"/> from the calculation
-        ///// </returns>
-        //public static ITaxCalculationResult CalculateTaxes(this IInvoice invoice, bool quoteOnly = true)
-        //{
-        //    return invoice.CalculateTaxes(invoice.GetBillingAddress(), quoteOnly);
-        //}
+        /// <summary>
+        /// Calculates taxes for the invoice
+        /// </summary>
+        /// <param name="invoice">
+        /// The <see cref="IInvoice"/>
+        /// </param>
+        /// <param name="quoteOnly">
+        /// A value indicating whether or not the taxes should be calculated as a quote
+        /// </param>
+        /// <returns>
+        /// The <see cref="ITaxCalculationResult"/> from the calculation
+        /// </returns>
+        public static ITaxCalculationResult CalculateTaxes(this IInvoice invoice, bool quoteOnly = true)
+        {
+            return invoice.CalculateTaxes(invoice.GetBillingAddress(), quoteOnly);
+        }
 
-        ///// <summary>
-        ///// Calculates taxes for the invoice
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <param name="taxAddress">The address (generally country code and region) to be used to determine the taxation rates</param>
-        ///// <param name="quoteOnly">A value indicating whether or not the taxes should be calculated as a quote</param>
-        ///// <returns>The <see cref="ITaxCalculationResult"/> from the calculation</returns>
-        //public static ITaxCalculationResult CalculateTaxes(this IInvoice invoice, IAddress taxAddress, bool quoteOnly = true)
-        //{
-        //    return invoice.CalculateTaxes(MerchelloContext.Current, taxAddress, quoteOnly);
-        //}
-
-        ///// <summary>
-        ///// Calculates taxes for the invoice
-        ///// </summary>
-        ///// <param name="invoice">The <see cref="IInvoice"/></param>
-        ///// <param name="merchelloContext">The <see cref="IMerchelloContext"/></param>
-        ///// <param name="taxAddress">The address (generally country code and region) to be used to determine the taxation rates</param>
-        ///// <param name="quoteOnly">A value indicating whether or not the taxes should be calculated as a quote</param>
-        ///// <returns>The <see cref="ITaxCalculationResult"/> from the calculation</returns>
-        //internal static ITaxCalculationResult CalculateTaxes(this IInvoice invoice, IMerchelloContext merchelloContext, IAddress taxAddress, bool quoteOnly = true)
-        //{
-        //    // remove any other tax lines
-        //    return merchelloContext.Gateways.Taxation.CalculateTaxesForInvoice(invoice, taxAddress, quoteOnly);
-        //}
+        /// <summary>
+        /// Calculates taxes for the invoice
+        /// </summary>
+        /// <param name="invoice">The <see cref="IInvoice"/></param>
+        /// <param name="taxAddress">The address (generally country code and region) to be used to determine the taxation rates</param>
+        /// <param name="quoteOnly">A value indicating whether or not the taxes should be calculated as a quote</param>
+        /// <returns>The <see cref="ITaxCalculationResult"/> from the calculation</returns>
+        public static ITaxCalculationResult CalculateTaxes(this IInvoice invoice, IAddress taxAddress, bool quoteOnly = true)
+        {
+            return MC.Gateways.Taxation.CalculateTaxesForInvoice(invoice, taxAddress, quoteOnly);
+        }
 
         #endregion
 

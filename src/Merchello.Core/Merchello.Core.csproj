@@ -64,7 +64,11 @@
     <Compile Include="Chains\IAttemptChainTaskRegister.cs" />
     <Compile Include="Chains\IDataModifierChain{T}.cs" />
     <Compile Include="Chains\InvoiceCreation\CheckoutManager\AddBillingInfoToInvoiceTask.cs" />
+    <Compile Include="Chains\InvoiceCreation\CheckoutManager\AddInvoiceNumberPrefixTask.cs" />
+    <Compile Include="Chains\InvoiceCreation\CheckoutManager\ApplyTaxesToInvoiceTask.cs" />
     <Compile Include="Chains\InvoiceCreation\CheckoutManager\CheckoutManagerInvoiceCreationAttemptChainTaskBase.cs" />
+    <Compile Include="Chains\InvoiceCreation\CheckoutManager\ConvertItemCacheItemsToInvoiceItemsTask.cs" />
+    <Compile Include="Chains\InvoiceCreation\CheckoutManager\ValidateCommonCurrency.cs" />
     <Compile Include="Chains\InvoiceCreation\InvoiceBuilderTaskRegister.cs" />
     <Compile Include="Chains\OfferConstraints\IOfferProcessor.cs" />
     <Compile Include="Chains\OfferConstraints\IOfferProcessorFactory.cs" />
