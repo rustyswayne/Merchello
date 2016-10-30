@@ -1,9 +1,9 @@
 ﻿namespace Merchello.Core.Chains
 {
-    using Umbraco.Core;
+    using Merchello.Core.Acquired;
 
     /// <summary>
-    /// Represents a PipelineTaskHandler
+    /// Represents a chain task (pipeline) handler.
     /// </summary>
     /// <typeparam name="T">The type of value passed in the chain</typeparam>
     public class AttemptChainTaskHandler<T> : IAttemptChainTaskHandler<T>
@@ -26,7 +26,7 @@
         /// </param>
         public AttemptChainTaskHandler(IAttemptChainTask<T> task)
         {
-            Mandate.ParameterNotNull(task, "task");
+            Ensure.ParameterNotNull(task, "task");
 
             _task = task;
 

@@ -1,6 +1,6 @@
 ﻿namespace Merchello.Core.Chains
 {
-    using Umbraco.Core;
+    using Merchello.Core.Acquired;
 
     /// <summary>
     /// Defines the AttemptChainTaskHandler
@@ -28,5 +28,4 @@
         /// </param>
         void RegisterNext(IAttemptChainTaskHandler<T> next);
     }
-    
 }

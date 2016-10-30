@@ -3,8 +3,6 @@
     using Merchello.Core.Checkout;
     using Merchello.Core.Models;
 
-    using Umbraco.Core;
-
     /// <summary>
     /// The invoice creation attempt chain task base.
     /// </summary>
@@ -18,7 +16,7 @@
         /// </param>
         protected CheckoutManagerInvoiceCreationAttemptChainTaskBase(ICheckoutManagerBase checkoutManager)
         {
-            Mandate.ParameterNotNull(checkoutManager, "checkoutManger");
+            Ensure.ParameterNotNull(checkoutManager, "checkoutManger");
 
             this.CheckoutManager = checkoutManager;
         }

@@ -2,10 +2,9 @@
 {
     using System.IO;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Checkout;
     using Merchello.Core.Models;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Represents a task responsible for adding billing information collected a checkout process to the

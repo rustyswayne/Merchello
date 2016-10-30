@@ -1,5 +1,6 @@
 ﻿namespace Merchello.Core.Chains
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -12,48 +13,40 @@
     public abstract class ConfigurationChainBase<T>
     {
         /// <summary>
-        /// The _task handlers.
+        /// The <see cref="IAttemptChainTaskRegister{TTask}"/>.
         /// </summary>
-        private readonly List<AttemptChainTaskHandler<T>> _taskHandlers = new List<AttemptChainTaskHandler<T>>();
+        private readonly IAttemptChainTaskRegister<T> _register;
 
         /// <summary>
-        /// Gets the arguments required by the task's constructors to instantiate the chain
+        /// The <see cref="IEnumerable{IAttemptChainTaskHandler}"/>.
         /// </summary>
-        protected abstract IEnumerable<object> ConstructorArgumentValues { get; }
+        private Lazy<IEnumerable<IAttemptChainTaskHandler<T>>> _taskHandlers;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationChainBase{T}"/> class.
+        /// </summary>
+        /// <param name="register">
+        /// The <see cref="IAttemptChainTaskRegister{TTask}"/>.
+        /// </param>
+        protected ConfigurationChainBase(IAttemptChainTaskRegister<T> register)
+        {
+            Ensure.ParameterNotNull(register, nameof(register));
+            _register = register;
+
+            this.Initialize();
+        }
 
         /// <summary>
         /// Gets the list of task handlers
         /// </summary>
-        protected List<AttemptChainTaskHandler<T>> TaskHandlers
-        {
-            get { return _taskHandlers; }
-        }
+        protected IEnumerable<IAttemptChainTaskHandler<T>> TaskHandlers => this._taskHandlers.Value;
 
         /// <summary>
-        /// Constructs the task chain
+        /// Initializes the chain.
         /// </summary>
-        /// <param name="chainConfigurationAlias">
-        /// The chain Configuration Alias.
-        /// </param>
-        protected virtual void ResolveChain(string chainConfigurationAlias)
+        private void Initialize()
         {
-            // Types from the merchello.config file
-            var typeList = ChainTaskResolver.GetTypesForChain(chainConfigurationAlias).ToArray();
-            if (!typeList.Any()) return;
-
-            // instantiate each task in the chain
-            TaskHandlers.AddRange(
-                typeList.Select(
-                typeName => new AttemptChainTaskHandler<T>(
-                    ActivatorHelper.CreateInstance<AttemptChainTaskBase<T>>(
-                        typeName,
-                        ConstructorArgumentValues.ToArray()).Result)));
-
-            // register the next task for each link (these are linear chains)
-            foreach (var taskHandler in TaskHandlers.Where(task => TaskHandlers.IndexOf(task) != TaskHandlers.IndexOf(TaskHandlers.Last())))
-            {
-                taskHandler.RegisterNext(TaskHandlers[TaskHandlers.IndexOf(taskHandler) + 1]);
-            }
+            _taskHandlers = new Lazy<IEnumerable<IAttemptChainTaskHandler<T>>>(() => _register.GetTaskChain());
         }
     }
 }

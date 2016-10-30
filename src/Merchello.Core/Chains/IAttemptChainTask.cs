@@ -1,9 +1,9 @@
 ﻿namespace Merchello.Core.Chains
 {
-    using Umbraco.Core;
+    using Merchello.Core.Acquired;
 
     /// <summary>
-    /// Defines a pipeline task
+    /// Represents a task chain task.
     /// </summary>
     /// <typeparam name="T">
     /// The type of value

@@ -50,6 +50,5 @@
         /// The messages.
         /// </param>
         void AddMessage(IEnumerable<string> messages);
-
     }
 }
