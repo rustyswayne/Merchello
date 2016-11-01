@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
 
+    using Merchello.Core.Configuration;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -10,24 +11,24 @@
     /// </summary>
     public static partial class Extensions
     {
-        ///// <summary>
-        ///// Gets the <see cref="ICountry"/> for the <see cref="IAddress"/>
-        ///// </summary>
-        ///// <param name="address">
-        ///// The address.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="ICountry"/>.
-        ///// </returns>
-        //public static ICountry Country(this IAddress address)
-        //{
-        //    if (string.IsNullOrEmpty(address.CountryCode)) return null;
+        /// <summary>
+        /// Gets the <see cref="ICountry"/> for the <see cref="IAddress"/>
+        /// </summary>
+        /// <param name="address">
+        /// The address.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ICountry"/>.
+        /// </returns>
+        public static ICountry Country(this IAddress address)
+        {
+            if (string.IsNullOrEmpty(address.CountryCode)) return null;
 
-        //    return new Country(address.CountryCode, StoreSettingService.GetProvincesByCountryCode(address.CountryCode))
-        //        {
-        //            ProvinceLabel = StoreSettingService.GetProvinceLabelForCountry(address.CountryCode)
-        //        };
-        //}
+            return
+                MerchelloConfig.For.MerchelloCountries()
+                    .Countries.FirstOrDefault(
+                        x => x.CountryCode.Equals(address.CountryCode, StringComparison.InvariantCultureIgnoreCase));
+        }
 
 
         /// <summary>

@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
 
-    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
 
     /// <inheritdoc/>
     public partial class InvoiceService : IInvoiceService
@@ -12,37 +12,27 @@
         /// <inheritdoc/>
         public IInvoiceStatus GetInvoiceStatusByKey(Guid key)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IInvoiceStatusRepository>();
+                var status = repo.Get(key);
+                uow.Complete();
+                return status;
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IInvoiceStatus> GetAllInvoiceStatuses()
         {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public PagedCollection<IInvoice> GetInvoicesMatchingInvoiceStatus(string searchTerm, Guid invoiceStatusKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public PagedCollection<IInvoice> GetInvoicesMatchingTermNotInvoiceStatus(string searchTerm, Guid invoiceStatusKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public PagedCollection<IInvoice> GetInvoicesMatchingOrderStatus(string searchTerm, Guid orderStatusKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public PagedCollection<IInvoice> GetInvoicesMatchingTermNotOrderStatus(string searchTerm, Guid orderStatusKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending)
-        {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IInvoiceStatusRepository>();
+                var statuses = repo.GetAll();
+                uow.Complete();
+                return statuses;
+            }
         }
     }
 }

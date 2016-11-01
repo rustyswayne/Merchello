@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -173,6 +174,7 @@
     <Compile Include="Extensions.PluginManager.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.TreeNode.cs" />
     <Compile Include="Extensions.Version.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
@@ -1222,6 +1224,7 @@
     <Compile Include="Services\Interfaces\INoteService.cs" />
     <Compile Include="Services\Interfaces\INotificationMessageService.cs" />
     <Compile Include="Services\Interfaces\INotificationMethodService.cs" />
+    <Compile Include="Services\Interfaces\IOfferRedeemedService.cs" />
     <Compile Include="Services\Interfaces\IOfferSettingsService.cs" />
     <Compile Include="Services\Interfaces\IOrderService.cs" />
     <Compile Include="Services\Interfaces\IPaymentMethodService.cs" />
@@ -1242,13 +1245,22 @@
     <Compile Include="Services\InvoiceService.currency.cs">
       <DependentUpon>InvoiceService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\InvoiceService.events.cs">
+      <DependentUpon>InvoiceService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\InvoiceService.persist.cs">
+      <DependentUpon>InvoiceService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\InvoiceService.querying.cs">
       <DependentUpon>InvoiceService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\InvoiceService.statuses.cs">
       <DependentUpon>InvoiceService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ItemCacheService.cs" />
+    <Compile Include="Services\ItemCacheService.events.cs">
+      <DependentUpon>ItemCacheService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ItemCacheService.persist.cs">
       <DependentUpon>ItemCacheService.cs</DependentUpon>
     </Compile>
@@ -1257,6 +1269,12 @@
     </Compile>
     <Compile Include="Services\NoteService.cs" />
     <Compile Include="Services\OfferSettingsService.cs" />
+    <Compile Include="Services\OfferSettingsService.events.cs">
+      <DependentUpon>OfferSettingsService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\OfferSettingsService.offerredeemed.cs">
+      <DependentUpon>OfferSettingsService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\OfferSettingsService.persist.cs">
       <DependentUpon>OfferSettingsService.cs</DependentUpon>
     </Compile>
@@ -1333,6 +1351,13 @@
       <DependentUpon>WarehouseService.cs</DependentUpon>
     </Compile>
     <Compile Include="Strategies\IStrategy.cs" />
+    <Compile Include="Validation\BankingValidationHelper.cs" />
+    <Compile Include="Validation\EmailValidationHelper.cs" />
+    <Compile Include="Validation\IBankingValidationHelper.cs" />
+    <Compile Include="Validation\IEmailValidationHelper.cs" />
+    <Compile Include="ValueConverters\DetachedValueCorrectionBase.cs" />
+    <Compile Include="ValueConverters\DetachedValuesConversionType.cs" />
+    <Compile Include="ValueConverters\IDetachedValueCorrection.cs" />
     <Compile Include="Vistors\IVisitor{T}.cs" />
     <Compile Include="Models\Interfaces\IWarehouse.cs" />
     <Compile Include="Models\Interfaces\IWarehouseCatalog.cs" />
@@ -1423,7 +1448,6 @@
     <Compile Include="Trees\ITreeNodeVisitor.cs" />
     <Compile Include="Trees\NodeAggregatorTreeNodeVisitor.cs" />
     <Compile Include="Trees\TreeNode.cs" />
-    <Compile Include="Trees\TreeNodeExtensions.cs" />
     <Compile Include="Trees\TreeNodeFactory{T}.cs" />
     <Compile Include="Trees\TreeNodeVistorBase.cs" />
     <Compile Include="Enums.cs" />

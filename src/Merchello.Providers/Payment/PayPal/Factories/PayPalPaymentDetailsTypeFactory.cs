@@ -1,25 +1,24 @@
 ﻿namespace Merchello.Providers.Payment.PayPal.Factories
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Merchello.Core.Models;
-    using Merchello.Web;
-    using Merchello.Web.Models.VirtualContent;
 
     using global::PayPal.PayPalAPIInterfaceService.Model;
 
-    using Umbraco.Core;
+    using Merchello.Core;
 
     /// <summary>
     /// A factory responsible for building <see cref="PaymentDetailsItemType"/>.
     /// </summary>
     public class PayPalPaymentDetailsTypeFactory
     {
-        /// <summary>
-        /// The <see cref="MerchelloHelper"/>.
-        /// </summary>
-        private readonly MerchelloHelper _merchello = new MerchelloHelper();
+        ///// <summary>
+        ///// The <see cref="MerchelloHelper"/>.
+        ///// </summary>
+        //private readonly MerchelloHelper _merchello = new MerchelloHelper();
 
         /// <summary>
         /// The base url.
@@ -42,7 +41,7 @@
         /// </param>
         public PayPalPaymentDetailsTypeFactory(PayPalFactorySettings settings)
         {
-            Mandate.ParameterNotNull(settings, "settings");
+            Ensure.ParameterNotNull(settings, "settings");
             _settings = settings;
         }
 
@@ -61,7 +60,7 @@
         public PaymentDetailsType Build(IInvoice invoice, PaymentActionCodeType actionCode)
         {
             // Get the decimal configuration for the current currency
-            var currencyCodeType = PayPalApiHelper.GetPayPalCurrencyCode(invoice.CurrencyCode);
+            var currencyCodeType = PayPalApiHelper.GetPayPalCurrencyCode(invoice.Total);
             var basicAmountFactory = new PayPalBasicAmountTypeFactory(currencyCodeType);
 
             // Get the tax total
@@ -186,24 +185,25 @@
         /// </returns>
         protected virtual PaymentDetailsItemType BuildProductPaymentDetailsItemType(ILineItem item, PayPalBasicAmountTypeFactory factory)
         {
-            IProductContent product = null;
-            if (_settings.UsesProductContent)
-            {
-                var productKey = item.ExtendedData.GetProductKey();
-                product = _merchello.TypedProductContent(productKey);
-            }
+            throw new NotImplementedException();
+            //IProductContent product = null;
+            //if (_settings.UsesProductContent)
+            //{
+            //    var productKey = item.ExtendedData.GetProductKey();
+            //    product = _merchello.TypedProductContent(productKey);
+            //}
 
-            var detailsItemType = new PaymentDetailsItemType
-            {
-                Name = item.Name,
-                ItemURL = product != null ? 
-                    string.Format("{0}{1}", _settings.WebsiteUrl, product.Url) :
-                    null,
-                Amount = factory.Build(item.Price),
-                Quantity = item.Quantity
-            };
+            //var detailsItemType = new PaymentDetailsItemType
+            //{
+            //    Name = item.Name,
+            //    ItemURL = product != null ? 
+            //        string.Format("{0}{1}", _settings.WebsiteUrl, product.Url) :
+            //        null,
+            //    Amount = factory.Build(item.Price),
+            //    Quantity = item.Quantity
+            //};
 
-            return detailsItemType;
+            //return detailsItemType;
         }
     }
 }

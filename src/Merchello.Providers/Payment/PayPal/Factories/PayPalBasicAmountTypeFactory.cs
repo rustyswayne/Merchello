@@ -5,8 +5,7 @@
 
     using global::PayPal.PayPalAPIInterfaceService.Model;
 
-    using Umbraco.Core;
-    using Umbraco.Core.Events;
+    using NodaMoney;
 
     /// <summary>
     /// A factory for building BasicAmountType.
@@ -50,7 +49,7 @@
         /// <returns>
         /// The <see cref="BasicAmountType"/>.
         /// </returns>
-        public BasicAmountType Build(decimal value)
+        public BasicAmountType Build(Money value)
         {
             return new BasicAmountType(_currencyCodeType, PriceToString(value, _decimalPlaces));
         }
@@ -67,10 +66,11 @@
         /// <returns>
         /// Returns the price as a string value.
         /// </returns>
-        private string PriceToString(decimal price, int decimals)
+        /// TODO Review formatting after change to money type
+        private string PriceToString(Money price, int decimals)
         {
             var priceFormat = decimals == 0 ? "0" : "0." + new string('0', decimals);
-            return price.ToString(priceFormat, System.Globalization.CultureInfo.InvariantCulture);
+            return price.Amount.ToString(priceFormat, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         /// <summary>

@@ -4,18 +4,15 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Merchello.Core.Cache;
     using Merchello.Core.Gateways;
     using Merchello.Core.Gateways.Payment;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Services;
     using Merchello.Providers.Models;
-    using Merchello.Providers.Payment.Models;
     using Merchello.Providers.Payment.PayPal.Models;
     using Merchello.Providers.Payment.PayPal.Services;
-
-    using Umbraco.Core.Cache;
-    using Umbraco.Core.Logging;
 
     using Constants = Merchello.Providers.Constants;
 
@@ -55,7 +52,7 @@
         public PayPalPaymentGatewayProvider(
             IGatewayProviderService gatewayProviderService,
             IGatewayProviderSettings gatewayProviderSettings,
-            IRuntimeCacheProvider runtimeCacheProvider)
+            IRuntimeCacheProviderAdapter runtimeCacheProvider)
             : base(gatewayProviderService, gatewayProviderSettings, runtimeCacheProvider)
         {
         }
@@ -105,12 +102,8 @@
                 return GetPaymentGatewayMethodByPaymentCode(available.ServiceCode);
             }
 
-            LogHelper.Error<PayPalPaymentGatewayProvider>(
-                string.Format(
-                    "Failed to create a payment method name: {0}, description {1}, paymentCode {2}",
-                    name,
-                    description,
-                    available.ServiceCode),
+            MultiLogHelper.Error<PayPalPaymentGatewayProvider>(
+                $"Failed to create a payment method name: {name}, description {description}, paymentCode {available.ServiceCode}",
                 attempt.Exception);
 
             throw attempt.Exception;
@@ -157,7 +150,7 @@
             logData.AddCategory("PayPal");
 
             var nullRef =
-                new NullReferenceException(string.Format("PaymentMethod not found for payment code: {0}", paymentCode));
+                new NullReferenceException($"PaymentMethod not found for payment code: {paymentCode}");
             MultiLogHelper.Error<PayPalPaymentGatewayProvider>(
                 "Failed to find payment method for payment code",
                 nullRef,

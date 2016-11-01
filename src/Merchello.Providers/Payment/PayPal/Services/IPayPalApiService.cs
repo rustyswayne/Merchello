@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines a PayPal API Service.
     /// </summary>
-    public interface IPayPalApiService
+    public interface IPayPalApiService : IPayPalService
     {
         ///// <summary>
         ///// Gets the <see cref="IPayPalApiPaymentService"/>.

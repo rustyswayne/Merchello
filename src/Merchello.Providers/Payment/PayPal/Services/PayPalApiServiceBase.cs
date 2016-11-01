@@ -8,12 +8,12 @@
 
     using global::PayPal;
 
-    using Umbraco.Core;
+    using Merchello.Core;
 
     /// <summary>
-    /// A base class of <see cref="IPayPalApiServiceBase"/>s.
+    /// A base class for PayPal API services.
     /// </summary>
-    public class PayPalApiServiceBase : IPayPalApiServiceBase
+    public class PayPalApiServiceBase : IPayPalService
     {
         /// <summary>
         /// The <see cref="PayPalProviderSettings"/>.
@@ -28,20 +28,14 @@
         /// </param>
         protected PayPalApiServiceBase(PayPalProviderSettings settings)
         {
-            Mandate.ParameterNotNull(settings, "settings");
+            Ensure.ParameterNotNull(settings, "settings");
             _settings = settings;
         }
 
         /// <summary>
         /// Gets the settings.
         /// </summary>
-        internal PayPalProviderSettings Settings
-        {
-            get
-            {
-                return _settings;
-            }
-        }
+        internal PayPalProviderSettings Settings => this._settings;
 
         /// <summary>
         /// Ensures the connection channel to PayPal.

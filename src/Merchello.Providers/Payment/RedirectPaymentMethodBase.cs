@@ -2,13 +2,12 @@
 {
     using System;
 
-    using Merchello.Core;
     using Merchello.Core.Gateways.Payment;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Services;
 
-    using Umbraco.Core;
+    using NodaMoney;
 
     /// <summary>
     /// A base payment method for operations that require redirecting to the provider's site to accept the payment.
@@ -30,7 +29,7 @@
         }
 
         /// <summary>
-        /// Payment methods derived from <see cref="RedirectPaymentMethodBase"/> cannot implement <see cref="PerformAuthorizeCapturePayment(IInvoice, decimal, ProcessorArgumentCollection)"/>.
+        /// Payment methods derived from <see cref="RedirectPaymentMethodBase"/> cannot implement PerformAuthorizeCapturePayment.
         /// </summary>
         /// <param name="invoice">
         /// The invoice.
@@ -47,7 +46,7 @@
         /// <exception cref="InvalidOperationException">
         /// Throws an exception if this method is invoked.
         /// </exception>
-        protected override IPaymentResult PerformAuthorizeCapturePayment(IInvoice invoice, decimal amount, ProcessorArgumentCollection args)
+        protected override IPaymentResult PerformAuthorizeCapturePayment(IInvoice invoice, Money amount, ProcessorArgumentCollection args)
         {
             var logData = MultiLogger.GetBaseLoggingData();
 

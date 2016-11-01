@@ -4,12 +4,12 @@
 
     using Merchello.Providers.Payment.PayPal.Models;
 
-    using Umbraco.Core.Services;
+    using NodaMoney;
 
     /// <summary>
     /// Defines a PayPalExpressCheckoutService.
     /// </summary>
-    public interface IPayPalExpressCheckoutService : IService
+    public interface IPayPalExpressCheckoutService : IPayPalService
     {
         /// <summary>
         /// Performs the setup for an express checkout.
@@ -44,7 +44,7 @@
         /// <returns>
         /// The <see cref="ExpressCheckoutResponse"/>.
         /// </returns>
-        PayPalExpressTransactionRecord Capture(IInvoice invoice, IPayment payment, decimal amount, bool isPartialPayment);
+        PayPalExpressTransactionRecord Capture(IInvoice invoice, IPayment payment, Money amount, bool isPartialPayment);
 
         /// <summary>
         /// Refunds or partially refunds a payment.
@@ -61,6 +61,6 @@
         /// <returns>
         /// The <see cref="PayPalExpressTransactionRecord"/>.
         /// </returns>
-        ExpressCheckoutResponse Refund(IInvoice invoice, IPayment payment, decimal amount);
+        ExpressCheckoutResponse Refund(IInvoice invoice, IPayment payment, Money amount);
     }
 } 

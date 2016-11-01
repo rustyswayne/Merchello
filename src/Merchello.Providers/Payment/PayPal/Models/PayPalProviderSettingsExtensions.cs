@@ -1,15 +1,12 @@
 ﻿namespace Merchello.Providers.Payment.PayPal.Models
 {
-    using System.Diagnostics.CodeAnalysis;
-
+    using Core;
+    using Merchello.Core.Acquired;
     using Merchello.Providers.Exceptions;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Extension methods for <see cref="PayPalProviderSettings"/>.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public static class PayPalProviderSettingsExtensions
     {
         /// <summary>
@@ -35,7 +32,7 @@
         }
 
         /// <summary>
-        /// Attempts to get the SdkConfig for PayPal express checkout.
+        /// Attempts to get the SDK configuration for PayPal express checkout.
         /// </summary>
         /// <param name="settings">
         /// The settings.
@@ -74,15 +71,9 @@
         /// </returns>
         private static Attempt<bool> ValidatePayPayProviderSettings(PayPalProviderSettings settings, bool isExpress = false)
         {
-            var success = true;
+            bool success;
             if (isExpress)
             {
-                //success =
-                //    !(settings.ApiUsername.IsNullOrWhiteSpace() || 
-                //    settings.ApiPassword.IsNullOrWhiteSpace() || 
-                //    settings.ApiSignature.IsNullOrWhiteSpace() ||
-                //    settings.ApplicationId.IsNullOrWhiteSpace());
-
                 success =
                 !(settings.ApiUsername.IsNullOrWhiteSpace() ||
                 settings.ApiPassword.IsNullOrWhiteSpace() ||

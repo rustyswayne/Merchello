@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <inheritdoc/>
@@ -31,25 +33,56 @@
         /// <inheritdoc/>
         public IOfferSettings GetByKey(Guid key)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.MarketingTree);
+                var repo = uow.CreateRepository<IOfferSettingsRepository>();
+                var settings = repo.Get(key);
+                uow.Complete();
+                return settings;
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IOfferSettings> GetAll(params Guid[] keys)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.MarketingTree);
+                var repo = uow.CreateRepository<IOfferSettingsRepository>();
+                var settings = repo.GetAll();
+                uow.Complete();
+                return settings;
+            }
         }
 
         /// <inheritdoc/>
         public IOfferSettings GetByOfferCode(string offerCode)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.MarketingTree);
+                var repo = uow.CreateRepository<IOfferSettingsRepository>();
+                var settings = repo.GetByQuery(repo.Query.Where(x => x.OfferCode.Equals(offerCode, StringComparison.InvariantCultureIgnoreCase)));
+                uow.Complete();
+                return settings.FirstOrDefault();
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IOfferSettings> GetByProviderKey(Guid offerProviderKey, bool activeOnly = true)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.MarketingTree);
+                var repo = uow.CreateRepository<IOfferSettingsRepository>();
+                var query = activeOnly
+                                ? repo.Query.Where(x => x.OfferProviderKey == offerProviderKey && x.Active)
+                                : repo.Query.Where(x => x.OfferProviderKey == offerProviderKey);
+                var settings = repo.GetByQuery(query);
+                uow.Complete();
+                return settings;
+            }
         }
     }
 }

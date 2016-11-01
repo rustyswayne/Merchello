@@ -14,18 +14,63 @@
     public interface IItemCacheService : IService<IItemCache>
     {
         /// <summary>
+        /// Creates a <see cref="IItemCache"/>.
+        /// </summary>
+        /// <param name="entityKey">
+        /// The entity key.
+        /// </param>
+        /// <param name="itemCacheType">
+        /// The item cache type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IItemCache"/>.
+        /// </returns>
+        IItemCache Create(Guid entityKey, ItemCacheType itemCacheType);
+
+        /// <summary>
+        /// Creates a <see cref="IItemCache"/>.
+        /// </summary>
+        /// <param name="entityKey">
+        /// The entity key.
+        /// </param>
+        /// <param name="itemCacheTfKey">
+        /// The item cache type field key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IItemCache"/>.
+        /// </returns>
+        IItemCache Create(Guid entityKey, Guid itemCacheTfKey);
+
+        /// <summary>
+        /// Creates a <see cref="IItemCache"/>.
+        /// </summary>
+        /// <param name="entityKey">
+        /// The entity key.
+        /// </param>
+        /// <param name="itemCacheTfKey">
+        /// The item cache type field key.
+        /// </param>
+        /// <param name="versionKey">
+        /// The version Key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IItemCache"/>.
+        /// </returns>
+        IItemCache Create(Guid entityKey, Guid itemCacheTfKey, Guid versionKey);
+
+        /// <summary>
         /// Creates an item cache (or retrieves an existing one) based on type and saves it to the database
         /// </summary>
         /// <param name="customer">
         /// The customer.
         /// </param>
-        /// <param name="itemCache">
-        /// The item Cache.
+        /// <param name="itemCacheType">
+        /// The item cache type.
         /// </param>
         /// <returns>
         /// The <see cref="IItemCache"/>.
         /// </returns>
-        IItemCache GetItemCacheWithKey(ICustomerBase customer, ItemCacheType itemCache);
+        IItemCache GetItemCacheWithKey(ICustomerBase customer, ItemCacheType itemCacheType);
 
         /// <summary>
         /// Creates an item cache (or retrieves an existing one) based on type and saves it to the database

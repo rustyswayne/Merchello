@@ -37,7 +37,7 @@
         public static event TypedEventHandler<INoteService, NewEventArgs<INote>> Creating;
 
         /// <summary>
-        /// Occures after create.
+        /// Occurs after create.
         /// </summary>
         public static event TypedEventHandler<INoteService, NewEventArgs<INote>> Created;
 

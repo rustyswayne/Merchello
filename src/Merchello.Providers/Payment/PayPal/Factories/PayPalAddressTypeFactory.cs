@@ -2,11 +2,12 @@
 {
     using System;
 
+    using Merchello.Core;
+    using Merchello.Core.Logging;
     using Merchello.Core.Models;
 
     using global::PayPal.PayPalAPIInterfaceService.Model;
-
-    using Merchello.Core.Logging;
+    using AddressType = global::PayPal.PayPalAPIInterfaceService.Model.AddressType;
 
     /// <summary>
     /// A factory to build PayPal <see cref="AddressType"/>.
@@ -50,7 +51,6 @@
 
                 throw;
             }
-
         } 
     }
 }

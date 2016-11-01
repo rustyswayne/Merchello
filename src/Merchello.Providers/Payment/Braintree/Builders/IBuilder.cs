@@ -1,7 +1,7 @@
 ﻿namespace Merchello.Providers.Payment.Braintree.Builders
 {
     /// <summary>
-    /// Defines a build.
+    /// Represents a Braintree a builder.
     /// </summary>
     /// <typeparam name="T">
     /// The type to be built

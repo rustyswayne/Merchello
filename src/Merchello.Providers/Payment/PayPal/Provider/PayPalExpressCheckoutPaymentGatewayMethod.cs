@@ -4,6 +4,7 @@
     using System.Linq;
 
     using Merchello.Core;
+    using Merchello.Core.Acquired;
     using Merchello.Core.Gateways;
     using Merchello.Core.Gateways.Payment;
     using Merchello.Core.Models;
@@ -12,7 +13,7 @@
     using Merchello.Providers.Payment.PayPal.Models;
     using Merchello.Providers.Payment.PayPal.Services;
 
-    using Umbraco.Core;
+    using NodaMoney;
 
     using StringExtensions = Merchello.Core.StringExtensions;
 
@@ -129,12 +130,12 @@
         /// <returns>
         /// The <see cref="IPaymentResult"/>.
         /// </returns>
-        protected override IPaymentResult PerformCapturePayment(IInvoice invoice, IPayment payment, decimal amount, ProcessorArgumentCollection args)
+        protected override IPaymentResult PerformCapturePayment(IInvoice invoice, IPayment payment, Money amount, ProcessorArgumentCollection args)
         {
             // We need to determine if the entire amount authorized has been collected before marking
             // the payment collected.
             var appliedPayments = GatewayProviderService.GetAppliedPaymentsByPaymentKey(payment.Key);
-            var applied = appliedPayments.Sum(x => x.Amount);
+            var applied = appliedPayments.Select(x => x.Amount).Sum();
 
             var isPartialPayment = amount - applied <= 0;
 
@@ -177,11 +178,11 @@
         /// <returns>
         /// The <see cref="IPaymentResult"/>.
         /// </returns>
-        protected override IPaymentResult PerformRefundPayment(IInvoice invoice, IPayment payment, decimal amount, ProcessorArgumentCollection args)
+        protected override IPaymentResult PerformRefundPayment(IInvoice invoice, IPayment payment, Money amount, ProcessorArgumentCollection args)
         {
             var record = payment.GetPayPalTransactionRecord();
 
-            if (StringExtensions.IsNullOrWhiteSpace(record.Data.CaptureTransactionId))
+            if (record.Data.CaptureTransactionId.IsNullOrWhiteSpace())
             {
                 var error = new NullReferenceException("PayPal transaction could not be found and/or deserialized from payment extended data collection");
                 return new PaymentResult(Attempt<IPayment>.Fail(payment, error), invoice, false);

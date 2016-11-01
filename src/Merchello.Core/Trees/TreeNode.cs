@@ -41,13 +41,7 @@
         /// <summary>
         /// Gets the children.
         /// </summary>
-        public IEnumerable<TreeNode<T>> Children
-        {
-            get
-            {
-                return this._children;
-            }
-        }
+        public IEnumerable<TreeNode<T>> Children => this._children;
 
         /// <summary>
         /// Gets a child at a specific index.

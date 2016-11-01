@@ -10,11 +10,14 @@
     using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
 
-    using NodaMoney;
-
     /// <inheritdoc/>
     public partial class InvoiceService : EntityCollectionEntityServiceBase<IInvoice, IDatabaseUnitOfWorkProvider, IInvoiceRepository>, IInvoiceService
     {
+        /// <summary>
+        /// The <see cref="IStoreSettingService"/>.
+        /// </summary>
+        private readonly IStoreSettingService _storeSettingService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InvoiceService"/> class.
         /// </summary>
@@ -27,9 +30,14 @@
         /// <param name="eventMessagesFactory">
         /// The <see cref="IEventMessagesFactory"/>.
         /// </param>
-        public InvoiceService(IDatabaseUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory)
+        /// <param name="storeSettingService">
+        /// The <see cref="IStoreSettingService"/>
+        /// </param>
+        public InvoiceService(IDatabaseUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory, IStoreSettingService storeSettingService)
             : base(provider, logger, eventMessagesFactory, Constants.Locks.SalesTree)
         {
+            Ensure.ParameterNotNull(storeSettingService, nameof(storeSettingService));
+            _storeSettingService = storeSettingService;
         }
 
         /// <inheritdoc/>

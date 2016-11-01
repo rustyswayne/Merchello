@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using Merchello.Core.Models.Interfaces;
-
     /// <summary>
     /// A base class for visiting nodes in a tree.
     /// </summary>
@@ -32,13 +30,7 @@
         /// <remarks>
         /// Used to store matched nodes from the tree traversal
         /// </remarks>
-        public IEnumerable<TreeNode<TNode>> Nodes
-        {
-            get
-            {
-                return _nodes.ToArray();
-            }
-        }
+        public IEnumerable<TreeNode<TNode>> Nodes => this._nodes.ToArray();
 
         /// <summary>
         /// Gets the values of the matched nodes

@@ -2,11 +2,10 @@
 {
     using System;
 
+    using Merchello.Core;
     using Merchello.Core.Models;
     using Merchello.Providers.Payment.PayPal.Models;
     using Merchello.Providers.Payment.PayPal.Services;
-
-    using Umbraco.Core;
 
     /// <summary>
 	/// The PayPal payment processor
@@ -14,7 +13,7 @@
 	internal class PayPalExpressCheckoutPaymentProcessor
 	{
         /// <summary>
-        /// The <see cref="IPayPalApiPaymentService"/>.
+        /// The <see cref="IPayPalService"/>.
         /// </summary>
         private readonly PayPalExpressCheckoutService _service;
 
@@ -22,11 +21,11 @@
         /// Initializes a new instance of the <see cref="PayPalExpressCheckoutPaymentProcessor"/> class.
         /// </summary>
         /// <param name="service">
-        /// The <see cref="IPayPalApiPaymentService"/>.
+        /// The <see cref="IPayPalService"/>.
         /// </param>
         public PayPalExpressCheckoutPaymentProcessor(IPayPalApiService service)
         {
-            Mandate.ParameterNotNull(service, "service");
+            Ensure.ParameterNotNull(service, "service");
             this._service = (PayPalExpressCheckoutService)service.ExpressCheckout;
         }
 

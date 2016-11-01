@@ -2,11 +2,8 @@
 {
     using System;
 
+    using Merchello.Core;
     using Merchello.Providers.Payment.PayPal.Models;
-
-    using global::PayPal;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Represents a PayPal API Service.
@@ -32,7 +29,7 @@
         public PayPalApiService(PayPalProviderSettings settings)
             : base(settings)
         {
-            Mandate.ParameterNotNull(settings, "settings");
+            Ensure.ParameterNotNull(settings, "settings");
             _settings = settings;
 
             this.Initialize();

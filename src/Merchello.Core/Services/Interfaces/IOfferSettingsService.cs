@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a data service for <see cref="IOfferSettings"/>.
     /// </summary>
-    public interface IOfferSettingsService : IGetAllService<IOfferSettings>
+    public interface IOfferSettingsService : IGetAllService<IOfferSettings>, IOfferRedeemedService
     {
         /// <summary>
         /// Creates a <see cref="IOfferSettings"/> without saving it to the database

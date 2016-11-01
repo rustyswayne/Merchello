@@ -3,10 +3,8 @@
     using System;
     using System.Web.Mvc;
 
-    using Umbraco.Web.Mvc;
-
     /// <summary>
-    /// Defines base a PayPal <see cref="SurfaceController"/>.
+    /// Defines base a PayPal <see cref="Controller"/>.
     /// </summary>
     public interface IPayPalSurfaceController
     {

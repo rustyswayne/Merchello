@@ -14,8 +14,9 @@
 
     using global::PayPal.PayPalAPIInterfaceService.Model;
 
-    using Umbraco.Core;
-    using Umbraco.Core.Events;
+    using Merchello.Core;
+
+    using NodaMoney;
 
     /// <summary>
     /// Represents a PayPalExpressCheckoutService.
@@ -122,7 +123,7 @@
         /// <returns>
         /// The <see cref="ExpressCheckoutResponse"/>.
         /// </returns>
-        public PayPalExpressTransactionRecord Capture(IInvoice invoice, IPayment payment, decimal amount, bool isPartialPayment)
+        public PayPalExpressTransactionRecord Capture(IInvoice invoice, IPayment payment, Money amount, bool isPartialPayment)
         {
             // Get the transaction record
             var record = payment.GetPayPalTransactionRecord();
@@ -131,7 +132,7 @@
 
             try
             {
-                var amountFactory = new PayPalBasicAmountTypeFactory(PayPalApiHelper.GetPayPalCurrencyCode(invoice.CurrencyCode));
+                var amountFactory = new PayPalBasicAmountTypeFactory(PayPalApiHelper.GetPayPalCurrencyCode(invoice.Total));
 
                 var authorizationId = record.Data.AuthorizationTransactionId;
 
@@ -180,7 +181,7 @@
         /// <returns>
         /// The <see cref="PayPalExpressTransactionRecord"/>.
         /// </returns>
-        public ExpressCheckoutResponse Refund(IInvoice invoice, IPayment payment, decimal amount)
+        public ExpressCheckoutResponse Refund(IInvoice invoice, IPayment payment, Money amount)
         {
             var record = payment.GetPayPalTransactionRecord();
 

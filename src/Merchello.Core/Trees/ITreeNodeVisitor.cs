@@ -1,6 +1,5 @@
 ﻿namespace Merchello.Core.Trees
 {
-    using Merchello.Core.Models.Interfaces;
     using Merchello.Core.Vistors;
 
     /// <summary>
