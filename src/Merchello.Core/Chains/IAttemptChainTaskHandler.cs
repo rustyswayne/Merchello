@@ -1,5 +1,7 @@
 ﻿namespace Merchello.Core.Chains
 {
+    using System;
+
     using Merchello.Core.Acquired;
 
     /// <summary>
@@ -8,6 +10,14 @@
     /// <typeparam name="T">The type of value</typeparam>
     public interface IAttemptChainTaskHandler<T>
     {
+        /// <summary>
+        /// Gets the type of the task.
+        /// </summary>
+        /// <remarks>
+        /// Generally used for testing.
+        /// </remarks>
+        Type TaskType { get; }
+
         /// <summary>
         /// Attempt to execute the task.  If successful, executes the next task until.  This process is repeated until
         /// the end of chain Task is reached.

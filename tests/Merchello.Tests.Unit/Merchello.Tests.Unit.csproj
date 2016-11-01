@@ -50,6 +50,7 @@
     <Compile Include="Configurations\MerchelloExtensibility\MvcElementTests.cs" />
     <Compile Include="Configurations\MerchelloExtensibility\RoutingElementTests.cs" />
     <Compile Include="Configurations\MerchelloExtensibility\BackOfficeTreesElementTests.cs" />
+    <Compile Include="Configurations\MerchelloExtensibility\TaskChainsElementTests.cs" />
     <Compile Include="Configurations\MerchelloExtensibility\ViewsElementTests.cs" />
     <Compile Include="Configurations\MerchelloExtensibility\VirtualContentElementTests.cs" />
     <Compile Include="Configurations\MerchelloSettings\CheckoutContextElementTests.cs" />

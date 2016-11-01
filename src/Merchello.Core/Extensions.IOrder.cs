@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Linq;
 
+    using Merchello.Core.DI;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -19,24 +20,24 @@
         /// <returns>The prefixed order number</returns>
         public static string PrefixedOrderNumber(this IOrder order)
         {
-            return String.IsNullOrEmpty(order.OrderNumberPrefix)
+            return string.IsNullOrEmpty(order.OrderNumberPrefix)
                 ? order.OrderNumber.ToString(CultureInfo.InvariantCulture)
-                : String.Format("{0}-{1}", order.OrderNumberPrefix, order.OrderNumber);
+                : $"{order.OrderNumberPrefix}-{order.OrderNumber}";
         }
 
-        ///// <summary>
-        ///// Gets the <see cref="IInvoice"/> for the <see cref="IOrder"/>.
-        ///// </summary>
-        ///// <param name="order">
-        ///// The <see cref="IOrder"/>.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IInvoice"/>.
-        ///// </returns>
-        //public static IInvoice Invoice(this IOrder order)
-        //{
-        //    return order.Invoice(MerchelloContext.Current);
-        //}
+        /// <summary>
+        /// Gets the <see cref="IInvoice"/> for the <see cref="IOrder"/>.
+        /// </summary>
+        /// <param name="order">
+        /// The <see cref="IOrder"/>.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IInvoice"/>.
+        /// </returns>
+        public static IInvoice Invoice(this IOrder order)
+        {
+            return MC.Services.InvoiceService.GetByKey(order.InvoiceKey);
+        }
 
 
         ///// <summary>
@@ -114,22 +115,5 @@
         {
             return order.Items.Where(x => x.ExtendedData.GetTrackInventoryValue() && x.ExtendedData.ContainsWarehouseCatalogKey()).Select(x => (OrderLineItem)x);
         }
-
-        ///// <summary>
-        ///// Gets the <see cref="IInvoice"/> for the <see cref="IOrder"/>.
-        ///// </summary>
-        ///// <param name="order">
-        ///// The <see cref="IOrder"/>.
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The <see cref="IMerchelloContext"/>.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IInvoice"/>.
-        ///// </returns>
-        //internal static IInvoice Invoice(this IOrder order, IMerchelloContext merchelloContext)
-        //{
-        //    return merchelloContext.Services.InvoiceService.GetByKey(order.InvoiceKey);
-        //}
     }
 }

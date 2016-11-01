@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
 
+    using Merchello.Core.Acquired.Persistence;
     using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models;
     using Merchello.Core.Models.Rdbms;
@@ -24,12 +25,23 @@
 
             if (terms.Any())
             {
-                var preparedTerms = string.Format("%{0}%", string.Join("%", terms));
+                var preparedTerms = $"%{string.Join("%", terms)}%";
 
                 sql.Where("message LIKE @msg", new { @msg = preparedTerms });
             }
 
             sql.AppendOrderExpression<NoteDto>(ValidateSortByField(orderExpression), direction);
+
+            return Database.Page<NoteDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
+        }
+
+
+        /// <inheritdoc/>
+        public PagedCollection<INote> GetNotesByEntityTfKey(Guid entityTfKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending)
+        {
+            var sql = GetBaseQuery(false)
+                        .Where<NoteDto>(x => x.EntityTfKey == entityTfKey)
+                        .AppendOrderExpression<NoteDto>(ValidateSortByField(sortBy), direction);
 
             return Database.Page<NoteDto>(page, itemsPerPage, sql).Map(MapDtoCollection);
         }

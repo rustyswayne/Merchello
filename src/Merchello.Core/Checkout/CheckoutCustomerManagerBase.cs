@@ -1,9 +1,6 @@
 ﻿namespace Merchello.Core.Checkout
 {
-    using System;
-
     using Merchello.Core.Models;
-    using Merchello.Core.Services;
 
     /// <summary>
     /// A base class for CheckoutCustomerManagers.

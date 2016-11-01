@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -34,5 +35,28 @@
         /// The <see cref="IEnumerable{INote}"/>.
         /// </returns>
         IEnumerable<INote> GetNotes(Guid entityKey, Guid entityTfKey);
+
+        /// <summary>
+        /// Gets a paged collection of notes.
+        /// </summary>
+        /// <param name="entityTfKey">
+        /// The entity type field key.
+        /// </param>
+        /// <param name="page">
+        /// The page.
+        /// </param>
+        /// <param name="itemsPerPage">
+        /// The items per page.
+        /// </param>
+        /// <param name="sortBy">
+        /// The sort by.
+        /// </param>
+        /// <param name="direction">
+        /// The direction.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PagedCollection"/>.
+        /// </returns>
+        PagedCollection<INote> GetNotesByEntityTfKey(Guid entityTfKey, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending);
     }
 }

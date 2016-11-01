@@ -8,7 +8,7 @@
     /// <summary>
     /// Sets the IoC container for the Merchello logging...
     /// </summary>
-    public class LoggerComposition : ICompositionRoot
+    internal sealed class LoggerComposition : ICompositionRoot
     {
         /// <summary>
         /// Composes logger services by adding logging classes to the <paramref name="container"/>.

@@ -5,6 +5,7 @@
 
     using LightInject;
 
+    using Merchello.Core.Acquired.Persistence.DatabaseModelDefinitions;
     using Merchello.Core.Cache;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;

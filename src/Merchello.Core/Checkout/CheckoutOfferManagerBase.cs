@@ -4,14 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Marketing.Offer;
     using Merchello.Core.Models;
-    using Merchello.Core.Sales;
-
-    using Newtonsoft.Json;
-
-    using Umbraco.Core;
-    using Umbraco.Core.Logging;
 
     /// <summary>
     /// Represents a checkout offer manager.
@@ -38,13 +33,7 @@
         /// <summary>
         /// Gets the offer codes.
         /// </summary>
-        public IEnumerable<string> OfferCodes
-        {
-            get
-            {
-                return this._offerCodeTempData.Value;
-            }
-        }       
+        public IEnumerable<string> OfferCodes => this._offerCodeTempData.Value;
 
         /// <summary>
         /// Removes an offer code from the OfferCodes collection.

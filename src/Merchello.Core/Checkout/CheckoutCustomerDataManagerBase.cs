@@ -5,12 +5,9 @@
 
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
-    using Merchello.Core.Sales;
     using Merchello.Core.Services;
 
     using Newtonsoft.Json;
-
-    using Umbraco.Core.Logging;
 
     /// <summary>
     /// A checkout manager base class for saving customer data.
@@ -36,11 +33,11 @@
         {
             if (Context.Customer.IsAnonymous)
             {
-                Context.Services.CustomerService.Save(Context.Customer as AnonymousCustomer, Context.Settings.RaiseCustomerEvents);
+                Context.Services.CustomerService.Save(Context.Customer as AnonymousCustomer);
             }
             else
             {
-                ((CustomerService)Context.Services.CustomerService).Save(Context.Customer as Customer, Context.Settings.RaiseCustomerEvents);
+                ((CustomerService)Context.Services.CustomerService).Save(Context.Customer as Customer);
             }
         }
 
@@ -57,7 +54,7 @@
         {
             var json =
                 JsonConvert.SerializeObject(
-                    new CheckoutCustomerTempData() { Data = data, VersionKey = Context.VersionKey });
+                    new CheckoutCustomerTempData { Data = data, VersionKey = Context.VersionKey });
 
             Context.Customer.ExtendedData.SetValue(key, json);
 

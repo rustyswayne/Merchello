@@ -4,12 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Exceptions;
     using Merchello.Core.Models;
-    using Merchello.Core.Models.Interfaces;
     using Merchello.Core.Services;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// A base class to be implemented by resolved OfferProviders.
@@ -36,7 +34,7 @@
         /// </param>
         protected OfferManagerBase(IOfferSettingsService offerSettingsService)
         {
-            Mandate.ParameterNotNull(offerSettingsService, "offerSettingsService");
+            Ensure.ParameterNotNull(offerSettingsService, "offerSettingsService");
 
             _offerSettingsService = offerSettingsService;
         }
@@ -55,15 +53,7 @@
         /// <remarks>
         /// This is used by the UI when determining what restricted offer components (if any) can be assigned
         /// </remarks>
-        public virtual string ManagesTypeName
-        {
-            get
-            {
-                return typeof(TOffer).Name;
-            } 
-        }
-
-        #region implementation of IOfferManagerBase       
+        public virtual string ManagesTypeName => typeof(TOffer).Name;
 
         /// <summary>
         /// The get by key.
@@ -91,7 +81,7 @@
         /// </returns>
         public IEnumerable<TOffer> GetByKeys(IEnumerable<Guid> keys)
         {
-            var settings = _offerSettingsService.GetByKeys(keys);
+            var settings = _offerSettingsService.GetAll(keys.ToArray());
             return settings.Select(this.GetInstance);
         }
 
@@ -145,7 +135,6 @@
             return !ensure.Success ? Attempt<TOffer>.Fail(ensure.Exception) : Attempt<TOffer>.Succeed(instance);
         }
 
-        #endregion
 
         /// <summary>
         /// Instantiates an offer given it's settings

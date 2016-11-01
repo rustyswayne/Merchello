@@ -9,7 +9,7 @@
     /// <summary>
     /// Sets the IoC container for the Merchello services.
     /// </summary>
-    public class ServicesComposition : ICompositionRoot
+    internal sealed class ServicesComposition : ICompositionRoot
     {
         /// <summary>
         /// Composes configuration services by adding services to the <paramref name="container"/>.

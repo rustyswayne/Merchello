@@ -4,8 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using LightInject;
-
+    using Merchello.Core.Acquired;
     using Merchello.Core.DI;
 
     /// <summary>
@@ -29,23 +28,49 @@
         }
 
         /// <summary>
+        /// The task count.
+        /// </summary>
+        public virtual int TaskCount => this.TaskHandlers.Value.Count();
+
+        /// <summary>
         /// Gets the list of task handlers
         /// </summary>
-        protected List<AttemptChainTaskHandler<TTask>> TaskHandlers { get; } = new List<AttemptChainTaskHandler<TTask>>();
+        protected Lazy<IEnumerable<AttemptChainTaskHandler<TTask>>> TaskHandlers { get; private set; }
+
 
         /// <inheritdoc/>
         public virtual IEnumerable<AttemptChainTaskHandler<TTask>> GetTaskChain()
         {
-            return TaskHandlers;
+            return TaskHandlers.Value;
         }
 
         /// <summary>
         /// Creates an instance of the task.
         /// </summary>
+        /// <param name="type">
+        /// The <see cref="Type"/>.
+        /// </param>
         /// <returns>
         /// The <see cref="TTask"/>.
         /// </returns>
-        protected abstract IAttemptChainTask<TTask> CreateInstance();
+        protected abstract IAttemptChainTask<TTask> CreateInstance(Type type);
+
+        /// <summary>
+        /// Builds the task chain.
+        /// </summary>
+        /// <returns>
+        /// The collection of attempt chain task handler.
+        /// </returns>
+        private IEnumerable<AttemptChainTaskHandler<TTask>> BuildTaskChain()
+        {
+            var tasks = this.Select(x => new AttemptChainTaskHandler<TTask>(CreateInstance(x))).ToArray();
+            foreach (var task in tasks.Where(task => tasks.IndexOf(task) != tasks.IndexOf(tasks.Last())))
+            {
+                task.RegisterNext(tasks[tasks.IndexOf(task) + 1]);
+            }
+
+            return tasks;
+        }
 
         /// <summary>
         /// Initializes the register.
@@ -53,13 +78,7 @@
         private void Initialize()
         {
             // Instantiate each task in the chain
-            TaskHandlers.AddRange(this.Select(x => new AttemptChainTaskHandler<TTask>(CreateInstance())));
-
-            // register the next task for each link (these are linear chains)
-            foreach (var taskHandler in TaskHandlers.Where(task => TaskHandlers.IndexOf(task) != TaskHandlers.IndexOf(TaskHandlers.Last())))
-            {
-                taskHandler.RegisterNext(TaskHandlers[TaskHandlers.IndexOf(taskHandler) + 1]);
-            }
+            TaskHandlers = new Lazy<IEnumerable<AttemptChainTaskHandler<TTask>>>(this.BuildTaskChain);
         }
     }
 }

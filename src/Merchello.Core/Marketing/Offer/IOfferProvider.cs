@@ -2,10 +2,6 @@
 {
     using System;
 
-    using Merchello.Core.Models;
-
-    using Umbraco.Core;
-
     /// <summary>
     /// The DiscountOfferProvider interface.
     /// </summary>

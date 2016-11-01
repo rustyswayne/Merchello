@@ -1,4 +1,4 @@
-﻿namespace Merchello.Core.Chains.InvoiceCreation.CheckoutManager
+namespace Merchello.Core.Chains.InvoiceCreation
 {
     using System.IO;
 

@@ -2,7 +2,10 @@
 {
     using System;
 
+    using LightInject;
+
     using Merchello.Core.Builders;
+    using Merchello.Core.Chains;
     using Merchello.Core.Models;
 
     /// <summary>
@@ -11,19 +14,29 @@
     public abstract class CheckoutManagerBase : CheckoutContextManagerBase, ICheckoutManagerBase
     {
         /// <summary>
+        /// The <see cref="IServiceContainer"/>.
+        /// </summary>
+        private readonly IServiceContainer _container;
+
+        /// <summary>
         /// The invoice builder.
         /// </summary>
-        private Lazy<BuildChainBase<IInvoice>> _invoiceBuilder; 
+        private Lazy<IBuilderChain<IInvoice>> _invoiceBuilder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckoutManagerBase"/> class.
         /// </summary>
+        /// <param name="container">
+        /// The <see cref="IServiceContainer"/>.
+        /// </param>
         /// <param name="checkoutContext">
         /// The checkout Context.
         /// </param>
-        protected CheckoutManagerBase(ICheckoutContext checkoutContext)
+        protected CheckoutManagerBase(IServiceContainer container, ICheckoutContext checkoutContext)
             : base(checkoutContext)
         {
+            Core.Ensure.ParameterNotNull(container, nameof(container));
+            _container = container;
             this.Initialize();
         }
 
@@ -58,13 +71,7 @@
         /// <returns>
         /// The <see cref="BuildChainBase{IInvoice}"/>.
         /// </returns>
-        protected virtual BuildChainBase<IInvoice> InvoiceBuilder
-        {
-            get
-            {
-                return this._invoiceBuilder.Value;
-            }
-        }
+        protected virtual IBuilderChain<IInvoice> InvoiceBuilder => this._invoiceBuilder.Value;
 
         /// <summary>
         /// Resets the checkout manager by removing persisted information.
@@ -84,7 +91,11 @@
         /// </summary>
         private void Initialize()
         {
-            this._invoiceBuilder = new Lazy<BuildChainBase<IInvoice>>(() => new CheckoutInvoiceBuilderChain(this));
+            this._invoiceBuilder = new Lazy<IBuilderChain<IInvoice>>(() =>
+                _container
+                    .GetInstance<IAttemptChainTaskRegister<IInvoice>, ICheckoutManagerBase, IBuilderChain<IInvoice>>(
+                     _container.GetInstance<ICheckoutManagerBase, IAttemptChainTaskRegister<IInvoice>>(this),
+                        this));
         }
     }
 }

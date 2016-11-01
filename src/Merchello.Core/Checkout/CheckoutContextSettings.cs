@@ -1,7 +1,5 @@
 ﻿namespace Merchello.Core.Checkout
 {
-    using Umbraco.Web.Mvc;
-
     /// <summary>
     /// The checkout context version change settings.
     /// </summary>
@@ -19,7 +17,6 @@
             this.ResetOfferManagerDataOnVersionChange = true;
             this.EmptyBasketOnPaymentSuccess = true;
             this.ApplyTaxesToInvoice = true;
-            this.RaiseCustomerEvents = false;
         }
 
         /// <summary>
@@ -31,15 +28,6 @@
         /// Gets or sets a value indicating whether or not to apply taxes to generated invoice.
         /// </summary>
         public bool ApplyTaxesToInvoice { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether raise customer events.
-        /// </summary>
-        /// <remarks>
-        /// In some implementations, there may be quite a few saves to the customer record.  Use case for setting this to 
-        /// false would be an API notification on a customer record change to prevent spamming of the notification.
-        /// </remarks>
-        public bool RaiseCustomerEvents { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether reset the customer manager data on version change.

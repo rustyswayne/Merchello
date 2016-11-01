@@ -31,18 +31,18 @@
             Assert.AreEqual(expected, value);
         }
 
-        [Test]
-        public void RaiseCustomerEvents()
-        {
-            //// Arrange
-            const bool expected = false;
+        //[Test]
+        //public void RaiseCustomerEvents()
+        //{
+        //    //// Arrange
+        //    const bool expected = false;
 
-            //// Act
-            var value = SettingsSection.Checkout.CheckoutContext.RaiseCustomerEvents;
+        //    //// Act
+        //    var value = SettingsSection.Checkout.CheckoutContext.RaiseCustomerEvents;
 
-            //// Assert
-            Assert.AreEqual(expected, value);
-        }
+        //    //// Assert
+        //    Assert.AreEqual(expected, value);
+        //}
 
 
         [Test]

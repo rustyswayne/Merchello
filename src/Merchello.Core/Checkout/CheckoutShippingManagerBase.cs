@@ -34,13 +34,7 @@
         /// <summary>
         /// Gets a value indicating whether or not shipping is taxable.
         /// </summary>
-        protected virtual bool ShippingIsTaxable
-        {
-            get
-            {
-                return _shippingTaxable.Value;
-            }
-        } 
+        protected virtual bool ShippingIsTaxable => this._shippingTaxable.Value;
 
         /// <summary>
         /// Saves a <see cref="IShipmentRateQuote"/> as a shipment line item
@@ -87,7 +81,7 @@
         /// </summary>
         private void Initialize()
         {
-            _shippingTaxable = new Lazy<bool>(() => Convert.ToBoolean(Context.Services.StoreSettingService.GetByKey(Constants.StoreSettingKeys.GlobalShippingIsTaxableKey).Value));
+            _shippingTaxable = new Lazy<bool>(() => Convert.ToBoolean(Context.Services.StoreSettingService.GetByKey(Constants.StoreSetting.GlobalShippingIsTaxableKey).Value));
 
             if (Context.IsNewVersion && Context.Settings.ResetShippingManagerDataOnVersionChange)
             {

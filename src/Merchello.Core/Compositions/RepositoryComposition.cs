@@ -15,7 +15,7 @@
     /// <summary>
     /// Sets the IoC container for the Merchello data layer/repositories/sql/database/etc...
     /// </summary>
-    public sealed class RepositoryComposition : ICompositionRoot
+    internal sealed class RepositoryComposition : ICompositionRoot
     {
         /// <summary>
         /// Composes configuration services by adding repositories to the <paramref name="container"/>.

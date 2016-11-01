@@ -1,4 +1,4 @@
-﻿namespace Merchello.Core.Chains.InvoiceCreation.CheckoutManager
+﻿namespace Merchello.Core.Chains.InvoiceCreation
 {
     using Merchello.Core.Acquired;
     using Merchello.Core.Checkout;
@@ -31,9 +31,9 @@
         /// </returns>
         public override Attempt<IInvoice> PerformTask(IInvoice value)
         {
-            if (!string.IsNullOrWhiteSpace(CheckoutManager.Context.Settings.InvoiceNumberPrefix))
+            if (!string.IsNullOrWhiteSpace(this.CheckoutManager.Context.Settings.InvoiceNumberPrefix))
             {
-                value.InvoiceNumberPrefix = CheckoutManager.Context.Settings.InvoiceNumberPrefix;
+                value.InvoiceNumberPrefix = this.CheckoutManager.Context.Settings.InvoiceNumberPrefix;
             }
 
             return Attempt<IInvoice>.Succeed(value);

@@ -5,13 +5,14 @@
     using Merchello.Core.DI;
     using Merchello.Core.EntityCollections;
     using Merchello.Core.Gateways;
+    using Merchello.Core.Marketing.Offer;
     using Merchello.Core.Persistence.Migrations;
     using Merchello.Core.Plugins;
 
     /// <summary>
     /// Sets the IoC container for with registers
     /// </summary>
-    public class RegistersComposition : ICompositionRoot
+    internal sealed class RegistersComposition : ICompositionRoot
     {
         /// <summary>
         /// Composes register services by adding <see cref="IRegister{TItem}"/> classes to the <paramref name="register"/>.
@@ -39,6 +40,11 @@
             container.RegisterRegisterBuilder<MigrationRegisterBuilder>()
                 .Add(factory => factory.GetInstance<IPluginManager>().ResolveMigrations());
 
+            container.RegisterRegisterBuilder<OfferComponentRegisterBuilder>(
+                factory =>
+                    new OfferComponentRegisterBuilder(
+                        factory.GetInstance<IServiceContainer>(),
+                        factory.GetInstance<IPluginManager>().ResolveOfferComponents()));
         }
     }
 }

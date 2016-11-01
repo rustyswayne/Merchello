@@ -1,10 +1,5 @@
 ﻿namespace Merchello.Core.Checkout
 {
-    using System.Collections.Generic;
-
-    using Umbraco.Core;
-    using Umbraco.Core.Events;
-
     /// <summary>
     /// A base class for managers that require the <see cref="ICheckoutContext"/>.
     /// </summary>
@@ -18,7 +13,7 @@
         /// </param>
         protected CheckoutContextManagerBase(ICheckoutContext context)
         {
-            Mandate.ParameterNotNull(context, "context");
+            Ensure.ParameterNotNull(context, "context");
 
             this.Context = context;
         }

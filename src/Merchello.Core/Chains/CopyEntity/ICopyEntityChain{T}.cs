@@ -1,8 +1,7 @@
 ﻿namespace Merchello.Core.Chains.CopyEntity
 {
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models.EntityBase;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// The CopyEntityChain interface.

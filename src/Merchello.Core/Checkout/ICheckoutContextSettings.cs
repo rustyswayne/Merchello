@@ -16,15 +16,6 @@
         bool ApplyTaxesToInvoice { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether raise customer events.
-        /// </summary>
-        /// <remarks>
-        /// In some implementations, there may be quite a few saves to the customer record.  Use case for setting this to 
-        /// false would be an API notification on a customer record change to prevent spamming of the notification.
-        /// </remarks>
-        bool RaiseCustomerEvents { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether reset the customer manager data on version change.
         /// </summary>
         bool ResetCustomerManagerDataOnVersionChange { get; set; }

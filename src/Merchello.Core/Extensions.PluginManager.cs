@@ -5,6 +5,7 @@
 
     using Merchello.Core.EntityCollections;
     using Merchello.Core.Gateways;
+    using Merchello.Core.Marketing.Offer;
     using Merchello.Core.Persistence.Mappers;
     using Merchello.Core.Persistence.Migrations;
     using Merchello.Core.Plugins;
@@ -26,6 +27,20 @@
         internal static IEnumerable<Type> ResolveBaseMappers(this IPluginManager pluginManager)
         {
             return pluginManager.ResolveTypesWithAttribute<BaseMapper, MapperForAttribute>();
+        }
+
+        /// <summary>
+        /// Resolves the <see cref="IEntityCollectionProvider"/> type for mapping entity collection providers.
+        /// </summary>
+        /// <param name="pluginManager">
+        /// The plugin manager.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{Type}"/>.
+        /// </returns>
+        internal static IEnumerable<Type> ResolveEnityCollectionProviders(this IPluginManager pluginManager)
+        {
+            return pluginManager.ResolveTypesWithAttribute<IEntityCollectionProvider, EntityCollectionProviderAttribute>();
         }
 
         /// <summary>
@@ -57,7 +72,7 @@
         }
 
         /// <summary>
-        /// Resolves the <see cref="IEntityCollectionProvider"/> type for mapping entity collection providers.
+        /// Returns all <see cref="OfferComponentBase"/> types.
         /// </summary>
         /// <param name="pluginManager">
         /// The plugin manager.
@@ -65,9 +80,9 @@
         /// <returns>
         /// The <see cref="IEnumerable{Type}"/>.
         /// </returns>
-        internal static IEnumerable<Type> ResolveEnityCollectionProviders(this IPluginManager pluginManager)
+        internal static IEnumerable<Type> ResolveOfferComponents(this IPluginManager pluginManager)
         {
-            return pluginManager.ResolveTypesWithAttribute<IEntityCollectionProvider, EntityCollectionProviderAttribute>();
+            return pluginManager.ResolveTypesWithAttribute<OfferComponentBase, OfferComponentAttribute>();
         }
     }
 }

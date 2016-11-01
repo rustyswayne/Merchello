@@ -9,174 +9,63 @@
     internal class CheckoutContextElement : ConfigurationElement, ICheckoutContextSection
     {
         /// <inheritdoc/>
-        string ICheckoutContextSection.InvoiceNumberPrefix
-        {
-            get
-            {
-                return this.InvoiceNumberPrefix;
-            }
-        }
+        string ICheckoutContextSection.InvoiceNumberPrefix => this.InvoiceNumberPrefix;
 
         /// <inheritdoc/>
-        bool ICheckoutContextSection.ApplyTaxesToInvoice
-        {
-            get
-            {
-                return this.ApplyTaxesToInvoice;
-            }
-        }
+        bool ICheckoutContextSection.ApplyTaxesToInvoice => this.ApplyTaxesToInvoice;
 
         /// <inheritdoc/>
-        bool ICheckoutContextSection.RaiseCustomerEvents
-        {
-            get
-            {
-                return this.RaiseCustomerEvents;
-            }
-        }
+        bool ICheckoutContextSection.ResetCustomerManagerDataOnVersionChange => this.ResetCustomerManagerDataOnVersionChange;
 
         /// <inheritdoc/>
-        bool ICheckoutContextSection.ResetCustomerManagerDataOnVersionChange
-        {
-            get
-            {
-                return this.ResetCustomerManagerDataOnVersionChange;
-            }
-        }
+        bool ICheckoutContextSection.ResetPaymentManagerDataOnVersionChange => this.ResetPaymentManagerDataOnVersionChange;
 
         /// <inheritdoc/>
-        bool ICheckoutContextSection.ResetPaymentManagerDataOnVersionChange
-        {
-            get
-            {
-                return this.ResetPaymentManagerDataOnVersionChange;
-            }
-        }
+        bool ICheckoutContextSection.ResetExtendedManagerDataOnVersionChange => this.ResetExtendedManagerDataOnVersionChange;
 
         /// <inheritdoc/>
-        bool ICheckoutContextSection.ResetExtendedManagerDataOnVersionChange
-        {
-            get
-            {
-                return this.ResetExtendedManagerDataOnVersionChange;
-            }
-        }
+        bool ICheckoutContextSection.ResetShippingManagerDataOnVersionChange => this.ResetShippingManagerDataOnVersionChange;
 
         /// <inheritdoc/>
-        bool ICheckoutContextSection.ResetShippingManagerDataOnVersionChange
-        {
-            get
-            {
-                return this.ResetShippingManagerDataOnVersionChange;
-            }
-        }
+        bool ICheckoutContextSection.ResetOfferManagerDataOnVersionChange => this.ResetOfferManagerDataOnVersionChange;
 
         /// <inheritdoc/>
-        bool ICheckoutContextSection.ResetOfferManagerDataOnVersionChange
-        {
-            get
-            {
-                return this.ResetOfferManagerDataOnVersionChange;
-            }
-        }
-
-        /// <inheritdoc/>
-        bool ICheckoutContextSection.EmptyBasketOnPaymentSuccess
-        {
-            get
-            {
-                return this.EmptyBasketOnPaymentSuccess;
-            }
-        }
+        bool ICheckoutContextSection.EmptyBasketOnPaymentSuccess => this.EmptyBasketOnPaymentSuccess;
 
         /// <inheritdoc/>
         [ConfigurationProperty("invoiceNumberPrefix")]
-        internal InnerTextConfigurationElement<string> InvoiceNumberPrefix
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<string>)this["invoiceNumberPrefix"];
-            }
-        }
+        internal InnerTextConfigurationElement<string> InvoiceNumberPrefix => (InnerTextConfigurationElement<string>)this["invoiceNumberPrefix"];
 
         /// <inheritdoc/>
         [ConfigurationProperty("applyTaxesToInvoice")]
-        internal InnerTextConfigurationElement<bool> ApplyTaxesToInvoice
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<bool>)this["applyTaxesToInvoice"];
-            }
-        }
+        internal InnerTextConfigurationElement<bool> ApplyTaxesToInvoice => (InnerTextConfigurationElement<bool>)this["applyTaxesToInvoice"];
 
         /// <inheritdoc/>
         [ConfigurationProperty("raiseCustomerEvents")]
-        internal InnerTextConfigurationElement<bool> RaiseCustomerEvents
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<bool>)this["raiseCustomerEvents"];
-            }
-        }
+        internal InnerTextConfigurationElement<bool> RaiseCustomerEvents => (InnerTextConfigurationElement<bool>)this["raiseCustomerEvents"];
 
         /// <inheritdoc/>
         [ConfigurationProperty("resetCustomerManagerDataOnVersionChange")]
-        internal InnerTextConfigurationElement<bool> ResetCustomerManagerDataOnVersionChange
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<bool>)this["resetCustomerManagerDataOnVersionChange"];
-            }
-        }
+        internal InnerTextConfigurationElement<bool> ResetCustomerManagerDataOnVersionChange => (InnerTextConfigurationElement<bool>)this["resetCustomerManagerDataOnVersionChange"];
 
         /// <inheritdoc/>
         [ConfigurationProperty("resetPaymentManagerDataOnVersionChange")]
-        internal InnerTextConfigurationElement<bool> ResetPaymentManagerDataOnVersionChange
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<bool>)this["resetPaymentManagerDataOnVersionChange"];
-            }
-        }
+        internal InnerTextConfigurationElement<bool> ResetPaymentManagerDataOnVersionChange => (InnerTextConfigurationElement<bool>)this["resetPaymentManagerDataOnVersionChange"];
 
         /// <inheritdoc/>
         [ConfigurationProperty("resetExtendedManagerDataOnVersionChange")]
-        internal InnerTextConfigurationElement<bool> ResetExtendedManagerDataOnVersionChange
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<bool>)this["resetExtendedManagerDataOnVersionChange"];
-            }
-        }
+        internal InnerTextConfigurationElement<bool> ResetExtendedManagerDataOnVersionChange => (InnerTextConfigurationElement<bool>)this["resetExtendedManagerDataOnVersionChange"];
 
         /// <inheritdoc/>
         [ConfigurationProperty("resetShippingManagerDataOnVersionChange")]
-        internal InnerTextConfigurationElement<bool> ResetShippingManagerDataOnVersionChange
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<bool>)this["resetShippingManagerDataOnVersionChange"];
-            }
-        }
+        internal InnerTextConfigurationElement<bool> ResetShippingManagerDataOnVersionChange => (InnerTextConfigurationElement<bool>)this["resetShippingManagerDataOnVersionChange"];
 
         /// <inheritdoc/>
         [ConfigurationProperty("resetOfferManagerDataOnVersionChange")]
-        internal InnerTextConfigurationElement<bool> ResetOfferManagerDataOnVersionChange
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<bool>)this["resetOfferManagerDataOnVersionChange"];
-            }
-        }
-        
+        internal InnerTextConfigurationElement<bool> ResetOfferManagerDataOnVersionChange => (InnerTextConfigurationElement<bool>)this["resetOfferManagerDataOnVersionChange"];
+
         /// <inheritdoc/>
         [ConfigurationProperty("emptyBasketOnPaymentSuccess")]
-        internal InnerTextConfigurationElement<bool> EmptyBasketOnPaymentSuccess
-        {
-            get
-            {
-                return (InnerTextConfigurationElement<bool>)this["emptyBasketOnPaymentSuccess"];
-            }
-        }
+        internal InnerTextConfigurationElement<bool> EmptyBasketOnPaymentSuccess => (InnerTextConfigurationElement<bool>)this["emptyBasketOnPaymentSuccess"];
     }
 }

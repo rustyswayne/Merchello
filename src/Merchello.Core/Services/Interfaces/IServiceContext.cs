@@ -41,6 +41,11 @@
         IMigrationStatusService MigrationStatusService { get; }
 
         /// <summary>
+        /// Gets the <see cref="INoteService"/>.
+        /// </summary>
+        INoteService NoteService { get; }
+
+        /// <summary>
         /// Gets the <see cref="IOfferSettingsService"/>.
         /// </summary>
         IOfferSettingsService OfferSettingsService { get; }

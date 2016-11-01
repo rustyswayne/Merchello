@@ -13,11 +13,6 @@
     public interface ICheckoutContext
     {
         /// <summary>
-        /// Gets the <see cref="IMerchelloContext"/>.
-        /// </summary>
-        IMerchelloContext MerchelloContext { get; }
-
-        /// <summary>
         /// Gets the <see cref="IServiceContext"/>.
         /// </summary>
         IServiceContext Services { get; }

@@ -46,6 +46,8 @@
     <Compile Include="Adapters\Cache\ObjectCacheProviderAdapterTests.cs" />
     <Compile Include="Adapters\Cache\RuntimeCacheProviderAdapterTests.cs" />
     <Compile Include="Adapters\Cache\StaticCacheProviderAdapterTests.cs" />
+    <Compile Include="Builders\InvoiceBuilderChainTests.cs" />
+    <Compile Include="Chains\InvoiceCreation\InvoiceTaskBuilderRegisterTests.cs" />
     <Compile Include="EntityCollections\EntityCollectionRegisterTests.cs" />
     <Compile Include="Gateways\GatewayProviderRegisterTests.cs" />
     <Compile Include="Gateways\GatewayServiceLocatorTests.cs" />

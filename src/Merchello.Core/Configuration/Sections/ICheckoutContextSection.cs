@@ -18,16 +18,6 @@ namespace Merchello.Core.Configuration.Sections
         bool ApplyTaxesToInvoice { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the CheckoutManager should allow the <see cref="ICustomerService"/> to raise event
-        /// where saving customer information.
-        /// <para>
-        /// In some situations, like when the customer is synced with an CRM system for example, raising a bunch of events
-        /// during checkout is not desired. 
-        /// </para>
-        /// </summary>
-        bool RaiseCustomerEvents { get; }
-
-        /// <summary>
         /// Gets a value indicating whether reset the CheckoutManager.CustomerManager data when the basket version changes.
         /// </summary>
         bool ResetCustomerManagerDataOnVersionChange { get; }

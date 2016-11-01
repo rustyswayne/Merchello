@@ -1,5 +1,7 @@
 ﻿namespace Merchello.Core.Chains
 {
+    using System;
+
     using Merchello.Core.Acquired;
 
     /// <summary>
@@ -33,6 +35,11 @@
             // set the default next to the end of chain task
             _next = AttemptChainEndOfChainHandler<T>.Instance;
         }
+
+        /// <summary>
+        /// Gets the type of the task.
+        /// </summary>
+        public Type TaskType => this._task.GetType();
 
         /// <summary>
         /// Attempt to execute the task.  If successful, executes the next task until.  This process is repeated until

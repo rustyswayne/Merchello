@@ -2,11 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-
-    using Merchello.Core.Models;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// A base class for offer redemption results.
@@ -33,7 +28,7 @@
         /// </param>
         protected OfferRedemptionResultBase(TAward award, IEnumerable<string> messages = null)
         {
-            Mandate.ParameterNotNull(award, "award");
+            Ensure.ParameterNotNull(award, "award");
             Award = award;
             Success = true;
         }
@@ -49,7 +44,7 @@
         /// </param>
         protected OfferRedemptionResultBase(Exception exception, IEnumerable<string> messages = null)
         {
-            Mandate.ParameterNotNull(exception, "exception");            
+            Ensure.ParameterNotNull(exception, "exception");            
             Exception = exception;
             Success = false;
         }
@@ -75,13 +70,7 @@
         /// <summary>
         /// Gets the messages.
         /// </summary>
-        public IEnumerable<string> Messages 
-        {
-            get
-            {
-                return _message;
-            } 
-        }
+        public IEnumerable<string> Messages => this._message;
 
         /// <summary>
         /// Adds a message.

@@ -11,6 +11,11 @@
     public interface IAttemptChainTaskRegister<TTask>
     {
         /// <summary>
+        /// Gets the task count.
+        /// </summary>
+        int TaskCount { get; }
+
+        /// <summary>
         /// Gets the task chain.
         /// </summary>
         /// <returns>

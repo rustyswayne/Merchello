@@ -8,7 +8,7 @@
     [TestFixture]
     public class CacheHelperAdapterTests : UmbracoRuntimeTestBase
     {
-        protected override bool EnableCache { get { return false; } }
+        protected override bool EnableCache => false;
 
         [Test]
         public void CacheHelperAdapter()

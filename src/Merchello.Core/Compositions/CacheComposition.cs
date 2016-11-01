@@ -8,7 +8,7 @@
     /// <summary>
     /// Adds the cache composition to the container.
     /// </summary>
-    public sealed class CacheComposition : ICompositionRoot
+    internal sealed class CacheComposition : ICompositionRoot
     {
         /// <inheritdoc/>
         public void Compose(IServiceRegistry container)

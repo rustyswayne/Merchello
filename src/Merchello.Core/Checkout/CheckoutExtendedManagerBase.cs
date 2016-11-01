@@ -7,10 +7,6 @@
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
     using Merchello.Core.Models.TypeFields;
-    using Merchello.Core.Sales;
-
-    using Umbraco.Core;
-    using Umbraco.Core.Logging;
 
     /// <summary>
     /// A base class for CheckoutExtendedManagers.
@@ -40,13 +36,7 @@
         /// <summary>
         /// Gets the messages.
         /// </summary>
-        private List<string> Messages
-        {
-            get
-            {
-                return this._messages.Value;
-            }
-        }
+        private List<string> Messages => this._messages.Value;
 
         /// <summary>
         /// Adds a <see cref="ILineItem"/> to the collection of items
@@ -60,8 +50,8 @@
         /// </remarks>
         public virtual void AddItem(ILineItem lineItem)
         {
-            Mandate.ParameterNotNullOrEmpty(lineItem.Sku, "The line item must have a sku");
-            Mandate.ParameterNotNullOrEmpty(lineItem.Name, "The line item must have a name");
+            Ensure.ParameterNotNullOrEmpty(lineItem.Sku, "The line item must have a sku");
+            Ensure.ParameterNotNullOrEmpty(lineItem.Name, "The line item must have a name");
 
             if (lineItem.Quantity <= 0) lineItem.Quantity = 1;
             if (lineItem.Price < 0) lineItem.Price = 0;

@@ -1,12 +1,10 @@
 ﻿namespace Merchello.Core.Marketing.Offer
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Models;
-
-    using Umbraco.Core;
 
     /// <summary>
     /// Defines an Offer provider responsible for manage .

@@ -1,12 +1,7 @@
-﻿namespace Merchello.Core.Checkout
+﻿namespace Merchello.Core.Events
 {
-    using System;
-    using System.ComponentModel;
-
+    using Merchello.Core.Checkout;
     using Merchello.Core.Models;
-
-    using Umbraco.Core;
-    using Umbraco.Core.Events;
 
     /// <summary>
     /// The <see cref="ICheckoutContext"/> event args.
@@ -29,8 +24,8 @@
         public CheckoutEventArgs(ICustomerBase customer, T item)
             : base(item, true)
         {
-            Mandate.ParameterNotNull(customer, "customer");
-            Mandate.ParameterNotNull(item, "item");
+            Ensure.ParameterNotNull(customer, "customer");
+            Ensure.ParameterNotNull(item, "item");
 
             this.Customer = customer;
         }
@@ -43,12 +38,6 @@
         /// <summary>
         /// Gets the item.
         /// </summary>
-        public T Item
-        {
-            get
-            {
-                return EventObject;
-            }
-        }
+        public T Item => this.EventObject;
     }
 }

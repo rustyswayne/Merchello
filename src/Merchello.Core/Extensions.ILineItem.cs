@@ -5,6 +5,7 @@
     using System.Linq;
 
     using Merchello.Core.DI;
+    using Merchello.Core.Gateways.Shipping;
     using Merchello.Core.Gateways.Taxation;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
@@ -77,35 +78,32 @@
         }
 
 
-        ///// <summary>
-        ///// Creates a line item of a particular type for a shipment rate quote
-        ///// </summary>
-        ///// <typeparam name="T">The type of the line item to create</typeparam>
-        ///// <param name="shipmentRateQuote">The <see cref="ShipmentRateQuote"/> to be translated to a line item</param>
-        ///// <returns>A <see cref="LineItemBase"/> of type T</returns>
-        //public static T AsLineItemOf<T>(this IShipmentRateQuote shipmentRateQuote) where T : LineItemBase
-        //{
-        //    var extendedData = new ExtendedDataCollection();
-        //    extendedData.AddShipment(shipmentRateQuote.Shipment);
+        /// <summary>
+        /// Creates a line item of a particular type for a shipment rate quote
+        /// </summary>
+        /// <typeparam name="T">The type of the line item to create</typeparam>
+        /// <param name="shipmentRateQuote">The <see cref="ShipmentRateQuote"/> to be translated to a line item</param>
+        /// <returns>A <see cref="LineItemBase"/> of type T</returns>
+        public static T AsLineItemOf<T>(this IShipmentRateQuote shipmentRateQuote) where T : LineItemBase
+        {
+            var extendedData = new ExtendedDataCollection();
+            extendedData.AddShipment(shipmentRateQuote.Shipment);
 
-        //    var ctrValues = new object[]
-        //        {
-        //            EnumTypeFieldConverter.LineItemType.Shipping.TypeKey,
-        //            shipmentRateQuote.ShipmentLineItemName(),
-        //            shipmentRateQuote.ShipMethod.ServiceCode, // TODO this may not be unique (SKU) once multiple shipments are exposed
-        //            1,
-        //            shipmentRateQuote.Rate,
-        //            extendedData
-        //        };
+            var ctrValues = new object[]
+                {
+                    EnumTypeFieldConverter.LineItemType.Shipping.TypeKey,
+                    shipmentRateQuote.ShipmentLineItemName(),
+                    shipmentRateQuote.ShipMethod.ServiceCode, // TODO this may not be unique (SKU) once multiple shipments are exposed
+                    1,
+                    shipmentRateQuote.Rate,
+                    extendedData
+                };
 
-        //    var attempt = ActivatorHelper.CreateInstance<LineItemBase>(typeof(T), ctrValues);
 
-        //    if (attempt.Success) return attempt.Result as T;
+            var newItem = MC.ActivatorServiceProvider.GetService<LineItemBase>(typeof(T), ctrValues);
 
-        //    MultiLogHelper.Error<ILineItem>("Failed instiating a line item from shipmentRateQuote", attempt.Exception);
-
-        //    throw attempt.Exception;
-        //}
+            return newItem as T;
+        }
 
         /// <summary>
         /// Creates a line item of a particular type for a invoiceTaxResult

@@ -12,12 +12,11 @@
     /// <summary>
     /// Sets the IoC container for the Merchello <see cref="IGatewayProvider"/>.
     /// </summary>
-    public class GatewaysComposition : ICompositionRoot
+    internal sealed class GatewaysComposition : ICompositionRoot
     {
         /// <inheritdoc/>
         public void Compose(IServiceRegistry container)
         {
-
             container.RegisterSingleton<INotificationContext, NotificationContext>();
             container.RegisterSingleton<IPaymentContext, PaymentContext>();
             container.RegisterSingleton<IShippingContext, ShippingContext>();

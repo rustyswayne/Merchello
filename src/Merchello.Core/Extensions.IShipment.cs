@@ -6,6 +6,7 @@
     using System.Linq;
 
     using Merchello.Core.Acquired;
+    using Merchello.Core.DI;
     using Merchello.Core.Gateways.Shipping;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
@@ -90,164 +91,99 @@
             };
         }
 
-        ///// <summary>
-        ///// Returns a collection of <see cref="IShipmentRateQuote"/> from the various configured shipping providers
-        ///// </summary>
-        ///// <param name="shipment">The <see cref="IShipment"/></param>
-        ///// <param name="tryGetCached">
-        ///// If set true the strategy will try to get a quote from cache
-        ///// </param>
-        ///// <returns>A collection of <see cref="IShipmentRateQuote"/></returns>
-        //public static IEnumerable<IShipmentRateQuote> ShipmentRateQuotes(this IShipment shipment, bool tryGetCached = true)
-        //{
-        //    return shipment.ShipmentRateQuotes(MerchelloContext.Current, tryGetCached);
-        //}
+        /// <summary>
+        /// The shipment rate quotes.
+        /// </summary>
+        /// <param name="shipment">
+        /// The shipment.
+        /// </param>
+        /// <param name="tryGetCached">
+        /// If set true the strategy will try to get a quote from cache
+        /// </param>
+        /// <returns>
+        /// The collection of <see cref="IShipmentRateQuote"/>
+        /// </returns>
+        public static IEnumerable<IShipmentRateQuote> ShipmentRateQuotes(this IShipment shipment, bool tryGetCached = true)
+        {
+            return MC.Gateways.Shipping.GetShipRateQuotesForShipment(shipment, tryGetCached);
+        }
 
-        ///// <summary>
-        ///// Returns a <see cref="IShipmentRateQuote"/> for a <see cref="IShipment"/> given the 'unique' key of the <see cref="IShipMethod"/>
-        ///// </summary>
-        ///// <param name="shipment">The <see cref="IShipment"/></param>
-        ///// <param name="shipMethodKey">The GUID key as a string of the <see cref="IShipMethod"/></param>
-        ///// <param name="tryGetCached">If set true the value is first attempted to be retrieved from cache</param>
-        ///// <returns>The <see cref="IShipmentRateQuote"/> for the shipment by the specific <see cref="IShipMethod"/> specified</returns>
-        //public static IShipmentRateQuote ShipmentRateQuoteByShipMethod(this IShipment shipment, string shipMethodKey, bool tryGetCached = true)
-        //{
-        //    return shipment.ShipmentRateQuoteByShipMethod(new Guid(shipMethodKey), tryGetCached);
-        //}
+        /// <summary>
+        /// Returns a <see cref="IShipmentRateQuote"/> for a <see cref="IShipment"/> given the 'unique' key of the <see cref="IShipMethod"/>
+        /// </summary>
+        /// <param name="shipment">The <see cref="IShipment"/></param>
+        /// <param name="shipMethodKey">The GUID key of the <see cref="IShipMethod"/></param>
+        /// <param name="tryGetCached">If set true the value is first attempted to be retrieved from cache</param>
+        /// <returns>The <see cref="IShipmentRateQuote"/> for the shipment by the specific <see cref="IShipMethod"/> specified</returns>
+        public static IShipmentRateQuote ShipmentRateQuoteByShipMethod(this IShipment shipment, Guid shipMethodKey, bool tryGetCached = true)
+        {
+            var shipMethod = MC.Services.GatewayProviderService.GetShipMethodByKey(shipMethodKey);
+            if (shipMethod == null) return null;
 
-        ///// <summary>
-        ///// Returns a <see cref="IShipmentRateQuote"/> for a <see cref="IShipment"/> given the 'unique' key of the <see cref="IShipMethod"/>
-        ///// </summary>
-        ///// <param name="shipment">The <see cref="IShipment"/></param>
-        ///// <param name="shipMethodKey">The GUID key of the <see cref="IShipMethod"/></param>
-        ///// <param name="tryGetCached">If set true the value is first attempted to be retrieved from cache</param>
-        ///// <returns>The <see cref="IShipmentRateQuote"/> for the shipment by the specific <see cref="IShipMethod"/> specified</returns>
-        //public static IShipmentRateQuote ShipmentRateQuoteByShipMethod(this IShipment shipment, Guid shipMethodKey, bool tryGetCached = true)
-        //{
-        //    return shipment.ShipmentRateQuoteByShipMethod(MerchelloContext.Current, shipMethodKey, tryGetCached);
-        //}
+            // Get the gateway provider to generate the shipment rate quote
+            var provider = MC.Gateways.Shipping.GetProviderByKey(shipMethod.ProviderKey);
 
-        ///// <summary>
-        ///// Gets the collection of <see cref="IOrder"/> for the <see cref="IShipment"/>.
-        ///// </summary>
-        ///// <param name="shipment">
-        ///// The <see cref="IShipment"/>.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IEnumerable{IOrder}"/>.
-        ///// </returns>
-        //public static IEnumerable<IOrder> Orders(this IShipment shipment)
-        //{
-        //    return shipment.Orders(MerchelloContext.Current);
-        //}
+            // get the GatewayShipMethod from the provider
+            var gatewayShipMethod = provider.GetShippingGatewayMethodsForShipment(shipment).FirstOrDefault(x => x.ShipMethod.Key == shipMethodKey);
 
-        ///// <summary>
-        ///// The collection of <see cref="IInvoice"/> associated with the <see cref="IShipment"/>.
-        ///// </summary>
-        ///// <param name="shipment">
-        ///// The <see cref="IShipment"/>.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IEnumerable{IInvoice}"/>.
-        ///// </returns>
-        //public static IEnumerable<IInvoice> Invoices(this IShipment shipment)
-        //{
-        //    return shipment.Invoices(MerchelloContext.Current);
-        //}
+            return gatewayShipMethod == null ? null : provider.QuoteShipMethodForShipment(shipment, gatewayShipMethod, tryGetCached);
+        }
 
 
-        ///// <summary>
-        ///// Gets the collection of <see cref="IOrder"/> for the <see cref="IShipment"/>.
-        ///// </summary>
-        ///// <param name="shipment">
-        ///// The <see cref="IShipment"/>.
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The <see cref="IMerchelloContext"/>.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IEnumerable{IOrder}"/>.
-        ///// </returns>
-        //internal static IEnumerable<IOrder> Orders(this IShipment shipment, IMerchelloContext merchelloContext)
-        //{
-        //    var orderKeys = shipment.Items.Select(x => x.ContainerKey);
-        //    return merchelloContext.Services.OrderService.GetByKeys(orderKeys).OrderBy(x => x.CreateDate);
-        //}
+        /// <summary>
+        /// Returns a <see cref="IShipmentRateQuote"/> for a <see cref="IShipment"/> given the 'unique' key of the <see cref="IShipMethod"/>
+        /// </summary>
+        /// <param name="shipment">The <see cref="IShipment"/></param>
+        /// <param name="shipMethodKey">The GUID key as a string of the <see cref="IShipMethod"/></param>
+        /// <param name="tryGetCached">If set true the value is first attempted to be retrieved from cache</param>
+        /// <returns>The <see cref="IShipmentRateQuote"/> for the shipment by the specific <see cref="IShipMethod"/> specified</returns>
+        public static IShipmentRateQuote ShipmentRateQuoteByShipMethod(this IShipment shipment, string shipMethodKey, bool tryGetCached = true)
+        {
+            return shipment.ShipmentRateQuoteByShipMethod(new Guid(shipMethodKey), tryGetCached);
+        }
 
+        /// <summary>
+        /// Gets the collection of <see cref="IOrder"/> for the <see cref="IShipment"/>.
+        /// </summary>
+        /// <param name="shipment">
+        /// The <see cref="IShipment"/>.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IOrder}"/>.
+        /// </returns>
+        public static IEnumerable<IOrder> Orders(this IShipment shipment)
+        {
+            var orderKeys = shipment.Items.Select(x => x.ContainerKey);
+            return MC.Services.OrderService.GetAll(orderKeys.ToArray()).OrderBy(x => x.CreateDate);
+        }
 
-        ///// <summary>
-        ///// The collection of <see cref="IInvoice"/> associated with the <see cref="IShipment"/>.
-        ///// </summary>
-        ///// <param name="shipment">
-        ///// The <see cref="IShipment"/>
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The <see cref="IMerchelloContext"/>.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="IEnumerable{IInvoice}"/>.
-        ///// </returns>
-        //internal static IEnumerable<IInvoice> Invoices(this IShipment shipment, IMerchelloContext merchelloContext)
-        //{
-        //    return shipment.Orders(merchelloContext)
-        //        .Select(x => x.Invoice(merchelloContext)).OrderBy(x => x.CreateDate);
-        //}
+        /// <summary>
+        /// The collection of <see cref="IInvoice"/> associated with the <see cref="IShipment"/>.
+        /// </summary>
+        /// <param name="shipment">
+        /// The <see cref="IShipment"/>
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IInvoice}"/>.
+        /// </returns>
+        public static IEnumerable<IInvoice> Invoices(this IShipment shipment)
+        {
+            return shipment.Orders()
+                .Select(x => x.Invoice()).OrderBy(x => x.CreateDate);
+        }
 
-        ///// <summary>
-        ///// Returns a string intended to be used as a 'Shipment Line Item' title or name
-        ///// </summary>
-        ///// <param name="shipmentRateQuote">
-        ///// The <see cref="IShipmentRateQuote"/> used to quote the line item
-        ///// </param>
-        ///// <returns>
-        ///// The shipment line item name
-        ///// </returns>
-        //public static string ShipmentLineItemName(this IShipmentRateQuote shipmentRateQuote)
-        //{
-        //    return string.Format("Shipment - {0} - {1} items", shipmentRateQuote.ShipMethod.Name, shipmentRateQuote.Shipment.Items.Count);
-        //}
-
-
-        ///// <summary>
-        ///// The shipment rate quotes.
-        ///// </summary>
-        ///// <param name="shipment">
-        ///// The shipment.
-        ///// </param>
-        ///// <param name="merchelloContext">
-        ///// The merchello context.
-        ///// </param>
-        ///// <param name="tryGetCached">
-        ///// If set true the strategy will try to get a quote from cache
-        ///// </param>
-        ///// <returns>
-        ///// The collection of <see cref="IShipmentRateQuote"/>
-        ///// </returns>
-        //internal static IEnumerable<IShipmentRateQuote> ShipmentRateQuotes(this IShipment shipment, IMerchelloContext merchelloContext, bool tryGetCached = true)
-        //{
-        //    return merchelloContext.Gateways.Shipping.GetShipRateQuotesForShipment(shipment, tryGetCached);
-        //}
-
-        ///// <summary>
-        ///// Returns a <see cref="IShipmentRateQuote"/> for a <see cref="IShipment"/> given the 'unique' key of the <see cref="IShipMethod"/>
-        ///// </summary>
-        ///// <param name="shipment">The <see cref="IShipment"/></param>
-        ///// <param name="merchelloContext">The <see cref="IMerchelloContext"/></param>
-        ///// <param name="shipMethodKey">The GUID key of the <see cref="IShipMethod"/></param>
-        ///// <param name="tryGetCached">If set true the value is first attempted to be retrieved from cache</param>
-        ///// <returns>The <see cref="IShipmentRateQuote"/> for the shipment by the specific <see cref="IShipMethod"/> specified</returns>
-        //internal static IShipmentRateQuote ShipmentRateQuoteByShipMethod(this IShipment shipment, IMerchelloContext merchelloContext, Guid shipMethodKey, bool tryGetCached = true)
-        //{
-        //    var shipMethod = ((ServiceContext)merchelloContext.Services).ShipMethodService.GetByKey(shipMethodKey);
-        //    if (shipMethod == null) return null;
-
-        //    // Get the gateway provider to generate the shipment rate quote
-        //    var provider = merchelloContext.Gateways.Shipping.GetProviderByKey(shipMethod.ProviderKey);
-
-        //    // get the GatewayShipMethod from the provider
-        //    var gatewayShipMethod = provider.GetShippingGatewayMethodsForShipment(shipment).FirstOrDefault(x => x.ShipMethod.Key == shipMethodKey);
-
-        //    return gatewayShipMethod == null ? null : provider.QuoteShipMethodForShipment(shipment, gatewayShipMethod, tryGetCached);
-        //}
+        /// <summary>
+        /// Returns a string intended to be used as a 'Shipment Line Item' title or name
+        /// </summary>
+        /// <param name="shipmentRateQuote">
+        /// The <see cref="IShipmentRateQuote"/> used to quote the line item
+        /// </param>
+        /// <returns>
+        /// The shipment line item name
+        /// </returns>
+        public static string ShipmentLineItemName(this IShipmentRateQuote shipmentRateQuote)
+        {
+            return $"Shipment - {shipmentRateQuote.ShipMethod.Name} - {shipmentRateQuote.Shipment.Items.Count} items";
+        }
     }
 }

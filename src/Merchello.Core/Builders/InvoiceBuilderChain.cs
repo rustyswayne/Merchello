@@ -1,8 +1,6 @@
 ﻿namespace Merchello.Core.Builders
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
 
     using Merchello.Core.Acquired;
@@ -13,7 +11,7 @@
     /// <summary>
     /// A builder chain used by the checkout manager to create invoices.
     /// </summary>
-    internal sealed class CheckoutInvoiceBuilderChain : BuildChainBase<IInvoice>
+    internal sealed class InvoiceBuilderChain : BuildChainBase<IInvoice>
     {
         /// <summary>
         /// Gets the <see cref="ICheckoutManagerBase"/>.
@@ -21,7 +19,7 @@
         private readonly ICheckoutManagerBase _checkoutManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckoutInvoiceBuilderChain"/> class.
+        /// Initializes a new instance of the <see cref="InvoiceBuilderChain"/> class.
         /// </summary>
         /// <param name="register">
         /// The <see cref="IAttemptChainTaskRegister{IInvoice}"/>
@@ -29,7 +27,7 @@
         /// <param name="checkoutManager">
         /// The checkout manager.
         /// </param>
-        internal CheckoutInvoiceBuilderChain(IAttemptChainTaskRegister<IInvoice> register, ICheckoutManagerBase checkoutManager)
+        internal InvoiceBuilderChain(IAttemptChainTaskRegister<IInvoice> register, ICheckoutManagerBase checkoutManager)
             : base(register)
         {
             Ensure.ParameterNotNull(checkoutManager, nameof(checkoutManager));

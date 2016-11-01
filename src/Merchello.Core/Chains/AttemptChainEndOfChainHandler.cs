@@ -17,6 +17,9 @@
         /// </summary>
         public static AttemptChainEndOfChainHandler<T> Instance { get; } = new AttemptChainEndOfChainHandler<T>();
 
+        /// <inheritdoc/>
+        public Type TaskType => Instance.GetType();
+
         /// <summary>
         /// Executes the task
         /// </summary>

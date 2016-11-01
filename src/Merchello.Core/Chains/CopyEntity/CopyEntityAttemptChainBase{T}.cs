@@ -1,10 +1,6 @@
 ﻿namespace Merchello.Core.Chains.CopyEntity
 {
-    using System.Collections.Generic;
-
-    using Merchello.Core.Models.EntityBase;
-
-    using Umbraco.Core;
+    using Merchello.Core.Acquired;
 
     /// <summary>
     /// The copy entity attempt chain base.
@@ -18,7 +14,7 @@
         /// The copy.
         /// </summary>
         /// <returns>
-        /// The <see cref="Attempt{T}"/>.
+        /// The <see cref="Attempt"/>.
         /// </returns>
         public abstract Attempt<T> Copy();
     }

@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
 
+    using Merchello.Core.DI;
+
     /// <summary>
     /// Represents a register for <see cref="IOfferComponent"/> types.
     /// </summary>
-    public interface IOfferComponentRegister
+    public interface IOfferComponentRegister : IRegister<Type>
     {
         /// <summary>
         /// Gets the collection of <see cref="OfferComponentBase"/> that can be associated with a provider.
@@ -41,7 +43,5 @@
         /// The <see cref="IEnumerable{IOfferConstraintComponent}"/>.
         /// </returns>
         IEnumerable<IOfferComponent> GetOfferComponents(IEnumerable<OfferComponentDefinition> definitions);
-
-
     }
 }

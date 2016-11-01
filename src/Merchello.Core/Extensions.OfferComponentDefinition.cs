@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Merchello.Core.Acquired;
     using Merchello.Core.Logging;
     using Merchello.Core.Marketing.Offer;
 
@@ -12,6 +13,21 @@
     /// </summary>
     public static partial class Extensions
     {
+
+        /// <summary>
+        /// Wrapper to retrieve the <see cref="OfferComponentAttribute"/>.
+        /// </summary>
+        /// <param name="component">
+        /// The component.
+        /// </param>
+        /// <returns>
+        /// The <see cref="OfferComponentAttribute"/>.
+        /// </returns>
+        public static OfferComponentAttribute GetOfferComponentAttribute(this OfferComponentBase component)
+        {
+            return component.GetType().GetCustomAttribute<OfferComponentAttribute>(false);
+        }
+
         /// <summary>
         /// Maps the <see cref="OfferComponentDefinition"/> to a <see cref="OfferComponentConfiguration"/> so 
         /// that it can be serialized and saved to the database as JSON more easily.

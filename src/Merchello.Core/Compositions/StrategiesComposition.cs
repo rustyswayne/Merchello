@@ -13,7 +13,7 @@
     /// <summary>
     /// Sets the IoC container with configured strategies
     /// </summary>
-    public class StrategiesComposition : ICompositionRoot
+    internal sealed class StrategiesComposition : ICompositionRoot
     {
         /// <summary>
         /// Composes strategy services by adding strategy classes to the <paramref name="container"/>.

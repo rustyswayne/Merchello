@@ -8,22 +8,12 @@
     using Merchello.Core.Gateways.Payment;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
-    using Merchello.Core.Sales;
-
-    using Umbraco.Core;
-    using Umbraco.Core.Events;
-    using Umbraco.Core.Logging;
 
     /// <summary>
     /// A base class for CheckoutPaymentManagers.
     /// </summary>
     public abstract class CheckoutPaymentManagerBase : CheckoutCustomerDataManagerBase, ICheckoutPaymentManager
     {
-        /// <summary>
-        /// A function to instantiate an invoice BuilderChain.
-        /// </summary>
-        private readonly IBuilderChain<IInvoice> _invoiceBuilder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckoutPaymentManagerBase"/> class.
         /// </summary>
@@ -36,8 +26,8 @@
         protected CheckoutPaymentManagerBase(ICheckoutContext context, IBuilderChain<IInvoice> invoiceBuilder)
             : base(context)
         {
-            Mandate.ParameterNotNull(invoiceBuilder, "invoiceBuilder");
-            this._invoiceBuilder = invoiceBuilder;
+            Ensure.ParameterNotNull(invoiceBuilder, "invoiceBuilder");
+            this.InvoiceBuilder = invoiceBuilder;
             this.Initialize();
         }
 
@@ -54,13 +44,7 @@
         /// <summary>
         /// Gets the <see cref="IBuilderChain{IInoice}"/>.
         /// </summary>
-        protected IBuilderChain<IInvoice> InvoiceBuilder
-        {
-            get
-            {
-                return this._invoiceBuilder;
-            }
-        } 
+        protected IBuilderChain<IInvoice> InvoiceBuilder { get; }
 
         /// <summary>
         /// Gets a value indicating whether or not the <see cref="ICheckoutPaymentManager"/> is ready to prepare an <see cref="IInvoice"/>

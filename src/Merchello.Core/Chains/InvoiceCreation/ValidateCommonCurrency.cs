@@ -1,4 +1,4 @@
-﻿namespace Merchello.Core.Chains.InvoiceCreation.CheckoutManager
+﻿namespace Merchello.Core.Chains.InvoiceCreation
 {
     using System.IO;
     using System.Linq;
@@ -6,8 +6,6 @@
     using Merchello.Core.Acquired;
     using Merchello.Core.Checkout;
     using Merchello.Core.Models;
-
-    using Constants = Merchello.Core.Constants;
 
     /// <summary>
     /// The validate common currency.

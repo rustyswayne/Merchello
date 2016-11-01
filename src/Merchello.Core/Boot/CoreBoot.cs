@@ -153,11 +153,18 @@
             // Registers
             container.RegisterFrom<RegistersComposition>();
 
-            // Strategies
-            if (BootSettings.RequiresConfig) container.RegisterFrom<StrategiesComposition>();
+            // Strategies and task chains
+            if (BootSettings.RequiresConfig)
+            {
+                container.RegisterFrom<StrategiesComposition>();
+                container.RegisterFrom<TaskChainComposition>();
+            }
 
             // Gateways
             container.RegisterFrom<GatewaysComposition>();
+            
+            // Builders
+            container.RegisterFrom<BuilderComposition>();
         }
 
         /// <summary>

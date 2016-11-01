@@ -48,6 +48,11 @@
         private readonly Lazy<IMigrationStatusService> _migrationStatusService;
 
         /// <summary>
+        /// The <see cref="INoteService"/>.
+        /// </summary>
+        private readonly Lazy<INoteService> _noteService;
+
+        /// <summary>
         /// The <see cref="IOfferSettingsService"/>.
         /// </summary>
         private readonly Lazy<IOfferSettingsService> _offerSettingsService;
@@ -113,6 +118,9 @@
         /// <param name="migrationStatusService">
         /// The <see cref="IMigrationStatusService"/>.
         /// </param>
+        /// <param name="noteService">
+        /// The <see cref="INoteService"/>
+        /// </param>
         /// <param name="offerSettingsService">
         /// The <see cref="IOfferSettingsService"/>
         /// </param>
@@ -148,6 +156,7 @@
             Lazy<IItemCacheService> itemCacheService,
             Lazy<IInvoiceService> invoiceService,
             Lazy<IMigrationStatusService> migrationStatusService,
+            Lazy<INoteService> noteService,
             Lazy<IOfferSettingsService> offerSettingsService,
             Lazy<IOrderService> orderService,
             Lazy<IPaymentService> paymentService,
@@ -165,6 +174,7 @@
             _itemCacheService = itemCacheService;
             _invoiceService = invoiceService;
             _migrationStatusService = migrationStatusService;
+            _noteService = noteService;
             _offerSettingsService = offerSettingsService;
             _orderService = orderService;
             _paymentService = paymentService;
@@ -199,6 +209,9 @@
         /// </param>
         /// <param name="migrationStatusService">
         /// The <see cref="IMigrationStatusService"/>.
+        /// </param>
+        /// <param name="noteService">
+        /// The <see cref="INoteService"/>
         /// </param>
         /// <param name="offerSettingsService">
         /// The <see cref="IOfferSettingsService"/>
@@ -235,6 +248,7 @@
             IItemCacheService itemCacheService = null,
             IInvoiceService invoiceService = null,
             IMigrationStatusService migrationStatusService = null,
+            INoteService noteService = null,
             IOfferSettingsService offerSettingsService = null,
             IOrderService orderService = null,
             IPaymentService paymentService = null,
@@ -252,6 +266,7 @@
             if (itemCacheService != null) _itemCacheService = new Lazy<IItemCacheService>(() => itemCacheService);
             if (invoiceService != null) _invoiceService = new Lazy<IInvoiceService>(() => invoiceService);
             if (migrationStatusService != null) _migrationStatusService = new Lazy<IMigrationStatusService>(() => migrationStatusService);
+            if (noteService != null) _noteService = new Lazy<INoteService>(() => noteService);
             if (offerSettingsService != null) _offerSettingsService = new Lazy<IOfferSettingsService>(() => offerSettingsService);
             if (orderService != null) _orderService = new Lazy<IOrderService>(() => orderService);
             if (paymentService != null) _paymentService = new Lazy<IPaymentService>(() => paymentService);
@@ -284,6 +299,11 @@
 
         /// <inheritdoc/>
         public IMigrationStatusService MigrationStatusService => _migrationStatusService.Value;
+
+        /// <summary>
+        /// The <see cref="INoteService"/>.
+        /// </summary>
+        public INoteService NoteService => _noteService.Value;
 
         /// <inheritdoc/>
         public IOfferSettingsService OfferSettingsService => _offerSettingsService.Value;

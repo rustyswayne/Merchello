@@ -49,7 +49,7 @@
     <Compile Include="Boot\IBootSettings.cs" />
     <Compile Include="Boot\IInitializeAfterBoot.cs" />
     <Compile Include="Builders\BuildChainBase.cs" />
-    <Compile Include="Builders\CheckoutInvoiceBuilderChain.cs" />
+    <Compile Include="Builders\InvoiceBuilderChain.cs" />
     <Compile Include="Builders\IBuilderChain.cs" />
     <Compile Include="Cache\CacheKeys.cs" />
     <Compile Include="Chains\AttemptChainEndOfChainHandler.cs" />
@@ -59,19 +59,37 @@
     <Compile Include="Chains\ConfigurationChainBase.cs" />
     <Compile Include="Chains\ConfigurationChainTaskRegister.cs" />
     <Compile Include="Chains\ContainerConfigurationChainTaskRegister.cs" />
+    <Compile Include="Chains\CopyEntity\CopyEntityTaskBase{T}.cs" />
+    <Compile Include="Chains\CopyEntity\ICopyEntityChain{T}.cs" />
     <Compile Include="Chains\IAttemptChainTask.cs" />
     <Compile Include="Chains\IAttemptChainTaskHandler.cs" />
     <Compile Include="Chains\IAttemptChainTaskRegister.cs" />
     <Compile Include="Chains\IDataModifierChain{T}.cs" />
-    <Compile Include="Chains\InvoiceCreation\CheckoutManager\AddBillingInfoToInvoiceTask.cs" />
-    <Compile Include="Chains\InvoiceCreation\CheckoutManager\AddInvoiceNumberPrefixTask.cs" />
-    <Compile Include="Chains\InvoiceCreation\CheckoutManager\ApplyTaxesToInvoiceTask.cs" />
-    <Compile Include="Chains\InvoiceCreation\CheckoutManager\CheckoutManagerInvoiceCreationAttemptChainTaskBase.cs" />
-    <Compile Include="Chains\InvoiceCreation\CheckoutManager\ConvertItemCacheItemsToInvoiceItemsTask.cs" />
-    <Compile Include="Chains\InvoiceCreation\CheckoutManager\ValidateCommonCurrency.cs" />
+    <Compile Include="Chains\InvoiceCreation\AddBillingInfoToInvoiceTask.cs" />
+    <Compile Include="Chains\InvoiceCreation\AddInvoiceNumberPrefixTask.cs" />
+    <Compile Include="Chains\InvoiceCreation\ApplyTaxesToInvoiceTask.cs" />
+    <Compile Include="Chains\InvoiceCreation\CheckoutManagerInvoiceCreationAttemptChainTaskBase.cs" />
+    <Compile Include="Chains\InvoiceCreation\ConvertItemCacheItemsToInvoiceItemsTask.cs" />
+    <Compile Include="Chains\InvoiceCreation\ValidateCommonCurrency.cs" />
     <Compile Include="Chains\InvoiceCreation\InvoiceBuilderTaskRegister.cs" />
     <Compile Include="Chains\OfferConstraints\IOfferProcessor.cs" />
     <Compile Include="Chains\OfferConstraints\IOfferProcessorFactory.cs" />
+    <Compile Include="Checkout\CheckoutContext.cs" />
+    <Compile Include="Checkout\CheckoutContextManagerBase.cs" />
+    <Compile Include="Checkout\CheckoutCustomerDataManagerBase.cs" />
+    <Compile Include="Checkout\CheckoutCustomerManagerBase.cs" />
+    <Compile Include="Checkout\CheckoutCustomerTempData.cs" />
+    <Compile Include="Checkout\CheckoutExtendedManagerBase.cs" />
+    <Compile Include="Checkout\CheckoutManagerBase.cs" />
+    <Compile Include="Checkout\CheckoutManagerExtensions.cs" />
+    <Compile Include="Checkout\CheckoutOfferManagerBase.cs" />
+    <Compile Include="Checkout\CheckoutPaymentManagerBase.cs" />
+    <Compile Include="Checkout\CheckoutShippingManagerBase.cs" />
+    <Compile Include="Compositions\BuilderComposition.cs" />
+    <Compile Include="Compositions\OfferComposition.cs" />
+    <Compile Include="Configuration\IDashboardConfiguration.cs" />
+    <Compile Include="Events\CheckoutContextEventArgs.cs" />
+    <Compile Include="Checkout\CheckoutContextSettings.cs" />
     <Compile Include="Checkout\ICheckoutContext.cs" />
     <Compile Include="Checkout\ICheckoutContextManagerBase.cs" />
     <Compile Include="Checkout\ICheckoutContextSettings.cs" />
@@ -87,6 +105,7 @@
     <Compile Include="Compositions\LoggerComposition.cs" />
     <Compile Include="Compositions\RegistersComposition.cs" />
     <Compile Include="Compositions\StrategiesComposition.cs" />
+    <Compile Include="Compositions\TaskChainComposition.cs" />
     <Compile Include="DI\RegisterBuilderBase.cs" />
     <Compile Include="DI\IRegisterBuilder.cs" />
     <Compile Include="DI\LazyRegisterBuilderBase.cs" />
@@ -136,7 +155,12 @@
     <Compile Include="Extensions.Enumerable.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions.IOfferResult.cs" />
+    <Compile Include="Extensions.IOfferComponent.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions.IOfferResult.cs">
+      <DependentUpon>Extensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.IStore.cs">
       <DependentUpon>Extensions.cs</DependentUpon>
     </Compile>
@@ -235,15 +259,25 @@
     <Compile Include="Marketing\Constraints\OfferConstraintComponentBase{T}.cs" />
     <Compile Include="Marketing\Constraints\ProductConstraintDataSet.cs" />
     <Compile Include="Marketing\Offer\IOffer.cs" />
-    <Compile Include="Marketing\Offer\IOfferComponentBase.cs" />
+    <Compile Include="Marketing\Offer\IOfferComponent.cs" />
     <Compile Include="Marketing\Offer\IOfferComponentRegister.cs" />
+    <Compile Include="Marketing\Offer\IOfferManagerBase.cs" />
+    <Compile Include="Marketing\Offer\IOfferProvider.cs" />
+    <Compile Include="Marketing\Offer\IOfferProviderRegister.cs" />
     <Compile Include="Marketing\Offer\IOfferRedemptionResult.cs" />
     <Compile Include="Marketing\Offer\IOfferResult.cs" />
     <Compile Include="Marketing\Offer\OfferBase.cs" />
     <Compile Include="Marketing\Offer\OfferComponentAttribute.cs" />
     <Compile Include="Marketing\Offer\OfferComponentBase.cs" />
+    <Compile Include="Marketing\Offer\OfferComponentCategory.cs" />
+    <Compile Include="Marketing\Offer\OfferComponentRegister.cs" />
+    <Compile Include="Marketing\Offer\OfferComponentRegisterBuilder.cs" />
     <Compile Include="Marketing\Offer\OfferComponentType.cs" />
+    <Compile Include="Marketing\Offer\OfferManagerBase.cs" />
+    <Compile Include="Marketing\Offer\OfferProviderRegister.cs" />
+    <Compile Include="Marketing\Offer\OfferRedemptionResultBase.cs" />
     <Compile Include="Marketing\Offer\OfferResult.cs" />
+    <Compile Include="Marketing\Offer\StringOperatorHelper.cs" />
     <Compile Include="Marketing\Rewards\OfferRewardComponentBase.cs" />
     <Compile Include="Models\Cache\DefaultCloneableCacheEntry.cs" />
     <Compile Include="Models\EntityBase\IStoreSpecificEntity.cs" />
@@ -1185,6 +1219,7 @@
     <Compile Include="Services\Interfaces\IGatewayProviderSettingsService.cs" />
     <Compile Include="Services\Interfaces\IInvoiceService.cs" />
     <Compile Include="Services\Interfaces\IItemCacheService.cs" />
+    <Compile Include="Services\Interfaces\INoteService.cs" />
     <Compile Include="Services\Interfaces\INotificationMessageService.cs" />
     <Compile Include="Services\Interfaces\INotificationMethodService.cs" />
     <Compile Include="Services\Interfaces\IOfferSettingsService.cs" />
@@ -1220,6 +1255,7 @@
     <Compile Include="Services\ItemCacheService.reporting.cs">
       <DependentUpon>ItemCacheService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\NoteService.cs" />
     <Compile Include="Services\OfferSettingsService.cs" />
     <Compile Include="Services\OfferSettingsService.persist.cs">
       <DependentUpon>OfferSettingsService.cs</DependentUpon>
