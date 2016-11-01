@@ -105,7 +105,7 @@
         /// <param name="sortBy">
         /// The sort by.
         /// </param>
-        /// <param name="sortDirection">
+        /// <param name="direction">
         /// The sort direction.
         /// </param>
         /// <param name="sharedOnly">
@@ -114,7 +114,7 @@
         /// <returns>
         /// The <see cref="Page{IProductOption}"/>.
         /// </returns>
-        PagedCollection<IProductOption> GetPagedCollection(long page, long itemsPerPage, string sortBy = "", Direction sortDirection = Direction.Descending, bool sharedOnly = true);
+        PagedCollection<IProductOption> GetPagedCollection(long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending, bool sharedOnly = true);
 
 
         /// <summary>
@@ -132,7 +132,7 @@
         /// <param name="sortBy">
         /// The sort by field.
         /// </param>
-        /// <param name="sortDirection">
+        /// <param name="direction">
         /// The sort direction.
         /// </param>
         /// <param name="sharedOnly">
@@ -141,6 +141,6 @@
         /// <returns>
         /// The <see cref="Page{IProductOption}"/>.
         /// </returns>
-        PagedCollection<IProductOption> GetPagedCollection(string term, long page, long itemsPerPage, string sortBy = "", Direction sortDirection = Direction.Descending, bool sharedOnly = true);
+        PagedCollection<IProductOption> Search(string term, long page, long itemsPerPage, string sortBy = "", Direction direction = Direction.Descending, bool sharedOnly = true);
     }
 }

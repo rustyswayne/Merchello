@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <inheritdoc/>
@@ -31,31 +33,68 @@
         /// <inheritdoc/>
         public IPayment GetByKey(Guid key)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IPaymentRepository>();
+                var payment = repo.Get(key);
+                uow.Complete();
+                return payment;
+            }
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IPayment> GetAll()
+        public IEnumerable<IPayment> GetAll(params Guid[] keys)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IPaymentRepository>();
+                var payments = repo.GetAll(keys);
+                uow.Complete();
+                return payments;
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IPayment> GetByPaymentMethodKey(Guid? paymentMethodKey)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IPaymentRepository>();
+                var payments = repo.GetByQuery(repo.Query.Where(x => x.PaymentMethodKey == paymentMethodKey));
+                uow.Complete();
+                return payments;
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IPayment> GetByInvoiceKey(Guid invoiceKey)
         {
-            throw new NotImplementedException();
+            var applied = GetAppliedPaymentsByInvoiceKey(invoiceKey);
+
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IPaymentRepository>();
+                var payments = repo.GetAll(applied.Select(x => x.PaymentKey).ToArray());
+                uow.Complete();
+                return payments;
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IPayment> GetByCustomerKey(Guid customerKey)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IPaymentRepository>();
+                var payments = repo.GetByQuery(repo.Query.Where(x => x.CustomerKey == customerKey));
+                uow.Complete();
+                return payments;
+            }
         }
     }
 }

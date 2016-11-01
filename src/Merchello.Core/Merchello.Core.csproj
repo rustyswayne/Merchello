@@ -1230,6 +1230,7 @@
     <Compile Include="Services\Interfaces\IPaymentMethodService.cs" />
     <Compile Include="Services\Interfaces\IPaymentService.cs" />
     <Compile Include="Services\Interfaces\IProductService.cs" />
+    <Compile Include="Services\Interfaces\IProductVariantService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
     <Compile Include="Services\Interfaces\IProductOptionService.cs" />
     <Compile Include="Services\Interfaces\IShipCountryService.cs" />
@@ -1282,6 +1283,12 @@
       <DependentUpon>OfferSettingsService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\OrderService.events.cs">
+      <DependentUpon>OrderService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\OrderService.orderstatus.cs">
+      <DependentUpon>OrderService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\OrderService.persist.cs">
       <DependentUpon>OrderService.cs</DependentUpon>
     </Compile>
@@ -1296,6 +1303,9 @@
       <DependentUpon>PaymentService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ProductOptionService.cs" />
+    <Compile Include="Services\ProductOptionService.events.cs">
+      <DependentUpon>ProductOptionService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ProductOptionService.persist.cs">
       <DependentUpon>ProductOptionService.cs</DependentUpon>
     </Compile>
@@ -1314,6 +1324,9 @@
     <Compile Include="Services\RepositoryServiceBase.cs" />
     <Compile Include="Services\ServiceContext.cs" />
     <Compile Include="Services\ShipmentService.cs" />
+    <Compile Include="Services\ShipmentService.events.cs">
+      <DependentUpon>ShipmentService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ShipmentService.persist.cs">
       <DependentUpon>ShipmentService.cs</DependentUpon>
     </Compile>
@@ -1321,6 +1334,9 @@
       <DependentUpon>ShipmentService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\StoreService.cs" />
+    <Compile Include="Services\StoreService.events.cs">
+      <DependentUpon>StoreService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\StoreService.persist.cs">
       <DependentUpon>StoreService.cs</DependentUpon>
     </Compile>
@@ -1347,10 +1363,18 @@
       <DependentUpon>WarehouseService.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\WarehouseService.cs" />
+    <Compile Include="Services\WarehouseService.events.cs">
+      <DependentUpon>WarehouseService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\WarehouseService.persist.cs">
       <DependentUpon>WarehouseService.cs</DependentUpon>
     </Compile>
     <Compile Include="Strategies\IStrategy.cs" />
+    <Compile Include="Strategies\Merging\ILineItemContainerMergingStrategy.cs" />
+    <Compile Include="Strategies\Packaging\DefaultWarehousePackagingStrategy.cs" />
+    <Compile Include="Strategies\Packaging\IPackagingStrategy.cs" />
+    <Compile Include="Strategies\Packaging\PackagingStrategyBase.cs" />
+    <Compile Include="Strategies\Packaging\ShippableProductVisitor.cs" />
     <Compile Include="Validation\BankingValidationHelper.cs" />
     <Compile Include="Validation\EmailValidationHelper.cs" />
     <Compile Include="Validation\IBankingValidationHelper.cs" />

@@ -10,16 +10,8 @@
     /// <summary>
     /// Represents a data service for <see cref="IPayment"/>.
     /// </summary>
-    public interface IPaymentService : IService<IPayment>, IAppliedPaymentService
+    public interface IPaymentService : IGetAllService<IPayment>, IAppliedPaymentService
     {
-        /// <summary>
-        /// Gets a collection of all <see cref="IPayment"/>.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IEnumerable{IPayment}"/>.
-        /// </returns>
-        IEnumerable<IPayment> GetAll();
-
         /// <summary>
         /// Gets a collection of <see cref="IPayment"/> for a given payment provider.
         /// </summary>
@@ -61,6 +53,23 @@
         /// The <see cref="IPayment"/>.
         /// </returns>
         IPayment Create(PaymentMethodType paymentMethodType, Money amount, Guid? paymentMethodKey);
+
+        /// <summary>
+        /// Creates a <see cref="IPayment"/> without saving it.
+        /// </summary>
+        /// <param name="paymentMethodTfKey">
+        /// The payment method type field key.
+        /// </param>
+        /// <param name="amount">
+        /// The amount.
+        /// </param>
+        /// <param name="paymentMethodKey">
+        /// The payment method key.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IPayment"/>.
+        /// </returns>
+        IPayment Create(Guid paymentMethodTfKey, Money amount, Guid? paymentMethodKey);
 
         /// <summary>
         /// Creates and saves a <see cref="IPayment"/>.

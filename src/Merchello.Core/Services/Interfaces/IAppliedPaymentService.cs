@@ -46,6 +46,29 @@
         IAppliedPayment ApplyPaymentToInvoice(Guid paymentKey, Guid invoiceKey, AppliedPaymentType appliedPaymentType, string description, Money amount);
 
         /// <summary>
+        /// Creates an <see cref="IAppliedPayment"/> associated with an invoice.
+        /// </summary>
+        /// <param name="paymentKey">The payment key</param>
+        /// <param name="invoiceKey">The invoice 'key'</param>
+        /// <param name="appliedPaymentType">The applied payment type</param>
+        /// <param name="description">The description of the payment application</param>
+        /// <param name="amount">The amount of the payment to be applied</param>
+        /// <returns>An <see cref="IAppliedPayment"/></returns>
+        IAppliedPayment CreateAppliedPayment(Guid paymentKey, Guid invoiceKey, AppliedPaymentType appliedPaymentType, string description, Money amount);
+
+        /// <summary>
+        /// Creates an <see cref="IAppliedPayment"/> associated with an invoice.
+        /// </summary>
+        /// <param name="paymentKey">The payment key</param>
+        /// <param name="invoiceKey">The invoice 'key'</param>
+        /// <param name="appliedPaymentTfKey">The applied payment type field key</param>
+        /// <param name="description">The description of the payment application</param>
+        /// <param name="amount">The amount of the payment to be applied</param>
+        /// <returns>An <see cref="IAppliedPayment"/></returns>
+        IAppliedPayment CreateAppliedPayment(Guid paymentKey, Guid invoiceKey, Guid appliedPaymentTfKey, string description, Money amount);
+
+
+        /// <summary>
         /// Saves an <see cref="IAppliedPayment"/>
         /// </summary>
         /// <param name="appliedPayment">The <see cref="IAppliedPayment"/> to be saved</param>

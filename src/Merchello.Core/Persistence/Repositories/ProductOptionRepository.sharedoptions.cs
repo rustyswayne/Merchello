@@ -56,7 +56,6 @@
             poUse.Choices = choices;
 
             return poUse;
-
         }
 
         /// <inheritdoc/>

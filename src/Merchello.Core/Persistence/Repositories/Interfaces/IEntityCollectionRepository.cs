@@ -70,7 +70,7 @@
         /// <returns>
         /// The <see cref="PagedCollection"/>.
         /// </returns>
-        PagedCollection<IEntityCollection> GetPage(IQuery<IEntityCollection> query, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending);
+        PagedCollection<IEntityCollection> GetPagedCollection(IQuery<IEntityCollection> query, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending);
 
         /// <summary>
         /// Gets an <see cref="IEntityFilterGroup"/> by it's key.

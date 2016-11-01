@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Merchello.Core.Events;
     using Merchello.Core.Logging;
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
     using Merchello.Core.Persistence.UnitOfWork;
 
     /// <inheritdoc/>
@@ -31,37 +33,53 @@
         /// <inheritdoc/>
         public IOrder GetByKey(Guid key)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IOrderRepository>();
+                var order = repo.Get(key);
+                uow.Complete();
+                return order;
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IOrder> GetAll(params Guid[] keys)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IOrderRepository>();
+                var orders = repo.GetAll(keys);
+                uow.Complete();
+                return orders;
+            }
         }
 
         /// <inheritdoc/>
         public IOrder GetByOrderNumber(int orderNumber)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IOrderRepository>();
+                var orders = repo.GetByQuery(repo.Query.Where(x => x.OrderNumber == orderNumber));
+                uow.Complete();
+                return orders.FirstOrDefault();
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IOrder> GetByInvoiceKey(Guid invoiceKey)
         {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IOrderStatus GetOrderStatusByKey(Guid key)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<IOrderStatus> GetAllOrderStatuses()
-        {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IOrderRepository>();
+                var orders = repo.GetByQuery(repo.Query.Where(x => x.InvoiceKey == invoiceKey));
+                uow.Complete();
+                return orders;
+            }
         }
     }
 }

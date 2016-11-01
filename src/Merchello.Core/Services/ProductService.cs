@@ -13,6 +13,16 @@
     public partial class ProductService : EntityCollectionEntityServiceBase<IProduct, IDatabaseBulkUnitOfWorkProvider, IProductRepository>, IProductService
     {
         /// <summary>
+        /// The <see cref="IProductOptionService"/>.
+        /// </summary>
+        private readonly IProductOptionService _productOptionService;
+
+        /// <summary>
+        /// The <see cref="IStoreSettingService"/>.
+        /// </summary>
+        private readonly IStoreSettingService _storeSettingService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProductService"/> class.
         /// </summary>
         /// <param name="provider">
@@ -24,21 +34,48 @@
         /// <param name="eventMessagesFactory">
         /// The <see cref="IEventMessagesFactory"/>.
         /// </param>
-        public ProductService(IDatabaseBulkUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory)
+        /// <param name="storeSettingsService">
+        /// The <see cref="IStoreSettingService"/>.
+        /// </param>
+        /// <param name="productOptionService">
+        /// The <see cref="IProductOptionService"/>
+        /// </param>
+        public ProductService(IDatabaseBulkUnitOfWorkProvider provider, ILogger logger, IEventMessagesFactory eventMessagesFactory, IStoreSettingService storeSettingsService, IProductOptionService productOptionService)
             : base(provider, logger, eventMessagesFactory, Constants.Locks.ProductTree)
         {
+            Ensure.ParameterNotNull(productOptionService, nameof(productOptionService));
+            Ensure.ParameterNotNull(storeSettingsService, nameof(StoreSettingService));
+            _productOptionService = productOptionService;
         }
 
         /// <inheritdoc/>
         public IProduct GetByKey(Guid key)
         {
-            throw new NotImplementedException();
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                uow.ReadLock(Constants.Locks.ProductTree);
+                var repo = uow.CreateRepository<IProductRepository>();
+                var p = repo.Get(key);
+                uow.Complete();
+                return p;
+            }
         }
 
         /// <inheritdoc/>
         public IEnumerable<IProduct> GetAll(params Guid[] keys)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the default currency code.
+        /// </summary>
+        /// <returns>
+        /// The currency code.
+        /// </returns>
+        private string GetDefaultCurrencyCode()
+        {
+            return _storeSettingService.GetByKey(Constants.StoreSetting.CurrencyCodeKey).Value;
         }
     }
 }

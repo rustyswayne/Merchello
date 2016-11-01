@@ -91,7 +91,7 @@
         }
 
         /// <inheritdoc/>
-        public PagedCollection<IEntityCollection> GetPage(IQuery<IEntityCollection> query, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
+        public PagedCollection<IEntityCollection> GetPagedCollection(IQuery<IEntityCollection> query, long page, long itemsPerPage, string orderExpression, Direction direction = Direction.Descending)
         {
             var translator = new SqlTranslator<IEntityCollection>(GetBaseQuery(false), query);
             var sql = translator.Translate().AppendOrderExpression<EntityCollectionDto>(orderExpression, direction);

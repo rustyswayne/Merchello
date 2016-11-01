@@ -7,15 +7,15 @@
     using Merchello.Core.Persistence.Repositories;
 
     /// <inheritdoc/>
-    public partial class ShipmentService : IShipmentService
+    public partial class OrderService : IOrderService
     {
         /// <inheritdoc/>
-        public IShipmentStatus GetShipmentStatusByKey(Guid key)
+        public IOrderStatus GetOrderStatusByKey(Guid key)
         {
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                uow.ReadLock(Constants.Locks.Shipments);
-                var repo = uow.CreateRepository<IShipmentStatusRepository>();
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IOrderStatusRepository>();
                 var status = repo.Get(key);
                 uow.Complete();
                 return status;
@@ -23,12 +23,12 @@
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IShipmentStatus> GetAllShipmentStatuses()
+        public IEnumerable<IOrderStatus> GetAllOrderStatuses()
         {
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                uow.ReadLock(Constants.Locks.Shipments);
-                var repo = uow.CreateRepository<IShipmentStatusRepository>();
+                uow.ReadLock(Constants.Locks.SalesTree);
+                var repo = uow.CreateRepository<IOrderStatusRepository>();
                 var statuses = repo.GetAll();
                 uow.Complete();
                 return statuses;
