@@ -4,12 +4,19 @@
     using System.Collections.Generic;
 
     using Merchello.Core.Models;
+    using Merchello.Core.Persistence.Repositories;
 
     /// <inheritdoc/>
     public partial class StoreService : IStoreService
     {
         /// <inheritdoc/>
-        public IStore GetByKey(Guid key)
+        public IStore Create(string name, string alias)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public IStore CreateWithKey(string name, string alias)
         {
             throw new NotImplementedException();
         }
