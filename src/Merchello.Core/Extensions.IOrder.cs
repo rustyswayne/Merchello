@@ -1,6 +1,5 @@
 ﻿namespace Merchello.Core
 {
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -39,72 +38,51 @@
             return MC.Services.InvoiceService.GetByKey(order.InvoiceKey);
         }
 
+        /// <summary>
+        /// Gets a collection of unfulfilled (unshipped) line items
+        /// </summary>
+        /// <param name="order">The <see cref="IOrder"/></param>
+        /// <param name="items">A collection of <see cref="IOrderLineItem"/></param>
+        /// <returns>The collection of <see cref="IOrderLineItem"/></returns>
+        public static IEnumerable<IOrderLineItem> UnfulfilledItems(this IOrder order, IEnumerable<IOrderLineItem> items)
+        {
+            if (Constants.OrderStatus.Fulfilled == order.OrderStatus.Key) return new List<IOrderLineItem>();
 
-        ///// <summary>
-        ///// Gets a collection of unfulfilled (unshipped) line items
-        ///// </summary>
-        ///// <param name="order">The <see cref="IOrder"/></param>        
-        ///// <returns>A collection of <see cref="IOrderLineItem"/></returns>
-        //public static IEnumerable<IOrderLineItem> UnfulfilledItems(this IOrder order)
-        //{
-        //    return order.UnfulfilledItems(MerchelloContext.Current);
-        //}
+            var shippableItems = items.Where(x => x.IsShippable() && x.ShipmentKey == null).ToArray();
 
-        ///// <summary>
-        ///// Gets a collection of unfulfilled (unshipped) line items
-        ///// </summary>
-        ///// <param name="order">The <see cref="IOrder"/></param>
-        ///// <param name="merchelloContext">The <see cref="IMerchelloContext"/></param>
-        ///// <returns>A collection of <see cref="IOrderLineItem"/></returns>
-        //public static IEnumerable<IOrderLineItem> UnfulfilledItems(this IOrder order, IMerchelloContext merchelloContext)
-        //{
-        //    return order.UnfulfilledItems(merchelloContext, order.Items.Select(x => x as OrderLineItem));
-        //}
+            var inventoryItems = shippableItems.Where(x => x.ExtendedData.GetTrackInventoryValue()).ToArray();
 
-        ///// <summary>
-        ///// Gets a collection of unfulfilled (unshipped) line items
-        ///// </summary>
-        ///// <param name="order">The <see cref="IOrder"/></param>
-        ///// <param name="items">A collection of <see cref="IOrderLineItem"/></param>
-        ///// <returns>The collection of <see cref="IOrderLineItem"/></returns>
-        //public static IEnumerable<IOrderLineItem> UnfulfilledItems(this IOrder order, IEnumerable<IOrderLineItem> items)
-        //{
-        //    return order.UnfulfilledItems(MerchelloContext.Current, items);
-        //}
+            // get the variants to check the inventory
+            var variants = MC.Services.ProductService.GetAllProductVariants(inventoryItems.Select(x => x.ExtendedData.GetProductVariantKey()).ToArray()).ToArray();
 
-        ///// <summary>
-        ///// Gets a collection of unfulfilled (unshipped) line items
-        ///// </summary>
-        ///// <param name="order">The <see cref="IOrder"/></param>
-        ///// <param name="merchelloContext">The <see cref="IMerchelloContext"/></param>
-        ///// <param name="items">A collection of <see cref="IOrderLineItem"/></param>
-        ///// <returns>The collection of <see cref="IOrderLineItem"/></returns>
-        //public static IEnumerable<IOrderLineItem> UnfulfilledItems(this IOrder order, IMerchelloContext merchelloContext, IEnumerable<IOrderLineItem> items)
-        //{
+            foreach (var item in inventoryItems)
+            {
+                var variant = variants.FirstOrDefault(x => x.Key == item.ExtendedData.GetProductVariantKey());
+                if (variant == null) continue;
 
-        //    if (Constants.OrderStatus.Fulfilled == order.OrderStatus.Key) return new List<IOrderLineItem>();
+                // TODO refactor back ordering.
+                //// check inventory
+                //var inventory = variant.CatalogInventories.FirstOrDefault(x => x.CatalogKey == item.ExtendedData.GetWarehouseCatalogKey());
+                //if (inventory != null)
+                //    item.BackOrder = inventory.Count < item.Quantity;
+            }
 
-        //    var shippableItems = items.Where(x => x.IsShippable() && x.ShipmentKey == null).ToArray();
+            return shippableItems;
+        }
 
-        //    var inventoryItems = shippableItems.Where(x => x.ExtendedData.GetTrackInventoryValue()).ToArray();
-
-        //    // get the variants to check the inventory
-        //    var variants = merchelloContext.Services.ProductVariantService.GetByKeys(inventoryItems.Select(x => x.ExtendedData.GetProductVariantKey())).ToArray();
-
-        //    foreach (var item in inventoryItems)
-        //    {
-        //        var variant = variants.FirstOrDefault(x => x.Key == item.ExtendedData.GetProductVariantKey());
-        //        if (variant == null) continue;
-
-        //        // TODO refactor back ordering.
-        //        //// check inventory
-        //        //var inventory = variant.CatalogInventories.FirstOrDefault(x => x.CatalogKey == item.ExtendedData.GetWarehouseCatalogKey());
-        //        //if (inventory != null)
-        //        //    item.BackOrder = inventory.Count < item.Quantity;
-        //    }
-
-        //    return shippableItems;
-        //}
+        /// <summary>
+        /// Gets a collection of shipments for an order.
+        /// </summary>
+        /// <param name="order">
+        /// The order.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable{IOrder}"/>.
+        /// </returns>
+        public static IEnumerable<IShipment> Shipments(this IOrder order)
+        {
+            return MC.Services.ShipmentService.GetByOrderKey(order.Key);
+        }
 
         /// <summary>
         /// Gets a collection of items that have inventory requirements
