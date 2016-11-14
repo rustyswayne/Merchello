@@ -11,10 +11,23 @@
         public void AnonymousCustomersMaxDays()
         {
             //// Arrange
-            const int expected = 30;
+            const int expected = 31;
 
             //// Act
             var value = SettingsSection.Customers.AnonymousCustomersMaxDays;
+
+            //// Assert
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void AnonymousCustomerCookieExpiresDays()
+        {
+            //// Arrange
+            const int expected = 31;
+
+            //// Act
+            var value = SettingsSection.Customers.AnonymousCustomerCookieExpiresDays;
 
             //// Assert
             Assert.AreEqual(expected, value);

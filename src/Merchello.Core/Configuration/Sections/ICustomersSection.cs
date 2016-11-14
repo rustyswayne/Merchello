@@ -17,6 +17,11 @@
         int AnonymousCustomersMaxDays { get; }
 
         /// <summary>
+        /// Gets the number of days to persist an anonymous customer cookie.
+        /// </summary>
+        int AnonymousCustomerCookieExpiresDays { get; }
+
+        /// <summary>
         /// Gets the MemberTypes to be used when automatically creating or associating Merchello's customers with Membership users.
         /// </summary>
         IEnumerable<string> MemberTypes { get; } 

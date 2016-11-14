@@ -47,6 +47,7 @@
         /// </summary>
         [Column("detachedContentValues")]
         [NullSetting(NullSetting = NullSettings.Null)]
+        [SpecialDbType(SpecialDbTypes.NTEXT)]
         public string DetachedContentValues { get; set; }
 
         /// <summary>

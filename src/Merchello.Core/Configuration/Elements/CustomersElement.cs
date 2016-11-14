@@ -19,6 +19,15 @@
         }
 
         /// <inheritdoc/>
+        int ICustomersSection.AnonymousCustomerCookieExpiresDays
+        {
+            get
+            {
+                return this.AnonymousCustomerCookieExpiresDays;
+            }
+        }
+
+        /// <inheritdoc/>
         IEnumerable<string> ICustomersSection.MemberTypes
         {
             get
@@ -34,6 +43,16 @@
             get
             {
                 return (InnerTextConfigurationElement<int>)this["anonymousCustomersMaxDays"];
+            }
+        }
+
+        /// <inheritdoc/>
+        [ConfigurationProperty("anonymousCustomerCookieExpiresDays")]
+        internal InnerTextConfigurationElement<int> AnonymousCustomerCookieExpiresDays
+        {
+            get
+            {
+                return (InnerTextConfigurationElement<int>)this["anonymousCustomerCookieExpiresDays"];
             }
         }
 
