@@ -217,6 +217,14 @@
         [NullSetting(NullSetting = NullSettings.Null)]
         public string TrackingCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the tracking url.
+        /// </summary>
+        [Column("trackingUrl")]
+        [NullSetting(NullSetting = NullSettings.Null)]
+        [Length(1000)]
+        public string TrackingUrl { get; set; }
+
         /// <inheritdoc/>
         [Column("updateDate")]
         [Constraint(Default = SystemMethods.CurrentDateTime)]
