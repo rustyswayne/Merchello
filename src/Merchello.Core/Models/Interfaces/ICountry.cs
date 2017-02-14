@@ -13,19 +13,16 @@
         /// <summary>
         /// Gets the two letter ISO Region code
         /// </summary>
-        [DataMember]
         string CountryCode { get; }
 
         /// <summary>
         /// Gets the English name associated with the region
         /// </summary>
-        [DataMember]
         string Name { get; }
 
         /// <summary>
         /// Gets the International Organization for Standardization code.
         /// </summary>
-        [DataMember]
         int Iso { get; }
 
         /// <summary>
@@ -36,7 +33,6 @@
         /// <summary>
         /// Gets the collection of Provinces (if any) associated with the country
         /// </summary>
-        [DataMember]
         IEnumerable<IProvince> Provinces { get; }
     }
 }

@@ -1058,7 +1058,7 @@
     <Compile Include="Models\Counting\EntityUseCount.cs" />
     <Compile Include="Models\Counting\IProductOptionUseCount.cs" />
     <Compile Include="Models\Counting\ProductOptionUseCount.cs" />
-    <Compile Include="Models\CountryBase.cs" />
+    <Compile Include="Models\Country.cs" />
     <Compile Include="Models\DetachedContent\DetachedContentCollection.cs" />
     <Compile Include="Models\DetachedContent\DetachedDataValuesCollection.cs" />
     <Compile Include="Models\DetachedContent\IDetachedContent.cs" />
